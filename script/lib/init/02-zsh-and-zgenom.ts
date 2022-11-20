@@ -65,7 +65,9 @@ const dumps: string[] = [];
 for await (const file of $.fs.expandGlob(`${env.HOME}/.zcompdump*`)) {
   if (file.isFile) dumps.push(file.path);
 }
-await $`rm -f ${dumps}`;
+if (dumps.length > 0) {
+  await $`rm -f ${dumps}`;
+}
 
 $.logGroupEnd();
 
