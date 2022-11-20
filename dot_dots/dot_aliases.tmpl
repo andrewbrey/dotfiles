@@ -41,11 +41,6 @@ alias xit="exit"
 alias zgup="zgenom selfupdate && zgenom update && rm -rf ~/.zcompdump*"
 alias zshc="code ${HOME}/dotfiles"
 
-{{ if .is_linux -}}
-alias open="xdg-open"
-alias pbcopy="sed -z '$ s/\n$//' | xsel --clipboard --input"
-{{- end }}
-
 # =====
 # git
 # =====
@@ -115,3 +110,11 @@ alias skup="skate sync"
 alias sshnew="melt_new_key"
 alias sshmelt="melt_key_to_phrase"
 alias sshrestore="melt_phrase_to_key"
+
+# =====
+# platform specific
+# =====
+{{ if .is_linux -}}
+alias open="xdg-open"
+alias pbcopy="sed -z '$ s/\n$//' | xsel --clipboard --input"
+{{- end }}
