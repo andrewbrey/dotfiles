@@ -60,6 +60,13 @@ if (!(await $.exists(zgenInstallPath))) {
   $.logLight(`zgenom plugin manager is available at ${zgenInstallPath}`);
 }
 
+$.logStep("step: ensure no previously compiled zcompdump files exist");
+const dumps: string[] = [];
+for await (const file of $.fs.expandGlob(`${env.HOME}/.zcompdump*`)) {
+  if (file.isFile) dumps.push(file.path);
+}
+await $`rm -f ${dumps}`;
+
 $.logGroupEnd();
 
 doneWith(id);
