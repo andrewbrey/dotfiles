@@ -1,0 +1,219 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = "$all"
+right_format = """$time"""
+
+# [username]
+
+# [hostname]
+
+[shlvl]
+disabled = true
+symbol = " "
+
+[kubernetes]
+disabled = true
+
+[directory]
+format = "[╭╴](bold cyan) [$path]($style) [$read_only]($read_only_style)"
+read_only = " "
+truncate_to_repo = false
+truncation_length = 2
+truncation_symbol = ".../"
+
+[vcsh]
+disabled = true
+
+[git_branch]
+symbol = " "
+
+# [git_commit]
+
+# [git_state]
+
+# [git_status]
+
+[hg_branch]
+disabled = true
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[package]
+symbol = " "
+
+[cmake]
+disabled = true
+
+[dart]
+disabled = true
+symbol = " "
+
+# [deno]
+
+[dotnet]
+disabled = true
+
+[elixir]
+disabled = true
+symbol = " "
+
+[elm]
+disabled = true
+symbol = " "
+
+[erlang]
+disabled = true
+
+[golang]
+symbol = " "
+
+[helm]
+disabled = true
+
+[java]
+symbol = " "
+
+[julia]
+disabled = true
+symbol = " "
+
+[kotlin]
+disabled = true
+
+[nim]
+disabled = true
+symbol = " "
+
+# [nodejs]
+
+[ocaml]
+disabled = true
+
+[perl]
+disabled = true
+symbol = " "
+
+[php]
+disabled = true
+symbol = " "
+
+[purescript]
+disabled = true
+
+[python]
+disabled = true
+symbol = " "
+
+[red]
+disabled = true
+
+[ruby]
+disabled = true
+symbol = " "
+
+[rust]
+disabled = true
+symbol = " "
+
+[scala]
+disabled = true
+symbol = " "
+
+[swift]
+disabled = true
+symbol = "ﯣ "
+
+[terraform]
+disabled = true
+
+[vlang]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[zig]
+disabled = true
+
+[nix_shell]
+disabled = true
+symbol = " "
+
+[conda]
+disabled = true
+symbol = " "
+
+[memory_usage]
+disabled = true
+symbol = " "
+
+[aws]
+format = "with [$symbol AWS](bold dimmed yellow) "
+symbol = ""
+
+[gcloud]
+disabled = true
+
+[openstack]
+disabled = true
+
+[env_var.GH_TOKEN]
+format = "with [$symbol GH_TOKEN](bold dimmed yellow) "
+symbol = ""
+variable = "GH_TOKEN"
+
+[env_var.GITHUB_TOKEN]
+format = "with [$symbol GITHUB_TOKEN](bold dimmed yellow) "
+symbol = ""
+variable = "GITHUB_TOKEN"
+
+[env_var.DENO_DEPLOY_TOKEN]
+format = "with [$symbol DENO_DEPLOY_TOKEN](bold dimmed yellow) "
+symbol = "🦕"
+variable = "DENO_DEPLOY_TOKEN"
+
+[env_var.NPM_TOKEN]
+format = "with [$symbol NPM_TOKEN](bold dimmed yellow) "
+symbol = ""
+variable = "NPM_TOKEN"
+
+[env_var.ASCIINEMA_REC]
+format = "[$symbol rec](bold dimmed red) "
+symbol = "壘"
+variable = "ASCIINEMA_REC"
+
+[container]
+disabled = true
+
+[crystal]
+disabled = true
+
+[cmd_duration]
+min_time = 5_000
+
+# [line_break]
+
+[lua]
+disabled = true
+
+[jobs]
+disabled = true
+
+[battery]
+disabled = true
+
+[time]
+disabled = false
+format = '[$time]($style)'
+style = 'dimmed cyan'
+time_format = "%r"
+
+# [status]
+
+# [shell]
+
+[character]
+error_symbol = "[╰╴](bold cyan) [✗](bold red)"
+success_symbol = "[╰╴](bold cyan) [λ](bold green)"
