@@ -1,6 +1,113 @@
 #!/usr/bin/env zsh
 
-# Zsh (https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell)
+# =====
+# core
+# =====
+#
+# @see https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell
 export HISTORY_IGNORE="($(printf %s "$(cat $HOME/.dots/.histignore)" | tr '\n' '|'))"
+export EDITOR="/usr/bin/nano"
+export VISUAL="/usr/bin/nano"
 
+# =====
+# directories
+# =====
+export CODE_DIR={{ .standard_dirs.code | quote }}
+export SCRATCH_CODE_DIR="${CODE_DIR}/scratch"
+
+# =====
+# homebrew
+# =====
 export HOMEBREW_NO_ANALYTICS=1
+
+# =====
+# js
+# =====
+{{ if .is_mac -}}
+# TODO
+export NODE_INSTALL="/opt/homebrew/opt/node@18"
+{{- end }}
+export SECRET_NPM_TOKEN=" " # leave as a space - only here to pacify npm/yarn/vscode which don't like undefined env vars (try use_npm)
+export NPM_PACKAGES_INSTALL={{ .standard_dirs.npm_install | quote }}
+export NODE_PATH="${NPM_PACKAGES_INSTALL}/lib/node_modules"
+export DENO_INSTALL="${HOME}/.deno"
+export PNPM_HOME={{ .standard_dirs.pnpm_install | quote }}
+
+# =====
+# python
+# =====
+export PYTHON_BIN_INSTALL="${HOME}/.local"
+
+# =====
+# go
+# =====
+export GO_GET_INSTALL="${HOME}/.go"
+{{ if .is_linux -}}
+export GO_INSTALL="/usr/local/go"
+{{- end }}
+{{ if .is_mac -}}
+# TODO
+export GO_INSTALL="/opt/homebrew/bin/go"
+{{- end }}
+export GOPATH="${GO_GET_INSTALL}"
+
+# =====
+# rust
+# =====
+export RUSTUP_HOME="${HOME}/.rustup"
+export CARGO_HOME="${HOME}/.cargo"
+
+# =====
+# java
+# =====
+export JAVA_INSTALL="/usr/lib/jvm/default-java"
+export JAVA_HOME="${JAVA_INSTALL}"
+export M2_HOME="${HOME}/.m2"
+export ANDROID_HOME="${HOME}/.android/sdk"
+export ANDROID_SDK_ROOT="${ANDROID_HOME}"
+
+# =====
+# gh
+# =====
+# TODO
+# export GH_CONFIG_DIR="${HOME}/dotfiles/bootstrap/modules/apps/packages/gh/"
+
+# =====
+# exercism
+# =====
+# TODO
+# export EXERCISM_CONFIG_HOME="${HOME}/dotfiles/bootstrap/modules/apps/packages/exercism/"
+
+# =====
+# ni
+# =====
+# TODO
+# export NI_CONFIG_FILE="${HOME}/dotfiles/.nirc"
+
+# =====
+# direnv
+# =====
+export DIRENV_LOG_FORMAT=''
+
+# =====
+# path
+# =====
+export PATH="${DENO_INSTALL}/bin:${NODE_INSTALL}/bin:${GO_INSTALL}/bin:${GO_GET_INSTALL}/bin:${RUSTUP_HOME}/bin:${CARGO_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${NPM_PACKAGES_INSTALL}/bin:${PNPM_HOME}:${PYTHON_BIN_INSTALL}/bin:${PATH}"
+
+# =====
+# dynamic
+# =====
+#
+# auto-detect node binaries within the current directory when the shell session is started;
+# local binaries take priority over globall installed ones
+if [[ -d "${PWD}/node_modules/.bin" ]]; then
+	export PATH="${PWD}/node_modules/.bin:${PATH}"
+fi
+#
+# set up TZ once each time the machine restarts
+if [[ -f "/tmp/.auto_tz" ]]; then
+	export TZ="$(cat /tmp/.auto_tz)"
+else
+	echo -n "$(curl --silent --max-time 1 --header 'Accept: application/json' ifconfig.co | grep -o '"time_zone":\s*"[^"]*' | grep -o '[^"]*$')" >/tmp/.auto_tz
+	export TZ="$(cat /tmp/.auto_tz)"
+fi

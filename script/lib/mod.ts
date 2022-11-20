@@ -26,6 +26,7 @@ export const env = {
     return {
       CODE: $.path.join(env.HOME, "code"),
       NPM_INSTALL: $.path.join(env.HOME, ".npm-globals"),
+      PNPM_INSTALL: $.path.join(env.HOME, ".pnpm-globals"),
     };
   },
 };
