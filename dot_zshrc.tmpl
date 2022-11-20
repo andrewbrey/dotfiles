@@ -11,21 +11,21 @@ source "${HOME}/.zgenom/zgenom.zsh"
 # if the init script doesn't exist
 if ! zgenom saved; then
 
-  # oh-my-zsh
-  zgenom oh-my-zsh
+	# oh-my-zsh
+	zgenom oh-my-zsh
 
-  # oh my zsh plugins
-  zgenom oh-my-zsh plugins/git
-  zgenom oh-my-zsh plugins/docker
-  zgenom oh-my-zsh plugins/yarn
+	# oh my zsh plugins
+	zgenom oh-my-zsh plugins/git
+	zgenom oh-my-zsh plugins/docker
+	zgenom oh-my-zsh plugins/yarn
 
-  # other plugins
-  zgenom loadall <<EOPLUGINS
+	# other plugins
+	zgenom loadall <<EOPLUGINS
     ${HOME}/.dots/completions
 EOPLUGINS
 
-  # generate the init script from plugins above
-  zgenom save
+	# generate the init script from plugins above
+	zgenom save
 fi
 
 # automatically upgrade oh-my-zsh without asking
@@ -33,7 +33,7 @@ DISABLE_UPDATE_PROMPT=true
 
 # load shell dotfiles
 for file in "${HOME}"/.dots/.{secrets,exports,aliases,functions}; do
-  [[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
+	[[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
 done
 unset file
 
@@ -44,15 +44,15 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # use direnv for .env's if available
 if type direnv &>/dev/null; then
-  eval "$(direnv hook zsh)"
+	eval "$(direnv hook zsh)"
 fi
 
 # use starship for a nice looking prompt
 if ! type starship &>/dev/null; then
-  echo ""
-  echo "==============================================================="
-  echo "Hey! Go run the starship prompt install script in your dotfiles"
-  echo "==============================================================="
+	echo ""
+	echo "==============================================================="
+	echo "Hey! Go run the starship prompt install script in your dotfiles"
+	echo "==============================================================="
 else
-  eval "$(starship init zsh)"
+	eval "$(starship init zsh)"
 fi
