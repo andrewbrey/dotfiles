@@ -30,3 +30,4 @@ data:
   is_gitpod: {{ eq (env "GITPOD" | trim) "true" }}
   standard_dirs:
     code: {{ env "SD_CODE" | trim }}
+    npm_install: {{ env "SD_NPM_INSTALL" | trim }}

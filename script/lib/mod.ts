@@ -25,6 +25,7 @@ export const env = {
   get STANDARD_DIRS() {
     return {
       CODE: $.path.join(env.HOME, "code"),
+      NPM_INSTALL: $.path.join(env.HOME, ".npm-globals"),
     };
   },
 };
