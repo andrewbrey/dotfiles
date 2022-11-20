@@ -25,7 +25,9 @@
         "[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
         "[typescriptreact]": {
           "editor.defaultFormatter": "denoland.vscode-deno"
-        }
+        },
+        "shellformat.useEditorConfig": true,
+        "shellformat.path": "/home/vscode/.local/bin/shfmt"
       }
     }
   }
