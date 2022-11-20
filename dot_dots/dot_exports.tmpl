@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# Zsh (https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell)
+export HISTORY_IGNORE="($(printf %s "$(cat $HOME/.dots/.histignore)" | tr '\n' '|'))"
+
+export HOMEBREW_NO_ANALYTICS=1

@@ -1,0 +1,32 @@
+{
+  "name": "dotfiles",
+  "dockerFile": "Dockerfile",
+  "build": { "args": { "BUILD_PASSPHRASE": "${localEnv:DOTFILES_PASSPHRASE}" } },
+  "postCreateCommand": "[ -n $REMOTE_CONTAINERS ] && script/bootstrap",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "denoland.vscode-deno",
+        "foxundermoon.shell-format",
+        "Gruntfuggly.todo-tree",
+        "meganrogge.template-string-converter",
+        "EditorConfig.EditorConfig",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml"
+      ],
+      "settings": {
+        "[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[jsonc]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[javascript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[markdown]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        }
+      }
+    }
+  }
+}

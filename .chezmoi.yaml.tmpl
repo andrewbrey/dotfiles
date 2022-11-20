@@ -1,0 +1,32 @@
+{{- $passphrase := (env "DOTFILES_PASSPHRASE" | trim) -}}
+{{- if eq $passphrase "" -}}
+  {{- if stdinIsATTY -}}
+  {{-   $passphrase = promptStringOnce . "passphrase" "passphrase" -}}
+  {{- else -}}
+  {{-   $passphrase = "HEY, YOU NEED TO PUT YOUR DOTFILES_PASSPHRASE HERE - YOU CAN ALSO SET THE DOTFILES_PASSPHRASE ENV VAR AND RE-INIT" -}}
+  {{- end -}}
+{{- end -}}
+
+encryption: gpg
+gpg:
+  symmetric: true
+  args:
+    - --batch
+    - --passphrase
+    - {{ $passphrase | quote }}
+    - --no-symkey-cache
+    - --quiet
+git:
+  autoCommit: true
+data:
+  is_linux: {{ eq .chezmoi.os "linux" }}
+  is_mac: {{ eq .chezmoi.os "darwin" }}
+  is_popos: {{ contains .chezmoi.osRelease.name "Pop!_OS" }}
+  is_ubuntu: {{ contains .chezmoi.osRelease.name "Ubuntu" }}
+  is_containerized: {{ eq (env "IN_CONTAINER" | trim) "true" }}
+  is_cloud: {{ eq (env "IN_CLOUD_IDE" | trim) "true" }}
+  is_codespaces: {{ eq (env "CODESPACES" | trim) "true" }}
+  is_remote_container: {{ eq (env "REMOTE_CONTAINERS" | trim) "true" }}
+  is_gitpod: {{ eq (env "GITPOD" | trim) "true" }}
+  standard_dirs:
+    code: {{ env "SD_CODE" | trim }}

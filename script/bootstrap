@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+set -e
+
+this_dir=$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)
+
+export DENO_INSTALL="${HOME}/.deno"
+export CHEZMOI_INSTALL="${HOME}/.local/bin"
+export PATH="${DENO_INSTALL}/bin:${CHEZMOI_INSTALL}:$PATH"
+
+command -v deno >/dev/null 2>&1 || { curl -fsSL https://deno.land/x/install/install.sh | sh; }
+command -v chezmoi >/dev/null 2>&1 || { mkdir -p "${CHEZMOI_INSTALL}" && sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${CHEZMOI_INSTALL}"; }
+
+for script in "${this_dir}"/lib/init/*.ts; do
+	[ -f "$script" ] || continue
+
+	"${script}"
+done
