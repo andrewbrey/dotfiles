@@ -1,4 +1,117 @@
 #!/usr/bin/env zsh
 
-# General
+# =====
+# general
+# =====
+alias aci="ASCIINEMA_REC=1 asciinema"
+alias als="alias | grep"
+alias awswhoami="aws sts get-caller-identity | cat"
+alias bs="echo TODO: move to deno script"
+# TODO: move to script
+# alias bs="${HOME}/dotfiles/bootstrap/run.sh"
+alias cat="bat"
+alias chownme="sudo chown -R ${USER}:${USER}"
 alias claer="clear"
+alias daily_updates="echo TODO: move to deno script"
+# TODO: move to script
+# alias daily_updates="deno run -A --unstable ${HOME}/dotfiles/scripts/daily-updates/cli.ts"
+# alias daily_updates="brew update && brew upgrade && brew cleanup && brew doctor"
+alias e="exa --icons --long --all"
+alias ee="exa --icons --long"
+alias es="exa --icons"
+alias et="exa --icons --long --all --tree --level=2"
+alias exifnuke="exiftool -all= "
+alias fly="flyctl"
+alias gig="add-gitignore node macos linux windows visualstudiocode dropbox && touch README.md"
+alias gpgreload="gpg-connect-agent reloadagent /bye"
+alias hss="history | grep"
+alias lwhich="which -S"
+alias myip="curl --silent --header 'Accept: application/json' ifconfig.co | jq"
+alias ncud="ncu --deep"
+alias pfmt="prettier --write ."
+alias rmrf="rimraf"
+alias speedtest="npx fast-cli --upload"
+alias sqlite="sqlite3"
+alias srv="http-server"
+alias sshc="nano ~/.ssh/config"
+alias sysinfo="neofetch"
+alias tldr="cheat"
+alias tt="timer"
+alias xit="exit"
+alias zgup="zgenom selfupdate && zgenom update && rm -rf ~/.zcompdump*"
+alias zshc="code ${HOME}/dotfiles"
+
+{{ if .is_linux -}}
+alias open="xdg-open"
+alias pbcopy="sed -z '$ s/\n$//' | xsel --clipboard --input"
+{{- end }}
+
+# =====
+# git
+# =====
+alias ccl="git cz"
+alias ccla="gaa && ccl"
+alias gcan="git add . && gcan!"
+alias ggpush!="ggpush --no-verify"
+alias gla="ls -1 | xargs -I% sh -c '[ -d %/.git ] && echo Working on % && git -C % fetch --all --prune --jobs=10 && git -C % pull'"
+alias glg="glgg --stat"
+alias glod="gfa && git pull origin dev"
+alias glom="gfa && pull_main_branch"
+alias gunc="git reset --soft HEAD@{1}"
+
+# =====
+# docker
+# =====
+alias dco='docker-compose'
+alias dce='docker-compose exec'
+alias dcr='docker-compose run'
+alias dcup='docker-compose up'
+alias dcupd='docker-compose up -d'
+alias dcdn='docker-compose down'
+alias dclf='docker-compose logs -f'
+alias dps="docker ps"
+
+# =====
+# bookmarks
+# TODO: replace with jump? https://github.com/gsamokovarov/jump
+# =====
+alias ba="file-path-bookmarks add"
+alias bl="file-path-bookmarks list"
+alias br="file-path-bookmarks remove"
+
+# =====
+# npm
+# =====
+alias npx="npx -y"
+alias npmlsg="npm ls -g --depth 0"
+
+# =====
+# tempmail
+# =====
+alias ffmail="tempmail -b google-chrome"
+alias ffmailr="tempmail -b google-chrome -r"
+
+# =====
+# deno
+# =====
+alias drn="deno run -A --no-check --unstable"
+alias drni="deno run -A --no-check --unstable --import-map=import_map.json"
+alias dtn="deno test --no-check --unstable"
+alias dtni="deno test --no-check --unstable"
+
+# =====
+# skate
+# =====
+alias sk="skate"
+alias skf="skate_find"
+alias skg="skate get"
+alias skl="skate list --keys-only"
+alias sks="skate set"
+alias skup="skate sync"
+
+# =====
+# melt
+# =====
+alias sshnew="melt_new_key"
+alias sshmelt="melt_key_to_phrase"
+alias sshrestore="melt_phrase_to_key"
