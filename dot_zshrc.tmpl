@@ -32,7 +32,7 @@ fi
 DISABLE_UPDATE_PROMPT=true
 
 # load shell dotfiles
-for file in "${HOME}"/.dots/.{secrets,exports,aliases,functions}; do
+for file in "${HOME}"/.dots/.{secrets,exports,aliases,functions,extra}; do
 	[[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
 done
 unset file
