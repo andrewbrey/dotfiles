@@ -10,4 +10,4 @@ README.md
 .gitconfig # when on a containerized environment, the gitconfig likely adjusted by the host
 {{- end }}
 
-.extra
+.dots/.extra
