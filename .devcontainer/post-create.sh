@@ -24,6 +24,7 @@ if [ -n $REMOTE_CONTAINERS ]; then
 
 	#
 	# install node and npm globals
+	# TODO
 	echo todo, install node and npm globals...
 
 	unset this_dir
