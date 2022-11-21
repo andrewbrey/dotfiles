@@ -2,7 +2,7 @@
   "name": "dotfiles",
   "dockerFile": "Dockerfile",
   "build": { "args": { "BUILD_PASSPHRASE": "${localEnv:DOTFILES_PASSPHRASE}" } },
-  "postCreateCommand": "[ -n $REMOTE_CONTAINERS ] && script/bootstrap",
+  "postCreateCommand": [".devcontainer/post-create.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
