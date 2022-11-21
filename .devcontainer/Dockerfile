@@ -7,4 +7,4 @@ RUN su vscode -c 'export CHEZMOI_INSTALL="${HOME}/.local/bin" && mkdir -p "${CHE
 RUN su vscode -c 'sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes'
 RUN su vscode -c 'curl -fsSL https://webi.sh/shfmt | sh'
 
-ENV EDITOR="code -w" DOTFILES_PASSPHRASE=${BUILD_PASSPHRASE}
+ENV EDITOR="code -w" VISUAL="code -w" DOTFILES_PASSPHRASE=${BUILD_PASSPHRASE}
