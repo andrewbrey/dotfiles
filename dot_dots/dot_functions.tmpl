@@ -1,5 +1,272 @@
 #!/usr/bin/env zsh
 
+# Create a folder and move into it in one command
 function mkcd() {
 	mkdir -p "$@" && cd "$_"
+}
+
+function encrypt_file() {
+	if [[ -z "${1}" ]]; then
+		echo "A single file name to encrypt is required"
+		return 1
+	fi
+
+	local to_encrypt="${1:-UNDEFINED}"
+	if [[ -r "${to_encrypt}" ]] && [[ -f "${to_encrypt}" ]]; then
+		gpg --symmetric \
+			--cipher-algo aes256 \
+			--digest-algo sha512 \
+			--cert-digest-algo sha512 \
+			--no-symkey-cache \
+			--pinentry-mode loopback \
+			--s2k-mode 3 \
+			--s2k-digest-algo sha512 \
+			--s2k-count 65011712 \
+			--force-mdc \
+			--output "${to_encrypt}.gpg" \
+			--compress-algo zlib \
+			--armor \
+			"${to_encrypt}"
+	else
+		echo "Error: [${to_encrypt}] does not exist or is not a regular file."
+		return 1
+	fi
+}
+
+function decrypt_file() {
+	if [[ -z "${1}" ]]; then
+		echo "A single file name to decrypt is required"
+		return 1
+	fi
+
+	local to_decrypt="${1:-'UNDEFINED'}"
+	if [[ -r "${to_decrypt}" ]] && [[ -f "${to_decrypt}" ]]; then
+		gpg \
+			--decrypt \
+			--no-symkey-cache \
+			--pinentry-mode loopback \
+			--armor \
+			--output "$(dirname "${to_decrypt}")/$(basename "${to_decrypt}" .gpg)" \
+			"${to_decrypt}"
+	else
+		echo "Error: [${to_decrypt}] does not exist or is not a regular file."
+		return 1
+	fi
+}
+
+function skate_find() {
+	local foundKey=$(skate list --keys-only | fzf --query "${1}" --select-1 --exit-0)
+	printf "%s\n" "$(tput dim)${foundKey}$(tput sgr0)" >&2
+	skate get "${foundKey}"
+}
+
+##  MELT SSH Key Functions (https://github.com/charmbracelet/melt)  ##
+function melt_new_key() {
+	local comment="34140052+andrewbrey@users.noreply.github.com"
+
+	if [ "${1}" != '' ]; then
+		comment="${1}"
+	fi
+
+	# Create new ed25519 key without a passphrase and an optional email comment
+	ssh-keygen -t ed25519 -C "${comment}" -N ""
+}
+
+function melt_key_to_phrase() {
+	if [ "${1}" != '' ]; then
+		if [[ -f "${HOME}/.ssh/${1}" ]]; then
+			local is_ed25519=$(grep -c ssh-ed25519 "${HOME}/.ssh/${1}.pub")
+
+			if [[ "${is_ed25519}" != '1' ]]; then
+				echo "This tool only supports keys generated with the ed25519 algorithm"
+				false
+			else
+				local phrase=$(docker run --rm -v "${HOME}/.ssh/${1}":/key charmcli/melt /key)
+
+				echo "Phrase for this key is:"
+				echo
+				echo $phrase
+				echo
+			fi
+		else
+			echo "You must specify a valid identity file name."
+			false
+		fi
+	else
+		echo "You must specify an identity file name."
+		false
+	fi
+}
+
+function melt_phrase_to_key() {
+	if [ "${1}" != '' ]; then
+		if [[ -f "${1}" ]]; then
+			local phrase=$(cat "${1}")
+
+			if [[ "${phrase}" != '' ]]; then
+				local tmp="$(mktemp -d -t melt_XXXX)"
+				local keyname="id_ed25519"
+
+				docker run --rm -it -v $tmp:/keys charmcli/melt restore "/keys/${keyname}" --seed "${phrase}"
+
+				if [[ $? -ne 0 ]]; then
+					echo "Failed to restore keys!"
+				else
+					echo
+					echo "Keys regenerated, but need to be chown-ed and chmod-ed - prompting for sudo password..."
+					sudo chown -R $USER "${tmp}"
+					chmod 600 "${tmp}/${keyname}"
+					echo "Final key output saved to ${tmp}"
+					echo
+				fi
+			else
+				echo "You must specify a valid seed-phrase file."
+				false
+			fi
+		else
+			echo "You must specify a valid seed-phrase file name."
+			false
+		fi
+	else
+		echo "You must specify the absolute path to a seed-phase file from which your ssh key can be restored."
+		false
+	fi
+}
+
+function pull_main_branch() {
+	git pull origin "$(git_main_branch)"
+}
+
+# switch_sshc_identity_files
+function sshs() {
+	if [ "${1}" != '' ]; then
+		# Comment all ID file lines
+		sed -i "s/^  IdentityFile/#  IdentityFile/" "${HOME}/.ssh/config"
+
+		# Uncomment the one that matches the command argument
+		sed -i "s/^#  IdentityFile ~\/.ssh\/$1/  IdentityFile ~\/.ssh\/$1/" "${HOME}/.ssh/config"
+
+		# Get all uncommented identity file lines
+		local enabled=$(grep Identity "${HOME}/.ssh/config" | grep -v '#  ')
+		local enabled_count=$(echo $enabled | wc -l)
+
+		if [ "${enabled_count}" -ne 1 ]; then
+			echo "Error: there wasn't exactly 1 matching ssh IdentifyFile for [${1}].\n\nCheck ~/.ssh/config for what happened."
+		else
+			local active_ssh_identity_file=$(echo ${enabled} | sed 's/  IdentityFile ~\/.ssh\///')
+
+			echo "sshc switched to ${active_ssh_identity_file}"
+		fi
+	else
+		echo "You must specify an identity file name."
+		false
+	fi
+}
+
+# my_git_log_this_branch
+function glgme() {
+	git log $(git_current_branch) --author=$(git config user.name | tr "[:upper:]" "[:lower:]" | cut -f 1 -d " ") --graph --stat
+}
+
+# Create a "deleteme" folder and move into it
+function delme() {
+	mkcd "${SCRATCH_CODE_DIR}/deleteme-${1}"
+}
+
+# Clone a repository from its url into a "deleteme" folder
+function gdelme() {
+	local original="${1}"
+	local repo=$(basename $original | cut -d"." -f1)
+	local cloneDir="${SCRATCH_CODE_DIR}/deleteme-${repo}"
+
+	if [ "${2}" != '' ]; then
+		cloneDir="${SCRATCH_CODE_DIR}/deleteme-${2}"
+	fi
+
+	echo "\n\nShallow cloning ${origin} (depth of only 1)! If you need full history, clone manually...\n\n"
+
+	git clone --depth 1 $original $cloneDir && cd $cloneDir && echo "\nOpening in VSCode...\n" && code .
+}
+
+# https://stackoverflow.com/a/20983251
+function colortest() {
+	for ((i = 0; i < 16; i++)); do echo "$(tput setaf $i)This is ($i) $(tput sgr0)"; done
+}
+
+function https() {
+	local caddy_file_path="${HOME}/dotfiles/bootstrap/modules/apps/packages/caddy/Caddyfile"
+
+	sudo XDG_DATA_HOME="${HOME}/.local/share/caddy" caddy run -config "${caddy_file_path}" -watch $@
+}
+
+function ytmp3() {
+	youtube-dl --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '~/Downloads/%(title)s.%(ext)s' "$1"
+}
+
+# # Fuzzy match bookmarks and change to them
+function b() {
+	local destination=$(file-path-bookmarks find "$1")
+
+	if [ "${destination}" != '' ]; then
+		if [ "$2" != '' ]; then
+			cd "${destination}/$2"
+		else
+			cd "${destination}"
+		fi
+	else
+		false
+	fi
+}
+
+# Extract an archive
+function extract() {
+	local n=$1
+
+	if [ -f "$n" ]; then
+		case "${n%,}" in
+		*.cbt | *.tar.bz2 | *.tar.gz | *.tar.xz | *.tbz2 | *.tgz | *.txz | *.tar)
+			tar xvf "$n"
+			;;
+		*.lzma) unlzma ./"$n" ;;
+		*.bz2) bunzip2 ./"$n" ;;
+		*.cbr | *.rar) unrar x -ad ./"$n" ;;
+		*.gz) gunzip ./"$n" ;;
+		*.cbz | *.epub | *.zip) unzip ./"$n" ;;
+		*.z) uncompress ./"$n" ;;
+		*.7z | *.apk | *.arj | *.cab | *.cb7 | *.chm | *.deb | *.dmg | *.iso | *.lzh | *.msi | *.pkg | *.rpm | *.udf | *.wim | *.xar)
+			7z x ./"$n"
+			;;
+		*.xz) unxz ./"$n" ;;
+		*.exe) cabextract ./"$n" ;;
+		*.cpio) cpio -id <./"$n" ;;
+		*.cba | *.ace) unace x ./"$n" ;;
+		*.zpaq) zpaq x ./"$n" ;;
+		*.arc) arc e ./"$n" ;;
+		*.cso) ciso 0 ./"$n" ./"$n.iso" &&
+			extract $n.iso && \rm -f $n ;;
+		*.zlib) zlib-flate -uncompress <./"$n" >./"$n.tmp" &&
+			mv ./"$n.tmp" ./"${n%.*zlib}" && rm -f "$n" ;;
+		*)
+			echo "extract: '$n' - unknown archive method"
+			return 1
+			;;
+		esac
+	else
+		echo "'$n' - file does not exist"
+		return 1
+	fi
+}
+
+# usage:
+#
+# ntfy "some message body, can be multiline" "some optional message title, can't be multiline"
+function ntfy() {
+	local topic="https://ntfy.sh/${NTFY_TOPIC}"
+
+	curl \
+		-H "Title: ${2:-Yo!}" \
+		-d "${1:-This is a test notification...}
+
+(Sent at $(date))" \
+		"${topic}"
 }
