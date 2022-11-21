@@ -6,8 +6,8 @@
 #
 # @see https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell
 export HISTORY_IGNORE="($(printf %s "$(cat $HOME/.dots/.histignore)" | tr '\n' '|'))"
-export EDITOR="/usr/bin/nano"
-export VISUAL="/usr/bin/nano"
+export EDITOR="${EDITOR:-/usr/bin/nano}"
+export VISUAL="${VISUAL:-/usr/bin/nano}"
 
 # =====
 # directories
