@@ -1,7 +1,12 @@
 import { env } from "./env.ts";
 import { invariant, osInvariant } from "./util.ts";
 
-export { stdColors as colors, stdFlags as flags } from "./deps.ts";
+export {
+  cliffyCmd as command,
+  cliffyPrompts as prompt,
+  stdColors as colors,
+  stdFlags as flags,
+} from "./deps.ts";
 export * from "./env.ts";
 export * from "./fmt.ts";
 export * from "./util.ts";
