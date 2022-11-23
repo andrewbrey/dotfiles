@@ -1,10 +1,10 @@
 import { env } from "./env.ts";
 import { invariant, osInvariant } from "./util.ts";
 
-export { stdColors as colors } from "./deps.ts";
-export { $, env } from "./env.ts";
-export { blackOnYellow, doneWith } from "./fmt.ts";
-export { inspect, invariant, osInvariant } from "./util.ts";
+export { stdColors as colors, stdFlags as flags } from "./deps.ts";
+export * from "./env.ts";
+export * from "./fmt.ts";
+export * from "./util.ts";
 
 // sanity-check / safeguards
 osInvariant();
