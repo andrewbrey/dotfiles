@@ -2,3 +2,5 @@
 
 .deleteme/
 *deleteme.*
+
+script/lib/apps/**/.app/

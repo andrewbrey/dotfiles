@@ -23,3 +23,10 @@ export function osInvariant() {
 export function $dirname(importMetaUrl: string) {
   return stdPath.dirname(stdPath.fromFileUrl(importMetaUrl));
 }
+
+export function $dotdot(importMetaUrl: string, count = 1) {
+  invariant(count > 0, "dotdot count must be at least 1");
+
+  const dots = new Array(count).fill("").map((i) => "..");
+  return stdPath.resolve($dirname(importMetaUrl), ...dots);
+}
