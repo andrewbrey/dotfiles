@@ -21,7 +21,7 @@ for await (const entry of Deno.readDir($dirname(import.meta.url))) {
 const cli = await new command.Command()
   .name("pam")
   .version("1.0.0")
-  .description("Personal application manager")
+  .description("且_(・-・) I am Pam, the personal application manager")
   .command("list", "List metadata about available apps.")
   .option("--all", "List metadata for all available apps, both installed and uninstalled.")
   .option("-i, --installed", "List metadata for installed apps.")
