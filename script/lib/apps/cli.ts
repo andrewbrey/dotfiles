@@ -19,7 +19,7 @@ for await (const entry of Deno.readDir($dirname(import.meta.url))) {
 }
 
 const cli = await new command.Command()
-  .name("appz")
+  .name("pam")
   .version("1.0.0")
   .description("Personal application manager")
   .command("list", "List metadata about available apps.")
