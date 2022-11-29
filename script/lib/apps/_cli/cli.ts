@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write
 
 import { colors, command } from "../../mod.ts";
+import { install } from "./cmd/install.ts";
 import { list } from "./cmd/list.ts";
 
 const pamoji = `${colors.yellow("且_(・-・)")}`;
@@ -14,4 +15,5 @@ await new command.Command()
     this.showHelp();
   })
   .command("list", list)
+  .command("install", install)
   .parse(Deno.args);

@@ -16,13 +16,28 @@ export type InstallerMeta = {
   };
 };
 
-export async function getInstallerMetas() {
+export function getGroups() {
+  const groups: Map<string, Set<string>> = new Map();
+  // TODO: establish groups
+  groups.set("basic", new Set<string>(["bat", "fonts", "starship"]));
+
+  return groups;
+}
+
+export async function getAppNames() {
   const appsDir = $dotdot(import.meta.url);
   const appNames: string[] = [];
 
   for await (const entry of Deno.readDir(appsDir)) {
     if (entry.isDirectory && !entry.name.startsWith("_")) appNames.push(entry.name);
   }
+
+  return appNames;
+}
+
+export async function getInstallerMetas() {
+  const appsDir = $dotdot(import.meta.url);
+  const appNames = await getAppNames();
 
   const installerMetas: InstallerMeta[] = [];
 
@@ -44,6 +59,3 @@ export async function getInstallerMetas() {
 
   return installerMetas;
 }
-
-export const groups: Map<string, Set<string>> = new Map();
-groups.set("basic", new Set<string>(["bat", "fonts", "starship"]));

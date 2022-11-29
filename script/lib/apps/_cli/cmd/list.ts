@@ -1,5 +1,5 @@
 import { boldRed, colors, command, dateFns, table } from "../../../mod.ts";
-import { getInstallerMetas, groups } from "../meta.ts";
+import { getGroups, getInstallerMetas } from "../meta.ts";
 
 export const list = new command.Command()
   .description("List metadata about available apps.")
@@ -44,6 +44,7 @@ export const list = new command.Command()
       }
     }
 
+    const groups = getGroups();
     const badDashG = new Set<string>();
     for (const name of group) {
       const foundGroup = groups.get(name);
