@@ -24,6 +24,7 @@ gpg:
 git:
   autoCommit: true
 data:
+  is_personal_machine: {{ $personalMachine }}
   is_linux: {{ eq .chezmoi.os "linux" }}
   is_mac: {{ eq .chezmoi.os "darwin" }}
   is_popos: {{ contains .chezmoi.osRelease.name "Pop!_OS" }}
