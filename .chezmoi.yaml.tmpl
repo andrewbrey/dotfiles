@@ -9,7 +9,7 @@
 
 {{- $personalMachine := false -}}
 {{- if stdinIsATTY -}}
-  {{- $personalMachine = promptBoolOnce . "personalMachine" "Is this a personal machine" -}}
+  {{- $personalMachine = promptBoolOnce . "personalMachine" "Is this a personal machine (y/n)" -}}
 {{- end -}}
 
 encryption: gpg
