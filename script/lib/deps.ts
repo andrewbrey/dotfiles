@@ -11,3 +11,4 @@ export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.4/keypress/mod.ts
 export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.4/prompt/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.4/table/mod.ts";
 export * as dax from "https://deno.land/x/dax@0.15.0/mod.ts";
+export * as dateFns from "npm:date-fns@2.29.3";

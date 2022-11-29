@@ -1,35 +1,49 @@
-import { $dotdot } from "../../mod.ts";
+import { $, $dotdot } from "../../mod.ts";
 
 export type InstallerMeta = {
+  /** Name used to identify this app with the app management cli */
   name: string;
-  version: string;
+  /** Type of installation for this app */
   type: "uninstalled" | "installed-managed" | "installed-manual";
-  updates: {
-    checked: string;
+  /** Version number for this app, undefined if the app is not installed */
+  version?: string;
+  /** Info about app updates, or undefined if app is not installed */
+  updates?: {
+    /** Date.now() from most recent "outdated" check */
+    checked: number;
+    /** True if updates need to be performed manually */
     manual: boolean;
-  } | false;
+  };
 };
 
 export async function getInstallerMetas() {
-  const apps: string[] = [];
+  const appsDir = $dotdot(import.meta.url);
+  const appNames: string[] = [];
 
-  for await (const entry of Deno.readDir($dotdot(import.meta.url))) {
-    if (entry.isDirectory && !entry.name.startsWith("_")) apps.push(entry.name);
+  for await (const entry of Deno.readDir(appsDir)) {
+    if (entry.isDirectory && !entry.name.startsWith("_")) appNames.push(entry.name);
   }
 
   const installerMetas: InstallerMeta[] = [];
 
-  for (const app of apps) {
-    // TODO: check for an installer meta manifest, if found, read/parse and add - otherwise make a default
-    const meta: InstallerMeta = {
-      name: app,
-      version: "",
-      type: "uninstalled",
-      updates: false,
-    };
+  for (const name of appNames) {
+    const meta: InstallerMeta = { name, type: "uninstalled" };
+
+    const metaManifestPath = $.path.join(appsDir, name, ".app", ".installer-meta.json");
+    if (await $.exists(metaManifestPath)) {
+      const rawManifest = await Deno.readTextFile(metaManifestPath);
+      const parsedManifest = JSON.parse(rawManifest) as InstallerMeta;
+
+      if (parsedManifest.type) meta.type = parsedManifest.type;
+      if (parsedManifest.version) meta.version = parsedManifest.version;
+      if (parsedManifest.updates) meta.updates = parsedManifest.updates;
+    }
 
     installerMetas.push(meta);
   }
 
   return installerMetas;
 }
+
+export const groups: Map<string, Set<string>> = new Map();
+groups.set("basic", new Set<string>(["bat", "fonts", "starship"]));
