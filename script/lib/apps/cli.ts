@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write
 
-import { command } from "../mod.ts";
+import { colors, command } from "../mod.ts";
 import { $dirname } from "../util.ts";
 
 type InstallerMeta = {
@@ -21,7 +21,14 @@ for await (const entry of Deno.readDir($dirname(import.meta.url))) {
 const cli = await new command.Command()
   .name("pam")
   .version("1.0.0")
-  .description("且_(・-・) I am Pam, the personal application manager")
+  .description(
+    `${colors.yellow("且_(・-・)")} -- {(Hello, I'm ${
+      colors.yellow("Pam")
+    }, the personal application manager)}`,
+  )
+  .action(function defaultAction() {
+    this.showHelp();
+  })
   .command("list", "List metadata about available apps.")
   .option("--all", "List metadata for all available apps, both installed and uninstalled.")
   .option("-i, --installed", "List metadata for installed apps.")
