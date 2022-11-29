@@ -1,4 +1,4 @@
-import { boldRed, colors, command, dateFns, env, table } from "../../../mod.ts";
+import { boldRed, colors, command, dateFns, table } from "../../../mod.ts";
 import { getInstallerMetas, groups } from "../meta.ts";
 
 export const list = new command.Command()
@@ -9,14 +9,14 @@ export const list = new command.Command()
   .option(
     "-a, --app <app_name:string>",
     "List metadata for one or more specific apps (repeatable).",
-    { collect: true, default: [] },
+    { collect: true },
   )
   .option(
     "-g, --group <app_group_name:string>",
     "List metadata for one or more specific app groups (repeatable).",
-    { collect: true, default: [] },
+    { collect: true },
   )
-  .action(async ({ all, installed, uninstalled, app, group }, ...args) => {
+  .action(async ({ all, installed, uninstalled, app = [], group = [] }, ...args) => {
     const defaultListAll = (!installed && !uninstalled && !app.length && !group.length);
 
     const allMetas = await getInstallerMetas();
@@ -37,18 +37,16 @@ export const list = new command.Command()
 
     const badDashA = new Set<string>();
     for (const name of app) {
-      const safeAppName = name as string;
-      if (allNames.includes(safeAppName)) {
-        listable.add(safeAppName);
+      if (allNames.includes(name)) {
+        listable.add(name);
       } else {
-        badDashA.add(safeAppName);
+        badDashA.add(name);
       }
     }
 
     const badDashG = new Set<string>();
     for (const name of group) {
-      const safeGroupName = name as string;
-      const foundGroup = groups.get(safeGroupName);
+      const foundGroup = groups.get(name);
 
       if (foundGroup) {
         foundGroup.forEach((n) => {
@@ -57,12 +55,12 @@ export const list = new command.Command()
           } else {
             console.error(
               boldRed("error:"),
-              `group called ${colors.blue(safeGroupName)} contains unknown app ${colors.yellow(n)}`,
+              `group called ${colors.blue(name)} contains unknown app ${colors.yellow(n)}`,
             );
           }
         });
       } else {
-        badDashG.add(safeGroupName);
+        badDashG.add(name);
       }
     }
 
