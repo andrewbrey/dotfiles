@@ -1,4 +1,4 @@
-import { $, $dotdot } from "../../mod.ts";
+import { $, $dotdot, boldRed, colors } from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
@@ -58,4 +58,94 @@ export async function getInstallerMetas() {
   }
 
   return installerMetas;
+}
+
+export async function calculateAppsInScope(
+  opts: {
+    /** Include **all** known apps */
+    all: boolean;
+    /** Include all *installed* apps */
+    installed: boolean;
+    /** Include all *uninstalled* apps */
+    uninstalled: boolean;
+    /** Included app names */
+    apps: string[];
+    /** Included app group names */
+    groups: string[];
+  },
+) {
+  const inScope: Set<string> = new Set();
+
+  const allNames = await getAppNames();
+  const allMetas = await getInstallerMetas();
+  const appGroups = getGroups();
+
+  // =====
+  // handle simple opts
+  // =====
+  if (opts.all) {
+    allNames.forEach((m) => inScope.add(m));
+  }
+
+  if (opts.installed) {
+    allMetas.filter((m) => m.type !== "uninstalled").forEach((m) => inScope.add(m.name));
+  }
+
+  if (opts.uninstalled) {
+    allMetas.filter((m) => m.type === "uninstalled").forEach((m) => inScope.add(m.name));
+  }
+
+  // =====
+  // handle apps by name
+  // =====
+  const unknownAppNames = new Set<string>();
+  for (const name of opts.apps) {
+    if (allNames.includes(name)) {
+      inScope.add(name);
+    } else {
+      unknownAppNames.add(name);
+    }
+  }
+
+  // =====
+  // handle apps by group
+  // =====
+  const unknownAppGroups = new Set<string>();
+  for (const name of opts.groups) {
+    const foundGroup = appGroups.get(name);
+
+    if (foundGroup) {
+      foundGroup.forEach((n) => {
+        if (allNames.includes(n)) {
+          inScope.add(n);
+        } else {
+          // =====
+          // warn about bad apps within known groups
+          // =====
+          console.error(
+            boldRed("error:"),
+            `group called ${colors.blue(name)} contains unknown app ${colors.yellow(n)}`,
+          );
+        }
+      });
+    } else {
+      unknownAppGroups.add(name);
+    }
+  }
+
+  // =====
+  // warn about unknown app names
+  // =====
+  unknownAppNames.forEach((a) =>
+    console.error(boldRed("error:"), `unknown --app named ${colors.yellow(a)} `)
+  );
+
+  // =====
+  // warn about unknown app groups
+  // =====
+  unknownAppGroups.forEach((g) =>
+    console.error(boldRed("error:"), `unknown --group named ${colors.yellow(g)} `)
+  );
+
+  return inScope;
 }

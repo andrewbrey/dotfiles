@@ -1,5 +1,5 @@
-import { boldRed, colors, command, dateFns, table } from "../../../mod.ts";
-import { getGroups, getInstallerMetas } from "../meta.ts";
+import { colors, command, dateFns, table } from "../../../mod.ts";
+import { calculateAppsInScope, getInstallerMetas } from "../meta.ts";
 
 export const list = new command.Command()
   .description("List metadata about available apps.")
@@ -20,64 +20,13 @@ export const list = new command.Command()
     const defaultListAll = (!installed && !uninstalled && !app.length && !group.length);
 
     const allMetas = await getInstallerMetas();
-    const allNames = allMetas.map((m) => m.name);
-    const listable: Set<string> = new Set();
-
-    if (all || defaultListAll) {
-      allNames.forEach((m) => listable.add(m));
-    }
-
-    if (installed) {
-      allMetas.filter((m) => m.type !== "uninstalled").forEach((m) => listable.add(m.name));
-    }
-
-    if (uninstalled) {
-      allMetas.filter((m) => m.type === "uninstalled").forEach((m) => listable.add(m.name));
-    }
-
-    const badDashA = new Set<string>();
-    for (const name of app) {
-      if (allNames.includes(name)) {
-        listable.add(name);
-      } else {
-        badDashA.add(name);
-      }
-    }
-
-    const groups = getGroups();
-    const badDashG = new Set<string>();
-    for (const name of group) {
-      const foundGroup = groups.get(name);
-
-      if (foundGroup) {
-        foundGroup.forEach((n) => {
-          if (allNames.includes(n)) {
-            listable.add(n);
-          } else {
-            console.error(
-              boldRed("error:"),
-              `group called ${colors.blue(name)} contains unknown app ${colors.yellow(n)}`,
-            );
-          }
-        });
-      } else {
-        badDashG.add(name);
-      }
-    }
-
-    badDashA.forEach((b) =>
-      console.error(
-        boldRed("error:"),
-        `unknown --app named ${colors.yellow(b)} `,
-      )
-    );
-
-    badDashG.forEach((b) =>
-      console.error(
-        boldRed("error:"),
-        `unknown --group named ${colors.yellow(b)} `,
-      )
-    );
+    const listable = await calculateAppsInScope({
+      all: all || defaultListAll,
+      installed: Boolean(installed),
+      uninstalled: Boolean(uninstalled),
+      apps: app,
+      groups: group,
+    });
 
     const t = new table.Table()
       .padding(4)

@@ -1,5 +1,5 @@
-import { boldRed, colors, command, dateFns, table } from "../../../mod.ts";
-import { getInstallerMetas } from "../meta.ts";
+import { command } from "../../../mod.ts";
+import { calculateAppsInScope } from "../meta.ts";
 
 export const install = new command.Command()
   .description("Install one or more available apps.")
@@ -15,7 +15,13 @@ export const install = new command.Command()
     { collect: true },
   )
   .action(async ({ all, app = [], group = [] }, ...args) => {
-    const allMetas = await getInstallerMetas();
+    const installable = await calculateAppsInScope({
+      all: Boolean(all),
+      installed: false,
+      uninstalled: false,
+      apps: app,
+      groups: group,
+    });
 
-    console.log({ all, app, group, allMetas });
+    console.log({ all, app, group, installable });
   });
