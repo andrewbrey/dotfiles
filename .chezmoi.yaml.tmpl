@@ -1,10 +1,15 @@
 {{- $passphrase := (env "DOTFILES_PASSPHRASE" | trim) -}}
 {{- if eq $passphrase "" -}}
   {{- if stdinIsATTY -}}
-  {{-   $passphrase = promptStringOnce . "passphrase" "passphrase" -}}
+  {{-   $passphrase = promptStringOnce . "passphrase" "What is your dotfiles passphrase" -}}
   {{- else -}}
   {{-   $passphrase = "HEY, YOU NEED TO PUT YOUR DOTFILES_PASSPHRASE HERE - YOU CAN ALSO SET THE DOTFILES_PASSPHRASE ENV VAR AND RE-INIT" -}}
   {{- end -}}
+{{- end -}}
+
+{{- $personalMachine := false -}}
+{{- if stdinIsATTY -}}
+  {{- $personalMachine = promptBoolOnce . "personalMachine" "Is this a personal machine" -}}
 {{- end -}}
 
 encryption: gpg
