@@ -8,8 +8,12 @@
 {{- end -}}
 
 {{- $personalMachine := false -}}
-{{- if stdinIsATTY -}}
-  {{- $personalMachine = promptBoolOnce . "personalMachine" "Is this a personal machine (y/n)" -}}
+{{- if eq (env "PERSONAL_MACHINE" | trim) "" -}}
+	{{- if stdinIsATTY -}}
+		{{- $personalMachine = promptBoolOnce . "personalMachine" "Is this a personal machine (y/n)" -}}
+	{{- end -}}
+{{- else -}}
+	{{- $personalMachine = eq (env "PERSONAL_MACHINE" | trim) "true" -}}
 {{- end -}}
 
 encryption: gpg
