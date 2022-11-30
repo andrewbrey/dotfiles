@@ -28,8 +28,10 @@ export const constants = {
 
 export function getGroups() {
   const groups: Map<string, Set<string>> = new Map();
-  // TODO: establish groups
-  groups.set("devcontainer", new Set<string>(["bat", "gh"]));
+
+  // NOTE: if installation order matters, make sure to list
+  // prerequisites earlier in the app name array
+  groups.set("devcontainer", new Set<string>(["node", "npm-globals", "bat", "gh"]));
 
   return groups;
 }
@@ -79,6 +81,15 @@ export async function getInstallerMetas(inScope?: Set<string>) {
   return installerMetas;
 }
 
+/**
+ * Determine all apps that should be included in a given operation.
+ *
+ * Note that if there are dependencies/prerequisites for some
+ * apps, such as might be the case when installing apps, you
+ * need to manually ensure that prerequisites are in place,
+ * perhaps by running your pam commands in stages (or using
+ * app groups which can specify order)
+ */
 export async function calculateAppsInScope(
   opts: {
     /** Include **all** known apps */
