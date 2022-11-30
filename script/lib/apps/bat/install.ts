@@ -2,5 +2,5 @@
 
 import { $ } from "../../mod.ts";
 
-// TODO: install gh
-$.log("Installing gh...");
+// TODO: install bat
+$.log("Installing bat...");
