@@ -22,7 +22,7 @@ export type GHReleaseInfo = {
 export function getGroups() {
   const groups: Map<string, Set<string>> = new Map();
   // TODO: establish groups
-  groups.set("basic", new Set<string>(["bat", "fonts", "starship"]));
+  groups.set("devcontainer", new Set<string>(["bat", "gh"]));
 
   return groups;
 }

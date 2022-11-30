@@ -23,9 +23,9 @@ if [ -n $REMOTE_CONTAINERS ]; then
 	# in cloud editors
 
 	#
-	# install node and npm globals
-	# TODO
-	echo todo, install node and npm globals...
+	# install devcontainer app group
+	export PATH="${HOME}/.deno/bin:$PATH"
+	"${workspace_root}/script/lib/apps/_cli/cli.ts" install -y -g devcontainer
 
 	unset this_dir
 	unset workspace_root
