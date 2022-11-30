@@ -25,7 +25,7 @@ if [ -n $REMOTE_CONTAINERS ]; then
 	#
 	# install devcontainer app group
 	export PATH="${HOME}/.deno/bin:$PATH"
-	"${workspace_root}/script/lib/apps/_cli/cli.ts" install -y -g devcontainer
+	"${workspace_root}/script/lib/apps/_cli/cli.ts" install -y -f -g devcontainer
 
 	unset this_dir
 	unset workspace_root
