@@ -61,12 +61,16 @@ export const install = new command.Command()
 
       if (!proceed) Deno.exit(1);
 
-      for (const meta of uninstalled) {
+      for (const [idxStr, meta] of Object.entries(uninstalled)) {
+        const idx = parseInt(idxStr);
         const installScript = $.path.join(meta.path, "install.ts");
 
+        if (idx > 0) $.log("");
         $.log(dedent`
 					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(meta.name)} installation
+					# Starting ${colors.blue(meta.name)} installation (task ${
+          idx + 1
+        } of ${uninstalled.length})
 					# ${colors.yellow("=====")}
 				`);
         $.log("");
@@ -76,13 +80,13 @@ export const install = new command.Command()
 
         $.log("");
         $.log(dedent`
-					# ${colors.yellow("=====")}
+					# ${colors.green("=====")}
 					# Done with ${colors.blue(meta.name)} installation in about ${
           colors.magenta(
             dateFns.formatDistanceToNowStrict(startTime),
           )
         }
-					# ${colors.yellow("=====")}
+					# ${colors.green("=====")}
 				`);
       }
     } else {
