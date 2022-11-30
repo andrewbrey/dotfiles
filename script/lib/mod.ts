@@ -3,9 +3,10 @@ import { invariant, osInvariant } from "./util.ts";
 
 export {
   cliffyCmd as command,
-  cliffyPrompts as prompt,
+  cliffyPrompts as prompts,
   cliffyTable as table,
   dateFns,
+  dedent,
   stdColors as colors,
   stdFlags as flags,
 } from "./deps.ts";

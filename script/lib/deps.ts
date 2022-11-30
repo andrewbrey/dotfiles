@@ -12,3 +12,6 @@ export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.4/prompt/mod.ts
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.4/table/mod.ts";
 export * as dax from "https://deno.land/x/dax@0.15.0/mod.ts";
 export * as dateFns from "npm:date-fns@2.29.3";
+// workaround for cjs/esm type goofuhmup. @see https://youtu.be/eRs_MGdCXGU?t=1995
+import dedentImport from "npm:string-dedent@3.0.1";
+export const dedent = (dedentImport as any as typeof dedentImport["default"]);

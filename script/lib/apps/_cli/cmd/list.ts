@@ -1,4 +1,4 @@
-import { colors, command, dateFns, table } from "../../../mod.ts";
+import { $, colors, command, dateFns, table } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../meta.ts";
 
 export const list = new command.Command()
@@ -20,7 +20,7 @@ export const list = new command.Command()
     const defaultListAll = (!installed && !uninstalled && !app.length && !group.length);
 
     const allMetas = await getInstallerMetas();
-    const listable = await calculateAppsInScope({
+    const inScope = await calculateAppsInScope({
       all: all || defaultListAll,
       installed: Boolean(installed),
       uninstalled: Boolean(uninstalled),
@@ -33,18 +33,18 @@ export const list = new command.Command()
       .header(table.Row.from(["Name", "Installation Type", "Version", "Checked"].map(colors.blue)))
       .body(
         allMetas
-          .filter((m) => listable.has(m.name))
+          .filter((m) => inScope.has(m.name))
           .sort((l1, l2) => l1.name.localeCompare(l2.name))
           .map((meta) => {
             const version = meta.version ?? "-";
-            const checked = meta.updates?.manual
-              ? dateFns.formatDistanceToNow(meta.updates.checked, { addSuffix: true })
+            const checked = meta.lastCheck
+              ? dateFns.formatDistanceToNow(meta.lastCheck, { addSuffix: true })
               : "-";
 
             return table.Row.from([meta.name, meta.type, version, checked]);
           }),
       );
 
-    console.log("");
-    console.log(t.toString());
+    $.log("");
+    $.log(t.toString());
   });

@@ -8,7 +8,3 @@ export function doneWith(id: string) {
 export function blackOnYellow(what: string) {
   return stdColors.black(stdColors.bgYellow(what));
 }
-
-export function boldRed(what: string) {
-  return stdColors.red(stdColors.bold(what));
-}

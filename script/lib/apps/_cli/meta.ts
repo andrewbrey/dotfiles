@@ -1,19 +1,16 @@
-import { $, $dotdot, boldRed, colors } from "../../mod.ts";
+import { $, $dotdot, colors } from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
   name: string;
+  /** Absolute path on disk to this apps directory for the app management cli */
+  path: string;
   /** Type of installation for this app */
   type: "uninstalled" | "installed-managed" | "installed-manual";
   /** Version number for this app, undefined if the app is not installed */
   version?: string;
-  /** Info about app updates, or undefined if app is not installed */
-  updates?: {
-    /** Date.now() from most recent "outdated" check */
-    checked: number;
-    /** True if updates need to be performed manually */
-    manual: boolean;
-  };
+  /** Date.now() from most recent "outdated" check, undefined if the app is not installed */
+  lastCheck?: number;
 };
 
 export function getGroups() {
@@ -35,23 +32,28 @@ export async function getAppNames() {
   return appNames;
 }
 
-export async function getInstallerMetas() {
+export async function getInstallerMetas(inScope?: Set<string>) {
   const appsDir = $dotdot(import.meta.url);
-  const appNames = await getAppNames();
+  let appNames = await getAppNames();
+
+  if (inScope) {
+    appNames = appNames.filter((n) => inScope.has(n));
+  }
 
   const installerMetas: InstallerMeta[] = [];
 
   for (const name of appNames) {
-    const meta: InstallerMeta = { name, type: "uninstalled" };
+    const pamPath = $.path.join(appsDir, name);
+    const meta: InstallerMeta = { name, path: pamPath, type: "uninstalled" };
+    const metaManifestPath = $.path.join(pamPath, ".app", ".installer-meta.json");
 
-    const metaManifestPath = $.path.join(appsDir, name, ".app", ".installer-meta.json");
     if (await $.exists(metaManifestPath)) {
       const rawManifest = await Deno.readTextFile(metaManifestPath);
       const parsedManifest = JSON.parse(rawManifest) as InstallerMeta;
 
       if (parsedManifest.type) meta.type = parsedManifest.type;
       if (parsedManifest.version) meta.version = parsedManifest.version;
-      if (parsedManifest.updates) meta.updates = parsedManifest.updates;
+      if (parsedManifest.lastCheck) meta.lastCheck = parsedManifest.lastCheck;
     }
 
     installerMetas.push(meta);
@@ -122,8 +124,8 @@ export async function calculateAppsInScope(
           // =====
           // warn about bad apps within known groups
           // =====
-          console.error(
-            boldRed("error:"),
+          $.logError(
+            "error:",
             `group called ${colors.blue(name)} contains unknown app ${colors.yellow(n)}`,
           );
         }
@@ -136,15 +138,13 @@ export async function calculateAppsInScope(
   // =====
   // warn about unknown app names
   // =====
-  unknownAppNames.forEach((a) =>
-    console.error(boldRed("error:"), `unknown --app named ${colors.yellow(a)} `)
-  );
+  unknownAppNames.forEach((a) => $.logError("error:", `unknown --app named ${colors.yellow(a)} `));
 
   // =====
   // warn about unknown app groups
   // =====
   unknownAppGroups.forEach((g) =>
-    console.error(boldRed("error:"), `unknown --group named ${colors.yellow(g)} `)
+    $.logError("error:", `unknown --group named ${colors.yellow(g)} `)
   );
 
   return inScope;

@@ -1,5 +1,5 @@
-import { command } from "../../../mod.ts";
-import { calculateAppsInScope } from "../meta.ts";
+import { $, colors, command, dateFns, dedent, env, prompts } from "../../../mod.ts";
+import { calculateAppsInScope, getInstallerMetas } from "../meta.ts";
 
 export const install = new command.Command()
   .description("Install one or more available apps.")
@@ -15,7 +15,7 @@ export const install = new command.Command()
     { collect: true },
   )
   .action(async ({ all, app = [], group = [] }, ...args) => {
-    const installable = await calculateAppsInScope({
+    const inScope = await calculateAppsInScope({
       all: Boolean(all),
       installed: false,
       uninstalled: false,
@@ -23,5 +23,64 @@ export const install = new command.Command()
       groups: group,
     });
 
-    console.log({ all, app, group, installable });
+    const metasForScope = await getInstallerMetas(inScope);
+    const installed = metasForScope.filter((m) => m.type !== "uninstalled");
+    const uninstalled = metasForScope.filter((m) => m.type === "uninstalled");
+
+    const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
+    const skipList = lister.format(installed.map((i) => colors.blue(i.name)));
+    const toInstallList = lister.format(uninstalled.map((i) => colors.blue(i.name)));
+
+    // =====
+    // warn about skipped app names
+    // =====
+    if (installed.length) {
+      $.logWarn(
+        "warn:",
+        `skipping ${skipList} because ${
+          installed.length > 1 ? "they are" : "it is"
+        } already installed.`,
+      );
+    }
+
+    if (uninstalled.length) {
+      const proceed = env.STDIN_IS_TTY
+        ? await prompts.Confirm.prompt({
+          message: `About to install ${toInstallList}. Proceed?`,
+          default: true,
+        })
+        : true;
+
+      if (!proceed) Deno.exit(1);
+
+      for (const meta of uninstalled) {
+        const installScript = $.path.join(meta.path, "install.ts");
+
+        $.log(dedent`
+					# ${colors.yellow("=====")}
+					# Starting ${colors.blue(meta.name)} installation
+					# ${colors.yellow("=====")}
+				`);
+        $.log("");
+
+        const startTime = Date.now();
+        await $`zsh -c ${installScript}`.printCommand(false);
+
+        $.log("");
+        $.log(dedent`
+					# ${colors.yellow("=====")}
+					# Done with ${colors.blue(meta.name)} installation in about ${
+          colors.magenta(
+            dateFns.formatDistanceToNowStrict(startTime),
+          )
+        }
+					# ${colors.yellow("=====")}
+				`);
+      }
+    } else {
+      $.logWarn(
+        "warn:",
+        "no candidates for installation were in scope; did you include any apps/groups?",
+      );
+    }
   });
