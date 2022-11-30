@@ -5,6 +5,15 @@ function mkcd() {
 	mkdir -p "$@" && cd "$_"
 }
 
+# Run the pam (personal application manager) cli
+function pam() {
+	if [[ -z "${PAM_CLI_OVERRIDE}" ]]; then
+		"${PAM_CLI_OVERRIDE}"
+	else
+		"$(chezmoi source-path)/script/lib/apps/_cli/cli.ts"
+	fi
+}
+
 function encrypt_file() {
 	if [[ -z "${1}" ]]; then
 		echo "A single file name to encrypt is required"

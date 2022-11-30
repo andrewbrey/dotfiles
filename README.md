@@ -20,6 +20,14 @@
   ~/dotfiles/script/bootstrap
   ```
 
+- _(Optional)_ Delete manually cloned dotfiles now that there is a `chezmoi` managed copy
+
+  > Use `chezmoi` to locate managed dotfiles, in particular with `$(chezmoi source-path)`
+
+  ```sh
+  rm -rf ~/dotfiles
+  ```
+
 ## init script requirements
 
 `init/` scripts should be executable and have a shebang similar to:
@@ -46,4 +54,5 @@
 - Document that the `.gitconfig` can only _easily_ be edited where it's not ignored because
   `chezmoi edit file` respects `.chezmoiignore` items (and won't decrypt the file to allow editing).
   Could do something like `decrypt in source -> pipe to tmp -> make edits -> encrypt back to source`
-  but that is probably not worth it when you can just make the in a place where it's not ignored
+  but that is probably not worth it when you can just make edits in an environmtn where it's not
+  ignored (i.e. not in a devcontainer)
