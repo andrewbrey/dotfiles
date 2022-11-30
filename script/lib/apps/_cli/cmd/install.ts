@@ -15,7 +15,8 @@ export const install = new command.Command()
     { collect: true },
   )
   .option("-y, --yes", "Automatically bypass confirmation prompts.")
-  .action(async ({ all, app = [], group = [], yes }, ...args) => {
+  .option("-f, --force", "Force installation of apps that are already installed.")
+  .action(async ({ all, app = [], group = [], yes, force }, ...args) => {
     const inScope = await calculateAppsInScope({
       all: Boolean(all),
       installed: false,
@@ -28,23 +29,27 @@ export const install = new command.Command()
     const installed = metasForScope.filter((m) => m.type !== "uninstalled");
     const uninstalled = metasForScope.filter((m) => m.type === "uninstalled");
 
-    const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const skipList = lister.format(installed.map((i) => colors.blue(i.name)));
-    const toInstallList = lister.format(uninstalled.map((i) => colors.blue(i.name)));
+    const toInstall = Boolean(force) ? [...uninstalled, ...installed] : [...uninstalled];
 
-    // =====
-    // warn about skipped app names
-    // =====
-    if (installed.length) {
-      $.logWarn(
-        "warn:",
-        `skipping ${skipList} because ${
-          installed.length > 1 ? "they are" : "it is"
-        } already installed.`,
-      );
+    const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
+    const toInstallList = lister.format(toInstall.map((i) => colors.blue(i.name)));
+
+    if (!force) {
+      // =====
+      // warn about skipped app names
+      // =====
+      const skipList = lister.format(installed.map((i) => colors.blue(i.name)));
+      if (installed.length) {
+        $.logWarn(
+          "warn:",
+          `skipping ${skipList} because ${
+            installed.length > 1 ? "they are" : "it is"
+          } already installed.`,
+        );
+      }
     }
 
-    if (uninstalled.length) {
+    if (toInstall.length) {
       const autoProceed = !env.STDIN_IS_TTY || Boolean(yes);
 
       if (autoProceed) {
@@ -61,16 +66,14 @@ export const install = new command.Command()
 
       if (!proceed) Deno.exit(1);
 
-      for (const [idxStr, meta] of Object.entries(uninstalled)) {
+      for (const [idxStr, meta] of Object.entries(toInstall)) {
         const idx = parseInt(idxStr);
         const installScript = $.path.join(meta.path, "install.ts");
 
         if (idx > 0) $.log("");
         $.log(dedent`
 					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(meta.name)} installation (task ${
-          idx + 1
-        } of ${uninstalled.length})
+					# Starting ${colors.blue(meta.name)} installation (task ${idx + 1} of ${toInstall.length})
 					# ${colors.yellow("=====")}
 				`);
         $.log("");
