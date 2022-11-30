@@ -14,7 +14,8 @@ export const install = new command.Command()
     "Install one or more specific app groups (repeatable).",
     { collect: true },
   )
-  .action(async ({ all, app = [], group = [] }, ...args) => {
+  .option("-y, --yes", "Automatically bypass confirmation prompts.")
+  .action(async ({ all, app = [], group = [], yes }, ...args) => {
     const inScope = await calculateAppsInScope({
       all: Boolean(all),
       installed: false,
@@ -44,7 +45,14 @@ export const install = new command.Command()
     }
 
     if (uninstalled.length) {
-      const proceed = env.STDIN_IS_TTY
+      const autoProceed = !env.STDIN_IS_TTY || Boolean(yes);
+
+      if (autoProceed) {
+        $.log(`About to install ${toInstallList}.`);
+        $.log("");
+      }
+
+      const proceed = !autoProceed
         ? await prompts.Confirm.prompt({
           message: `About to install ${toInstallList}. Proceed?`,
           default: true,
