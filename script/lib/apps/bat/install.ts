@@ -8,25 +8,28 @@ osInvariant();
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (env.OS === "darwin") {
-  await $`brew install bat`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-} else {
-  const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
-  const debInstallerPath = $.path.join(dotAppPath, "bat.deb");
+const notInstalled = typeof (await $.which("node")) === "undefined";
+if (notInstalled) {
+  if (env.OS === "darwin") {
+    await $`brew install bat`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+  } else {
+    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const debInstallerPath = $.path.join(dotAppPath, "bat.deb");
 
-  const releaseInfo = await ghReleaseLatestInfo("sharkdp", "bat");
-  await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
+    const releaseInfo = await ghReleaseLatestInfo("sharkdp", "bat");
+    await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
-  const { assets, tag_name } = releaseInfo;
-  const latestVersion = tag_name.split("v")[1] ?? "0.0.0";
-  const targetName = `bat_${latestVersion}_amd64.deb`;
-  const targetAsset = assets.find((a) => a.name === targetName);
+    const { assets, tag_name } = releaseInfo;
+    const latestVersion = tag_name.split("v")[1] ?? "0.0.0";
+    const targetName = `bat_${latestVersion}_amd64.deb`;
+    const targetAsset = assets.find((a) => a.name === targetName);
 
-  invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
+    invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-  await streamDownload(targetAsset.browser_download_url, debInstallerPath);
+    await streamDownload(targetAsset.browser_download_url, debInstallerPath);
 
-  await $`sudo apt install -y ${debInstallerPath}`;
+    await $`sudo apt install -y ${debInstallerPath}`;
+  }
 }
 
 const versionOutput = await $`bat --version`.text(); // bat 0.22.1 (e5d9579)

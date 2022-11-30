@@ -14,9 +14,9 @@ export const install = new command.Command()
     "Install one or more specific app groups (repeatable).",
     { collect: true },
   )
-  .option("-y, --yes", "Automatically bypass confirmation prompts.")
-  .option("-f, --force", "Force installation of apps that are already installed.")
-  .action(async ({ all, app = [], group = [], yes, force }, ...args) => {
+  .option("--skip-confirm", "Automatically bypass confirmation prompts.")
+  .option("--allow-reinstall", "Allow installation of apps that are already installed.")
+  .action(async ({ all, app = [], group = [], skipConfirm, allowReinstall }, ...args) => {
     const inScope = await calculateAppsInScope({
       all: Boolean(all),
       installed: false,
@@ -29,12 +29,12 @@ export const install = new command.Command()
     const installed = metasForScope.filter((m) => m.type !== "uninstalled");
     const uninstalled = metasForScope.filter((m) => m.type === "uninstalled");
 
-    const toInstall = Boolean(force) ? [...uninstalled, ...installed] : [...uninstalled];
+    const toInstall = Boolean(allowReinstall) ? [...uninstalled, ...installed] : [...uninstalled];
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
     const toInstallList = lister.format(toInstall.map((i) => colors.blue(i.name)));
 
-    if (!force) {
+    if (!allowReinstall) {
       // =====
       // warn about skipped app names
       // =====
@@ -50,7 +50,7 @@ export const install = new command.Command()
     }
 
     if (toInstall.length) {
-      const autoProceed = !env.STDIN_IS_TTY || Boolean(yes);
+      const autoProceed = !env.STDIN_IS_TTY || Boolean(skipConfirm);
 
       if (autoProceed) {
         $.log(`About to install ${toInstallList}.`);

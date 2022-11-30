@@ -4,7 +4,7 @@ import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
 import { constants, InstallerMeta, streamDownload } from "../_cli/pamkit.ts";
 
 osInvariant();
-invariant(typeof (await $.which("node")) !== "undefined", "nodejs is required");
+invariant(typeof (await $.which("node")) !== "undefined", "node is required");
 invariant(typeof (await $.which("npm")) !== "undefined", "npm is required");
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
