@@ -1,23 +1,16 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land,api.github.com,github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
 
 import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import {
-  APP_ARTIFACTS_DIR,
-  GH_RELEASE_INFO_NAME,
-  ghReleaseLatestInfo,
-  InstallerMeta,
-  META_MANIFEST_NAME,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { constants, ghReleaseLatestInfo, InstallerMeta, streamDownload } from "../_cli/pamkit.ts";
 
 osInvariant();
 
-const dotAppPath = $.path.join($dirname(import.meta.url), APP_ARTIFACTS_DIR);
+const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 
 if (env.OS === "darwin") {
   await $`brew install bat`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
-  const releaseInfoPath = $.path.join(dotAppPath, GH_RELEASE_INFO_NAME);
+  const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
   const debInstallerPath = $.path.join(dotAppPath, "bat.deb");
 
   await $.fs.ensureDir(dotAppPath);
@@ -47,6 +40,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, META_MANIFEST_NAME);
+const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

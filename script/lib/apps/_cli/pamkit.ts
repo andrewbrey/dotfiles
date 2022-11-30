@@ -19,6 +19,13 @@ export type GHReleaseInfo = {
   assets: { name: string; browser_download_url: string }[];
 };
 
+export const constants = {
+  appArtifactsDir: ".app",
+  appResourcesDir: ".resources",
+  metaManifestName: ".installer-meta.json",
+  ghReleaseInfoName: ".release-info.json",
+};
+
 export function getGroups() {
   const groups: Map<string, Set<string>> = new Map();
   // TODO: establish groups
@@ -38,11 +45,6 @@ export async function getAppNames() {
   return appNames;
 }
 
-export const APP_ARTIFACTS_DIR = ".app";
-export const APP_RESOURCES_DIR = ".resources";
-export const META_MANIFEST_NAME = ".installer-meta.json";
-export const GH_RELEASE_INFO_NAME = ".release-info.json";
-
 export async function getInstallerMetas(inScope?: Set<string>) {
   const appsDir = $dotdot(import.meta.url);
   let appNames = await getAppNames();
@@ -56,7 +58,11 @@ export async function getInstallerMetas(inScope?: Set<string>) {
   for (const name of appNames) {
     const pamPath = $.path.join(appsDir, name);
     const meta: InstallerMeta = { name, path: pamPath, type: "uninstalled" };
-    const metaManifestPath = $.path.join(pamPath, APP_ARTIFACTS_DIR, META_MANIFEST_NAME);
+    const metaManifestPath = $.path.join(
+      pamPath,
+      constants.appArtifactsDir,
+      constants.metaManifestName,
+    );
 
     if (await $.exists(metaManifestPath)) {
       const rawManifest = await Deno.readTextFile(metaManifestPath);
