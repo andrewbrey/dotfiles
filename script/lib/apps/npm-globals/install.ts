@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deb.nodesource.com,deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import { constants, InstallerMeta, streamDownload } from "../_cli/pamkit.ts";
+import { $, $dirname, invariant, osInvariant } from "../../mod.ts";
+import { constants, getChezmoiData, InstallerMeta } from "../_cli/pamkit.ts";
 
 osInvariant();
 invariant(typeof (await $.which("node")) !== "undefined", "node is required");
@@ -10,7 +10,9 @@ invariant(typeof (await $.which("npm")) !== "undefined", "npm is required");
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const npmGlobals = [
+const chezmoiData = await getChezmoiData();
+
+const npmGlobals = new Set([
   "@antfu/ni",
   "@bitwarden/cli",
   "add-gitignore",
@@ -25,9 +27,14 @@ const npmGlobals = [
   "prettier",
   "rimraf",
   "yarn@1",
-];
+]);
 
-await $`npm i -g ${npmGlobals}`;
+if (!chezmoiData.is_personal_machine) {
+  // NOTE: Add items here for non-personal machines
+  [].forEach((n) => npmGlobals.add(n));
+}
+
+await $`npm i -g ${Array.from(npmGlobals)}`;
 
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),

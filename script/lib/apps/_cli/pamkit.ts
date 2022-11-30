@@ -222,3 +222,38 @@ export async function streamDownload(url: string, dest: string) {
     downloadStream.pipe(fileWriterStream);
   });
 }
+
+/** Useful subset of the data available when running `chezmoi data` */
+export type ChezmoiData = {
+  chezmoi: {
+    arch: string;
+    fqdnHostname: string;
+    hostname: string;
+    kernel: { osrelease: string; ostype: string; version: string };
+    os: string;
+    osRelease: {
+      id: string;
+      idLike: string;
+      name: string;
+      prettyName: string;
+      version: string;
+      versionCodename: string;
+      versionID: string;
+    };
+  };
+  is_cloud: boolean;
+  is_codespaces: boolean;
+  is_containerized: boolean;
+  is_gitpod: boolean;
+  is_linux: boolean;
+  is_mac: boolean;
+  is_personal_machine: boolean;
+  is_popos: boolean;
+  is_remote_container: boolean;
+  is_ubuntu: boolean;
+  standard_dirs: { code: string; npm_install: string; pnpm_install: string };
+};
+
+export async function getChezmoiData() {
+  return await $`chezmoi data`.json() as ChezmoiData;
+}
