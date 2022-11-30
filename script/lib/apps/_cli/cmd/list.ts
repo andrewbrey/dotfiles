@@ -1,5 +1,5 @@
 import { $, colors, command, dateFns, table } from "../../../mod.ts";
-import { calculateAppsInScope, getInstallerMetas } from "../meta.ts";
+import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const list = new command.Command()
   .description("List metadata about available apps.")

@@ -1,4 +1,4 @@
-import { $, $dotdot, colors } from "../../mod.ts";
+import { $, $dotdot, colors, got, nodeFS, prettyBytes } from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
@@ -11,6 +11,12 @@ export type InstallerMeta = {
   version?: string;
   /** Date.now() from most recent "outdated" check, undefined if the app is not installed */
   lastCheck?: number;
+};
+
+export type GHReleaseInfo = {
+  name: string;
+  tag_name: string;
+  assets: { name: string; browser_download_url: string }[];
 };
 
 export function getGroups() {
@@ -32,6 +38,11 @@ export async function getAppNames() {
   return appNames;
 }
 
+export const APP_ARTIFACTS_DIR = ".app";
+export const APP_RESOURCES_DIR = ".resources";
+export const META_MANIFEST_NAME = ".installer-meta.json";
+export const GH_RELEASE_INFO_NAME = ".release-info.json";
+
 export async function getInstallerMetas(inScope?: Set<string>) {
   const appsDir = $dotdot(import.meta.url);
   let appNames = await getAppNames();
@@ -45,7 +56,7 @@ export async function getInstallerMetas(inScope?: Set<string>) {
   for (const name of appNames) {
     const pamPath = $.path.join(appsDir, name);
     const meta: InstallerMeta = { name, path: pamPath, type: "uninstalled" };
-    const metaManifestPath = $.path.join(pamPath, ".app", ".installer-meta.json");
+    const metaManifestPath = $.path.join(pamPath, APP_ARTIFACTS_DIR, META_MANIFEST_NAME);
 
     if (await $.exists(metaManifestPath)) {
       const rawManifest = await Deno.readTextFile(metaManifestPath);
@@ -148,4 +159,49 @@ export async function calculateAppsInScope(
   );
 
   return inScope;
+}
+
+export async function ghReleaseLatestInfo(user: string, repo: string) {
+  return await $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`)
+    .json() as GHReleaseInfo;
+}
+
+export async function streamDownload(url: string, dest: string) {
+  return new Promise<void>((resolve, reject) => {
+    const downloadStream = got.stream(url);
+    const fileWriterStream = nodeFS.createWriteStream(dest);
+
+    let progressAnnounce = 10;
+
+    // `downloadStream` is a nodejs `Request` from `got`, not a web standard
+    //  one, ignore TypeScript complaints about EventEmitter methods :shrug:
+    (downloadStream as any)
+      .on("downloadProgress", ({ transferred, total, percent }: any) => {
+        const percentage = Math.round(percent * 100);
+        if (percentage >= progressAnnounce) {
+          $.logLight(
+            "  debug:",
+            `${prettyBytes(transferred)} of ${prettyBytes(total)} (${percentage}%)`,
+          );
+          progressAnnounce += 10;
+        }
+      })
+      .on("error", (error: Error) => {
+        $.logError("error:", error.message);
+        reject();
+      });
+
+    fileWriterStream
+      .on("error", (error) => {
+        $.logError("error:", error.message);
+        reject();
+      })
+      .on("finish", () => {
+        $.logStep("done:", `download saved to ${dest}`);
+        resolve();
+      });
+
+    $.log(`downloading ${url} to ${dest}`);
+    downloadStream.pipe(fileWriterStream);
+  });
 }

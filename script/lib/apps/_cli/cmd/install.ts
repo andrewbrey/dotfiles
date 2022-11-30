@@ -1,5 +1,5 @@
 import { $, colors, command, dateFns, dedent, env, prompts } from "../../../mod.ts";
-import { calculateAppsInScope, getInstallerMetas } from "../meta.ts";
+import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const install = new command.Command()
   .description("Install one or more available apps.")

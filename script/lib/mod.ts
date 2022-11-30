@@ -7,8 +7,11 @@ export {
   cliffyTable as table,
   dateFns,
   dedent,
+  got,
+  prettyBytes,
   stdColors as colors,
   stdFlags as flags,
+  stdNodeFS as nodeFS,
 } from "./deps.ts";
 export * from "./env.ts";
 export * from "./fmt.ts";
