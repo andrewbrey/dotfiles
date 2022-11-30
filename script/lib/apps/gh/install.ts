@@ -6,14 +6,13 @@ import { constants, ghReleaseLatestInfo, InstallerMeta, streamDownload } from ".
 osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+await $.fs.ensureDir(dotAppPath);
 
 if (env.OS === "darwin") {
   await $`brew install gh`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
   const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
   const debInstallerPath = $.path.join(dotAppPath, "gh.deb");
-
-  await $.fs.ensureDir(dotAppPath);
 
   const releaseInfo = await ghReleaseLatestInfo("cli", "cli");
   await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
@@ -36,7 +35,7 @@ const version = versionOutput.split(" ")[2].split("-")[0];
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),
   path: $dirname(import.meta.url),
-  type: "installed-manual",
+  type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,
   lastCheck: Date.now(),
 };
