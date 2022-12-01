@@ -3,6 +3,7 @@
 import { colors, command } from "../../mod.ts";
 import { install } from "./cmd/install.ts";
 import { list } from "./cmd/list.ts";
+import { remove } from "./cmd/remove.ts";
 
 const pamoji = `${colors.yellow("且_(・-・)")}`;
 const pam = `${colors.yellow("Pam")}`;
@@ -16,4 +17,5 @@ await new command.Command()
   })
   .command("list", list)
   .command("install", install)
+  .command("remove", remove)
   .parse(Deno.args);
