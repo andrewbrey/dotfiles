@@ -8,7 +8,7 @@ osInvariant();
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("node")) === "undefined";
+const notInstalled = typeof (await $.which("bat")) === "undefined";
 if (notInstalled) {
   if (env.OS === "darwin") {
     await $`brew install bat`.env({ HOMEBREW_NO_ANALYTICS: "1" });
