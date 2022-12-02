@@ -1,4 +1,15 @@
-import { $, $dotdot, colors, env, got, invariant, nodeFS, prettyBytes } from "../../mod.ts";
+import {
+  $,
+  $dotdot,
+  colors,
+  dateFns,
+  env,
+  got,
+  invariant,
+  nodeFS,
+  prettyBytes,
+  semver,
+} from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
@@ -285,4 +296,58 @@ export async function mostRelevantVersion(resourcesDir: string) {
   $.log("  debug:", `target version ${version} from version key ${versionKeyUsed}`);
 
   return version;
+}
+
+export function isNewerVersion(current: string = "", latest: string = "") {
+  const currentSem = semver.coerce(current);
+  const latestSem = semver.coerce(latest);
+
+  invariant(currentSem !== null, "missing required current version");
+  invariant(latestSem !== null, "missing required latest version");
+
+  return semver.gt(latestSem, currentSem);
+}
+
+export type OutdatedCheck = {
+  name: string;
+  current?: string;
+  latest?: string;
+  skip?: string;
+  outdated?: boolean;
+};
+
+export async function wrapOutdatedCheck(
+  meta: InstallerMeta,
+  frequencyDays = 3,
+  latestFetcher = async () => (""),
+) {
+  const outdatedCheck: OutdatedCheck = {
+    name: meta.name,
+    current: meta.version,
+    skip: meta.type === "installed-manual"
+      ? ""
+      : meta.type === "installed-managed"
+      ? "installation is managed"
+      : "not installed",
+  };
+
+  if (meta.type === "installed-manual") {
+    const lastCheckDistance = dateFns.differenceInDays(Date.now(), meta.lastCheck ?? Date.now());
+    if (lastCheckDistance >= frequencyDays) {
+      const latest = await latestFetcher();
+      outdatedCheck.latest = latest;
+      outdatedCheck.outdated = isNewerVersion(meta.version, latest);
+
+      meta.lastCheck = Date.now();
+
+      const dotAppPath = $.path.join(meta.path, constants.appArtifactsDir);
+      const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+
+      await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
+    } else {
+      outdatedCheck.skip = "last check too recent";
+    }
+  }
+
+  return outdatedCheck;
 }

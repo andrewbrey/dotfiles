@@ -9,6 +9,7 @@ export {
   dedent,
   got,
   prettyBytes,
+  semver,
   stdColors as colors,
   stdFlags as flags,
   stdNodeFS as nodeFS,

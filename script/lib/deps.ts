@@ -15,6 +15,8 @@ export * as dax from "https://deno.land/x/dax@0.15.0/mod.ts";
 export * as dateFns from "npm:date-fns@2.29.3";
 export { got } from "npm:got@12.5.3";
 export { default as prettyBytes } from "npm:pretty-bytes@6.0.0";
+// @deno-types="npm:@types/semver@7.3.13"
+export { default as semver } from "npm:semver@7.3.8";
 // workarounds for cjs/esm type goofuhmup. @see https://youtu.be/eRs_MGdCXGU?t=1995
 import dedentImport from "npm:string-dedent@3.0.1";
 export const dedent = (dedentImport as any as typeof dedentImport["default"]);

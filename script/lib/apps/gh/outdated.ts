@@ -5,10 +5,10 @@ import { getInstallerMetas, ghReleaseLatestInfo, wrapOutdatedCheck } from "../_c
 
 osInvariant();
 
-const [meta] = await getInstallerMetas(new Set(["bat"]));
+const [meta] = await getInstallerMetas(new Set(["gh"]));
 
 const outdatedCheck = await wrapOutdatedCheck(meta, 3, async () => {
-  const releaseInfo = await ghReleaseLatestInfo("sharkdp", "bat");
+  const releaseInfo = await ghReleaseLatestInfo("cli", "cli");
   const { tag_name } = releaseInfo;
   const latest = tag_name.split("v")[1];
 

@@ -3,6 +3,7 @@
 import { colors, command } from "../../mod.ts";
 import { install } from "./cmd/install.ts";
 import { list } from "./cmd/list.ts";
+import { outdated } from "./cmd/outdated.ts";
 import { remove } from "./cmd/remove.ts";
 
 const pamoji = `${colors.yellow("且_(・-・)")}`;
@@ -17,5 +18,6 @@ await new command.Command()
   })
   .command("list", list)
   .command("install", install)
+  .command("outdated", outdated)
   .command("remove", remove)
   .parse(Deno.args);
