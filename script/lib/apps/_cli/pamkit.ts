@@ -1,4 +1,4 @@
-import { $, $dotdot, colors, got, nodeFS, prettyBytes } from "../../mod.ts";
+import { $, $dotdot, colors, env, got, invariant, nodeFS, prettyBytes } from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
@@ -24,6 +24,7 @@ export const constants = {
   appResourcesDir: ".resources",
   metaManifestName: ".installer-meta.json",
   ghReleaseInfoName: ".release-info.json",
+  versionPrefsName: ".versions.json",
 };
 
 export function getGroups() {
@@ -255,5 +256,32 @@ export type ChezmoiData = {
 };
 
 export async function getChezmoiData() {
-  return await $`chezmoi data`.json() as ChezmoiData;
+  return await $`chezmoi data`.printCommand(false).json() as ChezmoiData;
+}
+
+export async function mostRelevantVersion(resourcesDir: string) {
+  let version;
+  let versionKeyUsed;
+
+  const chezmoiData = await getChezmoiData();
+  const dotVersionInfo = JSON.parse(
+    await Deno.readTextFile($.path.join(resourcesDir, constants.versionPrefsName)),
+  ) as Record<string, string>;
+
+  const isMine = chezmoiData.is_personal_machine ? "personal" : "work";
+
+  version ??= dotVersionInfo?.[`${isMine}-${env.OS}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${isMine}-${env.OS}`;
+
+  version ??= dotVersionInfo?.[`${env.OS}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${env.OS}`;
+
+  version ??= dotVersionInfo?.[`${isMine}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${isMine}`;
+
+  invariant(typeof version !== "undefined", "no version target available");
+
+  $.log("  debug:", `target version ${version} from version key ${versionKeyUsed}`);
+
+  return version;
 }
