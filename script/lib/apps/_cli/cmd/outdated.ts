@@ -15,8 +15,10 @@ export const outdated = new command.Command()
     { collect: true },
   )
   .action(async ({ all, app = [], group = [] }, ...args) => {
+    const defaultListAll = (!app.length && !group.length);
+
     const inScope = await calculateAppsInScope({
-      all: Boolean(all),
+      all: all || defaultListAll,
       installed: false,
       uninstalled: false,
       apps: app,
