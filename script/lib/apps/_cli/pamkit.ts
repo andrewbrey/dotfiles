@@ -51,10 +51,10 @@ export function getGroups() {
 
 export async function getAppNames() {
   const appsDir = $dotdot(import.meta.url);
-  const appNames: string[] = [];
+  const appNames: Set<string> = new Set();
 
   for await (const entry of Deno.readDir(appsDir)) {
-    if (entry.isDirectory && !entry.name.startsWith("_")) appNames.push(entry.name);
+    if (entry.isDirectory && !entry.name.startsWith("_")) appNames.add(entry.name);
   }
 
   return appNames;
@@ -62,15 +62,14 @@ export async function getAppNames() {
 
 export async function getInstallerMetas(inScope?: Set<string>) {
   const appsDir = $dotdot(import.meta.url);
-  let appNames = await getAppNames();
-
-  if (inScope) {
-    appNames = appNames.filter((n) => inScope.has(n));
-  }
+  const allAppNames = await getAppNames();
+  const inScopeApps = inScope
+    ? Array.from(inScope).filter((n) => allAppNames.has(n))
+    : Array.from(allAppNames);
 
   const installerMetas: InstallerMeta[] = [];
 
-  for (const name of appNames) {
+  for (const name of inScopeApps) {
     const pamPath = $.path.join(appsDir, name);
     const meta: InstallerMeta = { name, path: pamPath, type: "uninstalled" };
     const metaManifestPath = $.path.join(
@@ -143,7 +142,7 @@ export async function calculateAppsInScope(
   // =====
   const unknownAppNames = new Set<string>();
   for (const name of opts.apps) {
-    if (allNames.includes(name)) {
+    if (allNames.has(name)) {
       inScope.add(name);
     } else {
       unknownAppNames.add(name);
@@ -159,7 +158,7 @@ export async function calculateAppsInScope(
 
     if (foundGroup) {
       foundGroup.forEach((n) => {
-        if (allNames.includes(n)) {
+        if (allNames.has(n)) {
           inScope.add(n);
         } else {
           // =====
