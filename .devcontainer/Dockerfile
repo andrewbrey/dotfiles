@@ -8,4 +8,4 @@ RUN su vscode -c 'sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes'
 RUN su vscode -c 'curl -fsSL https://webi.sh/shfmt | sh'
 
 ENV EDITOR="code -w" VISUAL="code -w" PERSONAL_MACHINE=true DOTFILES_PASSPHRASE=${BUILD_PASSPHRASE}
-ENV PAM_CLI_OVERRIDE="/workspaces/dotfiles/script/lib/apps/_cli/cli.ts"
+ENV PAM_CLI_BASE_OVERRIDE="/workspaces/dotfiles"

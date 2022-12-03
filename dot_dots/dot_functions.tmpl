@@ -7,8 +7,8 @@ function mkcd() {
 
 # Run the pam (personal application manager) cli
 function pam() {
-	if [[ -n "${PAM_CLI_OVERRIDE}" ]]; then
-		"${PAM_CLI_OVERRIDE}" $@
+	if [[ -n "${PAM_CLI_BASE_OVERRIDE}" ]]; then
+		"${PAM_CLI_BASE_OVERRIDE}/script/lib/apps/_cli/cli.ts" $@
 	else
 		"$(chezmoi source-path)/script/lib/apps/_cli/cli.ts" $@
 	fi
