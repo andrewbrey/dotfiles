@@ -267,7 +267,15 @@ export type ChezmoiData = {
   is_popos: boolean;
   is_remote_container: boolean;
   is_ubuntu: boolean;
-  standard_dirs: { code: string; npm_install: string; pnpm_install: string };
+  standard_dirs: {
+    code: string;
+    npm_install: string;
+    pnpm_install: string;
+    dot_dots: string;
+    dot_dots_apps: string;
+    local_bin: string;
+    local_share_apps: string;
+  };
 };
 
 export async function getChezmoiData() {
