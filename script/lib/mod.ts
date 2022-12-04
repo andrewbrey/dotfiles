@@ -8,11 +8,13 @@ export {
   dateFns,
   dedent,
   got,
+  handlebars,
   prettyBytes,
   semver,
   stdColors as colors,
   stdFlags as flags,
   stdNodeFS as nodeFS,
+  strCase,
 } from "./deps.ts";
 export * from "./env.ts";
 export * from "./fmt.ts";

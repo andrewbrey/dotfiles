@@ -1,0 +1,76 @@
+#!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
+
+import { $, $dirname, dedent, env, invariant, osInvariant } from "../../mod.ts";
+import {
+	constants,
+	getInstallerMetas,
+	ghReleaseLatestInfo,
+	streamDownload
+} from "../_cli/pamkit.ts";
+
+osInvariant();
+
+const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+await $.fs.ensureDir(dotAppPath);
+
+const [meta] = await getInstallerMetas(new Set(["somecli"]));
+
+// =====
+// only update if installed, e.g.
+// =====
+const installed = typeof (await $.which("somecli")) !== "undefined";
+if (installed) {
+  if (env.OS === "darwin") {
+    // =====
+    // update mac (probably managed), e.g.
+    // =====
+    // $.logGroup(() => {
+    //   $.logWarn(
+    //     "warn:",
+    //     dedent(`
+    // 			installation is managed; skipping manual update
+
+    // 		`),
+    //   );
+    // });
+  } else {
+    // =====
+    // update linux, e.g.
+    // =====
+    // const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    // const debInstallerPath = $.path.join(dotAppPath, "somecli.deb");
+
+    // const releaseInfo = await ghReleaseLatestInfo("someorg", "somecli");
+    // await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
+
+    // const { assets, tag_name } = releaseInfo;
+    // const latestVersion = tag_name.split("v")[1] ?? "0.0.0";
+    // const targetName = `somecli_${latestVersion}_amd64.deb`;
+    // const targetAsset = assets.find((a) => a.name === targetName);
+
+    // invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
+
+    // await streamDownload(targetAsset.browser_download_url, debInstallerPath);
+
+    // await $`sudo apt install -y ${debInstallerPath}`;
+
+    // =====
+    // update last check time, e.g.
+    // =====
+    meta.lastCheck = Date.now();
+  }
+}
+
+// =====
+// check version, e.g.
+// =====
+const versionOutput = await $`somecli --version`.text(); // somecli 0.22.1 (e5d9579)
+const version = versionOutput.split(" ")[1];
+
+// =====
+// update and save meta, e.g.
+// =====
+meta.version = version;
+
+const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
