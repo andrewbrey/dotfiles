@@ -351,3 +351,50 @@ export async function wrapOutdatedCheck(
 
   return outdatedCheck;
 }
+
+export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
+  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
+
+  if (env.OS === "darwin") {
+    await $`ln -sf ${realBinaryPath} ${linkPath}`;
+  } else {
+    await $`ln -sf ${realBinaryPath} ${linkPath}`;
+  }
+
+  return linkPath;
+}
+
+export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
+  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
+
+  if (env.OS === "darwin") {
+    await $`rm -f ${linkPath}`;
+  } else {
+    await $`rm -f ${linkPath}`;
+  }
+
+  return linkPath;
+}
+
+export async function linkDesktopFileForApp(app: string) {
+  const desktopFile = $.path.join(env.HOME, ".dots", "apps", app, ".desktop");
+  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
+
+  invariant(await $.exists(desktopFile), `missing required .desktop file at ${desktopFile}`);
+
+  if (env.OS === "darwin") {
+    await $`ln -sf ${desktopFile} ${linkPath}`;
+  } else {
+    await $`ln -sf ${desktopFile} ${linkPath}`;
+  }
+}
+
+export async function unlinkDesktopFileForApp(app: string) {
+  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
+
+  if (env.OS === "darwin") {
+    await $`rm -f ${linkPath}`;
+  } else {
+    await $`rm -f ${linkPath}`;
+  }
+}
