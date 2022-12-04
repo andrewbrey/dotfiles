@@ -1,4 +1,5 @@
 import { $, $dotdot, colors, command, handlebars, prompts, strCase } from "../../../mod.ts";
+import { constants } from "../pamkit.ts";
 
 export const scaffold = new command.Command()
   .description("Scaffold a new app from templates.")
@@ -36,7 +37,7 @@ export const scaffold = new command.Command()
           return writtenFilePath;
         })
         .then((writtenFilePath) => {
-          Deno.chmod(writtenFilePath, 0o755);
+          Deno.chmod(writtenFilePath, constants.executableMask);
         });
     }));
 

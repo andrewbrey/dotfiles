@@ -36,6 +36,7 @@ export const constants = {
   metaManifestName: ".installer-meta.json",
   ghReleaseInfoName: ".release-info.json",
   versionPrefsName: ".versions.json",
+  executableMask: 0o755,
 };
 
 export function getGroups() {
