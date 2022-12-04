@@ -44,8 +44,11 @@ export function getGroups() {
 
   // NOTE: if installation order matters, make sure to list
   // prerequisites earlier in the app name array
-  groups.set("devcontainer", new Set<string>(["node", "npm-globals", "bat", "gh"]));
-  groups.set("codespaces", new Set<string>(["bat"]));
+  groups.set(
+    "devcontainer",
+    new Set<string>(["core-tools", "node", "npm-globals", "bat", "gh"]),
+  );
+  groups.set("codespaces", new Set<string>(["core-tools", "bat"]));
 
   return groups;
 }
