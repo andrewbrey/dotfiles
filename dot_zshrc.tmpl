@@ -21,7 +21,7 @@ if ! zgenom saved; then
 
 	# other plugins
 	zgenom loadall <<EOPLUGINS
-    ${HOME}/.dots/completions
+    {{ .standard_dirs.dot_dots | quote  }}/completions
 EOPLUGINS
 
 	# generate the init script from plugins above
@@ -32,7 +32,7 @@ fi
 DISABLE_UPDATE_PROMPT=true
 
 # load shell dotfiles
-for file in "${HOME}"/.dots/.{secrets,exports,functions,aliases,extra}; do
+for file in {{ .standard_dirs.dot_dots | quote  }}/.{secrets,exports,functions,aliases,extra}; do
 	[[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
 done
 unset file

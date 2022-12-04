@@ -388,7 +388,7 @@ export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
 }
 
 export async function linkDesktopFileForApp(app: string) {
-  const desktopFile = $.path.join(env.HOME, ".dots", "apps", app, ".desktop");
+  const desktopFile = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
   const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
   invariant(await $.exists(desktopFile), `missing required .desktop file at ${desktopFile}`);

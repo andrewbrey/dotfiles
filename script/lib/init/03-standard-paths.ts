@@ -22,9 +22,9 @@ for (const [name, path] of Object.entries(env.STANDARD_DIRS)) {
 $.logStep("step: place standard files");
 
 await $.fs.ensureFile(`${env.HOME}/.hushlogin`);
-await $.fs.ensureDir(`${env.HOME}/.dots`);
+await $.fs.ensureDir(env.STANDARD_DIRS.DOT_DOTS);
 
-const dotExtra = `${env.HOME}/.dots/.extra`;
+const dotExtra = `${env.STANDARD_DIRS.DOT_DOTS}/.extra`;
 if (!(await $.exists(dotExtra))) {
   await Deno.writeTextFile(
     dotExtra,
