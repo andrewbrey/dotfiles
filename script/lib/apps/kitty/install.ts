@@ -1,7 +1,13 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land,sw.kovidgoyal.net --allow-read --allow-write --allow-run
 
 import { $, $dirname, colors, dedent, env, invariant, osInvariant } from "../../mod.ts";
-import { constants, InstallerMeta, linkBinaryToUserPath, streamDownload } from "../_cli/pamkit.ts";
+import {
+  constants,
+  InstallerMeta,
+  linkBinaryToUserPath,
+  linkDesktopFileForApp,
+  streamDownload,
+} from "../_cli/pamkit.ts";
 
 osInvariant();
 invariant(
@@ -25,6 +31,7 @@ if (notInstalled) {
     await Deno.chmod(installScriptPath, constants.executableMask);
 
     await $`${installScriptPath} dest=${dotAppPath} launch="n"`;
+    await linkDesktopFileForApp("kitty");
     const linkedPath = await linkBinaryToUserPath(kittyBin, "kitty");
 
     const xTerminalEmulator = await $.which("x-terminal-emulator");
