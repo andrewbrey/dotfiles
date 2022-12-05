@@ -1,6 +1,6 @@
 # dotfiles
 
-- Generate a new `ssh` key
+- Generate a new `ssh` key and give it a passphrase
 
   ```sh
   ssh-keygen -t ed25519 -C "34140052+andrewbrey@users.noreply.github.com"
