@@ -13,12 +13,11 @@ if (isInstalled) {
     await $`brew uninstall --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     await unlinkDesktopFileForApp("kitty");
-    await unlinkBinaryFromUserPath("kitty");
-    const kittyLauncher = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, "kitty", ".launcher");
+    const linkPath = await unlinkBinaryFromUserPath("kitty");
 
     const xTerminalEmulator = await $.which("x-terminal-emulator");
     if (typeof xTerminalEmulator !== "undefined") {
-      await $`sudo update-alternatives --remove ${xTerminalEmulator} x-terminal-emulator ${kittyLauncher}`;
+      await $`sudo update-alternatives --remove ${xTerminalEmulator} x-terminal-emulator ${linkPath}`;
     }
 
     await $`sudo rm -f /root/.terminfo/x/xterm-kitty`;

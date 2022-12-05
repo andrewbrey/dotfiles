@@ -26,18 +26,17 @@ if (notInstalled) {
     const installScriptPath = $.path.join(dotAppPath, "kitty.sh");
     const kittyInstall = $.path.join(dotAppPath, "kitty.app");
     const kittyBin = $.path.join(kittyInstall, "bin", "kitty");
-    const kittyLauncher = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, "kitty", ".launcher");
 
     await streamDownload("https://sw.kovidgoyal.net/kitty/installer.sh", installScriptPath);
     await Deno.chmod(installScriptPath, constants.executableMask);
 
     await $`${installScriptPath} dest=${dotAppPath} launch="n"`;
     await linkDesktopFileForApp("kitty");
-    await linkBinaryToUserPath(kittyBin, "kitty");
+    const linkPath = await linkBinaryToUserPath(kittyBin, "kitty");
 
     const xTerminalEmulator = await $.which("x-terminal-emulator");
     if (typeof xTerminalEmulator !== "undefined") {
-      await $`sudo update-alternatives --install ${xTerminalEmulator} x-terminal-emulator ${kittyLauncher} 50`;
+      await $`sudo update-alternatives --install ${xTerminalEmulator} x-terminal-emulator ${linkPath} 50`;
     }
 
     // TODO(mac): does this need to happen for mac too?
