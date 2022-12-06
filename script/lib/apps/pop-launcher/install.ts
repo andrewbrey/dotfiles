@@ -8,7 +8,7 @@ osInvariant();
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const installRootPath = $.path.join("usr", "lib", "pop-launcher", "scripts");
+const installRootPath = $.path.join("/", "usr", "lib", "pop-launcher", "scripts");
 const dirLinkInstallPath = $.path.join(installRootPath, env.USER);
 
 const installed = await $.exists(dirLinkInstallPath);
