@@ -1,0 +1,13 @@
+#!/usr/bin/zsh
+#
+# name: Dotfiles
+# icon: applications-system
+# description: Open dotfiles in VS Code
+# keywords: zshc dotfiles
+
+# Notes:
+# - shebang can't use /usr/bin/env, it must directly reference the shell binary
+# - file permissions mask is very particular, just copy this file to make new launcher scripts
+# - @see https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
+# - @see https://www.arm64.ca/post/creating-launch-plugins-for-pop-os-updated/
+code {{ .chezmoi.sourceDir | quote }} &
