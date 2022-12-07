@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
-import { constants, getChezmoiData } from "../_cli/pamkit.ts";
+import { $, $dirname, env, getChezmoiData, osInvariant } from "../../mod.ts";
+import { constants } from "../_cli/pamkit.ts";
 
 osInvariant();
 

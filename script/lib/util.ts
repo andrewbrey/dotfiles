@@ -1,5 +1,5 @@
 import { stdNodeUtil, stdPath } from "./deps.ts";
-import { $, env } from "./env.ts";
+import { env } from "./env.ts";
 
 export function invariant(condition: any, message?: string): asserts condition {
   if (condition) return;

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, invariant, osInvariant } from "../../mod.ts";
-import { constants, getChezmoiData, InstallerMeta } from "../_cli/pamkit.ts";
+import { $, $dirname, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 osInvariant();
 invariant(typeof (await $.which("node")) !== "undefined", "node is required");
