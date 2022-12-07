@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { colors, command } from "../../mod.ts";
+import { apply } from "./cmd/apply.ts";
 
 const samoji = `${colors.yellow("(¬‿¬)_且")}`;
 const sam = `${colors.yellow("Sam")}`;
@@ -12,4 +13,5 @@ await new command.Command()
   .action(function defaultAction() {
     this.showHelp();
   })
+  .command("apply", apply)
   .parse(Deno.args);
