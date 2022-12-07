@@ -26,6 +26,7 @@ export const env = {
       PNPM_INSTALL: $.path.join(env.HOME, ".pnpm-globals"),
       DOT_DOTS: $.path.join(env.HOME, ".dots"),
       DOT_DOTS_APPS: $.path.join(env.HOME, ".dots", "apps"),
+      DOT_DOTS_SETTINGS: $.path.join(env.HOME, ".dots", "settings"),
       LOCAL_BIN: $.path.join(env.HOME, ".local", "bin"),
       LOCAL_SHARE_APPS: $.path.join(env.HOME, ".local", "share", "applications"),
     };
