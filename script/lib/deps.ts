@@ -11,7 +11,7 @@ export * as cliffyKey from "https://deno.land/x/cliffy@v0.25.5/keycode/mod.ts";
 export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.5/keypress/mod.ts";
 export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.5/prompt/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.5/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.16.0/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.17.0/mod.ts";
 export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
 export { got } from "npm:got@12.5.3";
