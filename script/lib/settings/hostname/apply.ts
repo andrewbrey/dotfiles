@@ -34,6 +34,7 @@ if (env.OS === "darwin") {
       $.logStep(
         "step:",
         dedent(`
+
 					current hostname: ${colors.yellow(currentHostname)}
 					desired hostname: ${colors.blue(desiredHostname)}
 
