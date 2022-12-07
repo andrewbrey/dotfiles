@@ -14,6 +14,15 @@ function pam() {
 	fi
 }
 
+# Run the sam (settings application manager) cli
+function sam() {
+	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
+		"${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/settings/_cli/cli.ts" $@
+	else
+		"$(chezmoi source-path)/script/lib/settings/_cli/cli.ts" $@
+	fi
+}
+
 function encrypt_file() {
 	if [[ -z "${1}" ]]; then
 		echo "A single file name to encrypt is required"
