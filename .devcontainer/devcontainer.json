@@ -6,6 +6,7 @@
   "customizations": {
     "vscode": {
       "extensions": [
+				"connor4312.codesong",
         "denoland.vscode-deno",
         "foxundermoon.shell-format",
         "Gruntfuggly.todo-tree",
@@ -27,7 +28,8 @@
           "editor.defaultFormatter": "denoland.vscode-deno"
         },
         "shellformat.useEditorConfig": true,
-        "shellformat.path": "/home/vscode/.local/bin/shfmt"
+        "shellformat.path": "/home/vscode/.local/bin/shfmt",
+				"workbench.colorTheme": "Codesong"
       }
     }
   }

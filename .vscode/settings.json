@@ -1,6 +1,5 @@
 {
   "deno.enable": true,
   "deno.unstable": true,
-  "deno.config": ".vscode/deno.jsonc",
-  "workbench.colorTheme": "Default Dark+"
+  "deno.config": ".vscode/deno.jsonc"
 }
