@@ -43,7 +43,7 @@ if (env.OS === "darwin") {
       );
     });
 
-    await $`sudo hostnamectl set-hostname ${desiredHostname}`;
-    await $`sudo sed -i "s/${currentHostname}/${desiredHostname}/g" /etc/hosts`;
+    await $.raw`sudo hostnamectl set-hostname "${desiredHostname}"`;
+    await $.raw`sudo sed -i "s/${currentHostname}/${desiredHostname}/g" /etc/hosts`;
   }
 }
