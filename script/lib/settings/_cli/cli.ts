@@ -2,7 +2,7 @@
 
 import { colors, command } from "../../mod.ts";
 
-const samoji = `${colors.yellow("(¬‿¬)")}`;
+const samoji = `${colors.yellow("(¬‿¬)_且")}`;
 const sam = `${colors.yellow("Sam")}`;
 
 await new command.Command()
