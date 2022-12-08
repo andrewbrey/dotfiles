@@ -23,9 +23,9 @@ if (env.OS === "darwin") {
     //      https://superuser.com/questions/79822/how-to-swap-the-fn-use-of-function-keys-on-an-apple-keyboard-in-linux
 
     const fnKeyBehaviorCurrentSession = "/sys/module/hid_apple/parameters/fnmode";
-    await $.raw`sudo mkdir -p ${$.path.dirname(fnKeyBehaviorCurrentSession)}`;
-    await $.raw`sudo touch ${fnKeyBehaviorCurrentSession}`;
-    await $.raw`sudo tee ${fnKeyBehaviorCurrentSession}`.stdin("0");
+    if (await $.exists(fnKeyBehaviorCurrentSession)) {
+      await $.raw`sudo tee ${fnKeyBehaviorCurrentSession}`.stdin("0");
+    }
 
     const fnKeyBehaviorPersist = "/etc/modprobe.d/hid_apple.conf";
     await $.raw`sudo mkdir -p ${$.path.dirname(fnKeyBehaviorPersist)}`;
