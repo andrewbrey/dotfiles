@@ -13,8 +13,7 @@
         "meganrogge.template-string-converter",
         "EditorConfig.EditorConfig",
         "redhat.vscode-yaml",
-        "tamasfe.even-better-toml",
-        "tonybaloney.vscode-pets"
+        "tamasfe.even-better-toml"
       ],
       "settings": {
         "[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
@@ -30,7 +29,17 @@
         },
         "shellformat.useEditorConfig": true,
         "shellformat.path": "/home/vscode/.local/bin/shfmt",
-        "workbench.colorTheme": "Codesong"
+        "workbench.colorTheme": "Codesong",
+        "editor.tokenColorCustomizations": {
+          "[Codesong]": {
+            "textMateRules": [
+              {
+                "scope": "meta.template.expression.ts",
+                "settings": { "foreground": "#EBD1B7" }
+              }
+            ]
+          }
+        }
       }
     }
   }
