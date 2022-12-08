@@ -15,10 +15,10 @@ const installed = await $.exists(dirLinkInstallPath);
 if (!installed) {
   const chezmoiData = await getChezmoiData();
 
-  const dirLinkSrcPath = $.path.join(chezmoiData.standard_dirs.dot_dots_apps, "pop-launcher");
-
   // @see https://www.arm64.ca/post/creating-launch-plugins-for-pop-os-updated/
   if (chezmoiData.is_popos) {
+    const dirLinkSrcPath = $.path.join(chezmoiData.standard_dirs.dot_dots_apps, "pop-launcher");
+
     await $`sudo mkdir -p ${installRootPath}`;
     await $`sudo ln -sf ${dirLinkSrcPath}/ ${dirLinkInstallPath}`;
   }

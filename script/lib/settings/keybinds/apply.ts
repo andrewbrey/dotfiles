@@ -21,7 +21,7 @@ if (env.OS === "darwin") {
     invariant(typeof (await $.which("dconf")) !== "undefined", "dconf is required");
     invariant(
       typeof (await $.which("wmctrl")) !== "undefined",
-      `wmctrl is required, install it with ${colors.magenta("pam install -a wmctrl")}`,
+      `wmctrl is required, install it with ${colors.magenta("pam install -a peer-tools")}`,
     );
 
     const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
