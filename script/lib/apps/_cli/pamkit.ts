@@ -50,6 +50,23 @@ export function getGroups() {
     new Set<string>(["core-tools", "node", "npm-globals", "bat", "gh"]),
   );
   groups.set("codespaces", new Set<string>(["core-tools", "bat"]));
+  groups.set(
+    "popos",
+    new Set<string>([
+      "core-tools",
+      "system-libs",
+      "peer-tools",
+      "pop-launcher",
+      "snapd",
+      "flatpak",
+      "kitty",
+      "nerd-fonts",
+      "node",
+      "npm-globals",
+      "gh",
+      "bat",
+    ]),
+  );
 
   return groups;
 }
