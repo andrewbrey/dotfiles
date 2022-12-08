@@ -10,7 +10,7 @@ const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifacts
 $.logGroup(() => {
   $.logWarn(
     "warn:",
-    "core-tools do not need to actually be removed, skipping uninstall.",
+    "system-libs do not need to actually be removed, skipping uninstall.",
   );
 });
 
