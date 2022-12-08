@@ -20,8 +20,10 @@ export function osInvariant() {
   );
 }
 
-export function $dirname(importMetaUrl: string) {
-  return stdPath.dirname(stdPath.fromFileUrl(importMetaUrl));
+export function $dirname(importMetaUrl: string, basenameOnly = false) {
+  const fullDir = stdPath.dirname(stdPath.fromFileUrl(importMetaUrl));
+
+  return basenameOnly ? stdPath.basename(fullDir) : fullDir;
 }
 
 export function $dotdot(importMetaUrl: string, count = 1) {

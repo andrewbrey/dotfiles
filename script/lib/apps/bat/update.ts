@@ -13,7 +13,7 @@ osInvariant();
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set(["bat"]));
+const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 const installed = typeof (await $.which("bat")) !== "undefined";
 if (installed) {
   if (env.OS === "darwin") {

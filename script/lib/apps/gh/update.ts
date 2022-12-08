@@ -13,7 +13,7 @@ osInvariant();
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set(["gh"]));
+const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 const installed = typeof (await $.which("gh")) !== "undefined";
 if (installed) {
   if (env.OS === "darwin") {
