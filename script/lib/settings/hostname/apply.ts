@@ -11,13 +11,15 @@ if (env.OS === "darwin") {
     $.logWarn(
       "warn:",
       dedent(`
-				skipping media key settings for mac
+				skipping hostname settings for mac
 
 			`),
     );
   });
 } else {
   if (!env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
+    invariant(typeof (await $.which("hostnamectl")) !== "undefined", "hostnamectl is required");
+
     const desiredHostname = chezmoiData.is_popos
       ? "poppy"
       : chezmoiData.is_ubuntu
