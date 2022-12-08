@@ -1,5 +1,5 @@
 import { $, colors, command, dateFns, table } from "../../../mod.ts";
-import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
+import { calculateAppsInScope, getGroups, getInstallerMetas } from "../pamkit.ts";
 
 export const list = new command.Command()
   .description("List metadata about available apps.")
@@ -47,4 +47,14 @@ export const list = new command.Command()
 
     $.log("");
     $.log(t.toString());
+
+    if (defaultListAll) {
+      $.log("");
+      $.log(colors.blue("Groups"));
+
+      for (const [name, group] of getGroups()) {
+        $.log(colors.bold(name));
+        $.logLight(`  ${Array.from(group).join(", ")}`);
+      }
+    }
   });
