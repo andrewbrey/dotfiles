@@ -34,7 +34,7 @@ if (installed) {
   }
 }
 
-const versionOutput = await $`somecli --version`.text(); // kitty 0.26.5 created by Kovid Goyal
+const versionOutput = await $`kitty --version`.text(); // kitty 0.26.5 created by Kovid Goyal
 const version = versionOutput.split(" ")[1];
 
 meta.version = version;

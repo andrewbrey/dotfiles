@@ -27,7 +27,7 @@ if (!installed) {
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),
   path: $dirname(import.meta.url),
-  type: env.OS === "darwin" ? "uninstalled" : "installed-managed",
+  type: "installed-managed",
   version: "",
   lastCheck: Date.now(),
 };
