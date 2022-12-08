@@ -6,14 +6,15 @@
   "customizations": {
     "vscode": {
       "extensions": [
-				"connor4312.codesong",
+        "connor4312.codesong",
         "denoland.vscode-deno",
         "foxundermoon.shell-format",
         "Gruntfuggly.todo-tree",
         "meganrogge.template-string-converter",
         "EditorConfig.EditorConfig",
         "redhat.vscode-yaml",
-        "tamasfe.even-better-toml"
+        "tamasfe.even-better-toml",
+        "tonybaloney.vscode-pets"
       ],
       "settings": {
         "[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
@@ -29,7 +30,7 @@
         },
         "shellformat.useEditorConfig": true,
         "shellformat.path": "/home/vscode/.local/bin/shfmt",
-				"workbench.colorTheme": "Codesong"
+        "workbench.colorTheme": "Codesong"
       }
     }
   }
