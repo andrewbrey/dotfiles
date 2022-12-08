@@ -65,6 +65,7 @@ export function getGroups() {
       "npm-globals",
       "gh",
       "bat",
+      "vscode",
     ]),
   );
 
