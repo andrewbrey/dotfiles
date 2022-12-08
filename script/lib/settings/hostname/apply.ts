@@ -40,13 +40,15 @@ if (env.OS === "darwin") {
 					current hostname: ${colors.yellow(currentHostname)}
 					desired hostname: ${colors.blue(desiredHostname)}
 
-					applying required update with hostnamectl
-
 				`),
       );
     });
 
-    await $.raw`sudo hostnamectl set-hostname "${desiredHostname}"`;
-    await $.raw`sudo sed -i "s/${currentHostname}/${desiredHostname}/g" /etc/hosts`;
+    if (currentHostname !== desiredHostname) {
+      $.logLight(" debug: ", "applying required update with hostnamectl");
+
+      await $.raw`sudo hostnamectl set-hostname "${desiredHostname}"`;
+      await $.raw`sudo sed -i "s/${currentHostname}/${desiredHostname}/g" /etc/hosts`;
+    }
   }
 }
