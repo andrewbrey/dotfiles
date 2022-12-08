@@ -28,6 +28,26 @@
   rm -rf ~/dotfiles
   ```
 
+- Log out and back in to ensure changes to the login shell are enabled
+
+- Use the `pam` cli to install applications, e.g. a few apps at once
+
+  ```sh
+  pam install -a core-tools -a kitty -a fonts
+  ```
+
+  or a whole named group at once
+
+  ```sh
+  pam install -g devcontainer
+  ```
+
+- Use the `sam` cli to apply settings
+
+  ```sh
+  sam apply
+  ```
+
 ## init script requirements
 
 `init/` scripts should be executable and have a shebang similar to:
