@@ -20,7 +20,7 @@ if (notInstalled) {
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
-    const latestVersion = tag_name.split("v")[1] ?? "0.0.0";
+    const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
     const targetName = `gh_${latestVersion}_linux_amd64.deb`;
     const targetAsset = assets.find((a) => a.name === targetName);
 
@@ -33,7 +33,7 @@ if (notInstalled) {
 }
 
 const versionOutput = await $`gh --version`.text(); // gh version 2.20.2-17-g2d61515a (2022-11-17)
-const version = versionOutput.split(" ")[2].split("-")[0];
+const version = versionOutput.split(" ")?.at(2)?.split("-")?.at(0) ?? "";
 
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),

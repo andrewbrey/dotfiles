@@ -16,7 +16,7 @@ $.logGroup(() => {
 });
 
 const versionOutput = await $`node --version`.text(); // v18.12.1
-const version = versionOutput.split("v")[1];
+const version = versionOutput.split("v")?.at(1) ?? "";
 
 const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 meta.version = version;

@@ -19,7 +19,7 @@ const outdatedCheck = await wrapOutdatedCheck(meta, 3, async () => {
     // =====
     // const releaseInfo = await ghReleaseLatestInfo("someorg", "somecli");
     // const { tag_name } = releaseInfo;
-    // const latest = tag_name.split("v")[1];
+    // const latest = tag_name.split("v")?.at(1) ?? "";
 
     // return latest;
   }

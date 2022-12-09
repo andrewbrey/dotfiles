@@ -18,7 +18,7 @@ if (notInstalled) {
 }
 
 const versionOutput = await $`neofetch --version`.noThrow().text(); // Neofetch 7.1.0
-const version = versionOutput.split(" ")[1];
+const version = versionOutput.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),

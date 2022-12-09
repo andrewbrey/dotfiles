@@ -29,7 +29,7 @@ if (notInstalled) {
     // await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     // const { assets, tag_name } = releaseInfo;
-    // const latestVersion = tag_name.split("v")[1] ?? "0.0.0";
+    // const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
     // const targetName = `somecli_${latestVersion}_amd64.deb`;
     // const targetAsset = assets.find((a) => a.name === targetName);
 
@@ -45,7 +45,7 @@ if (notInstalled) {
 // check version, e.g.
 // =====
 const versionOutput = await $`somecli --version`.text(); // v0.22.1
-const version = versionOutput.split("v")[1];
+const version = versionOutput.split("v")?.at(1) ?? "";
 
 // =====
 // save initial installer meta, e.g.

@@ -34,7 +34,7 @@ if (installed) {
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
-    const latestVersion = tag_name.split("v")[1] ?? "0.0.0";
+    const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
     const targetName = `bat_${latestVersion}_amd64.deb`;
     const targetAsset = assets.find((a) => a.name === targetName);
 
@@ -49,7 +49,7 @@ if (installed) {
 }
 
 const versionOutput = await $`bat --version`.text(); // bat 0.22.1 (e5d9579)
-const version = versionOutput.split(" ")[1];
+const version = versionOutput.split(" ")?.at(1);
 
 meta.version = version;
 

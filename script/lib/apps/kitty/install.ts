@@ -56,7 +56,7 @@ if (notInstalled) {
 }
 
 const versionOutput = await $`kitty --version`.text(); // kitty 0.26.5 created by Kovid Goyal
-const version = versionOutput.split(" ")[1];
+const version = versionOutput.split(" ")?.at(1);
 
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),

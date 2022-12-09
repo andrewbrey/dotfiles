@@ -16,7 +16,7 @@ $.logGroup(() => {
 });
 
 const versionOutput = await $`neofetch --version`.noThrow().text(); // Neofetch 7.10.0
-const version = versionOutput.split("v")[1];
+const version = versionOutput.split("v")?.at(1) ?? "";
 
 const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 meta.version = version;
