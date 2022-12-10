@@ -58,6 +58,7 @@ if (meta.type !== "uninstalled") {
       await $`unzip -o ${archivePath} -d ${fontsDirPath}`;
     }
 
+    await $`fc-cache -vr`;
     await $`sudo fc-cache -vr`;
 
     meta.lastCheck = Date.now();
