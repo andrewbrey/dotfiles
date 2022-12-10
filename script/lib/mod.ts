@@ -15,6 +15,7 @@ export {
   stdFlags as flags,
   stdNodeFS as nodeFS,
   strCase,
+  stripAnsi,
 } from "./deps.ts";
 export * from "./env.ts";
 export * from "./fmt.ts";

@@ -19,6 +19,7 @@ export { default as handlebars } from "npm:handlebars@4.7.7";
 export { default as prettyBytes } from "npm:pretty-bytes@6.0.0";
 // @deno-types="npm:@types/semver@7.3.13"
 export { default as semver } from "npm:semver@7.3.8";
+export { default as stripAnsi } from "npm:strip-ansi@7.0.1";
 // workarounds for cjs/esm type goofuhmup. @see https://youtu.be/eRs_MGdCXGU?t=1995
 import dedentImport from "npm:string-dedent@3.0.1";
 export const dedent = (dedentImport as any as typeof dedentImport["default"]);
