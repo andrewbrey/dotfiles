@@ -60,7 +60,7 @@ export function getGroups() {
       "snapd",
       "flatpak",
       "kitty",
-      "nerd-fonts",
+      "fonts",
       "node",
       "npm-globals",
       "gh",
