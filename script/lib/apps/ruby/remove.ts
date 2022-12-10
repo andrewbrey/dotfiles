@@ -7,12 +7,12 @@ osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("mvn")) !== "undefined";
+const isInstalled = typeof (await $.which("ruby")) !== "undefined";
 if (isInstalled) {
   if (env.OS === "darwin") {
-    await $`brew uninstall maven`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+    await $`brew uninstall ruby`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await $`sudo apt purge -y maven`;
+    await $`sudo apt purge -y ruby-full`;
   }
 }
 
