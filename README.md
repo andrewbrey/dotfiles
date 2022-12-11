@@ -76,3 +76,12 @@
   Could do something like `decrypt in source -> pipe to tmp -> make edits -> encrypt back to source`
   but that is probably not worth it when you can just make edits in an environmtn where it's not
   ignored (i.e. not in a devcontainer)
+- Add:
+  ```
+  https://github.com/sharkdp/fd
+  https://github.com/sharkdp/hyperfine
+  https://github.com/dandavison/delta
+  https://github.com/dalance/procs
+  https://github.com/ajeetdsouza/zoxide
+  https://github.com/mr-karan/doggo
+  ```
