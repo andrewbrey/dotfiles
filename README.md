@@ -84,4 +84,5 @@
   https://github.com/dalance/procs
   https://github.com/ajeetdsouza/zoxide
   https://github.com/mr-karan/doggo
+  https://github.com/zyedidia/eget
   ```
