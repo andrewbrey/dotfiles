@@ -1,2 +1,6 @@
 [whitelist]
+{{ if eq (env "DOTFILES_SRC_PATH_OVERRIDE" | trim) "" -}}
 prefix = [{{ .standard_dirs.code | quote  }}, {{ .chezmoi.sourceDir | quote }}]
+{{- else -}}
+prefix = [{{ .standard_dirs.code | quote  }}, {{ .chezmoi.sourceDir | quote }}, {{(env "DOTFILES_SRC_PATH_OVERRIDE" | trim | quote)}}]
+{{ end }}
