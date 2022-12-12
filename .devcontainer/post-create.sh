@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eo pipefail
 
-if [ -n $REMOTE_CONTAINERS ]; then
+if [ -n "${REMOTE_CONTAINERS}" ]; then
 	this_dir=$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)
 	workspace_root=$(realpath ${this_dir}/..)
 
