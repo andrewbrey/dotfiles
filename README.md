@@ -86,3 +86,7 @@
   https://github.com/mr-karan/doggo
   https://github.com/zyedidia/eget
   ```
+- Document option to use:
+  ```sh
+  sh -c "$(curl -sSLf https://dots.brey.workers.dev)"
+  ```
