@@ -5,7 +5,7 @@
 # =====
 #
 # @see https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell
-export HISTORY_IGNORE="($(printf %s "$(cat {{ .standard_dirs.dot_dots  }}/.histignore)" | tr '\n' '|'))"
+export HISTORY_IGNORE="($(printf %s "$(cat {{ .standard_dirs.dot_dots }}/.histignore)" | tr '\n' '|'))"
 export EDITOR="${EDITOR:-/usr/bin/nano}"
 export VISUAL="${VISUAL:-/usr/bin/nano}"
 
@@ -80,6 +80,11 @@ export NI_CONFIG_FILE="{{ .standard_dirs.dot_dots  }}/.nirc"
 # direnv
 # =====
 export DIRENV_LOG_FORMAT=''
+
+# =====
+# vercel
+# =====
+export VERCEL_CLI_COLLECT_METRICS='0'
 
 # =====
 # path
