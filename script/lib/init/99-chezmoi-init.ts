@@ -24,6 +24,7 @@ for (const [name, path] of Object.entries(env.STANDARD_DIRS)) {
   envs[`SD_${name}`] = `${path}`;
 }
 
+// TODO: also check for the presence of id_ed25519?
 if (env.IN_CLOUD_IDE) {
   await $`chezmoi init --apply --depth 1 ${repo}`.env(envs);
 } else {

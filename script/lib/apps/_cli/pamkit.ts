@@ -36,6 +36,7 @@ export const constants = {
   appResourcesDir: ".res",
   metaManifestName: ".installer-meta.json",
   ghReleaseInfoName: ".release-info.json",
+  htmlReleaseInfoName: ".release-info.html",
   versionPrefsName: ".versions.json",
   executableMask: 0o755,
 };
@@ -285,14 +286,14 @@ export async function mostRelevantVersion(resourcesDir: string) {
   return version;
 }
 
-export function isNewerVersion(current: string = "", latest: string = "") {
+export function isNewerVersion(latest: string = "", current: string = "") {
   const currentSem = semver.coerce(current);
   const latestSem = semver.coerce(latest);
 
   invariant(currentSem !== null, "missing required current version");
   invariant(latestSem !== null, "missing required latest version");
 
-  return semver.gt(latestSem, currentSem);
+  return semver.gt(latestSem, currentSem) as boolean;
 }
 
 export type OutdatedCheck = {
@@ -307,6 +308,7 @@ export async function wrapOutdatedCheck(
   meta: InstallerMeta,
   frequencyDays = 3,
   latestFetcher = async () => (""),
+  isNewer = isNewerVersion,
 ) {
   const outdatedCheck: OutdatedCheck = {
     name: meta.name,
@@ -323,7 +325,7 @@ export async function wrapOutdatedCheck(
     if (lastCheckDistance >= frequencyDays) {
       const latest = await latestFetcher();
       outdatedCheck.latest = latest;
-      outdatedCheck.outdated = isNewerVersion(meta.version, latest);
+      outdatedCheck.outdated = isNewer(latest, meta.version);
 
       meta.lastCheck = Date.now();
 
