@@ -179,6 +179,11 @@ format = "with [$symbol NPM_TOKEN](bold dimmed yellow) "
 symbol = ""
 variable = "NPM_TOKEN"
 
+[env_var.VERCEL_TOKEN]
+format = "with [$symbol VERCEL_TOKEN](bold dimmed yellow) "
+symbol = "▲"
+variable = "VERCEL_TOKEN"
+
 [env_var.ASCIINEMA_REC]
 format = "[$symbol rec](bold dimmed red) "
 symbol = "壘"
