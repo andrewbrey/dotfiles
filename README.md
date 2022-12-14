@@ -76,6 +76,7 @@
   Could do something like `decrypt in source -> pipe to tmp -> make edits -> encrypt back to source`
   but that is probably not worth it when you can just make edits in an environmtn where it's not
   ignored (i.e. not in a devcontainer)
+- Put config files in correct spots for mac as well as linux
 - Add:
   ```
   https://github.com/sharkdp/fd
