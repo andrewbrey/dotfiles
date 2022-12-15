@@ -22,6 +22,11 @@ if [ -n "${REMOTE_CONTAINERS}" ]; then
 	# this devcontainer, and which doesn't happen
 	# in cloud editors
 
+	secrets_file="${HOME}/.dots/.secrets"
+	if [ -f "${secrets_file}" ]; then
+		source "${secrets_file}" && use_gh
+	fi
+
 	#
 	# install devcontainer app group
 	export PATH="${HOME}/.deno/bin:$PATH"
@@ -29,4 +34,5 @@ if [ -n "${REMOTE_CONTAINERS}" ]; then
 
 	unset this_dir
 	unset workspace_root
+	unset secrets_file
 fi

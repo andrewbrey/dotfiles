@@ -7,6 +7,11 @@ function mkcd() {
 
 # Run the pam (personal application manager) cli
 function pam() {
+	local secrets_file="${HOME}/.dots/.secrets"
+	if [ -f "${secrets_file}" ]; then
+		source "${secrets_file}" && use_gh
+	fi
+
 	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
 		"${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/apps/_cli/cli.ts" $@
 	else

@@ -19,6 +19,7 @@ export const env = {
   STDIN_IS_TTY: Deno.isatty(Deno.stdin.rid),
   ALLOW_COLOR: !Deno.noColor,
   EOL: stdNodeOS.EOL,
+  GH_TOKEN: Deno.env.get("GH_TOKEN") ?? Deno.env.get("GITHUB_TOKEN"),
   get STANDARD_DIRS() {
     return {
       CODE: $.path.join(env.HOME, "code"),
