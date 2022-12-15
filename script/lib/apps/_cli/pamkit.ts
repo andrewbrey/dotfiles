@@ -215,8 +215,11 @@ export async function calculateAppsInScope(
 }
 
 export async function ghReleaseLatestInfo(user: string, repo: string) {
-  return await $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`)
-    .json() as GHReleaseInfo;
+  const request = $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
+
+  if (env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
+
+  return await request.json() as GHReleaseInfo;
 }
 
 export async function streamDownload(url: string, dest: string) {
