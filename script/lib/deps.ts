@@ -1,9 +1,9 @@
-export * as stdFlags from "https://deno.land/std@0.167.0/flags/mod.ts";
-export * as stdColors from "https://deno.land/std@0.167.0/fmt/colors.ts";
-export * as stdNodeFS from "https://deno.land/std@0.167.0/node/fs.ts";
-export * as stdNodeOS from "https://deno.land/std@0.167.0/node/os.ts";
-export * as stdNodeUtil from "https://deno.land/std@0.167.0/node/util.ts";
-export * as stdPath from "https://deno.land/std@0.167.0/path/mod.ts";
+export * as stdFlags from "https://deno.land/std@0.168.0/flags/mod.ts";
+export * as stdColors from "https://deno.land/std@0.168.0/fmt/colors.ts";
+export * as stdNodeFS from "https://deno.land/std@0.168.0/node/fs.ts";
+export * as stdNodeOS from "https://deno.land/std@0.168.0/node/os.ts";
+export * as stdNodeUtil from "https://deno.land/std@0.168.0/node/util.ts";
+export * as stdPath from "https://deno.land/std@0.168.0/path/mod.ts";
 export * as cliffyAnsi from "https://deno.land/x/cliffy@v0.25.5/ansi/mod.ts";
 export * as cliffyCmd from "https://deno.land/x/cliffy@v0.25.5/command/mod.ts";
 export * as cliffyFlag from "https://deno.land/x/cliffy@v0.25.5/flags/mod.ts";
