@@ -294,6 +294,7 @@ function ntfy() {
 
 function vercel_wrapper() {
 	[ -z "${1}" ] && echo 'missing required arg $1 (the vercel cli binary path)' && return 1
+	[ "${1}" = "vercel_not_installed" ] && echo 'vercel cli is not installed' && return 1
 	[ -z "${VERCEL_TOKEN}" ] && echo 'missing required env $VERCEL_TOKEN (try use_vercel)' && return 1
 
 	local bin="${1}"
