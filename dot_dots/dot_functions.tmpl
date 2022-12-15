@@ -292,6 +292,11 @@ function ntfy() {
 		"${topic}"
 }
 
-function vercel() {
-	echo testing 123
+function vercel_wrapper() {
+	[ -z "${1}" ] && echo 'missing required arg $1 (the vercel cli binary path)' && return 1
+	[ -z "${VERCEL_TOKEN}" ] && echo 'missing required env $VERCEL_TOKEN (try use_vercel)' && return 1
+
+	local bin="${1}"
+
+	$bin --token="${VERCEL_TOKEN}" ${@:2}
 }
