@@ -22,17 +22,18 @@ if [ -n "${REMOTE_CONTAINERS}" ]; then
 	# this devcontainer, and which doesn't happen
 	# in cloud editors
 
+	token=''
 	secrets_file="${HOME}/.dots/.secrets"
 	if [ -f "${secrets_file}" ]; then
-		source "${secrets_file}" && use_gh
+		token=$(source "${secrets_file}" && use_gh && echo "${GH_TOKEN}")
 	fi
 
 	#
 	# install devcontainer app group
-	export PATH="${HOME}/.deno/bin:$PATH"
-	"${workspace_root}/script/lib/apps/_cli/cli.ts" install --skip-confirm --allow-reinstall -g devcontainer
+	PATH="${HOME}/.deno/bin:$PATH" GH_TOKEN="${token}" "${workspace_root}/script/lib/apps/_cli/cli.ts" install --skip-confirm --allow-reinstall -g devcontainer
 
 	unset this_dir
 	unset workspace_root
+	unset token
 	unset secrets_file
 fi

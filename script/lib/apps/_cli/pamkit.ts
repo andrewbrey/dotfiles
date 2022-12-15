@@ -221,7 +221,13 @@ export async function ghReleaseLatestInfo(user: string, repo: string) {
 
 export async function streamDownload(url: string, dest: string) {
   return new Promise<void>((resolve, reject) => {
-    const downloadStream = got.stream(url);
+    const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
+      .includes(new URL(url).hostname);
+    const gotOptions = (env.GH_TOKEN && isGitHub)
+      ? { headers: { Authorization: `token ${env.GH_TOKEN}` } }
+      : undefined;
+
+    const downloadStream = got.stream(url, gotOptions);
     const fileWriterStream = nodeFS.createWriteStream(dest);
 
     let progressAnnounce = 10;

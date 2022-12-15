@@ -8,14 +8,15 @@ function mkcd() {
 # Run the pam (personal application manager) cli
 function pam() {
 	local secrets_file="${HOME}/.dots/.secrets"
+	local token=''
 	if [ -f "${secrets_file}" ]; then
-		source "${secrets_file}" && use_gh
+		token=$(source "${secrets_file}" && use_gh && echo "${GH_TOKEN}")
 	fi
 
 	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
-		"${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/apps/_cli/cli.ts" $@
+		GH_TOKEN="${token}" "${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/apps/_cli/cli.ts" $@
 	else
-		"$(chezmoi source-path)/script/lib/apps/_cli/cli.ts" $@
+		GH_TOKEN="${token}" "$(chezmoi source-path)/script/lib/apps/_cli/cli.ts" $@
 	fi
 }
 
