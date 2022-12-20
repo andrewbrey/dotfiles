@@ -77,6 +77,7 @@
   but that is probably not worth it when you can just make edits in an environmtn where it's not
   ignored (i.e. not in a devcontainer)
 - Put config files in correct spots for mac as well as linux
+- Fix `yarn-error.log` caused by env vars
 - Add:
   ```
   https://github.com/sharkdp/fd
@@ -91,3 +92,4 @@
   ```sh
   sh -c "$(curl -sSLf https://dots.brey.workers.dev)"
   ```
+  and consider putting this onto deno deploy and including the source in this repo
