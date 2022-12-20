@@ -1,16 +1,24 @@
-export * as stdFlags from "https://deno.land/std@0.168.0/flags/mod.ts";
-export * as stdColors from "https://deno.land/std@0.168.0/fmt/colors.ts";
-export * as stdNodeFS from "https://deno.land/std@0.168.0/node/fs.ts";
-export * as stdNodeOS from "https://deno.land/std@0.168.0/node/os.ts";
-export * as stdNodeUtil from "https://deno.land/std@0.168.0/node/util.ts";
-export * as stdPath from "https://deno.land/std@0.168.0/path/mod.ts";
-export * as cliffyAnsi from "https://deno.land/x/cliffy@v0.25.5/ansi/mod.ts";
-export * as cliffyCmd from "https://deno.land/x/cliffy@v0.25.5/command/mod.ts";
-export * as cliffyFlag from "https://deno.land/x/cliffy@v0.25.5/flags/mod.ts";
-export * as cliffyKey from "https://deno.land/x/cliffy@v0.25.5/keycode/mod.ts";
-export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.5/keypress/mod.ts";
-export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.5/prompt/mod.ts";
-export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.5/table/mod.ts";
+/**
+ * You can use https://deno.land/x/udd to bump deps
+ *
+ * e.g.
+ *
+ * deno install -rf --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts
+ * udd script/lib/deps.ts
+ */
+export * as stdFlags from "https://deno.land/std@0.170.0/flags/mod.ts";
+export * as stdColors from "https://deno.land/std@0.170.0/fmt/colors.ts";
+export * as stdNodeFS from "https://deno.land/std@0.170.0/node/fs.ts";
+export * as stdNodeOS from "https://deno.land/std@0.170.0/node/os.ts";
+export * as stdNodeUtil from "https://deno.land/std@0.170.0/node/util.ts";
+export * as stdPath from "https://deno.land/std@0.170.0/path/mod.ts";
+export * as cliffyAnsi from "https://deno.land/x/cliffy@v0.25.6/ansi/mod.ts";
+export * as cliffyCmd from "https://deno.land/x/cliffy@v0.25.6/command/mod.ts";
+export * as cliffyFlag from "https://deno.land/x/cliffy@v0.25.6/flags/mod.ts";
+export * as cliffyKey from "https://deno.land/x/cliffy@v0.25.6/keycode/mod.ts";
+export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.6/keypress/mod.ts";
+export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts";
+export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.6/table/mod.ts";
 export * as dax from "https://deno.land/x/dax@0.17.0/mod.ts";
 export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
