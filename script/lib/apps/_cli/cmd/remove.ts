@@ -3,6 +3,7 @@ import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const remove = new command.Command()
   .description("Remove one or more available apps.")
+  .alias("uninstall")
   .option("--all", "Remove all available apps.")
   .option(
     "-a, --app <app_name:string>",

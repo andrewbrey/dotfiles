@@ -3,6 +3,7 @@ import { calculateAppsInScope, getGroups, getInstallerMetas } from "../pamkit.ts
 
 export const list = new command.Command()
   .description("List metadata about available apps.")
+  .alias("ls")
   .option("--all", "List metadata for all available apps, both installed and uninstalled.")
   .option("-i, --installed", "List metadata for installed apps.")
   .option("-u, --uninstalled", "List metadata for uninstalled apps.")

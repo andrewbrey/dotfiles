@@ -3,6 +3,7 @@ import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const install = new command.Command()
   .description("Install one or more available apps.")
+  .alias("i")
   .option("--all", "Install all available apps.")
   .option(
     "-a, --app <app_name:string>",
