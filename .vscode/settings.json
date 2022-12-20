@@ -1,5 +1,6 @@
 {
   "deno.enable": true,
   "deno.unstable": true,
-  "deno.config": ".vscode/deno.jsonc"
+  "deno.config": ".vscode/deno.jsonc",
+  "deno.enablePaths": ["script"]
 }
