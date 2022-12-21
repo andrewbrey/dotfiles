@@ -4,6 +4,7 @@ import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 export const install = new command.Command()
   .description("Install one or more available apps.")
   .alias("i")
+  .arguments("[...app_names:string]")
   .option("--all", "Install all available apps.")
   .option(
     "-a, --app <app_name:string>",
@@ -17,12 +18,14 @@ export const install = new command.Command()
   )
   .option("--skip-confirm", "Automatically bypass confirmation prompts.")
   .option("--allow-reinstall", "Allow installation of apps that are already installed.")
-  .action(async ({ all, app = [], group = [], skipConfirm, allowReinstall }, ...args) => {
+  .action(async ({ all, app = [], group = [], skipConfirm, allowReinstall }, ...argAppNames) => {
+    const apps = [...argAppNames, ...app];
+
     const inScope = await calculateAppsInScope({
       all: Boolean(all),
       installed: false,
       uninstalled: false,
-      apps: app,
+      apps,
       groups: group,
     });
 
