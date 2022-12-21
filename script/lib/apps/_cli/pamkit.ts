@@ -8,6 +8,7 @@ import {
   got,
   invariant,
   nodeFS,
+  pptr,
   prettyBytes,
   semver,
 } from "../../mod.ts";
@@ -264,6 +265,7 @@ export async function streamDownload(url: string, dest: string) {
       });
 
     $.log(`downloading ${url} to ${dest}`);
+    // TODO: look at this?
     downloadStream.pipe(fileWriterStream);
   });
 }
@@ -394,5 +396,101 @@ export async function unlinkDesktopFileForApp(app: string) {
     await $`rm -f ${linkPath}`;
   } else {
     await $`rm -f ${linkPath}`;
+  }
+}
+
+export async function runInBrowser(fn: (browser: pptr.Browser) => Promise<void>) {
+  let browser;
+
+  try {
+    browser = await pptr.default.launch({
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+      ],
+    });
+
+    await fn(browser);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Could not find browser revision")) {
+      const puppeteerVersion = error.message.match(/Run "[^@]+@([^/]+)[^"]+" to download/i)?.at(1);
+
+      invariant(
+        typeof puppeteerVersion === "string" && puppeteerVersion.length > 0,
+        "no browser download instructions provided",
+      );
+
+      // @see https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix
+      const systemDeps = [
+        "ca-certificates",
+        "curl",
+        "fonts-liberation",
+        "libappindicator3-1",
+        "libasound2",
+        "libatk-bridge2.0-0",
+        "libatk1.0-0",
+        "libc6",
+        "libcairo2",
+        "libcups2",
+        "libdbus-1-3",
+        "libdrm2",
+        "libexpat1",
+        "libfontconfig1",
+        "libgbm1",
+        "libgcc1",
+        "libglib2.0-0",
+        "libgtk-3-0",
+        "libnspr4",
+        "libnss3",
+        "libpango-1.0-0",
+        "libpangocairo-1.0-0",
+        "libstdc++6",
+        "libx11-6",
+        "libx11-xcb1",
+        "libxcb1",
+        "libxcomposite1",
+        "libxcursor1",
+        "libxdamage1",
+        "libxext6",
+        "libxfixes3",
+        "libxi6",
+        "libxkbcommon0",
+        "libxrandr2",
+        "libxrender1",
+        "libxshmfence1",
+        "libxss1",
+        "libxtst6",
+        "lsb-release",
+        "unzip",
+        "wget",
+        "xdg-utils",
+      ];
+
+      await $`sudo apt install -y --no-install-recommends ${systemDeps}`;
+
+      await $`deno run -A --unstable https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
+        .env({ PUPPETEER_PRODUCT: "chrome" });
+
+      try {
+        browser ??= await pptr.default.launch({
+          headless: true,
+          args: [
+            "--no-sandbox",
+            "--disable-dev-shm-usage",
+          ],
+        });
+
+        await fn(browser);
+      } catch (retryError) {
+        throw retryError;
+      } finally {
+        await browser?.close();
+      }
+    } else {
+      throw error;
+    }
+  } finally {
+    await browser?.close();
   }
 }

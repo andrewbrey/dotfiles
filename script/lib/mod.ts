@@ -9,6 +9,7 @@ export {
   dedent,
   got,
   handlebars,
+  pptr,
   prettyBytes,
   semver,
   stdColors as colors,
