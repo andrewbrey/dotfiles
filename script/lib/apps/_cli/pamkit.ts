@@ -265,7 +265,7 @@ export async function streamDownload(url: string, dest: string) {
       });
 
     $.log(`downloading ${url} to ${dest}`);
-    // TODO: look at this?
+    // @ts-expect-error types are not perfect in stdlib, but it works :shrug:
     downloadStream.pipe(fileWriterStream);
   });
 }
