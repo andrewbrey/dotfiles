@@ -4,6 +4,7 @@ import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 export const remove = new command.Command()
   .description("Remove one or more available apps.")
   .alias("uninstall")
+  .arguments("[...app_names:string]")
   .option("--all", "Remove all available apps.")
   .option(
     "-a, --app <app_name:string>",
@@ -16,12 +17,14 @@ export const remove = new command.Command()
     { collect: true },
   )
   .option("--skip-confirm", "Automatically bypass confirmation prompts.")
-  .action(async ({ all, app = [], group = [], skipConfirm }, ...args) => {
+  .action(async ({ all, app = [], group = [], skipConfirm }, ...argAppNames) => {
+    const apps = [...argAppNames, ...app];
+
     const inScope = await calculateAppsInScope({
       all: Boolean(all),
       installed: false,
       uninstalled: false,
-      apps: app,
+      apps,
       groups: group,
     });
 
