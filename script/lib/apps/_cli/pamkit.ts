@@ -399,7 +399,8 @@ export async function unlinkDesktopFileForApp(app: string) {
   }
 }
 
-export async function runInBrowser(fn: (browser: pptr.Browser) => Promise<void>) {
+export type RunInBrowserFn = (browser: pptr.Browser) => Promise<void>;
+export async function runInBrowser(fn: RunInBrowserFn) {
   let browser;
 
   try {
