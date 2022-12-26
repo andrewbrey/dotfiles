@@ -11,3 +11,4 @@ README.md
 {{- end }}
 
 .dots/.extra
+{{ .standard_dirs.dot_dots_apps  }}/cheat/cheatsheets/community
