@@ -1,0 +1,9 @@
+---
+syntax: bash
+---
+
+# Create a desktop app with certain name and app icon (plus pass options to electron-dl)
+nativefier --name="Figma" --icon="Figma.ico" --file-download-options='{"openFolderWhenDone": true}' "https://figma.com"
+
+# Convert a png image to an ico image which actually shows up in the dock (uses imagemagic 'convert' command)
+convert source.png -resize 256x256 dest.ico

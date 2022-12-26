@@ -1,0 +1,27 @@
+---
+syntax: bash
+---
+#
+# Resize windows with `ctrl+shift+r`
+#
+# https://sw.kovidgoyal.net/kitty/layouts/#resizing-windows
+
+#
+# Switch between windows with `ctrl+shift+[` and `ctrl+shift+]`
+#
+# https://sw.kovidgoyal.net/kitty/conf/
+
+#
+# Show current config file with `ctrl+shift+f6`
+#
+# https://sw.kovidgoyal.net/kitty/conf/
+
+#
+# Reload config file with `ctrl+shift+f5`
+#
+# https://sw.kovidgoyal.net/kitty/conf/
+
+#
+# Change window arrangement / orientation with `ctrl+shift+l`
+#
+# https://sw.kovidgoyal.net/kitty/layouts/
