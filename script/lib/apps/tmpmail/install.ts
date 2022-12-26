@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
 import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
 osInvariant();
@@ -10,6 +10,13 @@ await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = typeof (await $.which("tmpmail")) === "undefined";
 if (notInstalled) {
+  if (env.OS === "linux") {
+    invariant(
+      typeof (await $.which("xclip")) !== "undefined",
+      `xclip is required, install it with ${colors.magenta("pam install -a peer-tools")}`,
+    );
+  }
+
   const sourcePath = $.path.join(dotAppPath, constants.sourceDir);
   const binPath = $.path.join(sourcePath, "tmpmail");
 
@@ -19,7 +26,7 @@ if (notInstalled) {
 }
 
 const versionOutput = await $`tmpmail --version`.text(); // 1.2.3
-const version = versionOutput.split("v")?.at(1) ?? "";
+const version = versionOutput ?? "";
 
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),
