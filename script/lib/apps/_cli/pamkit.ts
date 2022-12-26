@@ -356,6 +356,8 @@ export async function wrapOutdatedCheck(
 export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
   const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
+  await $`chmod +x ${realBinaryPath}`;
+
   if (env.OS === "darwin") {
     await $`ln -sf ${realBinaryPath} ${linkPath}`;
   } else {
