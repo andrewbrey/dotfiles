@@ -54,7 +54,9 @@ if (installed) {
       "cheatsheets",
       "community",
     );
-    await $`git -C ${communityCheatPath} pull`;
+    if (await $.exists(communityCheatPath)) {
+      await $`git -C ${communityCheatPath} pull`;
+    }
 
     meta.lastCheck = Date.now();
   }

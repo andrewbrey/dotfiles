@@ -44,7 +44,9 @@ if (notInstalled) {
       "cheatsheets",
       "community",
     );
-    await $`git clone https://github.com/cheat/cheatsheets.git ${communityCheatPath}`;
+    if (!(await $.exists(communityCheatPath))) {
+      await $`git clone https://github.com/cheat/cheatsheets.git ${communityCheatPath}`;
+    }
   }
 }
 

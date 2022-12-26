@@ -21,7 +21,9 @@ if (isInstalled) {
     "cheatsheets",
     "community",
   );
-  await Deno.remove(communityCheatPath, { recursive: true });
+  if (await $.exists(communityCheatPath)) {
+    await Deno.remove(communityCheatPath, { recursive: true });
+  }
 }
 
 if (await $.exists(dotAppPath)) {
