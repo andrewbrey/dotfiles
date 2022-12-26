@@ -36,6 +36,7 @@ export type GHReleaseInfo = {
 export const constants = {
   appArtifactsDir: ".app",
   appResourcesDir: ".res",
+  sourceDir: "source",
   metaManifestName: ".installer-meta.json",
   ghReleaseInfoName: ".release-info.json",
   htmlReleaseInfoName: ".release-info.html",
