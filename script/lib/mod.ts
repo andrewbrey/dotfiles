@@ -17,6 +17,7 @@ export {
   stdNodeFS as nodeFS,
   strCase,
   stripAnsi,
+  UserAgent,
 } from "./deps.ts";
 export * from "./env.ts";
 export * from "./fmt.ts";

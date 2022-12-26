@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import { constants, InstallerMeta, runInBrowser, streamDownload } from "../_cli/pamkit.ts";
+import { constants, getUA, InstallerMeta, runInBrowser, streamDownload } from "../_cli/pamkit.ts";
 
 osInvariant();
 
@@ -19,6 +19,7 @@ if (notInstalled) {
 
     await runInBrowser(async (browser) => {
       const page = await browser.newPage();
+      await page.setUserAgent(getUA());
       await page.goto("https://www.dropbox.com/install-linux", { waitUntil: "networkidle2" });
       releaseInfo = await page.content();
     });

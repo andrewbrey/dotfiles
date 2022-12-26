@@ -11,6 +11,7 @@ import {
   pptr,
   prettyBytes,
   semver,
+  UserAgent,
 } from "../../mod.ts";
 
 export type InstallerMeta = {
@@ -399,6 +400,18 @@ export async function unlinkDesktopFileForApp(app: string) {
   }
 }
 
+export const getUA = (opts?: ConstructorParameters<typeof UserAgent>[0]) => {
+  opts = Array.isArray(opts) ? opts.at(0) : opts;
+  opts ??= {
+    platform: "Linux x86_64",
+    vendor: "Google Inc.",
+    deviceCategory: "desktop",
+    screenHeight: 1920,
+    screenWidth: 1080,
+  };
+
+  return `${new UserAgent(opts)}`;
+};
 export type RunInBrowserFn = (browser: pptr.Browser) => Promise<void>;
 export async function runInBrowser(fn: RunInBrowserFn) {
   let browser;
