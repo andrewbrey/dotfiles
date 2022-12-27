@@ -1,5 +1,4 @@
 {
-	"url": "",
-	"dconf": "/org/gnome/shell/extensions/pop-cosmic/",
-	"confOnly": true
+  "dconf": "/org/gnome/shell/extensions/pop-cosmic/",
+  "confOnly": true
 }
