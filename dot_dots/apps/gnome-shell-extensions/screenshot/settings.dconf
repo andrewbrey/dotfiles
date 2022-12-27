@@ -1,0 +1,10 @@
+[/]
+backend='gnome-screenshot'
+click-action='show-menu'
+clipboard-action='none'
+copy-button-action='set-image-data'
+effect-rescale=100
+enable-indicator=false
+enable-notification=true
+filename-template='{N}-{Y}{m}{d}{H}{M}{S}-{w}x{h}'
+imgur-enable-notification=true

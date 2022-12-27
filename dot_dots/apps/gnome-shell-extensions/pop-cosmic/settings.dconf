@@ -1,0 +1,6 @@
+[/]
+clock-alignment='LEFT'
+overlay-key-action='LAUNCHER'
+show-applications-button=false
+show-workspaces-button=false
+workspace-picker-left=false

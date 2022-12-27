@@ -1,0 +1,14 @@
+[/]
+fixed-widths=true
+hide-icons=false
+hot-sensors=['_memory_usage_']
+position-in-panel=2
+show-battery=false
+show-fan=false
+show-network=false
+show-processor=true
+show-storage=false
+show-system=false
+show-temperature=false
+show-voltage=false
+update-time=30
