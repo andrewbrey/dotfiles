@@ -29,6 +29,15 @@ function sam() {
 	fi
 }
 
+# Run the dum (daily updates manager) cli
+function dum() {
+	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
+		"${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/updates/_cli/cli.ts" $@
+	else
+		"$(chezmoi source-path)/script/lib/updates/_cli/cli.ts" $@
+	fi
+}
+
 function encrypt_file() {
 	if [[ -z "${1}" ]]; then
 		echo "A single file name to encrypt is required"
