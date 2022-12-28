@@ -193,5 +193,4 @@ const meta: InstallerMeta = {
 };
 const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
 
-// TODO: uncomment file write
-// await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
+await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
