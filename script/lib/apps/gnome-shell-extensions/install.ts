@@ -145,10 +145,10 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
 
           const zip = $.path.join(sourceDir, `${ext.name}.zip`);
           for await (const file of $.fs.expandGlob($.path.join(downloadPath, "*.zip"))) {
-            if (!(await $.exists(zip))) await $.fs.move(file.path, zip);
+            await $.fs.move(file.path, zip, { overwrite: true });
           }
 
-          // TODO: extract and install each extension
+          await $`gnome-extensions install ${zip}`;
         } catch (error) {
           const { message } = error as Error;
 
