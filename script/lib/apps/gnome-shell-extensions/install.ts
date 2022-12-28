@@ -1,11 +1,12 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotResPath = $.path.join($dirname(import.meta.url), constants.appResourcesDir);
 await $.fs.ensureDir(dotAppPath);
 
 const chezmoiData = await getChezmoiData();
@@ -24,7 +25,7 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
     manifest: ConfOnlyManifest | UrlManifest;
   };
 
-  const extDir = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, "gnome-shell-extensions");
+  const extDir = $.path.join(dotResPath, ".extensions");
   const extMetas: GnomeExtensionMeta[] = [];
 
   for await (const d of Deno.readDir(extDir)) {
@@ -45,7 +46,7 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
     }
   }
 
-  const fullGnomeVersion = await $`gnome-shell --version 2>/dev/null`.text(); // GNOME Shell 3.38.4 (or GNOME Shell 40.5)
+  const fullGnomeVersion = await $`gnome-shell --version`.stderr("null").text(); // GNOME Shell 3.38.4 (or GNOME Shell 40.5)
   const gnomeVersion = fullGnomeVersion.split(" ")?.at(2)?.split(".")?.slice(0, 2)?.join(".") ?? ""; // 3.38 or 40.5
 
   invariant(gnomeVersion.length > 0, "unable to determine gnome version");
@@ -62,4 +63,5 @@ const meta: InstallerMeta = {
 };
 const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
 
-await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
+// TODO: uncomment file write
+// await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

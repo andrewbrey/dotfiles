@@ -1,0 +1,4 @@
+{
+  "url": "https://extensions.gnome.org/extension/1007/window-is-ready-notification-remover/",
+  "dconf": "/org/gnome/shell/extensions/window-is-ready/"
+}
