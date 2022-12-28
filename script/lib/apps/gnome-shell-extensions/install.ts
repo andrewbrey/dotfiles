@@ -17,12 +17,10 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
     typeof (await $.which("gnome-extensions")) !== "undefined",
     "gnome-extensions is required",
   );
-  type ConfOnlyManifest = { dconf: string; confOnly: boolean };
-  type UrlManifest = { dconf: string; url: string };
   type GnomeExtensionMeta = {
     name: string;
-    manifestPath: string;
-    manifest: ConfOnlyManifest | UrlManifest;
+    metaPath: string;
+    manifest: { dconf: string; url?: string };
   };
 
   const extDir = $.path.join(dotResPath, ".extensions");
@@ -30,16 +28,14 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
 
   for await (const d of Deno.readDir(extDir)) {
     if (d.isDirectory) {
-      const extJson = JSON.parse(
+      const manifest = JSON.parse(
         await Deno.readTextFile($.path.join(extDir, d.name, "ext.json")),
       ) as GnomeExtensionMeta["manifest"];
 
       const meta: GnomeExtensionMeta = {
         name: d.name,
-        manifestPath: $.path.join(extDir, d.name),
-        manifest: ("url" in extJson)
-          ? { dconf: extJson.dconf, url: extJson.url }
-          : { dconf: extJson.dconf, confOnly: extJson.confOnly },
+        metaPath: $.path.join(extDir, d.name),
+        manifest,
       };
 
       extMetas.push(meta);
@@ -50,8 +46,23 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
   const gnomeVersion = fullGnomeVersion.split(" ")?.at(2)?.split(".")?.slice(0, 2)?.join(".") ?? ""; // 3.38 or 40.5
 
   invariant(gnomeVersion.length > 0, "unable to determine gnome version");
+  invariant(gnomeVersion.match(/^\d+\.\d+$/), "gnome version was invalid");
 
-  // TODO: install extensions
+  for (const ext of extMetas) {
+    const { url, dconf } = ext.manifest;
+
+    invariant(typeof dconf === "string" && dconf.length > 0, "invalid dconf path");
+
+    if (typeof url === "string" && url.length > 0) {
+      // TODO fetch and install extension
+    }
+
+    const settingsPath = $.path.join(ext.metaPath, "settings.dconf");
+    if (await $.exists(settingsPath)) {
+      const settings = await Deno.readTextFile(settingsPath);
+      await $`dconf load ${dconf}`.stdin(settings);
+    }
+  }
 }
 
 const meta: InstallerMeta = {

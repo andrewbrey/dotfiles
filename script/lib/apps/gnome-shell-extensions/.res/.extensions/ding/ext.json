@@ -1,4 +1,3 @@
 {
-  "dconf": "/org/gnome/shell/extensions/ding/",
-  "confOnly": true
+  "dconf": "/org/gnome/shell/extensions/ding/"
 }
