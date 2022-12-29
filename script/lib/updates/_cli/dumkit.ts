@@ -10,10 +10,24 @@ export function getGroups() {
   // NOTE: if update order matters, make sure to list
   // prerequisites earlier in the updater name array
 
-  // NOTE: "all" group is treated as a default if no other
-  // updaters / groups are specified
-  groups.set("all", new Set<string>(["package-manager"]));
-  groups.set("core", new Set<string>(["package-manager"]));
+  // NOTE: "default" group is treated as a default if
+  // no other updaters / groups are specified - try to
+  // keep it up to date with desired defaults
+  groups.set(
+    "default",
+    new Set<string>([
+      "package-manager",
+      "deno",
+      "npm-globals",
+      "gnome-shell-extensions",
+      "cheat",
+      "youtube-dl",
+      "completions",
+      "zgenom",
+      "dotfiles",
+    ]),
+  );
+  groups.set("core", new Set<string>(["package-manager", "deno", "npm-globals", "dotfiles"]));
 
   return groups;
 }

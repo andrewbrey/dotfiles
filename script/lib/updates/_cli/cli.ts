@@ -31,7 +31,7 @@ await new command.Command()
 
       $.log("");
       $.log(colors.blue("Updaters"));
-      $.logLight(allNames.join(" "));
+      $.logLight(allNames.sort().join(" "));
 
       $.log("");
       $.log(colors.blue("Groups"));
@@ -45,7 +45,7 @@ await new command.Command()
 
     const groups = [...argUpdaterGroups, ...group];
 
-    if (!groups.length) groups.push("all"); // default to "all" group
+    if (!groups.length) groups.push("default"); // default to "default" group which may not include everything
 
     const inScope = Array.from(
       await calculateUpdatersInScope({
@@ -63,7 +63,7 @@ await new command.Command()
 
       for (const [idxStr, name] of Object.entries(inScope)) {
         const idx = parseInt(idxStr);
-        const updateScript = $.path.join($dotdot(import.meta.url), name, "update.ts");
+        const updateScript = $.path.join($dotdot(import.meta.url), name, "updater.ts");
 
         if (idx > 0) $.log("");
         $.log(dedent`
