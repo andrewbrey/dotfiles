@@ -148,7 +148,7 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
             await $.fs.move(file.path, zip, { overwrite: true });
           }
 
-          await $`gnome-extensions install ${zip}`;
+          await $`gnome-extensions install --force ${zip}`;
         } catch (error) {
           const { message } = error as Error;
 
