@@ -2,6 +2,7 @@
 *deleteme.*
 
 script/lib/apps/**/.app/
+script/lib/updates/**/.memo/
 
 ### Dropbox ###
 # Dropbox settings and caches

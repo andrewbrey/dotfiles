@@ -1,7 +1,7 @@
 import { $, $dotdot, colors } from "../../mod.ts";
 
 export const constants = {
-  updaterResourcesDir: ".res",
+  updaterMemoDir: ".memo",
 };
 
 export function getGroups() {
