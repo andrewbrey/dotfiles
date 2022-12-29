@@ -19,7 +19,7 @@ export * as cliffyKey from "https://deno.land/x/cliffy@v0.25.6/keycode/mod.ts";
 export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.6/keypress/mod.ts";
 export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.6/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.17.0/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.18.1/mod.ts";
 export * as pptr from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
