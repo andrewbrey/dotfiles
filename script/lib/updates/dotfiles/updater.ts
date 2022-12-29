@@ -7,8 +7,7 @@ osInvariant();
 const gitRoot = await $`git rev-parse --show-toplevel`.cwd(
   $dirname(import.meta.url),
 ).text();
-const dotfileRepoStatus =
-  (await $`git -C ${gitRoot} status --porcelain`.lines()).filter(Boolean);
+const dotfileRepoStatus = (await $`git -C ${gitRoot} status --porcelain`.lines()).filter(Boolean);
 
 const OK_TO_BE_DIRTY: string[] = [];
 const worthWarningAbout = dotfileRepoStatus.filter((stl) =>
