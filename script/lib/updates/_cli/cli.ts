@@ -45,7 +45,7 @@ await new command.Command()
 
     const groups = [...argUpdaterGroups, ...group];
 
-    if (!groups.length) groups.push("default"); // default to "default" group which may not include everything
+    if (!groups.length && !updater.length) groups.push("default"); // default to "default" group which may not include everything
 
     const inScope = Array.from(
       await calculateUpdatersInScope({
