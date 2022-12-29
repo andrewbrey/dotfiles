@@ -20,7 +20,7 @@ export function getGroups() {
       "deno",
       "npm-globals",
       "gnome-shell-extensions",
-      "cheat",
+      "cheatsheets",
       "youtube-dl",
       "completions",
       "zgenom",
