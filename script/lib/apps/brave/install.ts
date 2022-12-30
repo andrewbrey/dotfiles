@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 osInvariant();
@@ -13,25 +13,28 @@ if (notInstalled) {
   if (env.OS === "darwin") {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    if (Math.random()) throw new Error("TODO: implement installer");
-    // TODO: install according to brave website (also reference docker installer), e.g.:
+    invariant(typeof (await $.which("curl")) !== "undefined", "curl is required");
 
-    /*
-			sudo apt install curl
+    await $`sudo mkdir -p /usr/share/keyrings`;
+    const braveGPGKeyringURL = "https://brave-browser-apt-release.s3.brave.com/"; // NOTE: trailing slash (needed in sources.list?)
+    const braveGPGKeyringPath = "/usr/share/keyrings/brave-browser-archive-keyring.gpg";
+    await $`sudo curl -fsSLo ${braveGPGKeyringPath} ${braveGPGKeyringURL}brave-browser-archive-keyring.gpg`;
 
-			sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    const arch = await $`dpkg --print-architecture`.text();
 
-			echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    await $`sudo tee /etc/apt/sources.list.d/brave-browser-release.list`.stdin(
+      await $
+        .raw`echo "deb [signed-by=${braveGPGKeyringPath} arch=${arch}] ${braveGPGKeyringURL} stable main"`
+        .text(),
+    );
 
-			sudo apt update
-
-			sudo apt install brave-browser
-		*/
+    await $`sudo apt update`;
+    await $`sudo apt install -y brave-browser`;
   }
 }
 
-const versionOutput = await $`brave-browser --version`.text(); // v0.22.1
-const version = versionOutput.split("v")?.at(1) ?? "";
+const versionOutput = await $`brave-browser --version`.text(); // Brave Browser 108.1.46.144
+const version = versionOutput.split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
   name: $.path.basename($dirname(import.meta.url)),
