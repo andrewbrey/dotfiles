@@ -37,6 +37,7 @@ export const constants = {
   metaManifestName: ".installer-meta.json",
   ghReleaseInfoName: ".release-info.json",
   htmlReleaseInfoName: ".release-info.html",
+  plainReleaseInfoName: ".release-info",
   versionPrefsName: ".versions.json",
   executableMask: 0o755,
 };
