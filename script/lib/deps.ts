@@ -19,13 +19,11 @@ export * as cliffyKey from "https://deno.land/x/cliffy@v0.25.6/keycode/mod.ts";
 export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.6/keypress/mod.ts";
 export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.6/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.18.1/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.19.0/mod.ts";
 export * as pptr from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
-export { got } from "npm:got@12.5.3";
 export { default as handlebars } from "npm:handlebars@4.7.7";
-export { default as prettyBytes } from "npm:pretty-bytes@6.0.0";
 // @deno-types="npm:@types/semver@7.3.13"
 export { default as semver } from "npm:semver@7.3.8";
 export { default as stripAnsi } from "npm:strip-ansi@7.0.1";

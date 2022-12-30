@@ -5,11 +5,8 @@ import {
   dateFns,
   env,
   getChezmoiData,
-  got,
   invariant,
-  nodeFS,
   pptr,
-  prettyBytes,
   semver,
   UserAgent,
 } from "../../mod.ts";
@@ -226,50 +223,18 @@ export async function ghReleaseLatestInfo(user: string, repo: string) {
 }
 
 export async function streamDownload(url: string, dest: string) {
-  return new Promise<void>((resolve, reject) => {
-    const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
-      .includes(new URL(url).hostname);
-    const gotOptions = (env.GH_TOKEN && isGitHub)
-      ? { headers: { Authorization: `token ${env.GH_TOKEN}` } }
-      : undefined;
+  const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
+    .includes(new URL(url).hostname);
 
-    const downloadStream = got.stream(url, gotOptions);
-    const fileWriterStream = nodeFS.createWriteStream(dest);
+  const request = $.request(url);
+  if (isGitHub && env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
 
-    let progressAnnounce = 10;
+  const toPath = $.path.isAbsolute(dest) ? dest : $.path.resolve($.path.join(Deno.cwd(), dest));
 
-    // `downloadStream` is a nodejs `Request` from `got`, not a web standard
-    //  one, ignore TypeScript complaints about EventEmitter methods :shrug:
-    (downloadStream as any)
-      .on("downloadProgress", ({ transferred, total, percent }: any) => {
-        const percentage = Math.round(percent * 100);
-        if (percentage >= progressAnnounce) {
-          $.logLight(
-            "  debug:",
-            `${prettyBytes(transferred)} of ${prettyBytes(total)} (${percentage}%)`,
-          );
-          progressAnnounce += 10;
-        }
-      })
-      .on("error", (error: Error) => {
-        $.logError("error:", error.message);
-        reject();
-      });
+  await $.fs.ensureDir($.path.dirname(toPath));
+  await request.showProgress().pipeToPath(toPath);
 
-    fileWriterStream
-      .on("error", (error) => {
-        $.logError("error:", error.message);
-        reject();
-      })
-      .on("finish", () => {
-        $.logStep("done:", `download saved to ${dest}`);
-        resolve();
-      });
-
-    $.log(`downloading ${url} to ${dest}`);
-    // @ts-expect-error types are not perfect in stdlib, but it works :shrug:
-    downloadStream.pipe(fileWriterStream);
-  });
+  $.logStep("done:", `download saved to ${toPath}`);
 }
 
 export async function mostRelevantVersion(resourcesDir: string) {
