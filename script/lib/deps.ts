@@ -3,8 +3,7 @@
  *
  * e.g.
  *
- * deno install -rf --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts
- * udd script/lib/deps.ts
+ * deno run --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts script/lib/deps.ts
  */
 export * as stdFlags from "https://deno.land/std@0.170.0/flags/mod.ts";
 export * as stdColors from "https://deno.land/std@0.170.0/fmt/colors.ts";
@@ -19,7 +18,7 @@ export * as cliffyKey from "https://deno.land/x/cliffy@v0.25.6/keycode/mod.ts";
 export * as cliffyPress from "https://deno.land/x/cliffy@v0.25.6/keypress/mod.ts";
 export * as cliffyPrompts from "https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.6/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.19.0/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.20.0/mod.ts";
 export * as pptr from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
