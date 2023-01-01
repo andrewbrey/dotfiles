@@ -2,7 +2,7 @@
   "deno.enable": true,
   "deno.unstable": true,
   "deno.config": ".vscode/deno.jsonc",
-  "deno.enablePaths": ["script"],
+  "deno.enablePaths": [".web", "script"],
   "[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
   "[jsonc]": { "editor.defaultFormatter": "denoland.vscode-deno" },
   "[javascript]": { "editor.defaultFormatter": "denoland.vscode-deno" },

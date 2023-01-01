@@ -91,6 +91,6 @@
   ```
 - Document option to use:
   ```sh
-  sh -c "$(curl -sSLf https://dots.brey.workers.dev)"
+  sh -c "$(curl -sSLf https://dotfiles.andrewbrey.com)"
   ```
-  and consider putting this onto deno deploy and including the source in this repo
+  and how to do deploys to deno deploy using `.web` scripting
