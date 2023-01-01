@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run -A
 
 import { $, dateFns, env, log } from "../mod.ts";
+import { keyFetchRequest } from "./keys.ts";
 import { autoTZ } from "./tz.ts";
 
 if (env.OS === "win32") Deno.exit(0);
@@ -29,7 +30,10 @@ try {
   const logger = log.getLogger();
   logger.info(divider);
 
-  const results = await Promise.allSettled([autoTZ(logger, artifactsPath)]);
+  const results = await Promise.allSettled([
+    autoTZ(logger, artifactsPath),
+    keyFetchRequest(logger, artifactsPath),
+  ]);
   results.every((r) => r.status === "fulfilled") ? logger.info("all done :)") : logger.error(
     results.map((r) => {
       if (r.status === "fulfilled") return { status: "ok", msg: r.value };
