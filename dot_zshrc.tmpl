@@ -47,6 +47,21 @@ if type direnv &>/dev/null; then
 	eval "$(direnv hook zsh)"
 fi
 
+# run "on boot" script
+if type deno &>/dev/null; then
+	if type chezmoi &>/dev/null; then
+		on_boot_main="script/lib/boot/main.ts"
+		on_boot_root="$(chezmoi source-path)"
+		[[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]] && on_boot_root="${DOTFILES_SRC_PATH_OVERRIDE}"
+
+		# run in subshell to silence output and execute in background
+		("${on_boot_root}/${on_boot_main}" &>/dev/null &)
+
+		unset on_boot_main
+		unset on_boot_root
+	fi
+fi
+
 # use starship for a nice looking prompt
 if ! type starship &>/dev/null; then
 	echo ""
