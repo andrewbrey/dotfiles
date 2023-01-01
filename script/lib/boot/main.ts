@@ -29,9 +29,18 @@ try {
   const logger = log.getLogger();
   logger.info(divider);
 
-  await Promise.allSettled([autoTZ(logger)]).then(() => logger.info("all done :)")).catch((e) =>
-    logger.error(e)
+  const results = await Promise.allSettled([autoTZ(logger, artifactsPath)]);
+  results.every((r) => r.status === "fulfilled") ? logger.info("all done :)") : logger.error(
+    results.map((r) => {
+      if (r.status === "fulfilled") return { status: "ok", msg: r.value };
+      const msg = r.reason?.message ?? r.reason;
+      return { status: "error", msg };
+    }),
   );
 } catch (bootErr) {
-  console.error(bootErr);
+  try {
+    log.error(bootErr);
+  } catch (logErr) {
+    console.error(bootErr);
+  }
 }
