@@ -7,6 +7,7 @@
  */
 export * as stdFlags from "https://deno.land/std@0.170.0/flags/mod.ts";
 export * as stdColors from "https://deno.land/std@0.170.0/fmt/colors.ts";
+export * as stdLog from "https://deno.land/std@0.170.0/log/mod.ts";
 export * as stdNodeFS from "https://deno.land/std@0.170.0/node/fs.ts";
 export * as stdNodeOS from "https://deno.land/std@0.170.0/node/os.ts";
 export * as stdNodeUtil from "https://deno.land/std@0.170.0/node/util.ts";

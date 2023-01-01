@@ -101,10 +101,7 @@ if [[ -d "${PWD}/node_modules/.bin" ]]; then
 	export PATH="${PWD}/node_modules/.bin:${PATH}"
 fi
 #
-# set up TZ once each time the machine restarts
-if [[ -f "/tmp/.auto_tz" ]]; then
-	export TZ="$(cat /tmp/.auto_tz)"
-else
-	echo -n "$(curl --silent --max-time 1 --header 'Accept: application/json' ifconfig.co | grep -o '"time_zone":\s*"[^"]*' | grep -o '[^"]*$')" >/tmp/.auto_tz
-	export TZ="$(cat /tmp/.auto_tz)"
+# set up TZ once each time the shell starts
+if [[ -f "/tmp/dotsboot/.auto_tz" ]]; then
+	export TZ="$(cat /tmp/dotsboot/.auto_tz)"
 fi
