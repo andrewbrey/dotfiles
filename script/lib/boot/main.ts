@@ -5,6 +5,7 @@ import { keyFetchRequest } from "./keys.ts";
 import { autoTZ } from "./tz.ts";
 
 if (env.OS === "win32") Deno.exit(0);
+if (env.IN_CONTAINER) Deno.exit(0);
 
 try {
   const artifactsPath = $.path.join("/", "tmp", "dotsboot");
