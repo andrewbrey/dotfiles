@@ -94,3 +94,7 @@
   sh -c "$(curl -sSLf https://dotfiles.andrewbrey.com)"
   ```
   and how to do deploys to deno deploy using `.web` scripting
+
+- Document interaction with GH Keys (`https://github.com/andrewbrey.keys`) as a public key authority
+  and how they are provided to rpi's
+  - In general, just need to document the "on boot" shell start background tasks
