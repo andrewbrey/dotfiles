@@ -184,10 +184,10 @@ format = "with [$symbol VERCEL_TOKEN](bold dimmed yellow) "
 symbol = "▲"
 variable = "VERCEL_TOKEN"
 
-[env_var.FLYCTL_TOKEN]
-format = "with [$symbol FLYCTL_TOKEN](bold dimmed yellow) "
+[env_var.FLY_ACCESS_TOKEN]
+format = "with [$symbol FLY_ACCESS_TOKEN](bold dimmed yellow) "
 symbol = ""
-variable = "FLYCTL_TOKEN"
+variable = "FLY_ACCESS_TOKEN"
 
 [env_var.ASCIINEMA_REC]
 format = "[$symbol rec](bold dimmed red) "
