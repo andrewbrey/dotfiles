@@ -7,12 +7,12 @@ osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("flyctl")) !== "undefined";
+const isInstalled = typeof (await $.which("exercism")) !== "undefined";
 if (isInstalled) {
   if (env.OS === "darwin") {
-    await $`brew uninstall flyctl`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+    await $`brew uninstall exercism`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await unlinkBinaryFromUserPath("flyctl");
+    await unlinkBinaryFromUserPath("exercism");
   }
 }
 
