@@ -38,6 +38,11 @@ if (notInstalled) {
     await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
     await linkBinaryToUserPath(binaryPath, "exercism");
   }
+
+  const workspaceDir = $.path.join(env.STANDARD_DIRS.CODE, "exercism");
+  if (!(await $.exists(workspaceDir))) {
+    await $`git clone git@github.com:andrewbrey/exercism.git ${workspaceDir}`;
+  }
 }
 
 const versionOutput = await $`exercism version`.text(); // exercism version 3.1.0

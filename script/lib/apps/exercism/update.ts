@@ -50,6 +50,11 @@ if (installed) {
 
     meta.lastCheck = Date.now();
   }
+
+  const workspaceDir = $.path.join(env.STANDARD_DIRS.CODE, "exercism");
+  if (await $.exists(workspaceDir)) {
+    await $`git -C ${workspaceDir} pull`;
+  }
 }
 
 const versionOutput = await $`exercism version`.text(); // exercism version 3.1.0

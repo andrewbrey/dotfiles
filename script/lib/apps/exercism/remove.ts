@@ -14,6 +14,11 @@ if (isInstalled) {
   } else {
     await unlinkBinaryFromUserPath("exercism");
   }
+
+  const workspaceDir = $.path.join(env.STANDARD_DIRS.CODE, "exercism");
+  if (await $.exists(workspaceDir)) {
+    await Deno.remove(workspaceDir, { recursive: true });
+  }
 }
 
 if (await $.exists(dotAppPath)) {
