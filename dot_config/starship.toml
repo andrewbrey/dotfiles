@@ -188,6 +188,11 @@ format = "with [$symbol FLY_ACCESS_TOKEN](bold dimmed yellow) "
 symbol = ""
 variable = "FLY_ACCESS_TOKEN"
 
+[env_var.SUPABASE_ACCESS_TOKEN]
+format = "with [$symbol SUPABASE_ACCESS_TOKEN](bold dimmed yellow) "
+symbol = ""
+variable = "SUPABASE_ACCESS_TOKEN"
+
 [env_var.ASCIINEMA_REC]
 format = "[$symbol rec](bold dimmed red) "
 symbol = "壘"
