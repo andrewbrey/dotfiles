@@ -34,7 +34,7 @@ const versionOutput = await $`go version`.text(); // go version go1.16.5 linux/a
 const version = versionOutput.split(" ")?.at(2)?.split("go")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

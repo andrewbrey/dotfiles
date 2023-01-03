@@ -21,7 +21,7 @@ const versionOutput = await $`openvpn --version`.lines(); // OpenVPN 2.5.5 x86_6
 const version = versionOutput?.at(0)?.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

@@ -49,7 +49,7 @@ const versionOutput = await $`exercism version`.text(); // exercism version 3.1.
 const version = versionOutput.split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

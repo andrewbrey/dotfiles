@@ -43,7 +43,7 @@ const versionOutput = await $`skate --version`.text(); // skate version v0.2.1 (
 const version = versionOutput.split(" ")?.at(2)?.split("v")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-manual",
   version,

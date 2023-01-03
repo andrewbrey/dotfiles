@@ -27,7 +27,7 @@ const versionOutput = await $`node --version`.text(); // v18.12.1
 const version = versionOutput.split("v")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

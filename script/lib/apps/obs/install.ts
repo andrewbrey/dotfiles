@@ -23,7 +23,7 @@ const versionOutput = await $`obs --version`.text(); // OBS Studio - 28.1.2 (lin
 const version = versionOutput.split(" ")?.at(3) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

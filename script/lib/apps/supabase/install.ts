@@ -35,7 +35,7 @@ if (notInstalled) {
 const version = await $`supabase --version`.text(); // 1.27.10
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

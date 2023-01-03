@@ -36,7 +36,7 @@ const versionOutput = await $`gh --version`.text(); // gh version 2.20.2-17-g2d6
 const version = versionOutput.split(" ")?.at(2)?.split("-")?.at(0) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

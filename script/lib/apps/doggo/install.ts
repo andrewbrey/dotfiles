@@ -43,7 +43,7 @@ const versionOutput = await $`doggo --version`.text(); // v0.5.4 (2cf9e7b 2022-0
 const version = versionOutput.split(" ")?.at(0)?.split("v")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

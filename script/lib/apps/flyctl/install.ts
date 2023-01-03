@@ -45,7 +45,7 @@ const versionOutput = await $`flyctl version`.text(); // flyctl v0.0.442 linux/a
 const version = versionOutput.split(" ")?.at(1)?.split("v")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

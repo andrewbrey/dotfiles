@@ -44,7 +44,7 @@ const versionOutput = await $`cryptomator --version`.lines(); // /bin/dpkg\nCryp
 const version = versionOutput?.at(1)?.split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

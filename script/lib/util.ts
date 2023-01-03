@@ -1,6 +1,8 @@
 import { stdNodeUtil, stdPath } from "./deps.ts";
 import { env } from "./env.ts";
 
+export function noop() {}
+
 export function invariant(condition: any, message?: string): asserts condition {
   if (condition) return;
 

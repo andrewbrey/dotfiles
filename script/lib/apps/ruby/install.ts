@@ -21,7 +21,7 @@ const versionOutput = await $`ruby --version`.text(); // ruby 3.0.2p107 (2021-07
 const version = versionOutput.split(" ")?.at(1)?.split("p")?.at(0) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

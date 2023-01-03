@@ -21,7 +21,7 @@ const versionOutput = await $`mvn --version`.lines(); // Apache Maven 3.6.3\n...
 const version = stripAnsi(versionOutput?.at(0) ?? "").split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

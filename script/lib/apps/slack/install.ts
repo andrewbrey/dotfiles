@@ -39,7 +39,7 @@ if (notInstalled) {
 const version = await $`slack --version`.text(); // 4.29.149
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

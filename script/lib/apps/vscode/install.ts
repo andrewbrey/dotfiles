@@ -26,7 +26,7 @@ const versionOutput = await $`code --version`.lines(); // 1.74.0\n.....
 const version = versionOutput?.at(0) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

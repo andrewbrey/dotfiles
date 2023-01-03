@@ -21,7 +21,7 @@ const versionOutput = await $`bat --version`.text(); // asciinema 2.1.0
 const version = versionOutput.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

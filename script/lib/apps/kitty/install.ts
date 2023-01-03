@@ -59,7 +59,7 @@ const versionOutput = await $`kitty --version`.text(); // kitty 0.26.5 created b
 const version = versionOutput.split(" ")?.at(1);
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,

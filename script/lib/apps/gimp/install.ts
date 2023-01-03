@@ -21,7 +21,7 @@ const versionOutput = await $`gimp --version`.text(); // GNU Image Manipulation 
 const version = versionOutput.split("v")?.at(5) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

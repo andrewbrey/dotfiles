@@ -50,7 +50,7 @@ const versionOutput = await $`docker --version`.text(); // Docker version 20.10.
 const version = versionOutput.split(" ")?.at(2)?.split(",")?.at(0) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-managed",
   version,

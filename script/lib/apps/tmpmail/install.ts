@@ -29,7 +29,7 @@ const versionOutput = await $`tmpmail --version`.text(); // 1.2.3
 const version = versionOutput ?? "";
 
 const meta: InstallerMeta = {
-  name: $.path.basename($dirname(import.meta.url)),
+  name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),
   type: "installed-manual",
   version,
