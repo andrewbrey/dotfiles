@@ -9,6 +9,11 @@ export HISTORY_IGNORE="($(printf %s "$(cat {{ .standard_dirs.dot_dots }}/.histig
 export EDITOR="${EDITOR:-/usr/bin/nano}"
 export VISUAL="${VISUAL:-/usr/bin/nano}"
 
+if [ "${TERM_PROGRAM}" = "vscode" ]; then
+	export EDITOR="$(which code) -w"
+	export VISUAL="$(which code) -w"
+fi
+
 # =====
 # directories
 # =====
