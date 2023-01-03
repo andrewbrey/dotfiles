@@ -226,13 +226,6 @@ function colortest() {
 	for ((i = 0; i < 16; i++)); do echo "$(tput setaf $i)This is ($i) $(tput sgr0)"; done
 }
 
-# TODO
-function https() {
-	local caddy_file_path="${HOME}/dotfiles/bootstrap/modules/apps/packages/caddy/Caddyfile"
-
-	sudo XDG_DATA_HOME="${HOME}/.local/share/caddy" caddy run -config "${caddy_file_path}" -watch $@
-}
-
 function ytmp3() {
 	youtube-dl --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '~/Downloads/%(title)s.%(ext)s' "$1"
 }
