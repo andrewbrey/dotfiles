@@ -316,3 +316,13 @@ function vercel_wrapper() {
 
 	$bin --global-config="${HOME}/.config/vercel/" --token="${VERCEL_TOKEN}" ${@:2}
 }
+
+function flyctl_wrapper() {
+	[ -z "${1}" ] && echo 'missing required arg $1 (the flyctl cli binary path)' && return 1
+	[ "${1}" = "flyctl_not_installed" ] && echo 'flyctl cli is not installed' && return 1
+	[ -z "${FLYCTL_TOKEN}" ] && echo 'missing required env $FLYCTL_TOKEN (try use_fly)' && return 1
+
+	local bin="${1}"
+
+	FLY_ACCESS_TOKEN="${FLYCTL_TOKEN}" $bin ${@:2}
+}

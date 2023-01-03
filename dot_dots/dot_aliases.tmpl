@@ -14,7 +14,6 @@ alias ee="exa --icons --long"
 alias es="exa --icons"
 alias et="exa --icons --long --all --tree --level=2"
 alias exifnuke="exiftool -all= "
-alias fly="flyctl"
 alias gig="add-gitignore node macos linux windows visualstudiocode dropbox && touch README.md"
 alias gpgreload="gpg-connect-agent reloadagent /bye"
 alias hss="history | grep"
@@ -107,6 +106,12 @@ alias sshrestore="melt_phrase_to_key"
 # vercel
 # =====
 alias vercel="vercel_wrapper $(command -v vercel || echo 'vercel_not_installed')"
+
+# =====
+# flyctl
+# =====
+alias flyctl="flyctl_wrapper $(command -v flyctl || echo 'flyctl_not_installed')"
+alias fly="flyctl"
 
 # =====
 # platform specific
