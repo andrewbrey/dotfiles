@@ -83,7 +83,6 @@
   ```
   https://github.com/sharkdp/fd
   https://github.com/sharkdp/hyperfine
-  https://github.com/dandavison/delta
   https://github.com/dalance/procs
   https://github.com/ajeetdsouza/zoxide
   https://github.com/zyedidia/eget
