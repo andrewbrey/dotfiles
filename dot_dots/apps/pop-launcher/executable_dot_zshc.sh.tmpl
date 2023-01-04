@@ -10,4 +10,8 @@
 # - file permissions mask is very particular, just copy this file to make new launcher scripts
 # - @see https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
 # - @see https://www.arm64.ca/post/creating-launch-plugins-for-pop-os-updated/
-code {{ .chezmoi.sourceDir | quote }} &
+if command -v direnv >/dev/null 2>&1; then
+	direnv exec {{ .chezmoi.sourceDir | quote }} code {{ .chezmoi.sourceDir | quote }} &
+else
+	code {{ .chezmoi.sourceDir | quote }} &
+fi
