@@ -49,15 +49,16 @@ export function getGroups() {
   // prerequisites earlier in the app name array
   groups.set(
     "devcontainer",
-    new Set<string>(["core-tools", "node", "npm-globals", "bat", "gh"]),
+    new Set<string>(["core-tools", "delta", "node", "npm-globals", "bat", "gh"]),
   );
-  groups.set("codespaces", new Set<string>(["core-tools", "bat"]));
+  groups.set("codespaces", new Set<string>(["core-tools", "delta", "bat"]));
   groups.set(
     "popos",
     new Set<string>([
       "core-tools",
       "system-libs",
       "peer-tools",
+      "delta",
       "pop-launcher",
       "snapd",
       "flatpak",
