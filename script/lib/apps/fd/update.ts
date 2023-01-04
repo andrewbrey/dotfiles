@@ -16,7 +16,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("somecli")) !== "undefined";
+const installed = typeof (await $.which("fd")) !== "undefined";
 if (installed) {
   if (env.OS === "darwin") {
     $.logGroup(() => {

@@ -7,7 +7,7 @@ osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("somecli")) !== "undefined";
+const isInstalled = typeof (await $.which("fd")) !== "undefined";
 if (isInstalled) {
   if (env.OS === "darwin") {
     await $`brew uninstall fd`.env({ HOMEBREW_NO_ANALYTICS: "1" });
