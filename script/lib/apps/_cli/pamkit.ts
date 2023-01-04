@@ -477,3 +477,61 @@ export async function runInBrowser(fn: RunInBrowserFn) {
     await browser?.close();
   }
 }
+
+type NativefierAppArgs = { appName: string; displayName: string; website: string };
+export async function createAndLinkNativefierApp(
+  { appName, displayName, website }: NativefierAppArgs,
+) {
+  invariant(typeof (await $.which("node")) !== "undefined", "node is required");
+  invariant(typeof (await $.which("npm")) !== "undefined", "npm is required");
+
+  invariant(typeof appName === "string" && appName.length > 0, "invalid appName");
+  invariant(typeof displayName === "string" && displayName.length > 0, "invalid displayName");
+  invariant(typeof website === "string" && website.length > 0, "invalid website");
+  invariant(website.startsWith("https://"), "invalid website protocol");
+
+  const allAppNames = await getAppNames();
+  invariant(allAppNames.has(appName), "unknown app name");
+
+  const [{ path }] = await getInstallerMetas(new Set([appName]));
+  const sourceDir = $.path.join(path, constants.appArtifactsDir, constants.sourceDir);
+  const iconPath = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
+  const desktopPath = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
+
+  invariant(await $.exists(iconPath), "icon file missing");
+  invariant(await $.exists(desktopPath), "desktop file missing");
+
+  await $.fs.ensureDir(sourceDir);
+  await $.fs.emptyDir(sourceDir);
+
+  await $`npx --yes nativefier@latest --name="${appName}" --icon="${iconPath}" --file-download-options='{"openFolderWhenDone": true}' ${website} ${sourceDir}`;
+
+  let builtAppDir = "";
+  for await (const dir of Deno.readDir(sourceDir)) {
+    if (dir.isDirectory) builtAppDir = $.path.join(sourceDir, dir.name);
+    break;
+  }
+
+  invariant(typeof builtAppDir === "string" && builtAppDir.length > 0, "invalid built app dir");
+
+  const builtPackageJsonPath = $.path.join(builtAppDir, "resources", "app", "package.json");
+  const builtPackageJson = JSON.parse(await Deno.readTextFile(builtPackageJsonPath));
+  await Deno.writeTextFile(
+    builtPackageJsonPath,
+    JSON.stringify({ ...builtPackageJson, name: displayName }, null, 2),
+  );
+
+  const builtAppBin = $.path.join(builtAppDir, appName);
+  invariant(await $.exists(builtAppBin), "app bin missing");
+
+  await linkBinaryToUserPath(builtAppBin, appName);
+  await linkDesktopFileForApp(appName);
+}
+
+export async function unlinkNativefierApp(appName: string) {
+  const allAppNames = await getAppNames();
+  invariant(allAppNames.has(appName), "unknown app name");
+
+  await unlinkDesktopFileForApp(appName);
+  await unlinkBinaryFromUserPath(appName);
+}
