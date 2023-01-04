@@ -81,7 +81,6 @@
 - Need `chezmoi` and `deno` app management entries? What about updaters?
 - Add:
   ```
-  https://github.com/sharkdp/fd
   https://github.com/sharkdp/hyperfine
   ```
 - Document option to use:
