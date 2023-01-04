@@ -28,6 +28,7 @@ export type GHReleaseInfo = {
   name: string;
   tag_name: string;
   assets: { name: string; browser_download_url: string }[];
+  body: string;
 };
 
 export const constants = {
