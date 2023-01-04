@@ -83,7 +83,6 @@
   ```
   https://github.com/sharkdp/fd
   https://github.com/sharkdp/hyperfine
-  https://github.com/zyedidia/eget
   ```
 - Document option to use:
   ```sh
