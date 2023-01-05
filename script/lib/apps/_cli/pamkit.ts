@@ -268,11 +268,11 @@ export async function mostRelevantVersion(resourcesDir: string) {
 }
 
 export function isNewerVersion(latest: string = "", current: string = "") {
-  const currentSem = semver.coerce(current);
-  const latestSem = semver.coerce(latest);
+  const latestSem = semver.valid(latest);
+  const currentSem = semver.valid(current);
 
-  invariant(currentSem !== null, "missing required current version");
   invariant(latestSem !== null, "missing required latest version");
+  invariant(currentSem !== null, "missing required current version");
 
   return semver.gt(latestSem, currentSem) as boolean;
 }
