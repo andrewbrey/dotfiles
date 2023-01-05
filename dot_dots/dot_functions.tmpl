@@ -310,3 +310,6 @@ function vercel_wrapper() {
 	$bin --global-config="${HOME}/.config/vercel/" --token="${VERCEL_TOKEN}" ${@:2}
 }
 
+function aws_wrapper() {
+	[ -d "~/.aws" ] && echo 'unexpected aws config directory found' && return 1
+}
