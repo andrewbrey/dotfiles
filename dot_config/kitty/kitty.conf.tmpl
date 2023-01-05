@@ -28,12 +28,12 @@ remember_window_size  no
 initial_window_width  160c
 initial_window_height 40c
 
-# Themes
-#include themes/argonaut.conf
-#include themes/cobalt.conf
-#include themes/dracula.conf
-#include themes/pastel.conf
-#include themes/snazzy.conf
-#include themes/wez.conf
-#include themes/vitesse.conf
-include themes/poimandres.conf
+########
+# Manage theme with `kitty +kitten themes`
+# @see https://sw.kovidgoyal.net/kitty/kittens/themes
+########
+
+# BEGIN_KITTY_THEME
+# GitHub Dark High Contrast
+include current-theme.conf
+# END_KITTY_THEME
