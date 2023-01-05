@@ -7,4 +7,6 @@ invariant(
   `deployctl is required, install it with ${colors.magenta("pam install -a deployctl")}`,
 );
 
-await $`deployctl deploy --project dotfiles-andrewbrey serve.ts`.cwd($dirname(import.meta.url));
+await $`deployctl deploy --project dotfiles-andrewbrey --prod serve.ts`.cwd(
+  $dirname(import.meta.url),
+);
