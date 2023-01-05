@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import { constants, InstallerMeta } from "../_cli/pamkit.ts";
+import { constants, flatpakAppMissing, InstallerMeta } from "../_cli/pamkit.ts";
 
 osInvariant();
 invariant(typeof (await $.which("flatpak")) !== "undefined", "flatpak is required");
@@ -9,10 +9,7 @@ invariant(typeof (await $.which("flatpak")) !== "undefined", "flatpak is require
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled =
-  (await $`grep -q "^Kooha$"`.stdin(await $`flatpak list --app --columns=name`.text()).noThrow())
-    .code !== 0;
-
+const notInstalled = await flatpakAppMissing("Kooha");
 if (notInstalled) {
   if (env.OS === "linux") {
     await $`flatpak install -y flathub io.github.seadve.Kooha`;

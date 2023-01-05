@@ -537,3 +537,17 @@ export async function unlinkNativefierApp(appName: string) {
   await unlinkDesktopFileForApp(appName);
   await unlinkBinaryFromUserPath(appName);
 }
+
+export async function flatpakAppInstalled(appName: string) {
+  const flatpakApps = await $`flatpak list --app --columns=name`.text();
+
+  const { code } = await $.raw`grep -q "^${appName}$"`.stdin(flatpakApps).noThrow();
+
+  return code === 0;
+}
+
+export async function flatpakAppMissing(appName: string) {
+  const installed = await flatpakAppInstalled(appName);
+
+  return !installed;
+}
