@@ -5,7 +5,6 @@
 # =====
 alias aci="ASCIINEMA_REC=1 asciinema"
 alias als="alias | grep"
-alias awswhoami="aws sts get-caller-identity | cat"
 alias cat="bat"
 alias chownme="sudo chown -R ${USER}:${USER}"
 alias claer="clear"
@@ -111,6 +110,12 @@ alias vercel="vercel_wrapper $(command -v vercel || echo 'vercel_not_installed')
 # flyctl
 # =====
 alias fly="flyctl"
+
+# =====
+# aws
+# =====
+alias aws="aws_wrapper"
+alias awswhoami="aws_wrapper sts get-caller-identity | cat"
 
 # =====
 # platform specific
