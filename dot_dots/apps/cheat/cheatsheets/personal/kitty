@@ -25,3 +25,8 @@ syntax: bash
 # Change window arrangement / orientation with `ctrl+shift+l`
 #
 # https://sw.kovidgoyal.net/kitty/layouts/
+
+#
+# Change theme `kitty +kitten themes`
+#
+# https://sw.kovidgoyal.net/kitty/kittens/themes/
