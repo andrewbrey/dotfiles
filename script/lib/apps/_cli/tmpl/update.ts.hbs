@@ -10,20 +10,24 @@ import {
 
 osInvariant();
 
+// $.logGroup(() => {
+//   $.logWarn(
+//     "warn:",
+//     dedent(`
+// 			installation is managed; skipping manual update
+
+// 		`),
+//   );
+// });
+
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 
-// =====
-// only update if installed, e.g.
-// =====
 const installed = typeof (await $.which("somecli")) !== "undefined";
 if (installed) {
   if (env.OS === "darwin") {
-    // =====
-    // update mac (probably managed), e.g.
-    // =====
     // $.logGroup(() => {
     //   $.logWarn(
     //     "warn:",
@@ -34,9 +38,6 @@ if (installed) {
     //   );
     // });
   } else {
-    // =====
-    // update linux, e.g.
-    // =====
     // const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
     // const debInstallerPath = $.path.join(dotAppPath, "somecli.deb");
 
@@ -61,15 +62,9 @@ if (installed) {
   }
 }
 
-// =====
-// check version, e.g.
-// =====
 const versionOutput = await $`somecli --version`.text(); // somecli 0.22.1 (e5d9579)
 const version = versionOutput.split(" ")?.at(1) ?? "";
 
-// =====
-// update and save meta, e.g.
-// =====
 meta.version = version;
 
 const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);

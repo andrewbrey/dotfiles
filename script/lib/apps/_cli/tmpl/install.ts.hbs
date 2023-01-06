@@ -8,20 +8,11 @@ osInvariant();
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-// =====
-// only install if not yet installed, e.g.
-// =====
 const notInstalled = typeof (await $.which("somecli")) === "undefined";
 if (notInstalled) {
   if (env.OS === "darwin") {
-    // =====
-    // install mac, e.g.
-    // =====
     // await $`brew install somecli`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    // =====
-    // install linux, e.g.
-    // =====
     // const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
     // const debInstallerPath = $.path.join(dotAppPath, "somecli.deb");
 
@@ -41,15 +32,9 @@ if (notInstalled) {
   }
 }
 
-// =====
-// check version, e.g.
-// =====
 const versionOutput = await $`somecli --version`.text(); // v0.22.1
 const version = versionOutput.split("v")?.at(1) ?? "";
 
-// =====
-// save initial installer meta, e.g.
-// =====
 const meta: InstallerMeta = {
   name: $dirname(import.meta.url, true),
   path: $dirname(import.meta.url),

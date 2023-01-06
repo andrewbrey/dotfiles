@@ -9,19 +9,13 @@ const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]
 
 const outdatedCheck = await wrapOutdatedCheck(meta, 3, async () => {
   if (env.OS === "darwin") {
-    // =====
-    // check updates for mac (probably managed), e.g.
-    // =====
-    // return ""; // managed on darwin
+    return ""; // managed on darwin
   } else {
-    // =====
-    // check updates for linux, e.g.
-    // =====
-    // const releaseInfo = await ghReleaseLatestInfo("someorg", "somecli");
-    // const { tag_name } = releaseInfo;
-    // const latest = tag_name.split("v")?.at(1) ?? "";
+    const releaseInfo = await ghReleaseLatestInfo("someorg", "somecli");
+    const { tag_name } = releaseInfo;
+    const latest = tag_name.split("v")?.at(1) ?? "";
 
-    // return latest;
+    return latest;
   }
 });
 
