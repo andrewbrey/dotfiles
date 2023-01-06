@@ -28,7 +28,7 @@ if (notInstalled) {
 
     const { assets, tag_name } = releaseInfo;
     const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
-    const targetName = `beekeeper-Studio-${latestVersion}.AppImage`;
+    const targetName = `Beekeeper-Studio-${latestVersion}.AppImage`;
     const targetAsset = assets.find((a) => a.name === targetName);
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
