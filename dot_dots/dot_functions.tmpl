@@ -310,11 +310,26 @@ function vercel_wrapper() {
 	$bin --global-config="${HOME}/.config/vercel/" --token="${VERCEL_TOKEN}" ${@:2}
 }
 
+# @see https://hub.docker.com/r/amazon/aws-cli
 function aws_wrapper() {
 	[ -d "~/.aws" ] && echo 'unexpected aws config directory found' && return 1
 
-	# @see https://hub.docker.com/r/amazon/aws-cli
 	local version=2.9.12
 	local configDir="{{ .standard_dirs.dot_dots_apps  }}/awscli/.aws"
-	docker run --rm -it -v "${configDir}":/root/.aws "amazon/aws-cli:${version}" ${@:1}
+
+	case ${@:1} in
+	*--version*)
+		docker run --rm -it -v "${configDir}":/root/.aws "amazon/aws-cli:${version}" --version
+		;;
+
+	*--profile*)
+		docker run --rm -it -v "${configDir}":/root/.aws "amazon/aws-cli:${version}" ${@:1}
+		;;
+
+	*)
+		# TODO: check for AWS_PROFILE environment variable?
+		echo 'specify a profile with --profile (default not allowed)' && return 1
+		;;
+	esac
+
 }
