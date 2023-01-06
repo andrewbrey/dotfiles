@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, $dirname, env, osInvariant } from "../../mod.ts";
-import { constants } from "../_cli/pamkit.ts";
+import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "../_cli/pamkit.ts";
 
 osInvariant();
 
@@ -12,7 +12,8 @@ if (isInstalled) {
   if (env.OS === "darwin") {
     await $`brew uninstall --cask beekeeper-studio`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await $`sudo apt purge -y beekeeper-studio`;
+    await unlinkDesktopFileForApp("beekeeper-studio");
+    await unlinkBinaryFromUserPath("beekeeper-studio");
   }
 }
 

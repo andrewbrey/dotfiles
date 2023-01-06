@@ -1,7 +1,14 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import { constants, ghReleaseLatestInfo, InstallerMeta, streamDownload } from "../_cli/pamkit.ts";
+import {
+  constants,
+  ghReleaseLatestInfo,
+  InstallerMeta,
+  linkBinaryToUserPath,
+  linkDesktopFileForApp,
+  streamDownload,
+} from "../_cli/pamkit.ts";
 
 osInvariant();
 
@@ -14,21 +21,22 @@ if (notInstalled) {
     await $`brew install --cask beekeeper-studio`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
-    const debInstallerPath = $.path.join(dotAppPath, "beekeeper-studio.deb");
+    const binPath = $.path.join(dotAppPath, "beekeeper-studio.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("beekeeper-studio", "beekeeper-studio");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
     const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
-    const targetName = `beekeeper-studio_${latestVersion}_amd64.deb`;
+    const targetName = `beekeeper-Studio-${latestVersion}.AppImage`;
     const targetAsset = assets.find((a) => a.name === targetName);
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, debInstallerPath);
+    await streamDownload(targetAsset.browser_download_url, binPath);
 
-    await $`sudo apt install -y ${debInstallerPath}`;
+    await linkBinaryToUserPath(binPath, "beekeeper-studio");
+    await linkDesktopFileForApp("beekeeper-studio");
   }
 }
 
