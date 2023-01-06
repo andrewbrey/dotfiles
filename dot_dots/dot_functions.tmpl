@@ -322,7 +322,7 @@ function aws_wrapper() {
 		docker run --rm -it -v "${configDir}":/root/.aws "amazon/aws-cli:${version}" --version
 		;;
 
-	*--profile* | *--help*)
+	*--profile* | *help*)
 		docker run --rm -it -v "${configDir}":/root/.aws "amazon/aws-cli:${version}" ${@:1}
 		;;
 
