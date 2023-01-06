@@ -152,6 +152,7 @@ symbol = " "
 [aws]
 format = "with [$symbol AWS](bold dimmed yellow) "
 symbol = ""
+force_display = true
 
 [gcloud]
 disabled = true
