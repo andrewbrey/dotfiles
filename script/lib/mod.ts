@@ -11,6 +11,7 @@ export {
   pptr,
   stdColors as colors,
   stdFlags as flags,
+  stdIntersect as intersect,
   stdLog as log,
   stdNodeFS as nodeFS,
   stdNodeOS as nodeOS,

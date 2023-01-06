@@ -5,6 +5,7 @@
  *
  * deno run --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts script/lib/deps.ts
  */
+export { intersect as stdIntersect } from "https://deno.land/std@0.171.0/collections/intersect.ts";
 export * as stdFlags from "https://deno.land/std@0.171.0/flags/mod.ts";
 export * as stdColors from "https://deno.land/std@0.171.0/fmt/colors.ts";
 export * as stdLog from "https://deno.land/std@0.171.0/log/mod.ts";
