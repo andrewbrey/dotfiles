@@ -152,13 +152,17 @@ symbol = " "
 [aws]
 format = "with [$symbol AWS](bold dimmed yellow) "
 symbol = ""
-force_display = true
 
 [gcloud]
 disabled = true
 
 [openstack]
 disabled = true
+
+[env_var.AWS_PROFILE]
+format = "with [$symbol AWS_PROFILE($env_value)](bold dimmed yellow) "
+symbol = ""
+variable = "AWS_PROFILE"
 
 [env_var.GH_TOKEN]
 format = "with [$symbol GH_TOKEN](bold dimmed yellow) "
