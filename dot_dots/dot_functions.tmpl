@@ -327,9 +327,10 @@ function aws_wrapper() {
 		;;
 
 	*)
-		# TODO: check for AWS_PROFILE environment variable?
-		echo 'specify a profile with --profile (default not allowed)' && return 1
+		[ -z "${AWS_PROFILE}" ] && echo 'specify a profile with --profile or $AWS_PROFILE (default not allowed, try use_aws)' && return 1
+		[ "default" = "${AWS_PROFILE}" ] && echo 'specify a profile with --profile or $AWS_PROFILE (default not allowed, try use_aws)' && return 1
+
+		docker run --rm -it -e AWS_PROFILE="${AWS_PROFILE}" -v "${configDir}":/root/.aws "amazon/aws-cli:${version}" ${@:1}
 		;;
 	esac
-
 }
