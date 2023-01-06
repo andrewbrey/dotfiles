@@ -160,7 +160,7 @@ disabled = true
 disabled = true
 
 [env_var.AWS_PROFILE]
-format = "with [$symbol AWS_PROFILE($env_value)](bold dimmed yellow) "
+format = "with [$symbol AWS_PROFILE $env_value](bold dimmed yellow) "
 symbol = ""
 variable = "AWS_PROFILE"
 
