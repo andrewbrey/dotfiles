@@ -6,6 +6,7 @@ import {
   env,
   getChezmoiData,
   invariant,
+  nodeFS,
   pptr,
   semver,
   UserAgent,
@@ -325,7 +326,11 @@ export async function wrapOutdatedCheck(
 export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
   const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
-  await $`chmod +x ${realBinaryPath}`;
+  try {
+    nodeFS.accessSync(realBinaryPath, nodeFS.constants.X_OK);
+  } catch (error) {
+    await $`chmod +x ${realBinaryPath}`;
+  }
 
   if (env.OS === "darwin") {
     await $`ln -sf ${realBinaryPath} ${linkPath}`;
@@ -339,10 +344,13 @@ export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryN
 export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
   const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
-  if (env.OS === "darwin") {
-    await $`rm -f ${linkPath}`;
-  } else {
-    await $`rm -f ${linkPath}`;
+  const stat = await Deno.stat(linkPath);
+  if (stat.isSymlink) {
+    if (env.OS === "darwin") {
+      await $`rm -f ${linkPath}`;
+    } else {
+      await $`rm -f ${linkPath}`;
+    }
   }
 
   return linkPath;

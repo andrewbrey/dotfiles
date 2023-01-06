@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
+#!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, $dirname, env, osInvariant } from "../../mod.ts";
 import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
@@ -7,14 +7,12 @@ osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("python3")) !== "undefined";
+const isInstalled = typeof (await $.which("youtube-dl")) !== "undefined";
 if (isInstalled) {
   if (env.OS === "darwin") {
-    await $`brew uninstall python3`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+    await $`brew uninstall youtube-dl`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await $`sudo apt purge -y python3 python3-pip`;
-
-    await unlinkBinaryFromUserPath("python");
+    await unlinkBinaryFromUserPath("youtube-dl");
   }
 }
 
