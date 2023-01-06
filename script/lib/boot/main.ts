@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A
+#!/usr/bin/env -S deno run --allow-sys --unstable -A
 
 import { $, dateFns, env, log } from "../mod.ts";
 import { keyFetchRequest } from "./keys.ts";

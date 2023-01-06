@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run
+#!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
 import {

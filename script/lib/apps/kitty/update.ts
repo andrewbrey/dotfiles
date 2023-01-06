@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
+#!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { $, $dirname, dedent, env, osInvariant } from "../../mod.ts";
 import { constants, getInstallerMetas, streamDownload } from "../_cli/pamkit.ts";

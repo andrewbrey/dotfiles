@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-env --allow-net=deno.land --allow-read --allow-write
+#!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write
 
 import { $, blackOnYellow, colors, doneWith, env, osInvariant } from "../mod.ts";
 
