@@ -14,7 +14,7 @@ if (notInstalled) {
   if (env.OS === "darwin") {
     await $`brew install --cask zoom`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "zoom.deb");
 
     const releaseInfo = await $.request("https://zoom.us/rest/download?os=linux").json();

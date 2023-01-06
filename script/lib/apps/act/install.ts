@@ -19,7 +19,7 @@ if (notInstalled) {
   if (env.OS === "darwin") {
     await $`brew install act`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "act.tar.gz");
     const binPath = $.path.join(dotAppPath, "act");
 

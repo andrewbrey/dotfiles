@@ -31,7 +31,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "godot.zip");
 
     const releaseInfo = await ghReleaseLatestInfo("godotengine", "godot");

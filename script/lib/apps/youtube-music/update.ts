@@ -18,7 +18,7 @@ const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]
 const installed = typeof (await $.which("youtube-music")) !== "undefined";
 if (installed) {
   if (env.OS === "darwin") {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("th-ch", "youtube-music");
@@ -39,7 +39,7 @@ if (installed) {
     meta.lastCheck = Date.now();
     meta.version = latestVersion;
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("th-ch", "youtube-music");

@@ -30,7 +30,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "beekeeper-studio.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("beekeeper-studio", "beekeeper-studio");

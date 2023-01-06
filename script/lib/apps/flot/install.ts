@@ -19,7 +19,7 @@ let version = "";
 const notInstalled = typeof (await $.which("flot")) === "undefined";
 if (notInstalled) {
   if (env.OS === "darwin") {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "flot.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("andrewbrey", "flot");
@@ -39,7 +39,7 @@ if (notInstalled) {
 
     version = latestVersion;
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "flot.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("andrewbrey", "flot");

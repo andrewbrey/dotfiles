@@ -28,7 +28,7 @@ if (meta.type === "uninstalled") {
     await $`brew tap homebrew/cask-fonts`.env({ HOMEBREW_NO_ANALYTICS: "1" });
     await $`brew install --cask ${fonts}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
 
     const releaseInfo = await ghReleaseLatestInfo("ryanoasis", "nerd-fonts");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));

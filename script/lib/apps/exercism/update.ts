@@ -29,7 +29,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "exercism.tar.gz");
     const binaryPath = $.path.join(dotAppPath, "exercism");
 

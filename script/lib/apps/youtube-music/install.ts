@@ -19,7 +19,7 @@ let version = "";
 const notInstalled = typeof (await $.which("youtube-music")) === "undefined";
 if (notInstalled) {
   if (env.OS === "darwin") {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("th-ch", "youtube-music");
@@ -39,7 +39,7 @@ if (notInstalled) {
 
     version = latestVersion;
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("th-ch", "youtube-music");

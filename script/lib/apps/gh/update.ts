@@ -27,7 +27,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "gh.deb");
 
     const releaseInfo = await ghReleaseLatestInfo("cli", "cli");

@@ -37,8 +37,7 @@ export const constants = {
   appResourcesDir: ".res",
   sourceDir: "source",
   metaManifestName: ".installer-meta.json",
-  // TODO: rename to jsonReleaseInfoName
-  ghReleaseInfoName: ".release-info.json",
+  jsonReleaseInfoName: ".release-info.json",
   htmlReleaseInfoName: ".release-info.html",
   plainReleaseInfoName: ".release-info",
   versionPrefsName: ".versions.json",

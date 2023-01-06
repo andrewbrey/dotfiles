@@ -18,7 +18,7 @@ const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]
 
 const installed = typeof (await $.which("skate")) !== "undefined";
 if (installed) {
-  const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+  const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
   const artifactPath = $.path.join(dotAppPath, "skate.tar.gz");
   const binaryPath = $.path.join(dotAppPath, "skate");
 

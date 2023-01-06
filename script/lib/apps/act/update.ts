@@ -29,7 +29,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "act.tar.gz");
     const binPath = $.path.join(dotAppPath, "act");
 

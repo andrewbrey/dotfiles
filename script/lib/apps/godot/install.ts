@@ -25,7 +25,7 @@ if (notInstalled) {
   if (env.OS === "darwin") {
     await $`brew install --cask godot-mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "godot.zip");
 
     const releaseInfo = await ghReleaseLatestInfo("godotengine", "godot");

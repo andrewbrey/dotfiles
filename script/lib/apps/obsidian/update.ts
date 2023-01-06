@@ -30,7 +30,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "obsidian.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("obsidianmd", "obsidian-releases");

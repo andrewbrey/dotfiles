@@ -16,7 +16,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = typeof (await $.which("skate")) === "undefined";
 if (notInstalled) {
-  const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+  const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
   const artifactPath = $.path.join(dotAppPath, "skate.tar.gz");
   const binaryPath = $.path.join(dotAppPath, "skate");
 

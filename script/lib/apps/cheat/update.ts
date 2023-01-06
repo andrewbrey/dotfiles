@@ -29,7 +29,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const assetDownloadPath = $.path.join(dotAppPath, "cheat.gz");
     const binaryPath = $.path.join(dotAppPath, "cheat");
 

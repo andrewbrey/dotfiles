@@ -28,7 +28,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "cryptomator.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("cryptomator", "cryptomator");

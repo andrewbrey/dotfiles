@@ -35,7 +35,7 @@ if (meta.type !== "uninstalled") {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
 
     const releaseInfo = await ghReleaseLatestInfo("ryanoasis", "nerd-fonts");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));

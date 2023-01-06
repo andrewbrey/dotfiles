@@ -21,7 +21,7 @@ if (notInstalled) {
   if (env.OS === "darwin") {
     await $`brew install --cask tiled`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "tiled.AppImage");
 
     const releaseInfo = await ghReleaseLatestInfo("mapeditor", "tiled");

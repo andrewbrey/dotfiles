@@ -28,7 +28,7 @@ if (installed) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.ghReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "hyperfine.deb");
 
     const releaseInfo = await ghReleaseLatestInfo("sharkdp", "hyperfine");
