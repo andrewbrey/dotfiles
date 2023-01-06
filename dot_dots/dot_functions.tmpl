@@ -310,9 +310,17 @@ function vercel_wrapper() {
 	$bin --global-config="${HOME}/.config/vercel/" --token="${VERCEL_TOKEN}" ${@:2}
 }
 
-# TODO: parse config file, prompt for profile, export AWS_PROFILE
 function use_aws() {
-	local configDir="{{ .standard_dirs.dot_dots_apps  }}/awscli/.aws"
+	local dotfilesBase="$(chezmoi source-path)"
+
+	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
+		dotfilesBase="${DOTFILES_SRC_PATH_OVERRIDE}"
+	fi
+
+	local script="${dotfilesBase}/script/lib/tools/awscli/pick-profile.ts"
+	local choice="$(deno run --allow-env --allow-read --allow-run ${script})"
+
+	[[ -n "${choice}" ]] && export AWS_PROFILE="${choice}"
 }
 
 # @see https://hub.docker.com/r/amazon/aws-cli
