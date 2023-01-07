@@ -1,6 +1,54 @@
 import { dax, stdNodeOS } from "./deps.ts";
 
-export const $ = dax.build$();
+const basic$ = dax.build$();
+const $helpers = {
+  /**
+   * Gets if the provided path does not exist asynchronously.
+   *
+   * Although there is a potential for a race condition between the
+   * time this check is made and the time some code is used, it may
+   * not be a big deal to use this in some scenarios and simplify
+   * the code a lot.
+   */
+  async missing(path: string) {
+    return basic$.exists(path).then((exists) => !exists);
+  },
+  /** Gets if the provided path does not exist synchronously. */
+  missingSync(path: string) {
+    return !basic$.existsSync(path);
+  },
+  /**
+   * Determine if the provided command does not exist, resolving to
+   * `true` if the specified command can't be found and to `false`
+   * otherwise.
+   */
+  async commandMissing(commandName: string) {
+    return basic$.commandExists(commandName).then((exists) => !exists);
+  },
+  /** Gets if the provided command does not exist synchronously */
+  commandMissingSync(commandName: string) {
+    return !basic$.commandExistsSync(commandName);
+  },
+  /**
+   * Check if the provided environment variable is defined and
+   * has a non-blank value.
+   */
+  envExists(envName: string) {
+    const value = Deno.env.get(envName)?.trim() ?? "";
+    return value.length > 0;
+  },
+  /**
+   * Check if the provided environment variable is not defined or
+   * is defined but has a blank value.
+   */
+  envMissing(envName: string) {
+    const value = Deno.env.get(envName)?.trim() ?? "";
+    return value.length === 0;
+  },
+} as const;
+
+type Extended$Type = dax.$Type & typeof $helpers;
+export const $ = Object.assign(basic$, $helpers) satisfies Extended$Type;
 $.setPrintCommand(true);
 
 export const env = {
