@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write
 
-import { $, blackOnYellow, colors, doneWith, env, osInvariant } from "../mod.ts";
+import { $, blackOnYellow, colors, env, osInvariant } from "../mod.ts";
 
 osInvariant();
 
@@ -43,4 +43,4 @@ if (!(await $.exists(dotExtra))) {
 
 $.logGroupEnd();
 
-doneWith(id);
+$.logStep("done with", id);

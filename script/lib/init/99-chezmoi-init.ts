@@ -5,7 +5,7 @@
 // sorted last by the file system
 // -----
 
-import { $, blackOnYellow, doneWith, env, osInvariant } from "../mod.ts";
+import { $, blackOnYellow, env, osInvariant } from "../mod.ts";
 
 osInvariant();
 
@@ -33,4 +33,4 @@ if (env.IN_CLOUD_IDE) {
 
 $.logGroupEnd();
 
-doneWith(id);
+$.logStep("done with", id);

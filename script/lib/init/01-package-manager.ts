@@ -6,7 +6,7 @@
 // issues if that is not the case
 // =====
 
-import { $, blackOnYellow, doneWith, env, osInvariant } from "../mod.ts";
+import { $, blackOnYellow, env, osInvariant } from "../mod.ts";
 
 osInvariant();
 
@@ -57,4 +57,4 @@ switch (env.OS) {
 
 $.logGroupEnd();
 
-doneWith(id);
+$.logStep("done with", id);

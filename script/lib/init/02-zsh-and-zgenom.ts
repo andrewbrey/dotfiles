@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-run --allow-write
 
-import { $, blackOnYellow, doneWith, env, osInvariant } from "../mod.ts";
+import { $, blackOnYellow, env, osInvariant } from "../mod.ts";
 
 osInvariant();
 
@@ -71,4 +71,4 @@ if (dumps.length > 0) {
 
 $.logGroupEnd();
 
-doneWith(id);
+$.logStep("done with", id);

@@ -6,7 +6,7 @@
 // issues if that is not the case
 // =====
 
-import { $, blackOnYellow, doneWith, osInvariant } from "../mod.ts";
+import { $, blackOnYellow, osInvariant } from "../mod.ts";
 
 osInvariant();
 
@@ -32,4 +32,4 @@ if (!(await $.which("starship"))) {
 
 $.logGroupEnd();
 
-doneWith(id);
+$.logStep("done with", id);
