@@ -21,7 +21,6 @@ export function getGroups() {
       "npm-globals",
       "gnome-shell-extensions",
       "cheatsheets",
-      "youtube-dl",
       "completions",
       "zgenom",
       "dotfiles",
