@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant, stripAnsi } from "../../mod.ts";
+import { $, $dirname, env, osInvariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 osInvariant();
@@ -18,7 +18,7 @@ if (notInstalled) {
 }
 
 const versionOutput = await $`mvn --version`.lines(); // Apache Maven 3.6.3\n......
-const version = stripAnsi(versionOutput?.at(0) ?? "").split(" ")?.at(2) ?? "";
+const version = $.stripAnsi(versionOutput?.at(0) ?? "").split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
   name: $dirname(import.meta.url, true),

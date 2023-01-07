@@ -6,7 +6,6 @@ export {
   cliffyPrompts as prompts,
   cliffyTable as table,
   dateFns,
-  dedent,
   handlebars,
   pptr,
   stdColors as colors,
@@ -17,7 +16,6 @@ export {
   stdNodeOS as nodeOS,
   stdSemver as semver,
   strCase,
-  stripAnsi,
   UserAgent,
 } from "./deps.ts";
 export * from "./env.ts";

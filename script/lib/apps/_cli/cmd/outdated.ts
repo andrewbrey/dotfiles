@@ -1,4 +1,4 @@
-import { $, colors, command, dedent, table } from "../../../mod.ts";
+import { $, colors, command, table } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas, OutdatedCheck } from "../pamkit.ts";
 
 export const outdated = new command.Command()
@@ -15,7 +15,7 @@ export const outdated = new command.Command()
     { collect: true },
   )
   .action(async ({ all, app = [], group = [] }, ...args) => {
-    const defaultListAll = (!app.length && !group.length);
+    const defaultListAll = !app.length && !group.length;
 
     const inScope = await calculateAppsInScope({
       all: all || defaultListAll,
@@ -79,13 +79,13 @@ export const outdated = new command.Command()
 
       const outdatedResults = checkResults.filter((c) => (Boolean(c.outdated)));
       if (outdatedResults.length) {
-        $.log(dedent(`
+        $.log($.dedent`
 
 				Update all outdated apps at once with:
 
 				${colors.magenta(`pam update ${outdatedResults.map((c) => `-a ${c.name}`).join(" ")}`)}
 
-				`));
+				`);
       }
     } else {
       $.logWarn(

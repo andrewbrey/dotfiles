@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, dedent, env, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, env, osInvariant } from "../../mod.ts";
 import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "../_cli/pamkit.ts";
 
 osInvariant();
@@ -24,12 +24,12 @@ if (isInstalled) {
 
     $.logWarn(
       "warn:",
-      dedent(`
+      $.dedent`
 				you can set the default terminal to something other than kitty with:
 
 				${colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
 
-			`),
+			`,
     );
   }
 }

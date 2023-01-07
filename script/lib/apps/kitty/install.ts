@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,sw.kovidgoyal.net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, dedent, env, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
 import {
   constants,
   InstallerMeta,
@@ -45,12 +45,12 @@ if (notInstalled) {
 
     $.logWarn(
       "warn:",
-      dedent(`
+      $.dedent`
 				you can set the default terminal to kitty with:
 
 				${colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
 
-			`),
+			`,
     );
   }
 }

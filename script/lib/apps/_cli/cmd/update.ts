@@ -1,4 +1,4 @@
-import { $, colors, command, dateFns, dedent, env, prompts } from "../../../mod.ts";
+import { $, colors, command, dateFns, env, prompts } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const update = new command.Command()
@@ -66,7 +66,7 @@ export const update = new command.Command()
         const updateScript = $.path.join(meta.path, "update.ts");
 
         if (idx > 0) $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.yellow("=====")}
 					# Starting ${colors.blue(meta.name)} update (task ${idx + 1} of ${installedManual.length})
 					# ${colors.yellow("=====")}
@@ -77,7 +77,7 @@ export const update = new command.Command()
         await $`zsh -c ${updateScript}`.printCommand(false);
 
         $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.green("=====")}
 					# Done with ${colors.blue(meta.name)} update in about ${
           colors.magenta(

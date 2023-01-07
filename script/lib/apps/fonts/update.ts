@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,api.github.com,github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
 
-import { $, $dirname, dedent, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
 import {
   constants,
   getInstallerMetas,
@@ -28,10 +28,10 @@ if (meta.type !== "uninstalled") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
-        dedent(`
+        $.dedent`
     			installation is managed; skipping manual update
 
-    		`),
+    		`,
       );
     });
   } else {

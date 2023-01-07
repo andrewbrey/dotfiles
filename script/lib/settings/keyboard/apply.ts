@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, dedent, env, getChezmoiData, osInvariant } from "../../mod.ts";
+import { $, env, getChezmoiData, osInvariant } from "../../mod.ts";
 
 osInvariant();
 
@@ -10,10 +10,10 @@ if (env.OS === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
-      dedent(`
+      $.dedent`
 				skipping keyboard settings for mac
 
-			`),
+			`,
     );
   });
 } else {

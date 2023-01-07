@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dotdot, colors, command, dateFns, dedent } from "../../mod.ts";
+import { $, $dotdot, colors, command, dateFns } from "../../mod.ts";
 import { calculateUpdatersInScope, getGroups, getUpdaterNames } from "./dumkit.ts";
 
 const dumoji = `${colors.yellow("⊂(◉‿◉)つ")}`;
@@ -66,7 +66,7 @@ await new command.Command()
         const updateScript = $.path.join($dotdot(import.meta.url), name, "updater.ts");
 
         if (idx > 0) $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.yellow("=====")}
 					# Starting ${colors.blue(name)} update (task ${idx + 1} of ${inScope.length})
 					# ${colors.yellow("=====")}
@@ -77,7 +77,7 @@ await new command.Command()
         await $`zsh -c ${updateScript}`.printCommand(false);
 
         $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.green("=====")}
 					# Done with ${colors.blue(name)} update in about ${
           colors.magenta(

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, dedent, env, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
 import {
   constants,
   getInstallerMetas,
@@ -23,10 +23,10 @@ if (installed) {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
-        dedent(`
+        $.dedent`
     			installation is managed; skipping manual update
 
-    		`),
+    		`,
       );
     });
   } else {

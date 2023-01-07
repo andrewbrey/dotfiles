@@ -1,4 +1,4 @@
-import { $, colors, command, dateFns, dedent, env, prompts } from "../../../mod.ts";
+import { $, colors, command, dateFns, env, prompts } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const install = new command.Command()
@@ -75,7 +75,7 @@ export const install = new command.Command()
         const installScript = $.path.join(meta.path, "install.ts");
 
         if (idx > 0) $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.yellow("=====")}
 					# Starting ${colors.blue(meta.name)} installation (task ${idx + 1} of ${toInstall.length})
 					# ${colors.yellow("=====")}
@@ -86,7 +86,7 @@ export const install = new command.Command()
         await $`zsh -c ${installScript}`.printCommand(false);
 
         $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.green("=====")}
 					# Done with ${colors.blue(meta.name)} installation in about ${
           colors.magenta(

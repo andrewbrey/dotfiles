@@ -1,4 +1,4 @@
-import { $, colors, command, dateFns, dedent, env, prompts } from "../../../mod.ts";
+import { $, colors, command, dateFns, env, prompts } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
 export const remove = new command.Command()
@@ -70,7 +70,7 @@ export const remove = new command.Command()
         const removalScript = $.path.join(meta.path, "remove.ts");
 
         if (idx > 0) $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.yellow("=====")}
 					# Starting ${colors.blue(meta.name)} removal (task ${idx + 1} of ${installed.length})
 					# ${colors.yellow("=====")}
@@ -81,7 +81,7 @@ export const remove = new command.Command()
         await $`zsh -c ${removalScript}`.printCommand(false);
 
         $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.green("=====")}
 					# Done with ${colors.blue(meta.name)} removal in about ${
           colors.magenta(

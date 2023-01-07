@@ -1,15 +1,15 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, dedent, osInvariant } from "../../mod.ts";
+import { $, osInvariant } from "../../mod.ts";
 
 osInvariant();
 
 $.logGroup(() => {
   $.logWarn(
     "warn:",
-    dedent(`
+    $.dedent`
 			installation is managed; skipping manual update
 
-		`),
+		`,
   );
 });

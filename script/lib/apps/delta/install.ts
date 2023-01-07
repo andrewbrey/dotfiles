@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant, stripAnsi } from "../../mod.ts";
+import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
 import { constants, ghReleaseLatestInfo, InstallerMeta, streamDownload } from "../_cli/pamkit.ts";
 
 osInvariant();
@@ -32,7 +32,7 @@ if (notInstalled) {
   }
 }
 
-const versionOutput = stripAnsi(await $`delta --version`.text()).trim(); // delta 0.15.1
+const versionOutput = $.stripAnsi(await $`delta --version`.text()).trim(); // delta 0.15.1
 const version = versionOutput.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {

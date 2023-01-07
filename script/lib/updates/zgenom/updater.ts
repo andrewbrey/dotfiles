@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, dateFns, dedent, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, dateFns, osInvariant } from "../../mod.ts";
 import { constants } from "../_cli/dumkit.ts";
 
 osInvariant();
@@ -30,7 +30,7 @@ if (!(await $.exists(zgenomCheckFile))) {
 }
 
 if (shouldNotify) {
-  $.log(dedent(`
+  $.log($.dedent`
 		Update ${colors.bold(colors.yellow("zgenom"))} by running the following:
 
 		${colors.green("zgenom selfupdate && zgenom update && rm -rf ~/.zcompdump*")}
@@ -38,5 +38,5 @@ if (shouldNotify) {
 		This will update zgenom itself, then update all of your
 		repositories, then remove the compiled completions which
 		will be rebuilt on next shell restart.
-	`));
+	`);
 }

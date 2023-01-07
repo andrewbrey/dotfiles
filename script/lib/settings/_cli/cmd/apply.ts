@@ -1,4 +1,4 @@
-import { $, $dotdot, colors, command, dateFns, dedent, env, prompts } from "../../../mod.ts";
+import { $, $dotdot, colors, command, dateFns, env, prompts } from "../../../mod.ts";
 import { getSettingNames } from "../samkit.ts";
 
 export const apply = new command.Command()
@@ -32,7 +32,7 @@ export const apply = new command.Command()
         const applyScript = $.path.join($dotdot(import.meta.url, 2), name, "apply.ts");
 
         if (idx > 0) $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.yellow("=====")}
 					# Starting ${colors.blue(name)} application (task ${idx + 1} of ${allSettings.length})
 					# ${colors.yellow("=====")}
@@ -43,7 +43,7 @@ export const apply = new command.Command()
         await $`zsh -c ${applyScript}`.printCommand(false);
 
         $.log("");
-        $.log(dedent`
+        $.log($.dedent`
 					# ${colors.green("=====")}
 					# Done with ${colors.blue(name)} application in about ${
           colors.magenta(

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deb.nodesource.com,deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, dedent, osInvariant } from "../../mod.ts";
+import { $, $dirname, osInvariant } from "../../mod.ts";
 import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
 
 osInvariant();
@@ -8,10 +8,10 @@ osInvariant();
 $.logGroup(() => {
   $.logWarn(
     "warn:",
-    dedent(`
+    $.dedent`
 			installation is managed; skipping manual update
 
-		`),
+		`,
   );
 });
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, colors, dedent, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, colors, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
 
 osInvariant();
 
@@ -10,10 +10,10 @@ if (env.OS === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
-      dedent(`
+      $.dedent`
 				skipping hostname settings for mac
 
-			`),
+			`,
     );
   });
 } else {
@@ -35,12 +35,12 @@ if (env.OS === "darwin") {
     $.logGroup(() => {
       $.logStep(
         "step:",
-        dedent(`
+        $.dedent`
 
 					current hostname: ${colors.yellow(currentHostname)}
 					desired hostname: ${colors.blue(desiredHostname)}
 
-				`),
+				`,
       );
     });
 
