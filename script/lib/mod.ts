@@ -1,58 +1,42 @@
-import { dax, stdColors, stdNodeOS, stdNodeUtil, stdPath } from "./deps.ts";
-
-export {
-  cliffyCmd as command,
-  cliffyPrompts as prompts,
-  cliffyTable as table,
+import {
+  cliffyAnsi,
+  cliffyCmd,
+  cliffyTable,
   dateFns,
+  dax,
   handlebars,
-  pptr,
-  stdColors as colors,
-  stdFlags as flags,
-  stdIntersect as intersect,
-  stdLog as log,
-  stdNodeFS as nodeFS,
-  stdNodeOS as nodeOS,
-  stdSemver as semver,
+  puppeteer,
+  stdIntersect,
+  stdLog,
+  stdNodeOS,
+  stdNodeUtil,
+  stdSemver,
   strCase,
   UserAgent,
 } from "./deps.ts";
 
+/** Does nothing */
+function noop() {}
+
+/** Enforce that a condition is true, and narrow types based on the assertion */
+function invariant(condition: any, message?: string): asserts condition {
+  if (condition) return;
+
+  const prefix = "Invariant failed";
+  const value: string = message ? `${prefix}: ${message}` : prefix;
+  throw new Error(value);
+}
+
+/** Simplified re-export of the stdlib node inspect function */
+function inspect(what: any, depth: number = Infinity) {
+  return stdNodeUtil.inspect(what, { colors: env.ALLOW_COLOR, depth, getters: true });
+}
+
 const basic$ = dax.build$();
-const $helpers = {
-  /** Gets if the provided path does not exist asynchronously */
-  async missing(path: string) {
-    return basic$.exists(path).then((exists) => !exists);
-  },
-  /** Gets if the provided path does not exist synchronously. */
-  missingSync(path: string) {
-    return !basic$.existsSync(path);
-  },
-  /** Determine if the provided command does not exist */
-  async commandMissing(commandName: string) {
-    return basic$.commandExists(commandName).then((exists) => !exists);
-  },
-  /** Determine if the provided command does not exist synchronously */
-  commandMissingSync(commandName: string) {
-    return !basic$.commandExistsSync(commandName);
-  },
-  /** Check if the provided environment variable is defined and has a non-blank value */
-  envExists(envName: string) {
-    const value = Deno.env.get(envName)?.trim() ?? "";
-    return value.length > 0;
-  },
-  /** Check if the provided environment variable is not defined or is defined but has a blank value */
-  envMissing(envName: string) {
-    const value = Deno.env.get(envName)?.trim() ?? "";
-    return value.length === 0;
-  },
-} as const;
+basic$.setPrintCommand(true);
 
-type Extended$Type = dax.$Type & typeof $helpers;
-export const $ = Object.assign(basic$, $helpers) satisfies Extended$Type;
-$.setPrintCommand(true);
-
-export const env = {
+/** Collection of environment specific values detailing the context for execution */
+const env = {
   CODESPACES: Deno.env.get("CODESPACES") === "true",
   REMOTE_CONTAINERS: Deno.env.get("REMOTE_CONTAINERS") === "true",
   GITPOD: Boolean(Deno.env.get("GITPOD_WORKSPACE_ID")),
@@ -70,20 +54,19 @@ export const env = {
   GH_TOKEN: Deno.env.get("GH_TOKEN") ?? Deno.env.get("GITHUB_TOKEN"),
   get STANDARD_DIRS() {
     return {
-      CODE: $.path.join(env.HOME, "code"),
-      NPM_INSTALL: $.path.join(env.HOME, ".npm-globals"),
-      PNPM_INSTALL: $.path.join(env.HOME, ".pnpm-globals"),
-      DOT_DOTS: $.path.join(env.HOME, ".dots"),
-      DOT_DOTS_APPS: $.path.join(env.HOME, ".dots", "apps"),
-      DOT_DOTS_SETTINGS: $.path.join(env.HOME, ".dots", "settings"),
-      LOCAL_BIN: $.path.join(env.HOME, ".local", "bin"),
-      LOCAL_SHARE_APPS: $.path.join(env.HOME, ".local", "share", "applications"),
+      CODE: basic$.path.join(env.HOME, "code"),
+      NPM_INSTALL: basic$.path.join(env.HOME, ".npm-globals"),
+      PNPM_INSTALL: basic$.path.join(env.HOME, ".pnpm-globals"),
+      DOT_DOTS: basic$.path.join(env.HOME, ".dots"),
+      DOT_DOTS_APPS: basic$.path.join(env.HOME, ".dots", "apps"),
+      DOT_DOTS_SETTINGS: basic$.path.join(env.HOME, ".dots", "settings"),
+      LOCAL_BIN: basic$.path.join(env.HOME, ".local", "bin"),
+      LOCAL_SHARE_APPS: basic$.path.join(env.HOME, ".local", "share", "applications"),
     };
   },
 };
 
-/** Useful subset of the data available when running `chezmoi data` */
-export type ChezmoiData = {
+type ChezmoiData = {
   chezmoi: {
     arch: string;
     fqdnHostname: string;
@@ -121,51 +104,102 @@ export type ChezmoiData = {
   };
 };
 
-export async function getChezmoiData() {
-  const dataReady = await $.exists($.path.join(env.HOME, ".config", "chezmoi", "chezmoi.yaml"));
+/** Returns the JSON data output from running `chezmoi data` */
+async function getChezmoiData() {
+  const chezmoiYaml = basic$.path.join(env.HOME, ".config", "chezmoi", "chezmoi.yaml");
 
-  if (!dataReady) throw new Error("unable to read chezmoi data before it is created");
+  invariant(await basic$.exists(chezmoiYaml), "unable to read chezmoi data before it is created");
 
   return await $`chezmoi data`.printCommand(false).json() as ChezmoiData;
 }
 
-export function noop() {}
-
-export function invariant(condition: any, message?: string): asserts condition {
-  if (condition) return;
-
-  const prefix = "Invariant failed";
-  const value: string = message ? `${prefix}: ${message}` : prefix;
-  throw new Error(value);
-}
-
-export function inspect(what: any, depth: number = Infinity) {
-  return stdNodeUtil.inspect(what, { colors: env.ALLOW_COLOR, depth, getters: true });
-}
-
-export function osInvariant() {
+/** Enforce that only linux and mac are supported */
+function osInvariant() {
   invariant(
     ["linux", "darwin"].includes(env.OS),
     `unknown or unsupported operating system [${env.OS}]`,
   );
 }
 
-export function $dirname(importMetaUrl: string, basenameOnly = false) {
-  const fullDir = stdPath.dirname(stdPath.fromFileUrl(importMetaUrl));
+/**
+ * Gets the absolute path of the directory containing the passed `import.meta.url`
+ *
+ * If `basenameOnly` is set to `true`, only returns the final segment of the path
+ */
+function $dirname(importMetaUrl: string, basenameOnly = false) {
+  const fullDir = basic$.path.dirname(basic$.path.fromFileUrl(importMetaUrl));
 
-  return basenameOnly ? stdPath.basename(fullDir) : fullDir;
+  return basenameOnly ? basic$.path.basename(fullDir) : fullDir;
 }
 
-export function $dotdot(importMetaUrl: string, count = 1) {
+/** Gets the absolute path of the directory up `count` from the passed `import.meta.url` */
+function $dotdot(importMetaUrl: string, count = 1) {
   invariant(count > 0, "dotdot count must be at least 1");
 
   const dots = new Array(count).fill("").map((i) => "..");
-  return stdPath.resolve($dirname(importMetaUrl), ...dots);
+  return basic$.path.resolve($dirname(importMetaUrl), ...dots);
 }
 
-export function blackOnYellow(what: string) {
-  return stdColors.black(stdColors.bgYellow(what));
+/** Gets if the provided path does not exist asynchronously */
+async function missing(path: string) {
+  return basic$.exists(path).then((exists) => !exists);
 }
+
+/** Gets if the provided path does not exist synchronously. */
+function missingSync(path: string) {
+  return !basic$.existsSync(path);
+}
+
+/** Determine if the provided command does not exist */
+async function commandMissing(commandName: string) {
+  return basic$.commandExists(commandName).then((exists) => !exists);
+}
+
+/** Determine if the provided command does not exist synchronously */
+function commandMissingSync(commandName: string) {
+  return !basic$.commandExistsSync(commandName);
+}
+
+/** Check if the provided environment variable is defined and has a non-blank value */
+function envExists(envName: string) {
+  const value = Deno.env.get(envName)?.trim() ?? "";
+  return value.length > 0;
+}
+
+/** Check if the provided environment variable is not defined or is defined but has a blank value */
+function envMissing(envName: string) {
+  const value = Deno.env.get(envName)?.trim() ?? "";
+  return value.length === 0;
+}
+
+const $helpers = {
+  $dirname,
+  $dotdot,
+  browser: { puppeteer, UserAgent },
+  cliffy: { cmd: cliffyCmd, table: cliffyTable },
+  collections: { intersect: stdIntersect },
+  colors: cliffyAnsi.colors,
+  commandMissing,
+  commandMissingSync,
+  dateFns,
+  env,
+  envExists,
+  envMissing,
+  getChezmoiData,
+  handlebars,
+  inspect,
+  invariant,
+  logging: stdLog,
+  missing,
+  missingSync,
+  noop,
+  osInvariant,
+  semver: stdSemver,
+  strCase,
+} as const;
+
+type Extended$Type = dax.$Type & typeof $helpers;
+export const $ = Object.assign(basic$, $helpers) satisfies Extended$Type;
 
 // sanity-check / safeguards
 osInvariant();
