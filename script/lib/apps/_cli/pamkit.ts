@@ -1,16 +1,4 @@
-import {
-  $,
-  $dotdot,
-  colors,
-  dateFns,
-  env,
-  getChezmoiData,
-  invariant,
-  nodeFS,
-  pptr,
-  semver,
-  UserAgent,
-} from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
@@ -23,13 +11,6 @@ export type InstallerMeta = {
   version?: string;
   /** Date.now() from most recent "outdated" check, undefined if the app is not installed */
   lastCheck?: number;
-};
-
-export type GHReleaseInfo = {
-  name: string;
-  tag_name: string;
-  assets: { name: string; browser_download_url: string }[];
-  body: string;
 };
 
 export const constants = {
@@ -218,29 +199,6 @@ export async function calculateAppsInScope(
   return inScope;
 }
 
-export async function ghReleaseLatestInfo(user: string, repo: string) {
-  const request = $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
-
-  if (env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
-
-  return await request.json() as GHReleaseInfo;
-}
-
-export async function streamDownload(url: string, dest: string) {
-  const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
-    .includes(new URL(url).hostname);
-
-  const request = $.request(url);
-  if (isGitHub && env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
-
-  const toPath = $.path.isAbsolute(dest) ? dest : $.path.resolve($.path.join(Deno.cwd(), dest));
-
-  await $.fs.ensureDir($.path.dirname(toPath));
-  await request.showProgress().pipeToPath(toPath);
-
-  $.logStep("done:", `download saved to ${toPath}`);
-}
-
 export async function mostRelevantVersion(resourcesDir: string) {
   let version;
   let versionKeyUsed;
@@ -376,115 +334,6 @@ export async function unlinkDesktopFileForApp(app: string) {
     await $`rm -f ${linkPath}`;
   } else {
     await $`rm -f ${linkPath}`;
-  }
-}
-
-export const getUA = (opts?: ConstructorParameters<typeof UserAgent>[0]) => {
-  opts = Array.isArray(opts) ? opts.at(0) : opts;
-  opts ??= {
-    platform: "Linux x86_64",
-    vendor: "Google Inc.",
-    deviceCategory: "desktop",
-    screenHeight: 1920,
-    screenWidth: 1080,
-  };
-
-  return `${new UserAgent(opts)}`;
-};
-export type RunInBrowserFn = (browser: pptr.Browser) => Promise<void>;
-export async function runInBrowser(fn: RunInBrowserFn) {
-  let browser;
-
-  try {
-    browser = await pptr.default.launch({
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-dev-shm-usage",
-      ],
-    });
-
-    await fn(browser);
-  } catch (error) {
-    if (error instanceof Error && error.message.includes("Could not find browser revision")) {
-      const puppeteerVersion = error.message.match(/Run "[^@]+@([^/]+)[^"]+" to download/i)?.at(1);
-
-      invariant(
-        typeof puppeteerVersion === "string" && puppeteerVersion.length > 0,
-        "no browser download instructions provided",
-      );
-
-      // @see https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix
-      const systemDeps = [
-        "ca-certificates",
-        "curl",
-        "fonts-liberation",
-        "libappindicator3-1",
-        "libasound2",
-        "libatk-bridge2.0-0",
-        "libatk1.0-0",
-        "libc6",
-        "libcairo2",
-        "libcups2",
-        "libdbus-1-3",
-        "libdrm2",
-        "libexpat1",
-        "libfontconfig1",
-        "libgbm1",
-        "libgcc1",
-        "libglib2.0-0",
-        "libgtk-3-0",
-        "libnspr4",
-        "libnss3",
-        "libpango-1.0-0",
-        "libpangocairo-1.0-0",
-        "libstdc++6",
-        "libx11-6",
-        "libx11-xcb1",
-        "libxcb1",
-        "libxcomposite1",
-        "libxcursor1",
-        "libxdamage1",
-        "libxext6",
-        "libxfixes3",
-        "libxi6",
-        "libxkbcommon0",
-        "libxrandr2",
-        "libxrender1",
-        "libxshmfence1",
-        "libxss1",
-        "libxtst6",
-        "lsb-release",
-        "unzip",
-        "wget",
-        "xdg-utils",
-      ];
-
-      await $`sudo apt install -y --no-install-recommends ${systemDeps}`;
-
-      await $`deno run -A --unstable https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
-        .env({ PUPPETEER_PRODUCT: "chrome" });
-
-      try {
-        browser ??= await pptr.default.launch({
-          headless: true,
-          args: [
-            "--no-sandbox",
-            "--disable-dev-shm-usage",
-          ],
-        });
-
-        await fn(browser);
-      } catch (retryError) {
-        throw retryError;
-      } finally {
-        await browser?.close();
-      }
-    } else {
-      throw error;
-    }
-  } finally {
-    await browser?.close();
   }
 }
 

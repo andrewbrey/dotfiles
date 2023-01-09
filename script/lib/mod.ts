@@ -8,6 +8,7 @@ import {
   puppeteer,
   stdIntersect,
   stdLog,
+  stdNodeFS,
   stdNodeOS,
   stdNodeUtil,
   stdSemver,
@@ -18,11 +19,15 @@ import {
 /** Does nothing */
 function noop() {}
 
-/** Enforce that a condition is true, and narrow types based on the assertion */
-function invariant(condition: any, message?: string): asserts condition {
+/**
+ * Enforce that a condition is true, and narrow types based on the assertion
+ *
+ * NOTE: not part of `$` because of https://github.com/microsoft/TypeScript/issues/36931
+ */
+export function invariant(condition: any, message?: string): asserts condition {
   if (condition) return;
 
-  const prefix = "Invariant failed";
+  const prefix = cliffyAnsi.colors.red("Invariant failed");
   const value: string = message ? `${prefix}: ${message}` : prefix;
   throw new Error(value);
 }
@@ -113,14 +118,6 @@ async function getChezmoiData() {
   return await $`chezmoi data`.printCommand(false).json() as ChezmoiData;
 }
 
-/** Enforce that only linux and mac are supported */
-function osInvariant() {
-  invariant(
-    ["linux", "darwin"].includes(env.OS),
-    `unknown or unsupported operating system [${env.OS}]`,
-  );
-}
-
 /**
  * Gets the absolute path of the directory containing the passed `import.meta.url`
  *
@@ -160,6 +157,17 @@ function commandMissingSync(commandName: string) {
   return !basic$.commandExistsSync(commandName);
 }
 
+/** Enforce that the specified command is available */
+async function requireCommand(commandName: string, installCommand?: string) {
+  let message = `${cliffyAnsi.colors.blue(commandName)} is required`;
+
+  if (installCommand) {
+    message = `${message}, install it with ${cliffyAnsi.colors.magenta(installCommand)}`;
+  }
+
+  invariant(await basic$.commandExists(commandName), message);
+}
+
 /** Check if the provided environment variable is defined and has a non-blank value */
 function envExists(envName: string) {
   const value = Deno.env.get(envName)?.trim() ?? "";
@@ -172,10 +180,155 @@ function envMissing(envName: string) {
   return value.length === 0;
 }
 
+/** Enforce that the specified environment variable is defined */
+function requireEnv(envName: string) {
+  invariant(envExists(envName), `missing required env variable $${envName}`);
+}
+
+type GHReleaseInfo = {
+  name: string;
+  tag_name: string;
+  assets: { name: string; browser_download_url: string }[];
+  body: string;
+};
+
+/** Fetch the latest release information for a github repo */
+async function ghReleaseInfo(user: string, repo: string) {
+  // TODO: make signature a single parameter, e.g. `ghReleaseLatestInfo(project: string /* "andrewbrey/dotfiles" */)`
+  const request = $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
+
+  if (env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
+
+  return await request.json<GHReleaseInfo>();
+}
+
+/** Download a file to the specified path */
+async function streamDownload(url: string, dest: string) {
+  const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
+    .includes(new URL(url).hostname);
+
+  const request = $.request(url);
+  if (isGitHub && env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
+
+  const toPath = $.path.isAbsolute(dest) ? dest : $.path.resolve($.path.join(Deno.cwd(), dest));
+
+  await $.fs.ensureDir($.path.dirname(toPath));
+  await request.showProgress().pipeToPath(toPath);
+
+  $.logStep("done:", `download saved to ${toPath}`);
+}
+
+type UAOpts = NonNullable<ConstructorParameters<typeof UserAgent>[0]>;
+type RunInBrowserFn = (page: puppeteer.Page, browser: puppeteer.Browser) => Promise<void>;
+
+/** Run the specified function in a real browser context */
+async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: UAOpts }) {
+  let browser: puppeteer.Browser | undefined;
+  let page: puppeteer.Page | undefined;
+
+  const defaultUAOpts = {
+    platform: env.OS === "darwin" ? "MacIntel" : "Linux x86_64",
+    vendor: "Google Inc.",
+    deviceCategory: "desktop",
+  } satisfies UAOpts;
+
+  const uaOpts = Object.assign(defaultUAOpts, Array.isArray(opts?.ua) ? opts?.ua.at(0) : opts?.ua);
+  const ua = new UserAgent(uaOpts);
+  const launchArgs: Parameters<typeof puppeteer.default.launch>[0] = {
+    headless: true,
+    defaultViewport: { width: 1920, height: 1080 },
+    args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  };
+
+  try {
+    browser = await puppeteer.default.launch(launchArgs);
+    page = await browser.newPage();
+    await page.setUserAgent(ua.toString());
+
+    await fn(page, browser);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Could not find browser revision")) {
+      const puppeteerVersion = error.message.match(/Run "[^@]+@([^/]+)[^"]+" to download/i)?.at(1);
+
+      invariant(
+        typeof puppeteerVersion === "string" && puppeteerVersion.length > 0,
+        "no browser download instructions provided",
+      );
+
+      if (env.OS === "linux") {
+        // @see https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix
+        const systemDeps = [
+          "ca-certificates",
+          "curl",
+          "fonts-liberation",
+          "libappindicator3-1",
+          "libasound2",
+          "libatk-bridge2.0-0",
+          "libatk1.0-0",
+          "libc6",
+          "libcairo2",
+          "libcups2",
+          "libdbus-1-3",
+          "libdrm2",
+          "libexpat1",
+          "libfontconfig1",
+          "libgbm1",
+          "libgcc1",
+          "libglib2.0-0",
+          "libgtk-3-0",
+          "libnspr4",
+          "libnss3",
+          "libpango-1.0-0",
+          "libpangocairo-1.0-0",
+          "libstdc++6",
+          "libx11-6",
+          "libx11-xcb1",
+          "libxcb1",
+          "libxcomposite1",
+          "libxcursor1",
+          "libxdamage1",
+          "libxext6",
+          "libxfixes3",
+          "libxi6",
+          "libxkbcommon0",
+          "libxrandr2",
+          "libxrender1",
+          "libxshmfence1",
+          "libxss1",
+          "libxtst6",
+          "lsb-release",
+          "unzip",
+          "wget",
+          "xdg-utils",
+        ];
+        await $`sudo apt install -y --no-install-recommends ${systemDeps}`;
+      }
+
+      await $`deno run -A --unstable https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
+        .env({ PUPPETEER_PRODUCT: "chrome" });
+
+      try {
+        browser ??= await puppeteer.default.launch(launchArgs);
+        page ??= await browser.newPage();
+        await page.setUserAgent(ua.toString());
+
+        await fn(page, browser);
+      } catch (retryError) {
+        throw retryError;
+      } finally {
+        await browser?.close();
+      }
+    } else {
+      throw error;
+    }
+  } finally {
+    await browser?.close();
+  }
+}
+
 const $helpers = {
   $dirname,
   $dotdot,
-  browser: { puppeteer, UserAgent },
   cliffy: { cmd: cliffyCmd, table: cliffyTable },
   collections: { intersect: stdIntersect },
   colors: cliffyAnsi.colors,
@@ -186,22 +339,31 @@ const $helpers = {
   envExists,
   envMissing,
   getChezmoiData,
+  ghReleaseInfo,
   handlebars,
   inspect,
-  invariant,
   logging: stdLog,
   missing,
   missingSync,
+  nodeFS: stdNodeFS,
   noop,
-  osInvariant,
+  requireCommand,
+  requireEnv,
+  runInBrowser,
   semver: stdSemver,
-  strCase,
+  streamDownload,
+  strings: { case: strCase },
 } as const;
 
 type Extended$Type = dax.$Type & typeof $helpers;
 export const $ = Object.assign(basic$, $helpers) satisfies Extended$Type;
 
-// sanity-check / safeguards
-osInvariant();
-invariant(env.USER.trim().length > 0, "missing required env variable $USER");
-invariant(env.HOME.trim().length > 0, "missing required env variable $HOME");
+// =====
+// safeguards
+// =====
+requireEnv("USER");
+requireEnv("HOME");
+invariant(
+  ["linux", "darwin"].includes(env.OS),
+  `unknown or unsupported operating system [${env.OS}]`,
+);

@@ -7,6 +7,7 @@
  */
 export { intersect as stdIntersect } from "https://deno.land/std@0.171.0/collections/intersect.ts";
 export * as stdLog from "https://deno.land/std@0.171.0/log/mod.ts";
+export * as stdNodeFS from "https://deno.land/std@0.171.0/node/fs.ts";
 export * as stdNodeOS from "https://deno.land/std@0.171.0/node/os.ts";
 export * as stdNodeUtil from "https://deno.land/std@0.171.0/node/util.ts";
 export * as stdSemver from "https://deno.land/std@0.171.0/semver/mod.ts";
@@ -19,5 +20,5 @@ export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
 export { default as handlebars } from "npm:handlebars@4.7.7";
 // @deno-types="npm:@types/user-agents@1.0.2"
-export { default as UserAgent } from "npm:user-agents@1.0.1241";
+export { default as UserAgent } from "npm:user-agents@1.0.1252";
 // TODO: remove unused imports
