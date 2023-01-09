@@ -1,13 +1,13 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
 const isInstalled = typeof (await $.which("godot")) !== "undefined";
 if (isInstalled) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`brew uninstall --cask godot-mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     await unlinkDesktopFileForApp("godot");

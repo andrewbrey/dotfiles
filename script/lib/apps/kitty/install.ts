@@ -1,32 +1,31 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,sw.kovidgoyal.net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import {
   constants,
   InstallerMeta,
   linkBinaryToUserPath,
   linkDesktopFileForApp,
-  streamDownload,
 } from "../_cli/pamkit.ts";
 
 invariant(
   typeof (await $.which("xz")) !== "undefined",
-  `xz-utils is required, install it with ${colors.magenta("pam install -a core-tools")}`,
+  `xz-utils is required, install it with ${$.colors.magenta("pam install -a core-tools")}`,
 );
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = typeof (await $.which("kitty")) === "undefined";
 if (notInstalled) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`brew install --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const installScriptPath = $.path.join(dotAppPath, "kitty.sh");
     const kittyInstall = $.path.join(dotAppPath, "kitty.app");
     const kittyBin = $.path.join(kittyInstall, "bin", "kitty");
 
-    await streamDownload("https://sw.kovidgoyal.net/kitty/installer.sh", installScriptPath);
+    await $.streamDownload("https://sw.kovidgoyal.net/kitty/installer.sh", installScriptPath);
     await Deno.chmod(installScriptPath, constants.executableMask);
 
     await $`${installScriptPath} dest=${dotAppPath} launch="n"`;
@@ -47,7 +46,7 @@ if (notInstalled) {
       $.dedent`
 				you can set the default terminal to kitty with:
 
-				${colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
+				${$.colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
 
 			`,
     );
@@ -58,9 +57,9 @@ const versionOutput = await $`kitty --version`.text(); // kitty 0.26.5 created b
 const version = versionOutput.split(" ")?.at(1);
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
-  type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
+  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,
   lastCheck: Date.now(),
 };

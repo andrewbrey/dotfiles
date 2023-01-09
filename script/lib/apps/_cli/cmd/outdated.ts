@@ -55,9 +55,7 @@ export const outdated = new $.cliffy.cmd.Command()
         .padding(4)
         .header(
           $.cliffy.table.Row.from(
-            ["Name", "Installed Version", "Latest Version", "Check Skip Reason"].map(
-              $.colors.blue,
-            ),
+            ["Name", "Installed Version", "Latest Version", "Check Skip Reason"].map($.colors.blue),
           ),
         )
         .body(

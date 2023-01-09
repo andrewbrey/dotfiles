@@ -1,16 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { constants } from "../_cli/pamkit.ts";
 
 invariant(
   typeof (await $.which("snap")) !== "undefined",
-  `snap is required, install it with ${colors.magenta("pam install -a snapd")}`,
+  `snap is required, install it with ${$.colors.magenta("pam install -a snapd")}`,
 );
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-if (env.OS === "linux") {
+if ($.env.OS === "linux") {
   if (typeof (await $.which("snapcraft")) !== "undefined") {
     await $`sudo snap remove snapcraft`;
   }

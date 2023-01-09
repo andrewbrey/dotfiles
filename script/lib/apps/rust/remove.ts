@@ -1,14 +1,14 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
 const isInstalled = typeof (await $.which("rustc")) !== "undefined";
 if (isInstalled) {
-  const rustupPath = $.path.join(env.HOME, ".rustup");
-  const cargoPath = $.path.join(env.HOME, ".cargo");
+  const rustupPath = $.path.join($.env.HOME, ".rustup");
+  const cargoPath = $.path.join($.env.HOME, ".cargo");
 
   if (await $.exists(rustupPath)) {
     await Deno.remove(rustupPath, { recursive: true });

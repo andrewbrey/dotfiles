@@ -1,9 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,starship.rs --allow-read --allow-write --allow-run
 
-import { $, $dirname } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = typeof (await $.which("starship")) === "undefined";
@@ -22,8 +22,8 @@ const versionOutput = await $`starship --version`.lines(); // starship 1.11.0\n.
 const version = versionOutput?.at(0)?.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-manual",
   version,
   lastCheck: Date.now(),

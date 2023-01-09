@@ -1,15 +1,15 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, getChezmoiData, invariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 invariant(typeof (await $.which("node")) !== "undefined", "node is required");
 invariant(typeof (await $.which("npm")) !== "undefined", "npm is required");
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const chezmoiData = await getChezmoiData();
+const chezmoiData = await $.getChezmoiData();
 
 const npmGlobals = new Set([
   "@antfu/ni",
@@ -36,8 +36,8 @@ if (!chezmoiData.is_personal_machine) {
 await $`npm i -g ${Array.from(npmGlobals)}`;
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version: "",
   lastCheck: Date.now(),

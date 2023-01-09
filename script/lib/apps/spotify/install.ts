@@ -1,19 +1,19 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = typeof (await $.which("spotify")) === "undefined";
 if (notInstalled) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`brew install --cask spotify`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     invariant(
       typeof (await $.which("snap")) !== "undefined",
-      `snap is required, install it with ${colors.magenta("pam install -a snapd")}`,
+      `snap is required, install it with ${$.colors.magenta("pam install -a snapd")}`,
     );
 
     await $`sudo snap install spotify`;
@@ -21,8 +21,8 @@ if (notInstalled) {
 }
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version: "",
   lastCheck: Date.now(),

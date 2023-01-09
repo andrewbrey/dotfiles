@@ -1,21 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant } from "../../mod.ts";
-import {
-  constants,
-  getInstallerMetas,
-  ghReleaseLatestInfo,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const installed = typeof (await $.which("nvim")) !== "undefined";
 if (installed) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -29,7 +24,7 @@ if (installed) {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "nvim.deb");
 
-    const releaseInfo = await ghReleaseLatestInfo("neovim", "neovim");
+    const releaseInfo = await $.ghReleaseInfo("neovim", "neovim");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets } = releaseInfo;
@@ -38,7 +33,7 @@ if (installed) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, debInstallerPath);
+    await $.streamDownload(targetAsset.browser_download_url, debInstallerPath);
 
     await $`sudo apt install -y ${debInstallerPath}`;
 

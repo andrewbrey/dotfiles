@@ -234,7 +234,10 @@ async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: UAOpts }) {
     deviceCategory: "desktop",
   } satisfies UAOpts;
 
-  const uaOpts = Object.assign(defaultUAOpts, Array.isArray(opts?.ua) ? opts?.ua.at(0) : opts?.ua);
+  const uaOpts = Object.assign(
+    defaultUAOpts,
+    Array.isArray(opts?.ua) ? opts?.ua.at(0) : opts?.ua,
+  );
   const ua = new UserAgent(uaOpts);
   const launchArgs: Parameters<typeof puppeteer.default.launch>[0] = {
     headless: true,

@@ -1,16 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,api.github.com --allow-read --allow-write --allow-run
 
-import { $, $dirname, env } from "../../mod.ts";
-import { constants, getInstallerMetas, ghReleaseLatestInfo } from "../_cli/pamkit.ts";
+import { $ } from "../../mod.ts";
+import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 let version = "0.0.0"; // special for compose-switch because at runtime, it's --version flag reports `docker compose` version, not the version of the compose-switch utility itself
 const installed = typeof (await $.which("compose-switch")) !== "undefined";
 if (installed) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -26,7 +26,7 @@ if (installed) {
         .text(),
     );
 
-    const releaseInfo = await ghReleaseLatestInfo("docker", "compose-switch");
+    const releaseInfo = await $.ghReleaseInfo("docker", "compose-switch");
     const { tag_name } = releaseInfo;
     version = tag_name.split("v")?.at(1) ?? "";
 

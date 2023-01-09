@@ -1,14 +1,14 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = typeof (await $.which("brave-browser")) === "undefined";
 if (notInstalled) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     invariant(typeof (await $.which("curl")) !== "undefined", "curl is required");
@@ -35,8 +35,8 @@ const versionOutput = await $`brave-browser --version`.text(); // Brave Browser 
 const version = versionOutput.split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version,
   lastCheck: Date.now(),

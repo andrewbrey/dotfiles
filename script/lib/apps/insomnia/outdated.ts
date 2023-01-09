@@ -1,12 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { getInstallerMetas, wrapOutdatedCheck } from "../_cli/pamkit.ts";
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const outdatedCheck = await wrapOutdatedCheck(meta, 3, async () => {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     return ""; // managed on darwin
   } else {
     const latestReleasePageText = await $.request("https://insomnia.rest/changelog").text();

@@ -1,21 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant } from "../../mod.ts";
-import {
-  constants,
-  getInstallerMetas,
-  linkBinaryToUserPath,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, getInstallerMetas, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const installed = typeof (await $.which("insomnia")) !== "undefined";
 if (installed) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -29,7 +24,7 @@ if (installed) {
     const releaseInfoPath = $.path.join(dotAppPath, constants.htmlReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "insomnia.AppImage");
 
-    await streamDownload("https://insomnia.rest/changelog", releaseInfoPath);
+    await $.streamDownload("https://insomnia.rest/changelog", releaseInfoPath);
     const latestReleasePageText = await Deno.readTextFile(releaseInfoPath);
     const latestVersion = latestReleasePageText.match(/id="(\d+\.\d+\.\d+)"/)?.at(1) ?? ""; // id="2022.7.0"
 
@@ -41,7 +36,7 @@ if (installed) {
     const targetAsset =
       `https://github.com/Kong/insomnia/releases/download/core@${latestVersion}/Insomnia.Core-${latestVersion}.AppImage`;
 
-    await streamDownload(targetAsset, binPath);
+    await $.streamDownload(targetAsset, binPath);
     await linkBinaryToUserPath(binPath, "insomnia");
 
     meta.version = latestVersion;

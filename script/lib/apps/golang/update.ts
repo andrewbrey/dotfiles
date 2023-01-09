@@ -1,16 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env } from "../../mod.ts";
-import { constants, getInstallerMetas, streamDownload } from "../_cli/pamkit.ts";
+import { $ } from "../../mod.ts";
+import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const installed = typeof (await $.which("go")) !== "undefined";
 if (installed) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -28,7 +28,7 @@ if (installed) {
 
     const artifactPath = $.path.join(dotAppPath, "golang.tar.gz");
 
-    await streamDownload(
+    await $.streamDownload(
       `https://golang.org/dl/${latestVersion}.linux-amd64.tar.gz`,
       artifactPath,
     );

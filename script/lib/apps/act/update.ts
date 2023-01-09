@@ -1,22 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant } from "../../mod.ts";
-import {
-  constants,
-  getInstallerMetas,
-  ghReleaseLatestInfo,
-  linkBinaryToUserPath,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, getInstallerMetas, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const installed = typeof (await $.which("act")) !== "undefined";
 if (installed) {
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -31,7 +25,7 @@ if (installed) {
     const artifactPath = $.path.join(dotAppPath, "act.tar.gz");
     const binPath = $.path.join(dotAppPath, "act");
 
-    const releaseInfo = await ghReleaseLatestInfo("nektos", "act");
+    const releaseInfo = await $.ghReleaseInfo("nektos", "act");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
@@ -41,7 +35,7 @@ if (installed) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, artifactPath);
+    await $.streamDownload(targetAsset.browser_download_url, artifactPath);
     await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
     await linkBinaryToUserPath(binPath, "act");
 
