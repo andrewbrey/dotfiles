@@ -1,8 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, invariant, osInvariant } from "../../mod.ts";
-
-osInvariant();
+import { $, invariant } from "../../mod.ts";
 
 const hasNode = typeof (await $.which("node")) !== "undefined";
 const hasNPM = typeof (await $.which("npm")) !== "undefined";
