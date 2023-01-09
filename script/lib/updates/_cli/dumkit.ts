@@ -1,4 +1,4 @@
-import { $, $dotdot, colors } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 
 export const constants = {
   updaterMemoDir: ".memo",
@@ -32,7 +32,7 @@ export function getGroups() {
 }
 
 export async function getUpdaterNames() {
-  const updatersDir = $dotdot(import.meta.url);
+  const updatersDir = $.$dotdot(import.meta.url);
   const updaterNames: Set<string> = new Set();
 
   for await (const entry of Deno.readDir(updatersDir)) {
@@ -92,7 +92,7 @@ export async function calculateUpdatersInScope(
           // =====
           $.logError(
             "error:",
-            `group called ${colors.blue(name)} contains unknown updater ${colors.yellow(n)}`,
+            `group called ${$.colors.blue(name)} contains unknown updater ${$.colors.yellow(n)}`,
           );
         }
       });
@@ -105,14 +105,14 @@ export async function calculateUpdatersInScope(
   // warn about unknown updater names
   // =====
   unknownUpdaterNames.forEach((a) =>
-    $.logError("error:", `unknown --updater named ${colors.yellow(a)} `)
+    $.logError("error:", `unknown --updater named ${$.colors.yellow(a)} `)
   );
 
   // =====
   // warn about unknown updater groups
   // =====
   unknownUpdaterGroups.forEach((g) =>
-    $.logError("error:", `unknown --group named ${colors.yellow(g)} `)
+    $.logError("error:", `unknown --group named ${$.colors.yellow(g)} `)
   );
 
   return inScope;
