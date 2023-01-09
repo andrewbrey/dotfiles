@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dotdot, getChezmoiData, osInvariant } from "../../mod.ts";
+import { $, $, $dotdot, getChezmoiData, osInvariant } from "../../mod.ts";
 
 osInvariant();
 
@@ -9,7 +9,7 @@ const hasDconf = typeof (await $.which("dconf")) !== "undefined";
 
 if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubuntu) && hasDconf) {
   const extensionsDir = $.path.join(
-    $dotdot(import.meta.url, 2),
+    $.$dotdot(import.meta.url, 2),
     "apps",
     "gnome-shell-extensions",
     ".res",

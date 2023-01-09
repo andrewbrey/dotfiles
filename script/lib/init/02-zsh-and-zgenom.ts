@@ -1,12 +1,10 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-run --allow-write
 
-import { $, blackOnYellow, env, osInvariant } from "../mod.ts";
-
-osInvariant();
+import { $ } from "../mod.ts";
 
 const id = `==> ${$.path.basename(import.meta.url)}`;
 
-$.logGroup(blackOnYellow(id));
+$.logGroup($.colors.black.bgYellow(id));
 
 $.logStep("step: ensure presence of zsh");
 
@@ -16,7 +14,7 @@ if (!zshBin) {
   $.logGroup();
 
   $.logStep("installing zsh...");
-  switch (env.OS) {
+  switch ($.env.OS) {
     case "linux":
       await $`sudo apt install -y zsh`;
 
@@ -47,11 +45,11 @@ if (!zshBin) {
 $.logStep("step: set zsh as default shell for root");
 await $`sudo chsh -s ${zshBin} root`;
 
-$.logStep(`step: set zsh as default shell for ${env.USER}`);
-await $`sudo chsh -s ${zshBin} ${env.USER}`;
+$.logStep(`step: set zsh as default shell for ${$.env.USER}`);
+await $`sudo chsh -s ${zshBin} ${$.env.USER}`;
 
 $.logStep("step: ensure presence of zgenom plugin manager");
-const zgenInstallPath = $.path.join(env.HOME, ".zgenom");
+const zgenInstallPath = $.path.join($.env.HOME, ".zgenom");
 if (!(await $.exists(zgenInstallPath))) {
   await $`git clone https://github.com/jandamm/zgenom.git ${zgenInstallPath}`;
 
@@ -62,7 +60,7 @@ if (!(await $.exists(zgenInstallPath))) {
 
 $.logStep("step: ensure no previously compiled zcompdump files exist");
 const dumps: string[] = [];
-for await (const file of $.fs.expandGlob(`${env.HOME}/.zcompdump*`)) {
+for await (const file of $.fs.expandGlob(`${$.env.HOME}/.zcompdump*`)) {
   if (file.isFile) dumps.push(file.path);
 }
 if (dumps.length > 0) {

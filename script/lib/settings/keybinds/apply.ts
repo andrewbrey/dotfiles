@@ -1,12 +1,10 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, colors, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
-osInvariant();
+const chezmoiData = await $.getChezmoiData();
 
-const chezmoiData = await getChezmoiData();
-
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -17,15 +15,15 @@ if (env.OS === "darwin") {
     );
   });
 } else {
-  if (!env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
+  if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
     invariant(typeof (await $.which("dconf")) !== "undefined", "dconf is required");
     invariant(
       typeof (await $.which("wmctrl")) !== "undefined",
-      `wmctrl is required, install it with ${colors.magenta("pam install -a peer-tools")}`,
+      `wmctrl is required, install it with ${$.colors.magenta("pam install -a peer-tools")}`,
     );
 
     const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
-    const dconfSrc = `${env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
+    const dconfSrc = `${$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
 
     await $`dconf load ${loadKey}`.stdin(await Deno.readTextFile(dconfSrc));
   }

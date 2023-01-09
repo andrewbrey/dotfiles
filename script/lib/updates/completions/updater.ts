@@ -6,41 +6,41 @@ osInvariant();
 
 if (typeof (await $.which("bw")) !== "undefined") {
   await Deno.writeTextFile(
-    $.path.join(env.STANDARD_DIRS.DOT_DOTS, "completions", "_bw"),
+    $.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_bw"),
     await $`bw completion --shell zsh`.text(),
   );
 }
 
 if (typeof (await $.which("chezmoi")) !== "undefined") {
   await Deno.writeTextFile(
-    $.path.join(env.STANDARD_DIRS.DOT_DOTS, "completions", "_chezmoi"),
+    $.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_chezmoi"),
     await $`chezmoi completion zsh`.text(),
   );
 }
 
 if (typeof (await $.which("deno")) !== "undefined") {
   await Deno.writeTextFile(
-    $.path.join(env.STANDARD_DIRS.DOT_DOTS, "completions", "_deno"),
+    $.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_deno"),
     await $`deno completions --unstable zsh`.text(),
   );
 }
 if (typeof (await $.which("flyctl")) !== "undefined") {
   await Deno.writeTextFile(
-    $.path.join(env.STANDARD_DIRS.DOT_DOTS, "completions", "_flyctl"),
+    $.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_flyctl"),
     await $`flyctl completion zsh`.text(),
   );
 }
 
 if (typeof (await $.which("gh")) !== "undefined") {
   await Deno.writeTextFile(
-    $.path.join(env.STANDARD_DIRS.DOT_DOTS, "completions", "_gh"),
+    $.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_gh"),
     await $`gh completion -s zsh`.text(),
   );
 }
 
 if (typeof (await $.which("supabase")) !== "undefined") {
   await Deno.writeTextFile(
-    $.path.join(env.STANDARD_DIRS.DOT_DOTS, "completions", "_supabase"),
+    $.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_supabase"),
     await $`supabase completion zsh`.text(),
   );
 }

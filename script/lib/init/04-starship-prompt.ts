@@ -6,13 +6,11 @@
 // issues if that is not the case
 // =====
 
-import { $, blackOnYellow, osInvariant } from "../mod.ts";
-
-osInvariant();
+import { $ } from "../mod.ts";
 
 const id = `==> ${$.path.basename(import.meta.url)}`;
 
-$.logGroup(blackOnYellow(id));
+$.logGroup($.colors.black.bgYellow(id));
 
 if (!(await $.which("starship"))) {
   $.logWarn("warn: starship not found");

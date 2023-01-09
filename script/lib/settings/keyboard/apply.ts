@@ -1,12 +1,10 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, env, getChezmoiData, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 
-osInvariant();
+const chezmoiData = await $.getChezmoiData();
 
-const chezmoiData = await getChezmoiData();
-
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -17,7 +15,7 @@ if (env.OS === "darwin") {
     );
   });
 } else {
-  if (!env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
+  if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
     // @see https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1814481
     //      https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg5952976.html
     //      https://superuser.com/questions/79822/how-to-swap-the-fn-use-of-function-keys-on-an-apple-keyboard-in-linux

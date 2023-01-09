@@ -5,7 +5,7 @@ import { $, env, osInvariant } from "../../mod.ts";
 osInvariant();
 
 const communityCheatPath = $.path.join(
-  env.STANDARD_DIRS.DOT_DOTS_APPS,
+  $.env.STANDARD_DIRS.DOT_DOTS_APPS,
   "cheat",
   "cheatsheets",
   "community",

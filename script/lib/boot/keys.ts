@@ -1,6 +1,6 @@
-import { $, log } from "../mod.ts";
+import { $, type Logger } from "../mod.ts";
 
-export async function keyFetchRequest(logger: log.Logger, artifactsPath: string) {
+export async function keyFetchRequest(logger: Logger, artifactsPath: string) {
   const marker = $.path.join(artifactsPath, ".key_fetch_request");
 
   if (await $.exists(marker)) {
@@ -12,7 +12,7 @@ export async function keyFetchRequest(logger: log.Logger, artifactsPath: string)
     const port = 4057;
     for (const host of hosts) {
       try {
-        await $.request(`http://${host}:${port}`);
+        await $.request(`http://${host}:${port}`).timeout(2_000);
       } catch (error) {
         logger.error(`keyFetchRequest failed for http://${host}:${port}`);
         logger.error(error);

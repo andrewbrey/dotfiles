@@ -10,19 +10,19 @@ await $.fs.ensureDir(dotMemoPath);
 
 const zgenomCheckFile = $.path.join(dotMemoPath, ".check_timestamp");
 const now = new Date();
-const next = dateFns.addDays(now, 7);
-const nextUnix = dateFns.getUnixTime(next);
+const next = $.dateFns.addDays(now, 7);
+const nextUnix = $.dateFns.getUnixTime(next);
 
 let shouldNotify = true;
 
 if (!(await $.exists(zgenomCheckFile))) {
   await Deno.writeTextFile(zgenomCheckFile, `${nextUnix}`);
 } else {
-  const savedUnix = dateFns.fromUnixTime(Number(
+  const savedUnix = $.dateFns.fromUnixTime(Number(
     (await Deno.readTextFile(zgenomCheckFile)).trim(),
   ));
 
-  if (dateFns.isAfter(now, savedUnix)) {
+  if ($.dateFns.isAfter(now, savedUnix)) {
     await Deno.writeTextFile(zgenomCheckFile, `${nextUnix}`);
   } else {
     shouldNotify = false;
@@ -31,9 +31,9 @@ if (!(await $.exists(zgenomCheckFile))) {
 
 if (shouldNotify) {
   $.log($.dedent`
-		Update ${colors.bold(colors.yellow("zgenom"))} by running the following:
+		Update ${$.colors.bold($.colors.yellow("zgenom"))} by running the following:
 
-		${colors.green("zgenom selfupdate && zgenom update && rm -rf ~/.zcompdump*")}
+		${$.colors.green("zgenom selfupdate && zgenom update && rm -rf ~/.zcompdump*")}
 
 		This will update zgenom itself, then update all of your
 		repositories, then remove the compiled completions which

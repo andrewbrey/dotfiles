@@ -4,7 +4,7 @@ import { $, env, osInvariant } from "../../mod.ts";
 
 osInvariant();
 
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   await $`brew update`;
   await $`brew upgrade`;
   await $`brew cleanup`;

@@ -16,6 +16,8 @@ import {
   UserAgent,
 } from "./deps.ts";
 
+export type { FormatterFunction, Logger, LogRecord } from "./deps.ts";
+
 /** Does nothing */
 function noop() {}
 

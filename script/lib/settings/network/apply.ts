@@ -1,12 +1,10 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
-osInvariant();
+const chezmoiData = await $.getChezmoiData();
 
-const chezmoiData = await getChezmoiData();
-
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -18,7 +16,7 @@ if (env.OS === "darwin") {
   });
 } else {
   if (
-    !env.IN_CONTAINER && chezmoiData.is_personal_machine &&
+    !$.env.IN_CONTAINER && chezmoiData.is_personal_machine &&
     (chezmoiData.is_popos || chezmoiData.is_ubuntu)
   ) {
     invariant(typeof (await $.which("nmcli")) !== "undefined", "nmcli is required");
