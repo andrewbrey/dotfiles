@@ -1,9 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, invariant } from "../../mod.ts";
 import { constants, createAndLinkNativefierApp, InstallerMeta } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const server = Deno.env.get("SECRET_BITWARDEN_SERVER");
 invariant(

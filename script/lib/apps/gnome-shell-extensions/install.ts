@@ -1,9 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, getChezmoiData, invariant } from "../../mod.ts";
 import { constants, getUA, InstallerMeta, runInBrowser } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 const sourceDir = $.path.join(dotAppPath, constants.sourceDir);

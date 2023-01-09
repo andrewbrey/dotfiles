@@ -1,9 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, env, invariant } from "../../mod.ts";
 import { constants, getUA, InstallerMeta, runInBrowser, streamDownload } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const asepriteToken = Deno.env.get("HUMBLE_ASEPRITE_TOKEN");
 

@@ -1,9 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $, $dirname, env } from "../../mod.ts";
 import { getInstallerMetas, ghReleaseLatestInfo, wrapOutdatedCheck } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
 

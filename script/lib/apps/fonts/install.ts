@@ -1,14 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,api.github.com,github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, env, getChezmoiData, invariant } from "../../mod.ts";
 import {
   constants,
   getInstallerMetas,
   ghReleaseLatestInfo,
   streamDownload,
 } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);

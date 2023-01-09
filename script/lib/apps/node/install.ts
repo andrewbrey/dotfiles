@@ -1,9 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deb.nodesource.com,deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $, $dirname, env } from "../../mod.ts";
 import { constants, InstallerMeta, mostRelevantVersion, streamDownload } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 const dotResPath = $.path.join($dirname(import.meta.url), constants.appResourcesDir);

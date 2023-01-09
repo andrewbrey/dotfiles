@@ -1,14 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, env, invariant } from "../../mod.ts";
 import {
   constants,
   getInstallerMetas,
   ghReleaseLatestInfo,
   streamDownload,
 } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);

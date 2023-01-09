@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, env, invariant } from "../../mod.ts";
 import {
   constants,
   InstallerMeta,
@@ -8,8 +8,6 @@ import {
   linkDesktopFileForApp,
   streamDownload,
 } from "../_cli/pamkit.ts";
-
-osInvariant();
 
 let version = "";
 const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);

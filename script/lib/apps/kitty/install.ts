@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,sw.kovidgoyal.net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
+import { $, $dirname, colors, env, invariant } from "../../mod.ts";
 import {
   constants,
   InstallerMeta,
@@ -9,7 +9,6 @@ import {
   streamDownload,
 } from "../_cli/pamkit.ts";
 
-osInvariant();
 invariant(
   typeof (await $.which("xz")) !== "undefined",
   `xz-utils is required, install it with ${colors.magenta("pam install -a core-tools")}`,
