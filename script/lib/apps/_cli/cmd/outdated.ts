@@ -1,7 +1,7 @@
-import { $, colors, command, table } from "../../../mod.ts";
+import { $ } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas, OutdatedCheck } from "../pamkit.ts";
 
-export const outdated = new command.Command()
+export const outdated = new $.cliffy.cmd.Command()
   .description("Check if one or more available apps is outdated.")
   .option("--all", "Check if all available apps are outdated.")
   .option(
@@ -33,7 +33,7 @@ export const outdated = new command.Command()
     // warn about skipped app names
     // =====
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const skipList = lister.format(uninstalledOrManaged.map((i) => colors.blue(i.name)));
+    const skipList = lister.format(uninstalledOrManaged.map((i) => $.colors.blue(i.name)));
     if (uninstalledOrManaged.length) {
       $.logWarn(
         "warn:",
@@ -51,12 +51,12 @@ export const outdated = new command.Command()
         checkResults.push(await $`zsh -c ${outdatedScript}`.printCommand(false).json());
       }
 
-      const t = new table.Table()
+      const t = new $.cliffy.table.Table()
         .padding(4)
         .header(
-          table.Row.from(
+          $.cliffy.table.Row.from(
             ["Name", "Installed Version", "Latest Version", "Check Skip Reason"].map(
-              colors.blue,
+              $.colors.blue,
             ),
           ),
         )
@@ -66,11 +66,11 @@ export const outdated = new command.Command()
             .map((cr) => {
               const current = cr.current ?? "-";
               const latest = cr.latest
-                ? cr.outdated ? colors.green(colors.bold(cr.latest)) : cr.latest
+                ? cr.outdated ? $.colors.green($.colors.bold(cr.latest)) : cr.latest
                 : "-";
               const skip = cr.skip || "-";
 
-              return table.Row.from([cr.name, current, latest, skip]);
+              return $.cliffy.table.Row.from([cr.name, current, latest, skip]);
             }),
         );
 
@@ -83,7 +83,7 @@ export const outdated = new command.Command()
 
 				Update all outdated apps at once with:
 
-				${colors.magenta(`pam update ${outdatedResults.map((c) => `-a ${c.name}`).join(" ")}`)}
+				${$.colors.magenta(`pam update ${outdatedResults.map((c) => `-a ${c.name}`).join(" ")}`)}
 
 				`);
       }

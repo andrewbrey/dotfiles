@@ -1,18 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { constants } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
 const isInstalled = typeof (await $.which("somecli")) !== "undefined";
 if (isInstalled) {
-  if (env.OS === "darwin") {
-    // await $`brew uninstall somecli`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+  if ($.env.OS === "darwin") {
+    await $`brew uninstall somecli`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    // await $`sudo apt purge -y somecli`;
+    await $`sudo apt purge -y somecli`;
   }
 }
 

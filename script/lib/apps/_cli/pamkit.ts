@@ -59,7 +59,7 @@ export function getGroups() {
 }
 
 export async function getAppNames() {
-  const appsDir = $dotdot(import.meta.url);
+  const appsDir = $.$dotdot(import.meta.url);
   const appNames: Set<string> = new Set();
 
   for await (const entry of Deno.readDir(appsDir)) {
@@ -70,7 +70,7 @@ export async function getAppNames() {
 }
 
 export async function getInstallerMetas(inScope?: Set<string>) {
-  const appsDir = $dotdot(import.meta.url);
+  const appsDir = $.$dotdot(import.meta.url);
   const allAppNames = await getAppNames();
   const inScopeApps = inScope
     ? Array.from(inScope).filter((n) => allAppNames.has(n))
@@ -175,7 +175,7 @@ export async function calculateAppsInScope(
           // =====
           $.logError(
             "error:",
-            `group called ${colors.blue(name)} contains unknown app ${colors.yellow(n)}`,
+            `group called ${$.colors.blue(name)} contains unknown app ${$.colors.yellow(n)}`,
           );
         }
       });
@@ -187,13 +187,15 @@ export async function calculateAppsInScope(
   // =====
   // warn about unknown app names
   // =====
-  unknownAppNames.forEach((a) => $.logError("error:", `unknown --app named ${colors.yellow(a)} `));
+  unknownAppNames.forEach((a) =>
+    $.logError("error:", `unknown --app named ${$.colors.yellow(a)} `)
+  );
 
   // =====
   // warn about unknown app groups
   // =====
   unknownAppGroups.forEach((g) =>
-    $.logError("error:", `unknown --group named ${colors.yellow(g)} `)
+    $.logError("error:", `unknown --group named ${$.colors.yellow(g)} `)
   );
 
   return inScope;
@@ -203,18 +205,18 @@ export async function mostRelevantVersion(resourcesDir: string) {
   let version;
   let versionKeyUsed;
 
-  const chezmoiData = await getChezmoiData();
+  const chezmoiData = await $.getChezmoiData();
   const dotVersionInfo = JSON.parse(
     await Deno.readTextFile($.path.join(resourcesDir, constants.versionPrefsName)),
   ) as Record<string, string>;
 
   const isMine = chezmoiData.is_personal_machine ? "personal" : "work";
 
-  version ??= dotVersionInfo?.[`${isMine}-${env.OS}`];
-  if (version && !versionKeyUsed) versionKeyUsed = `${isMine}-${env.OS}`;
+  version ??= dotVersionInfo?.[`${isMine}-${$.env.OS}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${isMine}-${$.env.OS}`;
 
-  version ??= dotVersionInfo?.[`${env.OS}`];
-  if (version && !versionKeyUsed) versionKeyUsed = `${env.OS}`;
+  version ??= dotVersionInfo?.[`${$.env.OS}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${$.env.OS}`;
 
   version ??= dotVersionInfo?.[`${isMine}`];
   if (version && !versionKeyUsed) versionKeyUsed = `${isMine}`;
@@ -227,13 +229,13 @@ export async function mostRelevantVersion(resourcesDir: string) {
 }
 
 export function isNewerVersion(latest: string = "", current: string = "") {
-  const latestSem = semver.valid(latest);
-  const currentSem = semver.valid(current);
+  const latestSem = $.semver.valid(latest);
+  const currentSem = $.semver.valid(current);
 
   invariant(latestSem !== null, "missing required latest version");
   invariant(currentSem !== null, "missing required current version");
 
-  return semver.gt(latestSem, currentSem) as boolean;
+  return $.semver.gt(latestSem, currentSem) as boolean;
 }
 
 export type OutdatedCheck = {
@@ -261,7 +263,7 @@ export async function wrapOutdatedCheck(
   };
 
   if (meta.type === "installed-manual") {
-    const lastCheckDistance = dateFns.differenceInDays(Date.now(), meta.lastCheck ?? Date.now());
+    const lastCheckDistance = $.dateFns.differenceInDays(Date.now(), meta.lastCheck ?? Date.now());
     if (lastCheckDistance >= frequencyDays) {
       const latest = await latestFetcher();
       outdatedCheck.latest = latest;
@@ -282,15 +284,15 @@ export async function wrapOutdatedCheck(
 }
 
 export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
   try {
-    nodeFS.accessSync(realBinaryPath, nodeFS.constants.X_OK);
+    $.nodeFS.accessSync(realBinaryPath, $.nodeFS.constants.X_OK);
   } catch (error) {
     await $`chmod +x ${realBinaryPath}`;
   }
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`ln -sf ${realBinaryPath} ${linkPath}`;
   } else {
     await $`ln -sf ${realBinaryPath} ${linkPath}`;
@@ -300,11 +302,11 @@ export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryN
 }
 
 export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
   const stat = await Deno.stat(linkPath);
   if (stat.isSymlink) {
-    if (env.OS === "darwin") {
+    if ($.env.OS === "darwin") {
       await $`rm -f ${linkPath}`;
     } else {
       await $`rm -f ${linkPath}`;
@@ -315,12 +317,12 @@ export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
 }
 
 export async function linkDesktopFileForApp(app: string) {
-  const desktopFile = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
+  const desktopFile = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
   invariant(await $.exists(desktopFile), `missing required .desktop file at ${desktopFile}`);
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`ln -sf ${desktopFile} ${linkPath}`;
   } else {
     await $`ln -sf ${desktopFile} ${linkPath}`;
@@ -328,9 +330,9 @@ export async function linkDesktopFileForApp(app: string) {
 }
 
 export async function unlinkDesktopFileForApp(app: string) {
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`rm -f ${linkPath}`;
   } else {
     await $`rm -f ${linkPath}`;
@@ -354,8 +356,8 @@ export async function createAndLinkNativefierApp(
 
   const [{ path }] = await getInstallerMetas(new Set([appName]));
   const sourceDir = $.path.join(path, constants.appArtifactsDir, constants.sourceDir);
-  const iconPath = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
-  const desktopPath = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
+  const iconPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
+  const desktopPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
 
   invariant(await $.exists(iconPath), "icon file missing");
   invariant(await $.exists(desktopPath), "desktop file missing");

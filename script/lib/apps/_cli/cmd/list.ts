@@ -1,7 +1,7 @@
-import { $, colors, command, dateFns, table } from "../../../mod.ts";
+import { $ } from "../../../mod.ts";
 import { calculateAppsInScope, getGroups, getInstallerMetas } from "../pamkit.ts";
 
-export const list = new command.Command()
+export const list = new $.cliffy.cmd.Command()
   .description("List metadata about available apps.")
   .alias("ls")
   .option("--all", "List metadata for all available apps, both installed and uninstalled.")
@@ -18,7 +18,7 @@ export const list = new command.Command()
     { collect: true },
   )
   .action(async ({ all, installed, uninstalled, app = [], group = [] }, ...args) => {
-    const defaultListAll = (!installed && !uninstalled && !app.length && !group.length);
+    const defaultListAll = !installed && !uninstalled && !app.length && !group.length;
 
     const allMetas = await getInstallerMetas();
     const inScope = await calculateAppsInScope({
@@ -29,9 +29,13 @@ export const list = new command.Command()
       groups: group,
     });
 
-    const t = new table.Table()
+    const t = new $.cliffy.table.Table()
       .padding(4)
-      .header(table.Row.from(["Name", "Installation Type", "Version", "Checked"].map(colors.blue)))
+      .header(
+        $.cliffy.table.Row.from(
+          ["Name", "Installation Type", "Version", "Checked"].map($.colors.blue),
+        ),
+      )
       .body(
         allMetas
           .filter((m) => inScope.has(m.name))
@@ -39,10 +43,10 @@ export const list = new command.Command()
           .map((meta) => {
             const version = meta.version ?? "-";
             const checked = meta.lastCheck
-              ? dateFns.formatDistanceToNow(meta.lastCheck, { addSuffix: true })
+              ? $.dateFns.formatDistanceToNow(meta.lastCheck, { addSuffix: true })
               : "-";
 
-            return table.Row.from([meta.name, meta.type, version, checked]);
+            return $.cliffy.table.Row.from([meta.name, meta.type, version, checked]);
           }),
       );
 
@@ -51,10 +55,10 @@ export const list = new command.Command()
 
     if (defaultListAll) {
       $.log("");
-      $.log(colors.blue("Groups"));
+      $.log($.colors.blue("Groups"));
 
       for (const [name, group] of getGroups()) {
-        $.log(colors.bold(name));
+        $.log($.colors.bold(name));
         $.logLight(`  ${Array.from(group).join(", ")}`);
       }
     }
