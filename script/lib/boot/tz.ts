@@ -1,6 +1,6 @@
-import { $, log } from "../mod.ts";
+import { $, type Logger } from "../mod.ts";
 
-export async function autoTZ(logger: log.Logger, artifactsPath: string) {
+export async function autoTZ(logger: Logger, artifactsPath: string) {
   const tzFile = $.path.join(artifactsPath, ".auto_tz");
 
   if (await $.exists(tzFile)) {

@@ -1,7 +1,7 @@
-import { $, colors, command, dateFns, env, prompts } from "../../../mod.ts";
+import { $ } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
-export const install = new command.Command()
+export const install = new $.cliffy.cmd.Command()
   .description("Install one or more available apps.")
   .alias("i")
   .arguments("[...app_names:string]")
@@ -36,13 +36,13 @@ export const install = new command.Command()
     const toInstall = Boolean(allowReinstall) ? [...metasForScope] : [...uninstalled];
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const toInstallList = lister.format(toInstall.map((i) => colors.blue(i.name)));
+    const toInstallList = lister.format(toInstall.map((i) => $.colors.blue(i.name)));
 
     if (!allowReinstall) {
       // =====
       // warn about skipped app names
       // =====
-      const skipList = lister.format(installed.map((i) => colors.blue(i.name)));
+      const skipList = lister.format(installed.map((i) => $.colors.blue(i.name)));
       if (installed.length) {
         $.logWarn(
           "warn:",
@@ -54,7 +54,7 @@ export const install = new command.Command()
     }
 
     if (toInstall.length) {
-      const autoProceed = !env.STDIN_IS_TTY || Boolean(skipConfirm);
+      const autoProceed = !$.env.STDIN_IS_TTY || Boolean(skipConfirm);
 
       if (autoProceed) {
         $.log(`About to install ${toInstallList}.`);
@@ -62,8 +62,7 @@ export const install = new command.Command()
       }
 
       const proceed = !autoProceed
-        ? await prompts.Confirm.prompt({
-          message: `About to install ${toInstallList}. Proceed?`,
+        ? await $.confirm(`About to install ${toInstallList}. Proceed?`, {
           default: true,
         })
         : true;
@@ -76,9 +75,11 @@ export const install = new command.Command()
 
         if (idx > 0) $.log("");
         $.log($.dedent`
-					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(meta.name)} installation (task ${idx + 1} of ${toInstall.length})
-					# ${colors.yellow("=====")}
+					# ${$.colors.yellow("=====")}
+					# Starting ${$.colors.blue(meta.name)} installation (task ${
+          idx + 1
+        } of ${toInstall.length})
+					# ${$.colors.yellow("=====")}
 				`);
         $.log("");
 
@@ -87,13 +88,13 @@ export const install = new command.Command()
 
         $.log("");
         $.log($.dedent`
-					# ${colors.green("=====")}
-					# Done with ${colors.blue(meta.name)} installation in about ${
-          colors.magenta(
-            dateFns.formatDistanceToNowStrict(startTime),
+					# ${$.colors.green("=====")}
+					# Done with ${$.colors.blue(meta.name)} installation in about ${
+          $.colors.magenta(
+            $.dateFns.formatDistanceToNowStrict(startTime),
           )
         }
-					# ${colors.green("=====")}
+					# ${$.colors.green("=====")}
 				`);
       }
     } else {

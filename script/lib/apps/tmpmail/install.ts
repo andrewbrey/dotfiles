@@ -1,20 +1,14 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("tmpmail")) === "undefined";
-if (notInstalled) {
-  if (env.OS === "linux") {
-    invariant(
-      typeof (await $.which("xclip")) !== "undefined",
-      `xclip is required, install it with ${colors.magenta("pam install -a peer-tools")}`,
-    );
+if (await $.commandMissing("tmpmail")) {
+  if ($.env.OS === "linux") {
+    await $.requireCommand("xclip", "pam install -a peer-tools");
   }
 
   const sourcePath = $.path.join(dotAppPath, constants.sourceDir);
@@ -29,8 +23,8 @@ const versionOutput = await $`tmpmail --version`.text(); // 1.2.3
 const version = versionOutput ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-manual",
   version,
   lastCheck: Date.now(),

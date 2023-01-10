@@ -1,38 +1,23 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
-import { getInstallerMetas, getUA, runInBrowser, wrapOutdatedCheck } from "../_cli/pamkit.ts";
+import { $ } from "../../mod.ts";
+import { getInstallerMetas, wrapOutdatedCheck } from "../_cli/pamkit.ts";
 
-osInvariant();
+const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
 
-const asepriteToken = Deno.env.get("HUMBLE_ASEPRITE_TOKEN");
-
-invariant(
-  typeof asepriteToken !== "undefined" && asepriteToken.length > 0,
-  `missing required env $HUMBLE_ASEPRITE_TOKEN (try ${colors.magenta("use_humble")})`,
-);
-
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const outdatedCheck = await wrapOutdatedCheck(meta, 3, async () => {
   let releaseInfo = "";
 
-  await runInBrowser(async (browser) => {
-    const page = await browser.newPage();
-    await page.setUserAgent(getUA({
-      platform: env.OS === "darwin" ? "MacIntel" : "Linux x86_64",
-      vendor: "Google Inc.",
-      deviceCategory: "desktop",
-      screenHeight: 1920,
-      screenWidth: 1080,
-    }));
+  await $.runInBrowser(async (page) => {
     await page.goto(`https://www.humblebundle.com/downloads?key=${asepriteToken}`, {
       waitUntil: "networkidle2",
     });
     releaseInfo = await page.content();
   });
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     const dmgURI = releaseInfo.match(/href="(https.*Aseprite-v\d+\.\d+\.\d+.*-macOS\.dmg.*)"/)
       ?.at(1)?.replaceAll("&amp;", "&") ?? "";
 

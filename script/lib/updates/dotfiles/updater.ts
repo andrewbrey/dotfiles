@@ -1,11 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, invariant, osInvariant } from "../../mod.ts";
-
-osInvariant();
+import { $, invariant } from "../../mod.ts";
 
 const gitRoot = await $`git rev-parse --show-toplevel`.cwd(
-  $dirname(import.meta.url),
+  $.$dirname(import.meta.url),
 ).text();
 const dotfileRepoStatus = (await $`git -C ${gitRoot} status --porcelain`.lines()).filter(Boolean);
 

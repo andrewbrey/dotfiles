@@ -1,19 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("brave-browser")) === "undefined";
-if (notInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandMissing("brave-browser")) {
+  if ($.env.OS === "darwin") {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    invariant(typeof (await $.which("curl")) !== "undefined", "curl is required");
+    await $.requireCommand("curl", "pam install -a core-tools");
 
     await $`sudo mkdir -p /usr/share/keyrings`;
     const braveGPGKeyringURL = "https://brave-browser-apt-release.s3.brave.com/"; // NOTE: trailing slash (needed in sources.list?)
@@ -37,8 +34,8 @@ const versionOutput = await $`brave-browser --version`.text(); // Brave Browser 
 const version = versionOutput.split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version,
   lastCheck: Date.now(),

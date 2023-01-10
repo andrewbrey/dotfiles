@@ -1,12 +1,10 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
-osInvariant();
-
-const hasNode = typeof (await $.which("node")) !== "undefined";
-const hasNPM = typeof (await $.which("npm")) !== "undefined";
-const hasNCU = typeof (await $.which("ncu")) !== "undefined";
+const hasNode = await $.commandExists("node");
+const hasNPM = await $.commandExists("npm");
+const hasNCU = await $.commandExists("ncu");
 
 if (hasNode && hasNPM && hasNCU) {
   const ncu = await $`ncu -g`.stdout("inheritPiped").stderr("null");

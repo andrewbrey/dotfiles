@@ -1,29 +1,20 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import {
-  constants,
-  ghReleaseLatestInfo,
-  InstallerMeta,
-  linkBinaryToUserPath,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("exercism")) === "undefined";
-if (notInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandMissing("exercism")) {
+  if ($.env.OS === "darwin") {
     await $`brew install exercism`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "exercism.tar.gz");
     const binaryPath = $.path.join(dotAppPath, "exercism");
 
-    const releaseInfo = await ghReleaseLatestInfo("exercism", "cli");
+    const releaseInfo = await $.ghReleaseInfo("exercism", "cli");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
@@ -33,13 +24,13 @@ if (notInstalled) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, artifactPath);
+    await $.streamDownload(targetAsset.browser_download_url, artifactPath);
 
     await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
     await linkBinaryToUserPath(binaryPath, "exercism");
   }
 
-  const workspaceDir = $.path.join(env.STANDARD_DIRS.CODE, "exercism");
+  const workspaceDir = $.path.join($.env.STANDARD_DIRS.CODE, "exercism");
   if (!(await $.exists(workspaceDir))) {
     await $`git clone git@github.com:andrewbrey/exercism.git ${workspaceDir}`;
   }
@@ -49,9 +40,9 @@ const versionOutput = await $`exercism version`.text(); // exercism version 3.1.
 const version = versionOutput.split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
-  type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
+  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,
   lastCheck: Date.now(),
 };

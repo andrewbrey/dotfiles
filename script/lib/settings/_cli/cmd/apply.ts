@@ -1,17 +1,17 @@
-import { $, $dotdot, colors, command, dateFns, env, prompts } from "../../../mod.ts";
+import { $ } from "../../../mod.ts";
 import { getSettingNames } from "../samkit.ts";
 
-export const apply = new command.Command()
+export const apply = new $.cliffy.cmd.Command()
   .description("Apply all available settings.")
   .option("--skip-confirm", "Automatically bypass confirmation prompts.")
   .action(async ({ skipConfirm }, ...args) => {
     const allSettings = Array.from(await getSettingNames());
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const toApplyList = lister.format(allSettings.map((name) => colors.blue(name)));
+    const toApplyList = lister.format(allSettings.map((name) => $.colors.blue(name)));
 
     if (allSettings.length) {
-      const autoProceed = !env.STDIN_IS_TTY || Boolean(skipConfirm);
+      const autoProceed = !$.env.STDIN_IS_TTY || Boolean(skipConfirm);
 
       if (autoProceed) {
         $.log(`About to apply your ${toApplyList} settings.`);
@@ -19,8 +19,7 @@ export const apply = new command.Command()
       }
 
       const proceed = !autoProceed
-        ? await prompts.Confirm.prompt({
-          message: `About to apply your ${toApplyList} settings. Proceed?`,
+        ? await $.confirm(`About to apply your ${toApplyList} settings. Proceed?`, {
           default: true,
         })
         : true;
@@ -29,13 +28,13 @@ export const apply = new command.Command()
 
       for (const [idxStr, name] of Object.entries(allSettings)) {
         const idx = parseInt(idxStr);
-        const applyScript = $.path.join($dotdot(import.meta.url, 2), name, "apply.ts");
+        const applyScript = $.path.join($.$dotdot(import.meta.url, 2), name, "apply.ts");
 
         if (idx > 0) $.log("");
         $.log($.dedent`
-					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(name)} application (task ${idx + 1} of ${allSettings.length})
-					# ${colors.yellow("=====")}
+					# ${$.colors.yellow("=====")}
+					# Starting ${$.colors.blue(name)} application (task ${idx + 1} of ${allSettings.length})
+					# ${$.colors.yellow("=====")}
 				`);
         $.log("");
 
@@ -44,13 +43,13 @@ export const apply = new command.Command()
 
         $.log("");
         $.log($.dedent`
-					# ${colors.green("=====")}
-					# Done with ${colors.blue(name)} application in about ${
-          colors.magenta(
-            dateFns.formatDistanceToNowStrict(startTime),
+					# ${$.colors.green("=====")}
+					# Done with ${$.colors.blue(name)} application in about ${
+          $.colors.magenta(
+            $.dateFns.formatDistanceToNowStrict(startTime),
           )
         }
-					# ${colors.green("=====")}
+					# ${$.colors.green("=====")}
 				`);
       }
     } else {

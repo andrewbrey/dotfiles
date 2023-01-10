@@ -1,15 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants } from "../_cli/pamkit.ts";
 
-osInvariant();
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
-
-const isInstalled = typeof (await $.which("gpick")) !== "undefined";
-if (isInstalled) {
-  if (env.OS === "linux") {
+if (await $.commandExists("gpick")) {
+  if ($.env.OS === "linux") {
     await $`sudo apt purge -y gpick`;
   }
 }

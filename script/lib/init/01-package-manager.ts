@@ -6,19 +6,17 @@
 // issues if that is not the case
 // =====
 
-import { $, blackOnYellow, env, osInvariant } from "../mod.ts";
-
-osInvariant();
+import { $ } from "../mod.ts";
 
 const id = `==> ${$.path.basename(import.meta.url)}`;
 
-$.logGroup(blackOnYellow(id));
+$.logGroup($.colors.black.bgYellow(id));
 
-switch (env.OS) {
+switch ($.env.OS) {
   case "linux":
     // IDEA: handle other package managers if needed; pretty happy with debain derived variants and `apt` for now ¯\_(ツ)_/¯
 
-    if (env.IN_CLOUD_IDE) {
+    if ($.env.IN_CLOUD_IDE) {
       await $`sudo apt update`;
     } else {
       await $`sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y`;
@@ -32,7 +30,7 @@ switch (env.OS) {
     $.logStep("installing xcode...");
     await $`xcode-select --install`;
 
-    if (!(await $.which("brew"))) {
+    if (await $.commandMissing("brew")) {
       $.logWarn("warn: brew not found");
 
       $.logGroup();

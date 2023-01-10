@@ -1,7 +1,7 @@
-import { $, colors, command, dateFns, env, prompts } from "../../../mod.ts";
+import { $ } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
-export const remove = new command.Command()
+export const remove = new $.cliffy.cmd.Command()
   .description("Remove one or more available apps.")
   .alias("uninstall")
   .arguments("[...app_names:string]")
@@ -33,12 +33,12 @@ export const remove = new command.Command()
     const uninstalled = metasForScope.filter((m) => m.type === "uninstalled");
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const toRemoveList = lister.format(installed.map((i) => colors.blue(i.name)));
+    const toRemoveList = lister.format(installed.map((i) => $.colors.blue(i.name)));
 
     // =====
     // warn about skipped app names
     // =====
-    const skipList = lister.format(uninstalled.map((i) => colors.blue(i.name)));
+    const skipList = lister.format(uninstalled.map((i) => $.colors.blue(i.name)));
     if (uninstalled.length) {
       $.logWarn(
         "warn:",
@@ -49,7 +49,7 @@ export const remove = new command.Command()
     }
 
     if (installed.length) {
-      const autoProceed = !env.STDIN_IS_TTY || Boolean(skipConfirm);
+      const autoProceed = !$.env.STDIN_IS_TTY || Boolean(skipConfirm);
 
       if (autoProceed) {
         $.log(`About to remove ${toRemoveList}.`);
@@ -57,8 +57,7 @@ export const remove = new command.Command()
       }
 
       const proceed = !autoProceed
-        ? await prompts.Confirm.prompt({
-          message: `About to remove ${toRemoveList}. Proceed?`,
+        ? await $.confirm(`About to remove ${toRemoveList}. Proceed?`, {
           default: true,
         })
         : true;
@@ -71,9 +70,9 @@ export const remove = new command.Command()
 
         if (idx > 0) $.log("");
         $.log($.dedent`
-					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(meta.name)} removal (task ${idx + 1} of ${installed.length})
-					# ${colors.yellow("=====")}
+					# ${$.colors.yellow("=====")}
+					# Starting ${$.colors.blue(meta.name)} removal (task ${idx + 1} of ${installed.length})
+					# ${$.colors.yellow("=====")}
 				`);
         $.log("");
 
@@ -82,13 +81,13 @@ export const remove = new command.Command()
 
         $.log("");
         $.log($.dedent`
-					# ${colors.green("=====")}
-					# Done with ${colors.blue(meta.name)} removal in about ${
-          colors.magenta(
-            dateFns.formatDistanceToNowStrict(startTime),
+					# ${$.colors.green("=====")}
+					# Done with ${$.colors.blue(meta.name)} removal in about ${
+          $.colors.magenta(
+            $.dateFns.formatDistanceToNowStrict(startTime),
           )
         }
-					# ${colors.green("=====")}
+					# ${$.colors.green("=====")}
 				`);
       }
     } else {

@@ -1,25 +1,20 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import { constants, getUA, InstallerMeta, runInBrowser, streamDownload } from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("dropbox")) === "undefined";
-if (notInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandMissing("dropbox")) {
+  if ($.env.OS === "darwin") {
     await $`brew install --cask dropbox`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const releaseInfoPath = $.path.join(dotAppPath, constants.htmlReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "dropbox.deb");
     let releaseInfo = "";
 
-    await runInBrowser(async (browser) => {
-      const page = await browser.newPage();
-      await page.setUserAgent(getUA());
+    await $.runInBrowser(async (page) => {
       await page.goto("https://www.dropbox.com/install-linux", { waitUntil: "networkidle2" });
       releaseInfo = await page.content();
     });
@@ -33,7 +28,7 @@ if (notInstalled) {
 
     invariant(typeof debURI === "string" && debURI.length > 0, "unable to determine download");
 
-    await streamDownload(`https://dropbox.com${debURI}`, debInstallerPath);
+    await $.streamDownload(`https://dropbox.com${debURI}`, debInstallerPath);
 
     await $`sudo apt install -y ${debInstallerPath}`;
   }
@@ -43,8 +38,8 @@ const versionOutput = await $`dropbox version`.lines(); // Dropbox daemon versio
 const version = versionOutput?.at(1)?.split(" ")?.at(-1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version,
   lastCheck: Date.now(),

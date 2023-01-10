@@ -1,34 +1,27 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import {
   constants,
-  ghReleaseLatestInfo,
   InstallerMeta,
   linkBinaryToUserPath,
   linkDesktopFileForApp,
-  streamDownload,
 } from "../_cli/pamkit.ts";
 
-osInvariant();
-invariant(
-  typeof (await $.which("mono")) !== "undefined",
-  `mono is required, install it with ${colors.magenta("pam install -a mono")}`,
-);
+await $.requireCommand("mono", "pam install -a mono");
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 const sourceDir = $.path.join(dotAppPath, constants.sourceDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("godot")) === "undefined";
-if (notInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandMissing("godot")) {
+  if ($.env.OS === "darwin") {
     await $`brew install --cask godot-mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "godot.zip");
 
-    const releaseInfo = await ghReleaseLatestInfo("godotengine", "godot");
+    const releaseInfo = await $.ghReleaseInfo("godotengine", "godot");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
@@ -38,7 +31,7 @@ if (notInstalled) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, artifactPath);
+    await $.streamDownload(targetAsset.browser_download_url, artifactPath);
     await $.fs.emptyDir(sourceDir);
     const extractedBase = $.path.basename(targetName, ".zip");
     const extractedPath = $.path.join(dotAppPath, extractedBase);
@@ -60,9 +53,9 @@ const versionOutput = await $`godot --version`.text(); // 3.5.1.stable.mono.offi
 const version = versionOutput.split(".stable")?.at(0) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
-  type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
+  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,
   lastCheck: Date.now(),
 };

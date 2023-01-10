@@ -1,16 +1,4 @@
-import {
-  $,
-  $dotdot,
-  colors,
-  dateFns,
-  env,
-  getChezmoiData,
-  invariant,
-  nodeFS,
-  pptr,
-  semver,
-  UserAgent,
-} from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
 export type InstallerMeta = {
   /** Name used to identify this app with the app management cli */
@@ -23,13 +11,6 @@ export type InstallerMeta = {
   version?: string;
   /** Date.now() from most recent "outdated" check, undefined if the app is not installed */
   lastCheck?: number;
-};
-
-export type GHReleaseInfo = {
-  name: string;
-  tag_name: string;
-  assets: { name: string; browser_download_url: string }[];
-  body: string;
 };
 
 export const constants = {
@@ -78,7 +59,7 @@ export function getGroups() {
 }
 
 export async function getAppNames() {
-  const appsDir = $dotdot(import.meta.url);
+  const appsDir = $.$dotdot(import.meta.url);
   const appNames: Set<string> = new Set();
 
   for await (const entry of Deno.readDir(appsDir)) {
@@ -89,7 +70,7 @@ export async function getAppNames() {
 }
 
 export async function getInstallerMetas(inScope?: Set<string>) {
-  const appsDir = $dotdot(import.meta.url);
+  const appsDir = $.$dotdot(import.meta.url);
   const allAppNames = await getAppNames();
   const inScopeApps = inScope
     ? Array.from(inScope).filter((n) => allAppNames.has(n))
@@ -194,7 +175,7 @@ export async function calculateAppsInScope(
           // =====
           $.logError(
             "error:",
-            `group called ${colors.blue(name)} contains unknown app ${colors.yellow(n)}`,
+            `group called ${$.colors.blue(name)} contains unknown app ${$.colors.yellow(n)}`,
           );
         }
       });
@@ -206,57 +187,36 @@ export async function calculateAppsInScope(
   // =====
   // warn about unknown app names
   // =====
-  unknownAppNames.forEach((a) => $.logError("error:", `unknown --app named ${colors.yellow(a)} `));
+  unknownAppNames.forEach((a) =>
+    $.logError("error:", `unknown --app named ${$.colors.yellow(a)} `)
+  );
 
   // =====
   // warn about unknown app groups
   // =====
   unknownAppGroups.forEach((g) =>
-    $.logError("error:", `unknown --group named ${colors.yellow(g)} `)
+    $.logError("error:", `unknown --group named ${$.colors.yellow(g)} `)
   );
 
   return inScope;
-}
-
-export async function ghReleaseLatestInfo(user: string, repo: string) {
-  const request = $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
-
-  if (env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
-
-  return await request.json() as GHReleaseInfo;
-}
-
-export async function streamDownload(url: string, dest: string) {
-  const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
-    .includes(new URL(url).hostname);
-
-  const request = $.request(url);
-  if (isGitHub && env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
-
-  const toPath = $.path.isAbsolute(dest) ? dest : $.path.resolve($.path.join(Deno.cwd(), dest));
-
-  await $.fs.ensureDir($.path.dirname(toPath));
-  await request.showProgress().pipeToPath(toPath);
-
-  $.logStep("done:", `download saved to ${toPath}`);
 }
 
 export async function mostRelevantVersion(resourcesDir: string) {
   let version;
   let versionKeyUsed;
 
-  const chezmoiData = await getChezmoiData();
+  const chezmoiData = await $.getChezmoiData();
   const dotVersionInfo = JSON.parse(
     await Deno.readTextFile($.path.join(resourcesDir, constants.versionPrefsName)),
   ) as Record<string, string>;
 
   const isMine = chezmoiData.is_personal_machine ? "personal" : "work";
 
-  version ??= dotVersionInfo?.[`${isMine}-${env.OS}`];
-  if (version && !versionKeyUsed) versionKeyUsed = `${isMine}-${env.OS}`;
+  version ??= dotVersionInfo?.[`${isMine}-${$.env.OS}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${isMine}-${$.env.OS}`;
 
-  version ??= dotVersionInfo?.[`${env.OS}`];
-  if (version && !versionKeyUsed) versionKeyUsed = `${env.OS}`;
+  version ??= dotVersionInfo?.[`${$.env.OS}`];
+  if (version && !versionKeyUsed) versionKeyUsed = `${$.env.OS}`;
 
   version ??= dotVersionInfo?.[`${isMine}`];
   if (version && !versionKeyUsed) versionKeyUsed = `${isMine}`;
@@ -269,13 +229,13 @@ export async function mostRelevantVersion(resourcesDir: string) {
 }
 
 export function isNewerVersion(latest: string = "", current: string = "") {
-  const latestSem = semver.valid(latest);
-  const currentSem = semver.valid(current);
+  const latestSem = $.semver.valid(latest);
+  const currentSem = $.semver.valid(current);
 
   invariant(latestSem !== null, "missing required latest version");
   invariant(currentSem !== null, "missing required current version");
 
-  return semver.gt(latestSem, currentSem) as boolean;
+  return $.semver.gt(latestSem, currentSem) as boolean;
 }
 
 export type OutdatedCheck = {
@@ -303,7 +263,7 @@ export async function wrapOutdatedCheck(
   };
 
   if (meta.type === "installed-manual") {
-    const lastCheckDistance = dateFns.differenceInDays(Date.now(), meta.lastCheck ?? Date.now());
+    const lastCheckDistance = $.dateFns.differenceInDays(Date.now(), meta.lastCheck ?? Date.now());
     if (lastCheckDistance >= frequencyDays) {
       const latest = await latestFetcher();
       outdatedCheck.latest = latest;
@@ -324,15 +284,15 @@ export async function wrapOutdatedCheck(
 }
 
 export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
   try {
-    nodeFS.accessSync(realBinaryPath, nodeFS.constants.X_OK);
+    $.nodeFS.accessSync(realBinaryPath, $.nodeFS.constants.X_OK);
   } catch (error) {
     await $`chmod +x ${realBinaryPath}`;
   }
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`ln -sf ${realBinaryPath} ${linkPath}`;
   } else {
     await $`ln -sf ${realBinaryPath} ${linkPath}`;
@@ -342,11 +302,11 @@ export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryN
 }
 
 export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
   const stat = await Deno.stat(linkPath);
   if (stat.isSymlink) {
-    if (env.OS === "darwin") {
+    if ($.env.OS === "darwin") {
       await $`rm -f ${linkPath}`;
     } else {
       await $`rm -f ${linkPath}`;
@@ -357,12 +317,12 @@ export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
 }
 
 export async function linkDesktopFileForApp(app: string) {
-  const desktopFile = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
+  const desktopFile = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
   invariant(await $.exists(desktopFile), `missing required .desktop file at ${desktopFile}`);
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`ln -sf ${desktopFile} ${linkPath}`;
   } else {
     await $`ln -sf ${desktopFile} ${linkPath}`;
@@ -370,121 +330,12 @@ export async function linkDesktopFileForApp(app: string) {
 }
 
 export async function unlinkDesktopFileForApp(app: string) {
-  const linkPath = $.path.join(env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
+  const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
-  if (env.OS === "darwin") {
+  if ($.env.OS === "darwin") {
     await $`rm -f ${linkPath}`;
   } else {
     await $`rm -f ${linkPath}`;
-  }
-}
-
-export const getUA = (opts?: ConstructorParameters<typeof UserAgent>[0]) => {
-  opts = Array.isArray(opts) ? opts.at(0) : opts;
-  opts ??= {
-    platform: "Linux x86_64",
-    vendor: "Google Inc.",
-    deviceCategory: "desktop",
-    screenHeight: 1920,
-    screenWidth: 1080,
-  };
-
-  return `${new UserAgent(opts)}`;
-};
-export type RunInBrowserFn = (browser: pptr.Browser) => Promise<void>;
-export async function runInBrowser(fn: RunInBrowserFn) {
-  let browser;
-
-  try {
-    browser = await pptr.default.launch({
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-dev-shm-usage",
-      ],
-    });
-
-    await fn(browser);
-  } catch (error) {
-    if (error instanceof Error && error.message.includes("Could not find browser revision")) {
-      const puppeteerVersion = error.message.match(/Run "[^@]+@([^/]+)[^"]+" to download/i)?.at(1);
-
-      invariant(
-        typeof puppeteerVersion === "string" && puppeteerVersion.length > 0,
-        "no browser download instructions provided",
-      );
-
-      // @see https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix
-      const systemDeps = [
-        "ca-certificates",
-        "curl",
-        "fonts-liberation",
-        "libappindicator3-1",
-        "libasound2",
-        "libatk-bridge2.0-0",
-        "libatk1.0-0",
-        "libc6",
-        "libcairo2",
-        "libcups2",
-        "libdbus-1-3",
-        "libdrm2",
-        "libexpat1",
-        "libfontconfig1",
-        "libgbm1",
-        "libgcc1",
-        "libglib2.0-0",
-        "libgtk-3-0",
-        "libnspr4",
-        "libnss3",
-        "libpango-1.0-0",
-        "libpangocairo-1.0-0",
-        "libstdc++6",
-        "libx11-6",
-        "libx11-xcb1",
-        "libxcb1",
-        "libxcomposite1",
-        "libxcursor1",
-        "libxdamage1",
-        "libxext6",
-        "libxfixes3",
-        "libxi6",
-        "libxkbcommon0",
-        "libxrandr2",
-        "libxrender1",
-        "libxshmfence1",
-        "libxss1",
-        "libxtst6",
-        "lsb-release",
-        "unzip",
-        "wget",
-        "xdg-utils",
-      ];
-
-      await $`sudo apt install -y --no-install-recommends ${systemDeps}`;
-
-      await $`deno run -A --unstable https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
-        .env({ PUPPETEER_PRODUCT: "chrome" });
-
-      try {
-        browser ??= await pptr.default.launch({
-          headless: true,
-          args: [
-            "--no-sandbox",
-            "--disable-dev-shm-usage",
-          ],
-        });
-
-        await fn(browser);
-      } catch (retryError) {
-        throw retryError;
-      } finally {
-        await browser?.close();
-      }
-    } else {
-      throw error;
-    }
-  } finally {
-    await browser?.close();
   }
 }
 
@@ -492,8 +343,8 @@ type NativefierAppArgs = { appName: string; displayName: string; website: string
 export async function createAndLinkNativefierApp(
   { appName, displayName, website }: NativefierAppArgs,
 ) {
-  invariant(typeof (await $.which("node")) !== "undefined", "node is required");
-  invariant(typeof (await $.which("npm")) !== "undefined", "npm is required");
+  $.requireCommand("node", "pam install -a node");
+  $.requireCommand("npm", "pam install -a node");
 
   invariant(typeof appName === "string" && appName.length > 0, "invalid appName");
   invariant(typeof displayName === "string" && displayName.length > 0, "invalid displayName");
@@ -505,8 +356,8 @@ export async function createAndLinkNativefierApp(
 
   const [{ path }] = await getInstallerMetas(new Set([appName]));
   const sourceDir = $.path.join(path, constants.appArtifactsDir, constants.sourceDir);
-  const iconPath = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
-  const desktopPath = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
+  const iconPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
+  const desktopPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
 
   invariant(await $.exists(iconPath), "icon file missing");
   invariant(await $.exists(desktopPath), "desktop file missing");

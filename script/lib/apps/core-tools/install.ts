@@ -1,28 +1,26 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const ack = env.OS === "darwin" ? "ack" : "ack";
-const curl = env.OS === "darwin" ? "curl" : "curl";
-const direnv = env.OS === "darwin" ? "direnv" : "direnv";
-const exiftool = env.OS === "darwin" ? "exiftool" : "libimage-exiftool-perl";
-const fzf = env.OS === "darwin" ? "fzf" : "fzf";
-const gnupg = env.OS === "darwin" ? "gnupg" : "gnupg";
-const htop = env.OS === "darwin" ? "htop" : "htop";
-const jq = env.OS === "darwin" ? "jq" : "jq";
-const nano = env.OS === "darwin" ? "nano" : "nano";
-const p7zip = env.OS === "darwin" ? "p7zip" : "p7zip-full";
-const sqlite = env.OS === "darwin" ? "sqlite" : "sqlite3";
-const tree = env.OS === "darwin" ? "tree" : "tree";
-const vim = env.OS === "darwin" ? "vim" : "vim";
-const w3m = env.OS === "darwin" ? "w3m" : "w3m";
-const xz = env.OS === "darwin" ? "xz" : "xz-utils";
+const ack = $.env.OS === "darwin" ? "ack" : "ack";
+const curl = $.env.OS === "darwin" ? "curl" : "curl";
+const direnv = $.env.OS === "darwin" ? "direnv" : "direnv";
+const exiftool = $.env.OS === "darwin" ? "exiftool" : "libimage-exiftool-perl";
+const fzf = $.env.OS === "darwin" ? "fzf" : "fzf";
+const gnupg = $.env.OS === "darwin" ? "gnupg" : "gnupg";
+const htop = $.env.OS === "darwin" ? "htop" : "htop";
+const jq = $.env.OS === "darwin" ? "jq" : "jq";
+const nano = $.env.OS === "darwin" ? "nano" : "nano";
+const p7zip = $.env.OS === "darwin" ? "p7zip" : "p7zip-full";
+const sqlite = $.env.OS === "darwin" ? "sqlite" : "sqlite3";
+const tree = $.env.OS === "darwin" ? "tree" : "tree";
+const vim = $.env.OS === "darwin" ? "vim" : "vim";
+const w3m = $.env.OS === "darwin" ? "w3m" : "w3m";
+const xz = $.env.OS === "darwin" ? "xz" : "xz-utils";
 
 const list = [
   ack,
@@ -41,15 +39,15 @@ const list = [
   w3m,
   xz,
 ];
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
   await $`sudo apt install -y ${list}`;
 }
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version: "",
   lastCheck: Date.now(),

@@ -1,16 +1,14 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, flatpakAppInstalled } from "../_cli/pamkit.ts";
 
-osInvariant();
-invariant(typeof (await $.which("flatpak")) !== "undefined", "flatpak is required");
+await $.requireCommand("flatpak", "pam install -a flatpak");
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = await flatpakAppInstalled("Kooha");
-if (isInstalled) {
-  if (env.OS === "linux") {
+if (await flatpakAppInstalled("Kooha")) {
+  if ($.env.OS === "linux") {
     await $`flatpak uninstall -y flathub io.github.seadve.Kooha`;
   }
 }

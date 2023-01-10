@@ -1,15 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants } from "../_cli/pamkit.ts";
 
-osInvariant();
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
-
-const isInstalled = typeof (await $.which("mvn")) !== "undefined";
-if (isInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandExists("mvn")) {
+  if ($.env.OS === "darwin") {
     await $`brew uninstall maven`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     await $`sudo apt purge -y maven`;

@@ -1,24 +1,20 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
-import { constants, getUA, InstallerMeta, runInBrowser } from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 const sourceDir = $.path.join(dotAppPath, constants.sourceDir);
-const dotResPath = $.path.join($dirname(import.meta.url), constants.appResourcesDir);
+const dotResPath = $.path.join($.$dirname(import.meta.url), constants.appResourcesDir);
 await $.fs.ensureDir(dotAppPath);
 await $.fs.ensureDir(sourceDir);
 
-const chezmoiData = await getChezmoiData();
+const chezmoiData = await $.getChezmoiData();
 if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
-  invariant(typeof (await $.which("dconf")) !== "undefined", "dconf is required");
-  invariant(typeof (await $.which("gnome-shell")) !== "undefined", "gnome-shell is required");
-  invariant(
-    typeof (await $.which("gnome-extensions")) !== "undefined",
-    "gnome-extensions is required",
-  );
+  await $.requireCommand("dconf");
+  await $.requireCommand("gnome-shell");
+  await $.requireCommand("gnome-extensions");
+
   type GnomeExtensionMeta = {
     name: string;
     metaPath: string;
@@ -57,15 +53,12 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
     invariant(typeof dconf === "string" && dconf.length > 0, "invalid dconf path");
 
     if (typeof url === "string" && url.length > 0) {
-      await runInBrowser(async (browser) => {
+      await $.runInBrowser(async (page) => {
         try {
           const shellVersionSelector = "select.shell-version";
           const extensionVersionSelector = "select.extension-version";
 
-          const page = await browser.newPage();
-          await page.setViewport({ width: 1920, height: 1080 });
           page.on("console", console.log);
-          await page.setUserAgent(getUA());
           await page.goto(url, { waitUntil: "networkidle2" });
           await page.waitForFunction(
             // @ts-expect-error function runs in the context of the browser
@@ -176,7 +169,7 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
     $.logError(
       "error:",
       `failed to find viable versions of ${
-        lister.format(noViableVersionFound.map((e) => colors.yellow(e)))
+        lister.format(noViableVersionFound.map((e) => $.colors.yellow(e)))
       }`,
     );
 
@@ -185,8 +178,8 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
 }
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
   type: "installed-managed",
   version: "",
   lastCheck: Date.now(),

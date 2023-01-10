@@ -1,10 +1,8 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, env, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 
-osInvariant();
-
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   await $`brew update`;
   await $`brew upgrade`;
   await $`brew cleanup`;
@@ -15,11 +13,11 @@ if (env.OS === "darwin") {
   await $`sudo apt upgrade -y`;
   await $`sudo apt autoremove -y`;
 
-  if (typeof (await $.which("snap")) !== "undefined") {
+  if (await $.commandExists("snap")) {
     await $`sudo snap refresh`;
   }
 
-  if (typeof (await $.which("flatpak")) !== "undefined") {
+  if (await $.commandExists("flatpak")) {
     await $`flatpak update -y`;
   }
 }

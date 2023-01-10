@@ -1,7 +1,7 @@
-import { $, colors, command, dateFns, env, prompts } from "../../../mod.ts";
+import { $ } from "../../../mod.ts";
 import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
 
-export const update = new command.Command()
+export const update = new $.cliffy.cmd.Command()
   .description("Update one or more available apps.")
   .option("--all", "Update all available apps.")
   .option(
@@ -29,12 +29,12 @@ export const update = new command.Command()
     const uninstalledOrManaged = metasForScope.filter((m) => m.type !== "installed-manual");
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const toUpdateList = lister.format(installedManual.map((i) => colors.blue(i.name)));
+    const toUpdateList = lister.format(installedManual.map((i) => $.colors.blue(i.name)));
 
     // =====
     // warn about skipped app names
     // =====
-    const skipList = lister.format(uninstalledOrManaged.map((i) => colors.blue(i.name)));
+    const skipList = lister.format(uninstalledOrManaged.map((i) => $.colors.blue(i.name)));
     if (uninstalledOrManaged.length) {
       $.logWarn(
         "warn:",
@@ -45,7 +45,7 @@ export const update = new command.Command()
     }
 
     if (installedManual.length) {
-      const autoProceed = !env.STDIN_IS_TTY || Boolean(skipConfirm);
+      const autoProceed = !$.env.STDIN_IS_TTY || Boolean(skipConfirm);
 
       if (autoProceed) {
         $.log(`About to update ${toUpdateList}.`);
@@ -53,8 +53,7 @@ export const update = new command.Command()
       }
 
       const proceed = !autoProceed
-        ? await prompts.Confirm.prompt({
-          message: `About to update ${toUpdateList}. Proceed?`,
+        ? await $.confirm(`About to update ${toUpdateList}. Proceed?`, {
           default: true,
         })
         : true;
@@ -67,9 +66,11 @@ export const update = new command.Command()
 
         if (idx > 0) $.log("");
         $.log($.dedent`
-					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(meta.name)} update (task ${idx + 1} of ${installedManual.length})
-					# ${colors.yellow("=====")}
+					# ${$.colors.yellow("=====")}
+					# Starting ${$.colors.blue(meta.name)} update (task ${
+          idx + 1
+        } of ${installedManual.length})
+					# ${$.colors.yellow("=====")}
 				`);
         $.log("");
 
@@ -78,13 +79,13 @@ export const update = new command.Command()
 
         $.log("");
         $.log($.dedent`
-					# ${colors.green("=====")}
-					# Done with ${colors.blue(meta.name)} update in about ${
-          colors.magenta(
-            dateFns.formatDistanceToNowStrict(startTime),
+					# ${$.colors.green("=====")}
+					# Done with ${$.colors.blue(meta.name)} update in about ${
+          $.colors.magenta(
+            $.dateFns.formatDistanceToNowStrict(startTime),
           )
         }
-					# ${colors.green("=====")}
+					# ${$.colors.green("=====")}
 				`);
       }
     } else {

@@ -1,12 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dotdot, colors, command, dateFns } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { calculateUpdatersInScope, getGroups, getUpdaterNames } from "./dumkit.ts";
 
-const dumoji = `${colors.yellow("⊂(◉‿◉)つ")}`;
-const dum = `${colors.yellow("Dum")}`;
+const dumoji = `${$.colors.yellow("⊂(◉‿◉)つ")}`;
+const dum = `${$.colors.yellow("Dum")}`;
 
-await new command.Command()
+await new $.cliffy.cmd.Command()
   .name("dum")
   .version("1.0.0")
   .description(`${dumoji} -- {(Hello, I'm ${dum}, your daily updates manager)}`)
@@ -30,13 +30,13 @@ await new command.Command()
       const allGroups = getGroups();
 
       $.log("");
-      $.log(colors.blue("Updaters"));
+      $.log($.colors.blue("Updaters"));
       $.logLight(allNames.sort().join(" "));
 
       $.log("");
-      $.log(colors.blue("Groups"));
+      $.log($.colors.blue("Groups"));
       for (const [name, group] of allGroups) {
-        $.log(colors.bold(name));
+        $.log($.colors.bold(name));
         $.logLight(`  ${Array.from(group).join(", ")}`);
       }
 
@@ -55,7 +55,7 @@ await new command.Command()
     );
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
-    const toUpdateList = lister.format(inScope.map((name) => colors.blue(name)));
+    const toUpdateList = lister.format(inScope.map((name) => $.colors.blue(name)));
 
     if (inScope.length) {
       $.log(`Running updates for ${toUpdateList}`);
@@ -63,13 +63,13 @@ await new command.Command()
 
       for (const [idxStr, name] of Object.entries(inScope)) {
         const idx = parseInt(idxStr);
-        const updateScript = $.path.join($dotdot(import.meta.url), name, "updater.ts");
+        const updateScript = $.path.join($.$dotdot(import.meta.url), name, "updater.ts");
 
         if (idx > 0) $.log("");
         $.log($.dedent`
-					# ${colors.yellow("=====")}
-					# Starting ${colors.blue(name)} update (task ${idx + 1} of ${inScope.length})
-					# ${colors.yellow("=====")}
+					# ${$.colors.yellow("=====")}
+					# Starting ${$.colors.blue(name)} update (task ${idx + 1} of ${inScope.length})
+					# ${$.colors.yellow("=====")}
 				`);
         $.log("");
 
@@ -78,13 +78,13 @@ await new command.Command()
 
         $.log("");
         $.log($.dedent`
-					# ${colors.green("=====")}
-					# Done with ${colors.blue(name)} update in about ${
-          colors.magenta(
-            dateFns.formatDistanceToNowStrict(startTime),
+					# ${$.colors.green("=====")}
+					# Done with ${$.colors.blue(name)} update in about ${
+          $.colors.magenta(
+            $.dateFns.formatDistanceToNowStrict(startTime),
           )
         }
-					# ${colors.green("=====")}
+					# ${$.colors.green("=====")}
 				`);
       }
     } else {

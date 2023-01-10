@@ -1,4 +1,4 @@
-import { $, env, intersect, invariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
 const msg = console.error; // output of script is read from stdout, so do logging with `msg`
 const extractProfiles = (text: string) =>
@@ -13,7 +13,7 @@ const extractProfiles = (text: string) =>
   ).sort();
 
 try {
-  const configDir = $.path.join(env.STANDARD_DIRS.DOT_DOTS_APPS, "awscli", ".aws");
+  const configDir = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, "awscli", ".aws");
   const configPath = $.path.join(configDir, "config");
   const credsPath = $.path.join(configDir, "credentials");
 
@@ -28,7 +28,7 @@ try {
   const configProfiles = extractProfiles(config);
   const credsProfiles = extractProfiles(config);
 
-  const profiles = intersect(configProfiles, credsProfiles);
+  const profiles = $.collections.intersect(configProfiles, credsProfiles);
   const chosenIdx = await $.maybeSelect({ message: "Choose a profile...", options: profiles });
   const chosen = (typeof chosenIdx !== "undefined") ? profiles[chosenIdx] : "";
 

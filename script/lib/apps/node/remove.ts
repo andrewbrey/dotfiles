@@ -1,17 +1,14 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, mostRelevantVersion } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
-const dotResPath = $.path.join($dirname(import.meta.url), constants.appResourcesDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotResPath = $.path.join($.$dirname(import.meta.url), constants.appResourcesDir);
 
 const nodeVersion = await mostRelevantVersion(dotResPath);
-const isInstalled = typeof (await $.which("node")) !== "undefined";
-if (isInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandExists("node")) {
+  if ($.env.OS === "darwin") {
     await $`brew uninstall node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     // @see https://github.com/nodesource/distributions/blob/master/README.md#debuninstall

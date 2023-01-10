@@ -1,15 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, $dirname, colors, env, osInvariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "../_cli/pamkit.ts";
 
-osInvariant();
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
-
-const isInstalled = typeof (await $.which("kitty")) !== "undefined";
-if (isInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandExists("kitty")) {
+  if ($.env.OS === "darwin") {
     await $`brew uninstall --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     await unlinkDesktopFileForApp("kitty");
@@ -27,7 +24,7 @@ if (isInstalled) {
       $.dedent`
 				you can set the default terminal to something other than kitty with:
 
-				${colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
+				${$.colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
 
 			`,
     );

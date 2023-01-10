@@ -1,24 +1,15 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import {
-  constants,
-  getInstallerMetas,
-  ghReleaseLatestInfo,
-  linkBinaryToUserPath,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, getInstallerMetas, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$dirname(import.meta.url, true)]));
+const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("eget")) !== "undefined";
-if (installed) {
-  if (env.OS === "darwin") {
+if (await $.commandExists("eget")) {
+  if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -33,7 +24,7 @@ if (installed) {
     const artifactPath = $.path.join(dotAppPath, "eget.tar.gz");
     const binaryPath = $.path.join(dotAppPath, "eget");
 
-    const releaseInfo = await ghReleaseLatestInfo("zyedidia", "eget");
+    const releaseInfo = await $.ghReleaseInfo("zyedidia", "eget");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
@@ -45,7 +36,7 @@ if (installed) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, artifactPath);
+    await $.streamDownload(targetAsset.browser_download_url, artifactPath);
     await $`tar -C ${dotAppPath} --strip-components=1 -xzf ${artifactPath}`;
     await linkBinaryToUserPath(binaryPath, "eget");
 

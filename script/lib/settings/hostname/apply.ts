@@ -1,12 +1,10 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, colors, env, getChezmoiData, invariant, osInvariant } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 
-osInvariant();
+const chezmoiData = await $.getChezmoiData();
 
-const chezmoiData = await getChezmoiData();
-
-if (env.OS === "darwin") {
+if ($.env.OS === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -17,8 +15,8 @@ if (env.OS === "darwin") {
     );
   });
 } else {
-  if (!env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
-    invariant(typeof (await $.which("hostnamectl")) !== "undefined", "hostnamectl is required");
+  if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
+    await $.requireCommand("hostnamectl");
 
     const desiredHostname = chezmoiData.is_popos
       ? "poppy"
@@ -37,8 +35,8 @@ if (env.OS === "darwin") {
         "step:",
         $.dedent`
 
-					current hostname: ${colors.yellow(currentHostname)}
-					desired hostname: ${colors.blue(desiredHostname)}
+					current hostname: ${$.colors.yellow(currentHostname)}
+					desired hostname: ${$.colors.blue(desiredHostname)}
 
 				`,
       );

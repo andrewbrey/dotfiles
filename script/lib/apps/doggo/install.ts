@@ -1,29 +1,20 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, $dirname, env, invariant, osInvariant } from "../../mod.ts";
-import {
-  constants,
-  ghReleaseLatestInfo,
-  InstallerMeta,
-  linkBinaryToUserPath,
-  streamDownload,
-} from "../_cli/pamkit.ts";
+import { $, invariant } from "../../mod.ts";
+import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.ts";
 
-osInvariant();
-
-const dotAppPath = $.path.join($dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("doggo")) === "undefined";
-if (notInstalled) {
-  if (env.OS === "darwin") {
+if (await $.commandMissing("doggo")) {
+  if ($.env.OS === "darwin") {
     await $`brew install doggo`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "doggo.tar.gz");
     const binaryPath = $.path.join(dotAppPath, "doggo");
 
-    const releaseInfo = await ghReleaseLatestInfo("mr-karan", "doggo");
+    const releaseInfo = await $.ghReleaseInfo("mr-karan", "doggo");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
     const { assets, tag_name } = releaseInfo;
@@ -33,7 +24,7 @@ if (notInstalled) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await streamDownload(targetAsset.browser_download_url, artifactPath);
+    await $.streamDownload(targetAsset.browser_download_url, artifactPath);
     await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
     await linkBinaryToUserPath(binaryPath, "doggo");
   }
@@ -43,9 +34,9 @@ const versionOutput = await $`doggo --version`.text(); // v0.5.4 (2cf9e7b 2022-0
 const version = versionOutput.split(" ")?.at(0)?.split("v")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $dirname(import.meta.url, true),
-  path: $dirname(import.meta.url),
-  type: env.OS === "darwin" ? "installed-managed" : "installed-manual",
+  name: $.$dirname(import.meta.url, true),
+  path: $.$dirname(import.meta.url),
+  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version,
   lastCheck: Date.now(),
 };
