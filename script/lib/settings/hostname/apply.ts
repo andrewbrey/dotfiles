@@ -16,7 +16,7 @@ if ($.env.OS === "darwin") {
   });
 } else {
   if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
-    invariant(typeof (await $.which("hostnamectl")) !== "undefined", "hostnamectl is required");
+    await $.requireCommand("hostnamectl");
 
     const desiredHostname = chezmoiData.is_popos
       ? "poppy"

@@ -1,15 +1,14 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, flatpakAppMissing, InstallerMeta } from "../_cli/pamkit.ts";
 
-invariant(typeof (await $.which("flatpak")) !== "undefined", "flatpak is required");
+await $.requireCommand("flatpak");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = await flatpakAppMissing("PCSX2");
-if (notInstalled) {
+if (await flatpakAppMissing("PCSX2")) {
   if ($.env.OS === "linux") {
     await $`flatpak install -y flathub net.pcsx2.PCSX2`;
   }

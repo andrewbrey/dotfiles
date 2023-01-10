@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
@@ -10,7 +10,7 @@ if (await $.commandMissing("brave-browser")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    invariant(typeof (await $.which("curl")) !== "undefined", "curl is required");
+    await $.requireCommand("curl");
 
     await $`sudo mkdir -p /usr/share/keyrings`;
     const braveGPGKeyringURL = "https://brave-browser-apt-release.s3.brave.com/"; // NOTE: trailing slash (needed in sources.list?)

@@ -11,12 +11,10 @@ await $.fs.ensureDir(sourceDir);
 
 const chezmoiData = await $.getChezmoiData();
 if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
-  invariant(typeof (await $.which("dconf")) !== "undefined", "dconf is required");
-  invariant(typeof (await $.which("gnome-shell")) !== "undefined", "gnome-shell is required");
-  invariant(
-    typeof (await $.which("gnome-extensions")) !== "undefined",
-    "gnome-extensions is required",
-  );
+  await $.requireCommand("dconf");
+  await $.requireCommand("gnome-shell");
+  await $.requireCommand("gnome-extensions");
+
   type GnomeExtensionMeta = {
     name: string;
     metaPath: string;

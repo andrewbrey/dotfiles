@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
@@ -10,7 +10,7 @@ if (await $.commandMissing("subl")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask sublime-text`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    invariant(typeof (await $.which("curl")) !== "undefined", "curl is required");
+    await $.requireCommand("curl");
 
     await $`sudo mkdir -p /etc/apt/trusted.gpg.d`;
     await $`sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sublimehq-archive.gpg`.stdin(

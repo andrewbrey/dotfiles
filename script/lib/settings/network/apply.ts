@@ -19,7 +19,7 @@ if ($.env.OS === "darwin") {
     !$.env.IN_CONTAINER && chezmoiData.is_personal_machine &&
     (chezmoiData.is_popos || chezmoiData.is_ubuntu)
   ) {
-    invariant(typeof (await $.which("nmcli")) !== "undefined", "nmcli is required");
+    await $.requireCommand("nmcli");
 
     const activeNetworks = await $`nmcli con show --active`.lines();
     const activeWifiLine = activeNetworks.find((a) => a.includes("wifi"));

@@ -16,11 +16,8 @@ if ($.env.OS === "darwin") {
   });
 } else {
   if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
-    invariant(typeof (await $.which("dconf")) !== "undefined", "dconf is required");
-    invariant(
-      typeof (await $.which("wmctrl")) !== "undefined",
-      `wmctrl is required, install it with ${$.colors.magenta("pam install -a peer-tools")}`,
-    );
+    await $.requireCommand("dconf");
+    await $.requireCommand("wmctrl", "pam install -a peer-tools");
 
     const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
     const dconfSrc = `${$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
