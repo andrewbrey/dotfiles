@@ -159,7 +159,7 @@ function commandMissingSync(commandName: string) {
   return !basic$.commandExistsSync(commandName);
 }
 
-/** Enforce that the specified command is available */
+/** Enforce that the specified command is available, returning value of `which cmd` if the `cmd` is available */
 async function requireCommand(commandName: string, installCommand?: string) {
   let message = `${cliffyAnsi.colors.blue(commandName)} is required`;
 
@@ -168,6 +168,8 @@ async function requireCommand(commandName: string, installCommand?: string) {
   }
 
   invariant(await basic$.commandExists(commandName), message);
+
+  return await basic$.which(commandName) as string; // we know it exists, coerce type
 }
 
 /** Check if the provided environment variable is defined and has a non-blank value */
@@ -182,9 +184,11 @@ function envMissing(envName: string) {
   return value.length === 0;
 }
 
-/** Enforce that the specified environment variable is defined */
+/** Enforce that the specified environment variable is defined, returning the env value if defined */
 function requireEnv(envName: string) {
   invariant(envExists(envName), `missing required env variable $${envName}`);
+
+  return Deno.env.get(envName)?.trim() as string; // we know it exists, coerce type
 }
 
 type GHReleaseInfo = {
