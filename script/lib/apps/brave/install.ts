@@ -10,7 +10,7 @@ if (await $.commandMissing("brave-browser")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await $.requireCommand("curl");
+    await $.requireCommand("curl", "pam install -a core-tools");
 
     await $`sudo mkdir -p /usr/share/keyrings`;
     const braveGPGKeyringURL = "https://brave-browser-apt-release.s3.brave.com/"; // NOTE: trailing slash (needed in sources.list?)

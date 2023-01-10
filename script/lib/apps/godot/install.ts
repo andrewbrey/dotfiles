@@ -8,7 +8,7 @@ import {
   linkDesktopFileForApp,
 } from "../_cli/pamkit.ts";
 
-await $.requireCommand("mono");
+await $.requireCommand("mono", "pam install -a mono");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 const sourceDir = $.path.join(dotAppPath, constants.sourceDir);

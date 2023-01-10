@@ -3,7 +3,7 @@
 import { $ } from "../../mod.ts";
 import { constants, flatpakAppInstalled } from "../_cli/pamkit.ts";
 
-await $.requireCommand("flatpak");
+await $.requireCommand("flatpak", "pam install -a flatpak");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 

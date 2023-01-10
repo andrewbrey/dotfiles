@@ -10,7 +10,7 @@ if (await $.commandMissing("subl")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask sublime-text`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await $.requireCommand("curl");
+    await $.requireCommand("curl", "pam install -a core-tools");
 
     await $`sudo mkdir -p /etc/apt/trusted.gpg.d`;
     await $`sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sublimehq-archive.gpg`.stdin(

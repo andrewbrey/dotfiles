@@ -8,7 +8,7 @@ import {
   linkDesktopFileForApp,
 } from "../_cli/pamkit.ts";
 
-await $.requireCommand("xz");
+await $.requireCommand("xz", "pam install -a core-tools");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);

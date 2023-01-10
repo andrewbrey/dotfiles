@@ -3,8 +3,8 @@
 import { $ } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-await $.requireCommand("node");
-await $.requireCommand("npm");
+await $.requireCommand("node", "pam install -a node");
+await $.requireCommand("npm", "pam install -a node");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);

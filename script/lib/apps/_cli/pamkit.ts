@@ -344,7 +344,7 @@ export async function createAndLinkNativefierApp(
   { appName, displayName, website }: NativefierAppArgs,
 ) {
   $.requireCommand("node", "pam install -a node");
-  $.requireCommand("npm");
+  $.requireCommand("npm", "pam install -a node");
 
   invariant(typeof appName === "string" && appName.length > 0, "invalid appName");
   invariant(typeof displayName === "string" && displayName.length > 0, "invalid displayName");
