@@ -1,14 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { getInstallerMetas, wrapOutdatedCheck } from "../_cli/pamkit.ts";
 
-const asepriteToken = Deno.env.get("HUMBLE_ASEPRITE_TOKEN");
-
-invariant(
-  typeof asepriteToken !== "undefined" && asepriteToken.length > 0,
-  `missing required env $HUMBLE_ASEPRITE_TOKEN (try ${$.colors.magenta("use_humble")})`,
-);
+const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 

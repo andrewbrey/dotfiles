@@ -185,8 +185,14 @@ function envMissing(envName: string) {
 }
 
 /** Enforce that the specified environment variable is defined, returning the env value if defined */
-function requireEnv(envName: string) {
-  invariant(envExists(envName), `missing required env variable $${envName}`);
+function requireEnv(envName: string, setCommand?: string) {
+  let message = `missing required env ${cliffyAnsi.colors.blue(envName)}`;
+
+  if (setCommand) {
+    message = `${message} (try ${cliffyAnsi.colors.magenta(setCommand)})`;
+  }
+
+  invariant(envExists(envName), message);
 
   return Deno.env.get(envName)?.trim() as string; // we know it exists, coerce type
 }

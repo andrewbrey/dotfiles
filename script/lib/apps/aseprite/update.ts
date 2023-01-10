@@ -3,12 +3,7 @@
 import { $, invariant } from "../../mod.ts";
 import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
 
-const asepriteToken = Deno.env.get("HUMBLE_ASEPRITE_TOKEN");
-
-invariant(
-  typeof asepriteToken !== "undefined" && asepriteToken.length > 0,
-  `missing required env $HUMBLE_ASEPRITE_TOKEN (try ${$.colors.magenta("use_humble")})`,
-);
+const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);

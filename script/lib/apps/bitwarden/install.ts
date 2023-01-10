@@ -1,13 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 import { constants, createAndLinkNativefierApp, InstallerMeta } from "../_cli/pamkit.ts";
 
-const server = Deno.env.get("SECRET_BITWARDEN_SERVER");
-invariant(
-  typeof server === "string" && server.length > 0,
-  "missing required env $SECRET_BITWARDEN_SERVER",
-);
+const server = $.requireEnv("SECRET_BITWARDEN_SERVER");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
