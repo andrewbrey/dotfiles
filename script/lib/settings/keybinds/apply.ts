@@ -22,6 +22,6 @@ if ($.env.OS === "darwin") {
     const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
     const dconfSrc = `${$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
 
-    await $`dconf load ${loadKey}`.stdin(await Deno.readTextFile(dconfSrc));
+    await $`dconf load ${loadKey}`.stdin($.strings.asBytes(await Deno.readTextFile(dconfSrc)));
   }
 }

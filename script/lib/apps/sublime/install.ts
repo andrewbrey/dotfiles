@@ -14,11 +14,11 @@ if (await $.commandMissing("subl")) {
 
     await $`sudo mkdir -p /etc/apt/trusted.gpg.d`;
     await $`sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sublimehq-archive.gpg`.stdin(
-      await $`curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg`.text(),
+      await $`curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg`.bytes(),
     );
 
     await $`sudo tee /etc/apt/sources.list.d/sublime-text.list`.stdin(
-      await $.raw`echo "deb https://download.sublimetext.com/ apt/stable/"`.text(),
+      await $.raw`echo "deb https://download.sublimetext.com/ apt/stable/"`.bytes(),
     );
 
     await $`sudo apt update`;

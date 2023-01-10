@@ -22,7 +22,7 @@ if (await $.commandMissing("brave-browser")) {
     await $`sudo tee /etc/apt/sources.list.d/brave-browser-release.list`.stdin(
       await $
         .raw`echo "deb [signed-by=${braveGPGKeyringPath} arch=${arch}] ${braveGPGKeyringURL} stable main"`
-        .text(),
+        .bytes(),
     );
 
     await $`sudo apt update`;

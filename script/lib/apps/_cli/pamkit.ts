@@ -398,7 +398,7 @@ export async function unlinkNativefierApp(appName: string) {
 }
 
 export async function flatpakAppInstalled(appName: string) {
-  const flatpakApps = await $`flatpak list --app --columns=name`.text();
+  const flatpakApps = await $`flatpak list --app --columns=name`.bytes();
 
   const { code } = await $.raw`grep -q "^${appName}$"`.stdin(flatpakApps).noThrow();
 

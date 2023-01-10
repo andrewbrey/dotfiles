@@ -160,7 +160,7 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
     const settingsPath = $.path.join(ext.metaPath, "settings.dconf");
     if (await $.exists(settingsPath)) {
       const settings = await Deno.readTextFile(settingsPath);
-      await $`dconf load ${dconf}`.stdin(settings);
+      await $`dconf load ${dconf}`.stdin($.strings.asBytes(settings));
     }
   }
 

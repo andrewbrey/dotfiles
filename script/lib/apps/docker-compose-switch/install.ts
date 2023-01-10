@@ -18,7 +18,7 @@ if (await $.commandMissing("docker-compose")) {
 
     await $`sudo sh`.stdin(
       await $`curl -fL https://raw.githubusercontent.com/docker/compose-switch/master/install_on_linux.sh`
-        .text(),
+        .bytes(),
     );
 
     const releaseInfo = await $.ghReleaseInfo("docker", "compose-switch");

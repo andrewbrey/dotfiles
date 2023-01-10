@@ -39,6 +39,12 @@ function inspect(what: any, depth: number = Infinity) {
   return stdNodeUtil.inspect(what, { colors: env.ALLOW_COLOR, depth, getters: true });
 }
 
+/** Convert text to bytes (Uint8Array) */
+function asBytes(text: string) {
+  const encoder = new TextEncoder();
+  return encoder.encode(text);
+}
+
 const basic$ = dax.build$();
 basic$.setPrintCommand(true);
 
@@ -366,7 +372,7 @@ const $helpers = {
   runInBrowser,
   semver: stdSemver,
   streamDownload,
-  strings: { case: strCase },
+  strings: { case: strCase, asBytes },
 } as const;
 
 // TODO: for now, manually extend $Type with custom helpers using Object.assign
