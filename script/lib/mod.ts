@@ -1,3 +1,4 @@
+import { build$ } from "https://deno.land/x/dax@0.23.0/mod";
 import {
   cliffyAnsi,
   cliffyCmd,
@@ -369,6 +370,9 @@ const $helpers = {
   strings: { case: strCase },
 } as const;
 
+// TODO: for now, manually extend $Type with custom helpers using Object.assign
+//       because the dax.build$({ extras: .... }) API does not support anything
+//       but functions as of now; revisit if dax supports more things later.
 type Extended$Type = dax.$Type & typeof $helpers;
 export const $ = Object.assign(basic$, $helpers) satisfies Extended$Type;
 
