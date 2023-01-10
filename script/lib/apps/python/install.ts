@@ -6,9 +6,7 @@ import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.t
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const pythonNotInstalled = typeof (await $.which("python3")) === "undefined";
-const pipNotInstalled = typeof (await $.which("pip3")) === "undefined";
-if (pythonNotInstalled || pipNotInstalled) {
+if (await $.commandMissing("python3") || await $.commandMissing("pip3")) {
   if ($.env.OS === "darwin") {
     await $`brew install python3`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

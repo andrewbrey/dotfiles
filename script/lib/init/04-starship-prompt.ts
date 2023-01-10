@@ -12,7 +12,7 @@ const id = `==> ${$.path.basename(import.meta.url)}`;
 
 $.logGroup($.colors.black.bgYellow(id));
 
-if (!(await $.which("starship"))) {
+if (await $.commandMissing("starship")) {
   $.logWarn("warn: starship not found");
 
   $.logGroup();

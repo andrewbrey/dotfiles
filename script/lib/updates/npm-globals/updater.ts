@@ -2,9 +2,9 @@
 
 import { $, invariant } from "../../mod.ts";
 
-const hasNode = typeof (await $.which("node")) !== "undefined";
-const hasNPM = typeof (await $.which("npm")) !== "undefined";
-const hasNCU = typeof (await $.which("ncu")) !== "undefined";
+const hasNode = await $.commandExists("node");
+const hasNPM = await $.commandExists("npm");
+const hasNCU = await $.commandExists("ncu");
 
 if (hasNode && hasNPM && hasNCU) {
   const ncu = await $`ncu -g`.stdout("inheritPiped").stderr("null");

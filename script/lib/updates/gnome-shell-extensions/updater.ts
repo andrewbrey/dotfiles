@@ -3,7 +3,7 @@
 import { $ } from "../../mod.ts";
 
 const chezmoiData = await $.getChezmoiData();
-const hasDconf = typeof (await $.which("dconf")) !== "undefined";
+const hasDconf = await $.commandExists("dconf");
 
 if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubuntu) && hasDconf) {
   const extensionsDir = $.path.join(

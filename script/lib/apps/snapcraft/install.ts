@@ -3,20 +3,17 @@
 import { $, invariant } from "../../mod.ts";
 import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 
-invariant(
-  typeof (await $.which("snap")) !== "undefined",
-  `snap is required, install it with ${$.colors.magenta("pam install -a snapd")}`,
-);
+await $.requireCommand("snap", "pam install -a snapd");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if ($.env.OS === "linux") {
-  if (typeof (await $.which("snapcraft")) === "undefined") {
+  if (await $.commandMissing("snapcraft")) {
     await $`sudo snap install snapcraft --classic`;
   }
 
-  if (typeof (await $.which("snap-review")) === "undefined") {
+  if (await $.commandMissing("snap-review")) {
     await $`sudo snap install review-tools`;
   }
 }

@@ -9,10 +9,7 @@ if (await $.commandExists("task")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall go-task`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    invariant(
-      typeof (await $.which("snap")) !== "undefined",
-      `snap is required, install it with ${$.colors.magenta("pam install -a snapd")}`,
-    );
+    await $.requireCommand("snap", "pam install -a snapd");
 
     await $`sudo snap remove task`;
   }

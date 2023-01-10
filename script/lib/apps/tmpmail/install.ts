@@ -8,10 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("tmpmail")) {
   if ($.env.OS === "linux") {
-    invariant(
-      typeof (await $.which("xclip")) !== "undefined",
-      `xclip is required, install it with ${$.colors.magenta("pam install -a peer-tools")}`,
-    );
+    await $.requireCommand("xclip");
   }
 
   const sourcePath = $.path.join(dotAppPath, constants.sourceDir);

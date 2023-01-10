@@ -30,7 +30,7 @@ switch ($.env.OS) {
     $.logStep("installing xcode...");
     await $`xcode-select --install`;
 
-    if (!(await $.which("brew"))) {
+    if (await $.commandMissing("brew")) {
       $.logWarn("warn: brew not found");
 
       $.logGroup();

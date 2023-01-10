@@ -13,11 +13,11 @@ if ($.env.OS === "darwin") {
   await $`sudo apt upgrade -y`;
   await $`sudo apt autoremove -y`;
 
-  if (typeof (await $.which("snap")) !== "undefined") {
+  if (await $.commandExists("snap")) {
     await $`sudo snap refresh`;
   }
 
-  if (typeof (await $.which("flatpak")) !== "undefined") {
+  if (await $.commandExists("flatpak")) {
     await $`flatpak update -y`;
   }
 }

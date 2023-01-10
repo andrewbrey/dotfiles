@@ -9,10 +9,7 @@ await $.fs.ensureDir(dotAppPath);
 let version = "0.0.0"; // special for compose-switch because at runtime, it's --version flag reports `docker compose` version, not the version of the compose-switch utility itself
 if (await $.commandMissing("docker-compose")) {
   if ($.env.OS === "linux") {
-    invariant(
-      typeof (await $.which("docker")) !== "undefined",
-      `docker is required, install it with ${$.colors.magenta("pam install -a docker")}`,
-    );
+    $.requireCommand("docker", "pam install -a docker");
 
     invariant(
       (await $`docker compose version`.noThrow().text()).trim() !== "",

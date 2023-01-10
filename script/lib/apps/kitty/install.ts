@@ -8,10 +8,7 @@ import {
   linkDesktopFileForApp,
 } from "../_cli/pamkit.ts";
 
-invariant(
-  typeof (await $.which("xz")) !== "undefined",
-  `xz-utils is required, install it with ${$.colors.magenta("pam install -a core-tools")}`,
-);
+await $.requireCommand("xz");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
