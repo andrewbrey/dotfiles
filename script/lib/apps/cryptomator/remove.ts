@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("cryptomator")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("cryptomator")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask cryptomator`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

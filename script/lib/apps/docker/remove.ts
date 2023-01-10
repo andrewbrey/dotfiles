@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("docker")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("docker")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask docker`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

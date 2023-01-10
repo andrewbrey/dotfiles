@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("starship")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("starship")) {
   // NOTE: copied from script/lib/init/02-zsh-and-zgenom.ts
 
   const installScript = await Deno.makeTempFile({ prefix: "dotfiles_starship_", suffix: ".sh" });

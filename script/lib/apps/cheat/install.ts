@@ -6,8 +6,7 @@ import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.t
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("cheat")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("cheat")) {
   if ($.env.OS === "darwin") {
     await $`brew install cheat`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

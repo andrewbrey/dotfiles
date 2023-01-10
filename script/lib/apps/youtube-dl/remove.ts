@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("youtube-dl")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("youtube-dl")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall youtube-dl`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

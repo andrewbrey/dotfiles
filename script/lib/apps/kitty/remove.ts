@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("kitty")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("kitty")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

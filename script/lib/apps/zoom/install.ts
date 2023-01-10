@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-const notInstalled = typeof (await $.which("zoom")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("zoom")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask zoom`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

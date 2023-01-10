@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("google-chrome")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("google-chrome")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask google-chrome`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("code")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("code")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask visual-studio-code`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

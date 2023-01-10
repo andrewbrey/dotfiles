@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("snap")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("snap")) {
   if ($.env.OS === "linux") {
     await $`sudo apt install -y snapd`;
   }

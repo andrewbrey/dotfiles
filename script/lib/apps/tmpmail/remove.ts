@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("tmpmail")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("tmpmail")) {
   await unlinkBinaryFromUserPath("tmpmail");
 }
 

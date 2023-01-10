@@ -8,8 +8,7 @@ const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("aseprite")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("aseprite")) {
   const releaseInfoPath = $.path.join(dotAppPath, constants.htmlReleaseInfoName);
   let releaseInfo = "";
 

@@ -11,8 +11,7 @@ import {
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("cryptomator")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("cryptomator")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask cryptomator`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

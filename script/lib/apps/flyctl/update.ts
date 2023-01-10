@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("flyctl")) !== "undefined";
-if (installed) {
+if (await $.commandExists("flyctl")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

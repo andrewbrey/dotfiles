@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("obs")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("obs")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask obs`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

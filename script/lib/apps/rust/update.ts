@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("rustc")) !== "undefined";
-if (installed) {
+if (await $.commandExists("rustc")) {
   const installScriptPath = $.path.join(dotAppPath, "rust-install.sh");
 
   await $.streamDownload("https://sh.rustup.rs", installScriptPath);

@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("youtube-music")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("youtube-music")) {
   if ($.env.OS === "darwin") {
     // TODO: need to uninstall from command line
     if (Math.random()) throw new Error("TODO: uninstall dmg from command line");

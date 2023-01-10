@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("godot")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("godot")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask godot-mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

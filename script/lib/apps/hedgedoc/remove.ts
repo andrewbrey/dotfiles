@@ -6,8 +6,7 @@ import { constants, unlinkNativefierApp } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
 const name = $.$dirname(import.meta.url, true);
-const isInstalled = typeof (await $.which(name)) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists(name)) {
   await unlinkNativefierApp(name);
 }
 

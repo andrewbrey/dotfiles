@@ -10,8 +10,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("aseprite")) !== "undefined";
-if (installed) {
+if (await $.commandExists("aseprite")) {
   const releaseInfoPath = $.path.join(dotAppPath, constants.htmlReleaseInfoName);
   let releaseInfo = "";
 

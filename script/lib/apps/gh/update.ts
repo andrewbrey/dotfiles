@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
-const installed = typeof (await $.which("gh")) !== "undefined";
-if (installed) {
+if (await $.commandExists("gh")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

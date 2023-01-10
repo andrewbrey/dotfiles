@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 const dotResPath = $.path.join($.$dirname(import.meta.url), constants.appResourcesDir);
 
 const nodeVersion = await mostRelevantVersion(dotResPath);
-const isInstalled = typeof (await $.which("node")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("node")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

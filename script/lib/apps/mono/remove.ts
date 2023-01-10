@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("mono")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("mono")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

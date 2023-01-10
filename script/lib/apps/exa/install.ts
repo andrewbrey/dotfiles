@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("exa")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("exa")) {
   if ($.env.OS === "darwin") {
     await $`brew install exa`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

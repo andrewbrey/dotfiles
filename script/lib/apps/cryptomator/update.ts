@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("cryptomator")) !== "undefined";
-if (installed) {
+if (await $.commandExists("cryptomator")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

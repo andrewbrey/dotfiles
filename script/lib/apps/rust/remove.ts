@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("rustc")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("rustc")) {
   const rustupPath = $.path.join($.env.HOME, ".rustup");
   const cargoPath = $.path.join($.env.HOME, ".cargo");
 

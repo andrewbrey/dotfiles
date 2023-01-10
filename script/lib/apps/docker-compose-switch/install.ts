@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 let version = "0.0.0"; // special for compose-switch because at runtime, it's --version flag reports `docker compose` version, not the version of the compose-switch utility itself
-const notInstalled = typeof (await $.which("docker-compose")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("docker-compose")) {
   if ($.env.OS === "linux") {
     invariant(
       typeof (await $.which("docker")) !== "undefined",

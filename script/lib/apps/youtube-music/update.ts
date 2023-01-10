@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("youtube-music")) !== "undefined";
-if (installed) {
+if (await $.commandExists("youtube-music")) {
   if ($.env.OS === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");

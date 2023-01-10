@@ -16,8 +16,7 @@ invariant(
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("kitty")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("kitty")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

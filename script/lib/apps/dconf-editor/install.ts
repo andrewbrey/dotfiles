@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
-const notInstalled = typeof (await $.which("dconf-editor")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("dconf-editor")) {
   if ($.env.OS === "linux") {
     await $`sudo apt install -y dconf-editor`;
 

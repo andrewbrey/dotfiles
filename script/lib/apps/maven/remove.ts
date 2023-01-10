@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("mvn")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("mvn")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall maven`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

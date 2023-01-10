@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("fd")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("fd")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall fd`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

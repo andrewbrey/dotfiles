@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("shotcut")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("shotcut")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask shotcut`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

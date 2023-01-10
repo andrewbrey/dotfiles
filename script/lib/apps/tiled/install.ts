@@ -12,8 +12,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-const notInstalled = typeof (await $.which("tiled")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("tiled")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask tiled`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

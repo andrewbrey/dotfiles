@@ -14,8 +14,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("godot")) !== "undefined";
-if (installed) {
+if (await $.commandExists("godot")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

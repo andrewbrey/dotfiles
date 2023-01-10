@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("python3")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("python3")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall python3`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

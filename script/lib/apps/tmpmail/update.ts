@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("tmpmail")) !== "undefined";
-if (installed) {
+if (await $.commandExists("tmpmail")) {
   const sourcePath = $.path.join(dotAppPath, constants.sourceDir);
 
   await $`git -C ${sourcePath} pull`;

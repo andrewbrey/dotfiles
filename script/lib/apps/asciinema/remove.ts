@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("asciinema")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("asciinema")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall asciinema`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

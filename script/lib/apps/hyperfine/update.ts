@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("hyperfine")) !== "undefined";
-if (installed) {
+if (await $.commandExists("hyperfine")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

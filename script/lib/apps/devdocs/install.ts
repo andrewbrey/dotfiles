@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 const name = $.$dirname(import.meta.url, true);
-const notInstalled = typeof (await $.which(name)) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing(name)) {
   await createAndLinkNativefierApp({
     appName: name,
     displayName: "DevDocs",

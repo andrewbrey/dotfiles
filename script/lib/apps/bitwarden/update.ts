@@ -11,8 +11,7 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const name = $.$dirname(import.meta.url, true);
-const installed = typeof (await $.which(name)) !== "undefined";
-if (installed) {
+if (await $.commandExists(name)) {
   await createAndLinkNativefierApp({
     appName: name,
     displayName: "Bitwarden",

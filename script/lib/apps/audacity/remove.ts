@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("audacity")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("audacity")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask audacity`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

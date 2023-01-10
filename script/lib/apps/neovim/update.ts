@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("nvim")) !== "undefined";
-if (installed) {
+if (await $.commandExists("nvim")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

@@ -7,8 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-const notInstalled = typeof (await $.which("webtorrent")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("webtorrent")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask webtorrent`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

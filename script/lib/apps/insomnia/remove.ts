@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("insomnia")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("insomnia")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask insomnia`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

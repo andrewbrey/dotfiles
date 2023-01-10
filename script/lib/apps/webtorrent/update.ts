@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("webtorrent")) !== "undefined";
-if (installed) {
+if (await $.commandExists("webtorrent")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

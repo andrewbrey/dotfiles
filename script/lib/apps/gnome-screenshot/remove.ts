@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("gnome-screenshot")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("gnome-screenshot")) {
   if ($.env.OS === "linux") {
     await $`sudo apt purge -y gnome-screenshot`;
   }

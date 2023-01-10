@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("brave-browser")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("brave-browser")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

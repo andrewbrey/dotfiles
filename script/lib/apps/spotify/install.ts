@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("spotify")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("spotify")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask spotify`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("intellij-idea-ultimate")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("intellij-idea-ultimate")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask intellij-idea`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

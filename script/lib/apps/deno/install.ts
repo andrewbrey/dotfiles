@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("deno")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("deno")) {
   const installScriptPath = $.path.join(dotAppPath, "deno-install.sh");
 
   await $.streamDownload("https://deno.land/x/install/install.sh", installScriptPath);

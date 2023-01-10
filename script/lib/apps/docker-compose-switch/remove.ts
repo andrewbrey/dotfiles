@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("compose-switch")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("compose-switch")) {
   if ($.env.OS === "linux") {
     const composeSwitch = await $.which("compose-switch");
     await $`sudo rm -f ${composeSwitch}`;

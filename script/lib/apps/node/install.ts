@@ -8,8 +8,7 @@ const dotResPath = $.path.join($.$dirname(import.meta.url), constants.appResourc
 await $.fs.ensureDir(dotAppPath);
 
 const nodeVersion = await mostRelevantVersion(dotResPath);
-const notInstalled = typeof (await $.which("node")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("node")) {
   if ($.env.OS === "darwin") {
     await $`brew install node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

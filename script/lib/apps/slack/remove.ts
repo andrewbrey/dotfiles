@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("slack")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("slack")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask slack`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

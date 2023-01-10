@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 let version = "0.0.0"; // special for compose-switch because at runtime, it's --version flag reports `docker compose` version, not the version of the compose-switch utility itself
-const installed = typeof (await $.which("compose-switch")) !== "undefined";
-if (installed) {
+if (await $.commandExists("compose-switch")) {
   if ($.env.OS === "darwin") {
     $.logGroup(() => {
       $.logWarn(

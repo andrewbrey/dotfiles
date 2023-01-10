@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("gnome-tweaks")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("gnome-tweaks")) {
   if ($.env.OS === "linux") {
     await $`sudo apt purge -y gnome-tweaks`;
   }

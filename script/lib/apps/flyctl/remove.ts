@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("flyctl")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("flyctl")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall flyctl`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

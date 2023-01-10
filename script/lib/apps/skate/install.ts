@@ -6,8 +6,7 @@ import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.t
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("skate")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("skate")) {
   const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
   const artifactPath = $.path.join(dotAppPath, "skate.tar.gz");
   const binaryPath = $.path.join(dotAppPath, "skate");

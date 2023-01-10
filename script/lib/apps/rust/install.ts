@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("rustc")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("rustc")) {
   const installScriptPath = $.path.join(dotAppPath, "rust-install.sh");
 
   await $.streamDownload("https://sh.rustup.rs", installScriptPath);

@@ -12,8 +12,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-const notInstalled = typeof (await $.which("flot")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("flot")) {
   if ($.env.OS === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "flot.AppImage");

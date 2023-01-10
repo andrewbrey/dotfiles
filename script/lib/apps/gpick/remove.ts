@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("gpick")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("gpick")) {
   if ($.env.OS === "linux") {
     await $`sudo apt purge -y gpick`;
   }

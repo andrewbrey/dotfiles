@@ -5,8 +5,7 @@ import { constants } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("warp")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("warp")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall --cask warp`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   }

@@ -6,8 +6,7 @@ import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.t
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("tmpmail")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("tmpmail")) {
   if ($.env.OS === "linux") {
     invariant(
       typeof (await $.which("xclip")) !== "undefined",

@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("raycast")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("raycast")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask raycast`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   }

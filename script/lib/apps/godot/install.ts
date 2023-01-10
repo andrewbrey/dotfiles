@@ -17,8 +17,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifac
 const sourceDir = $.path.join(dotAppPath, constants.sourceDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("godot")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("godot")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask godot-mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

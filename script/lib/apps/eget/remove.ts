@@ -5,8 +5,7 @@ import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-const isInstalled = typeof (await $.which("eget")) !== "undefined";
-if (isInstalled) {
+if (await $.commandExists("eget")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall eget`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {

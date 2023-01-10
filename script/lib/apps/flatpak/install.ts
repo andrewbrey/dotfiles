@@ -6,8 +6,7 @@ import { constants, InstallerMeta } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const notInstalled = typeof (await $.which("flatpak")) === "undefined";
-if (notInstalled) {
+if (await $.commandMissing("flatpak")) {
   if ($.env.OS === "linux") {
     await $`sudo apt install -y flatpak`;
     await $`flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`;

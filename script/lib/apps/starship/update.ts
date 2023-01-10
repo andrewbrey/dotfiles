@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("starship")) !== "undefined";
-if (installed) {
+if (await $.commandExists("starship")) {
   // NOTE: copied from script/lib/init/02-zsh-and-zgenom.ts
 
   const installScript = await Deno.makeTempFile({ prefix: "dotfiles_starship_", suffix: ".sh" });

@@ -8,8 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-const installed = typeof (await $.which("skate")) !== "undefined";
-if (installed) {
+if (await $.commandExists("skate")) {
   const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
   const artifactPath = $.path.join(dotAppPath, "skate.tar.gz");
   const binaryPath = $.path.join(dotAppPath, "skate");
