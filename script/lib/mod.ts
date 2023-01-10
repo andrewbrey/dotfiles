@@ -206,7 +206,6 @@ type GHReleaseInfo = {
 
 /** Fetch the latest release information for a github repo */
 async function ghReleaseInfo(user: string, repo: string) {
-  // TODO: make signature a single parameter, e.g. `ghReleaseLatestInfo(project: string /* "andrewbrey/dotfiles" */)`
   const request = $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
 
   if (env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
