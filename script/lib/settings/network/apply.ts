@@ -43,6 +43,8 @@ if ($.env.OS === "darwin") {
       const aciveWifiIPV4DNS = activeWifiDeviceFacts.find((f) => f.includes("IP4.DNS"))?.split(":")
         ?.at(1)?.trim() ?? "";
 
+      // TODO: set to secrets values
+      // TODO: don't disable ipv6
       const piholeLocalAddress = "192.168.0.40";
 
       if (aciveWifiIPV4DNS !== piholeLocalAddress) {
