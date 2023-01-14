@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable -A
 
 import { $, type FormatterFunction } from "../mod.ts";
+import { etcHosts } from "./dns.ts";
 import { keyFetchRequest } from "./keys.ts";
 import { autoTZ } from "./tz.ts";
 
@@ -33,6 +34,7 @@ try {
 
   const results = await Promise.allSettled([
     autoTZ(logger, artifactsPath),
+    etcHosts(logger, artifactsPath),
     keyFetchRequest(logger, artifactsPath),
   ]);
   results.every((r) => r.status === "fulfilled") ? logger.info("all done :)") : logger.error(

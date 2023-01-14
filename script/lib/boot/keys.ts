@@ -6,8 +6,6 @@ export async function keyFetchRequest(logger: Logger, artifactsPath: string) {
   if (await $.exists(marker)) {
     logger.info("marker file already exists, skipping keyFetchRequest");
   } else {
-    await Deno.writeTextFile(marker, "ok");
-
     const hosts = ["192.168.0.40", "192.168.0.56"];
     const port = 4057;
     for (const host of hosts) {
@@ -19,6 +17,7 @@ export async function keyFetchRequest(logger: Logger, artifactsPath: string) {
       }
     }
 
+    await Deno.writeTextFile(marker, "ok");
     logger.info(`marker set for keyFetchRequest`);
   }
 }

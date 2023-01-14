@@ -1,3 +1,4 @@
+import type { Logger } from "./deps.ts";
 import {
   cliffyAnsi,
   cliffyCmd,
@@ -203,6 +204,22 @@ function requireEnv(envName: string, setCommand?: string) {
   return Deno.env.get(envName)?.trim() as string; // we know it exists, coerce type
 }
 
+/** Attempt to alert via ntfy, but don't fail if not possible. */
+async function ntfyAlert(alert: string, logger?: Logger) {
+  try {
+    const topic = requireEnv("NTFY_TOPIC");
+    invariant(typeof alert === "string" && alert.length > 0, "missing required alert for ntfy");
+
+    await $.request(`https://ntfy.sh/${topic}`).method("POST")
+      .header({ "Title": "dots alert" }).body(alert).timeout(2_000);
+  } catch (error) {
+    if (logger) {
+      logger.error(`ntfyAlert failed for ${alert}`);
+      logger.error(error);
+    }
+  }
+}
+
 type GHReleaseInfo = {
   name: string;
   tag_name: string;
@@ -367,6 +384,7 @@ const $helpers = {
   missingSync,
   nodeFS: stdNodeFS,
   noop,
+  ntfyAlert,
   requireCommand,
   requireEnv,
   runInBrowser,
