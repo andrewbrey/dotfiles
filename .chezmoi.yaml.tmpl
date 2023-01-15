@@ -31,8 +31,8 @@ data:
   is_personal_machine: {{ $personalMachine }}
   is_linux: {{ eq .chezmoi.os "linux" }}
   is_mac: {{ eq .chezmoi.os "darwin" }}
-  is_popos: {{ contains .chezmoi.osRelease.name "Pop!_OS" }}
-  is_ubuntu: {{ contains .chezmoi.osRelease.name "Ubuntu" }}
+  is_popos: {{ contains "Pop!_OS" ( dig "osRelease" "name" "" .chezmoi ) }}
+  is_ubuntu: {{ contains "Ubuntu" ( dig "osRelease" "name" "" .chezmoi ) }}
   is_containerized: {{ eq (env "IN_CONTAINER" | trim) "true" }}
   is_cloud: {{ eq (env "IN_CLOUD_IDE" | trim) "true" }}
   is_codespaces: {{ eq (env "CODESPACES" | trim) "true" }}
