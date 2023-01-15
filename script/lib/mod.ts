@@ -46,7 +46,7 @@ function asBytes(text: string) {
   return encoder.encode(text);
 }
 
-const basic$ = dax.build$();
+const basic$ = dax.build$({ requestBuilder: new dax.RequestBuilder().timeout(60_000) });
 basic$.setPrintCommand(true);
 
 /** Collection of environment specific values detailing the context for execution */
