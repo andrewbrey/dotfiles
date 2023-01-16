@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
+import { constants, getInstallerMetas, installDmg } from "../_cli/pamkit.ts";
 
 const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
 
@@ -34,8 +34,7 @@ if (await $.commandExists("aseprite")) {
 
     await $.streamDownload(dmgURI, dmgInstallerPath);
 
-    // TODO: https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg
-    if (Math.random()) throw new Error("TODO: install dmg from command line");
+    await installDmg(dmgInstallerPath);
   } else {
     const debInstallerPath = $.path.join(dotAppPath, "aseprite.deb");
     const debURI = releaseInfo.match(/href="(https.*Aseprite_\d+\.\d+\.\d+.*_amd64\.deb.*)"/)

@@ -3,6 +3,7 @@
 import { $, invariant } from "../../mod.ts";
 import {
   constants,
+  installDmg,
   InstallerMeta,
   linkBinaryToUserPath,
   linkDesktopFileForApp,
@@ -15,7 +16,7 @@ let version = "";
 if (await $.commandMissing("flot")) {
   if ($.env.OS === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
-    const binPath = $.path.join(dotAppPath, "flot.dmg");
+    const dmgPath = $.path.join(dotAppPath, "flot.dmg");
 
     const releaseInfo = await $.ghReleaseInfo("andrewbrey", "flot");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
@@ -27,10 +28,9 @@ if (await $.commandMissing("flot")) {
 
     invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await $.streamDownload(targetAsset.browser_download_url, binPath);
+    await $.streamDownload(targetAsset.browser_download_url, dmgPath);
 
-    // TODO: https://apple.stackexchange.com/questions/73926/is-there-a-command-to-install-a-dmg
-    if (Math.random()) throw new Error("TODO: install dmg from command line");
+    await installDmg(dmgPath);
 
     version = latestVersion;
   } else {

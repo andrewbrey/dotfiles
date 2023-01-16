@@ -5,11 +5,21 @@ import { constants, unlinkBinaryFromUserPath, unlinkDesktopFileForApp } from "..
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
 
-if (await $.commandExists("youtube-music")) {
-  if ($.env.OS === "darwin") {
-    // TODO: need to uninstall from command line
-    if (Math.random()) throw new Error("TODO: uninstall dmg from command line");
-  } else {
+if ($.env.OS === "darwin") {
+  $.logGroup(() => {
+    $.logWarn(
+      "warn:",
+      $.dedent`
+				manual uninstallation required for apps installed with dmg;
+				start by trashing ".app" archive in /Applications but beware
+				that other files may have been placed on the system during
+				installation.
+
+			`,
+    );
+  });
+} else {
+  if (await $.commandExists("youtube-music")) {
     await unlinkDesktopFileForApp("youtube-music");
     await unlinkBinaryFromUserPath("youtube-music");
   }
