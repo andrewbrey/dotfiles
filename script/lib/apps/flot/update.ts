@@ -11,7 +11,7 @@ const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true
 if (await $.commandExists("flot")) {
   if ($.env.OS === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
-    const binPath = $.path.join(dotAppPath, "flot.AppImage");
+    const binPath = $.path.join(dotAppPath, "flot.dmg");
 
     const releaseInfo = await $.ghReleaseInfo("andrewbrey", "flot");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));

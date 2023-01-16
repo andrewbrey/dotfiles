@@ -15,7 +15,7 @@ let version = "";
 if (await $.commandMissing("flot")) {
   if ($.env.OS === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
-    const binPath = $.path.join(dotAppPath, "flot.AppImage");
+    const binPath = $.path.join(dotAppPath, "flot.dmg");
 
     const releaseInfo = await $.ghReleaseInfo("andrewbrey", "flot");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));

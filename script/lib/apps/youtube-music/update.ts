@@ -11,7 +11,7 @@ const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true
 if (await $.commandExists("youtube-music")) {
   if ($.env.OS === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
-    const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");
+    const binPath = $.path.join(dotAppPath, "youtube-music.dmg");
 
     const releaseInfo = await $.ghReleaseInfo("th-ch", "youtube-music");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
