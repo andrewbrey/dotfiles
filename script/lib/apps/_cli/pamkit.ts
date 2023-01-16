@@ -410,3 +410,39 @@ export async function flatpakAppMissing(appName: string) {
 
   return !installed;
 }
+
+/**
+ * Install the specified dmg file
+ *
+ * @see https://apple.stackexchange.com/a/311511
+ */
+export async function installDmg(dmgPath: string) {
+  dmgPath = await $.requireExists(dmgPath);
+
+  invariant(dmgPath.endsWith(".dmg"), `bad dmg file name ${dmgPath}`);
+  invariant($.env.OS === "darwin", "installer only available on mac");
+
+  const mountOutput = await $`sudo hdiutil attach ${dmgPath}`.text();
+  const volumeLine = await $`grep Volumes`.stdinText(mountOutput).text();
+  const volume = await $`cut -f 3`.stdinText(volumeLine).text();
+  const mountPoint = await $`cut -f 1`.stdinText(volumeLine).text();
+
+  invariant(typeof volume === "string" && volume.startsWith("/Volumes"), "invalid volume");
+  invariant(typeof mountPoint === "string" && mountPoint.length > 0, "invalid mountPoint");
+
+  // IDEA: handle `.pkg` style installers too (per https://apple.stackexchange.com/a/311511)?
+
+  let dotAppPaths: string[] = [];
+  for await (const file of $.fs.expandGlob($.path.join(volume, "*.app"))) {
+    dotAppPaths.push(file.path);
+  }
+
+  invariant(dotAppPaths.length > 0, "no .app packages were found in dmg, unable to install");
+  invariant(dotAppPaths.length === 1, "more than one .app package found in dmg, unable to install");
+
+  const [app] = dotAppPaths;
+
+  await $`sudo cp -rf ${app} /Applications`;
+
+  await $`sudo hdiutil detach ${mountPoint}`;
+}
