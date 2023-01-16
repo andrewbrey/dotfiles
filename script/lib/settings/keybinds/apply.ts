@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 
 const chezmoiData = await $.getChezmoiData();
 
@@ -22,6 +22,6 @@ if ($.env.OS === "darwin") {
     const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
     const dconfSrc = `${$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
 
-    await $`dconf load ${loadKey}`.stdin($.strings.asBytes(await Deno.readTextFile(dconfSrc)));
+    await $`dconf load ${loadKey}`.stdinText(await Deno.readTextFile(dconfSrc));
   }
 }

@@ -18,12 +18,12 @@ if (await $.missing(sudoersEntry)) {
     ".homelab-hosts.sh",
   );
 
-  await $.raw`sudo tee ${sudoersEntry}`.stdin(
-    $.strings.asBytes($.dedent`
+  await $.raw`sudo tee ${sudoersEntry}`.stdinText(
+    $.dedent`
 			${$.env.USER} ALL = (root) NOPASSWD: sudoedit /etc/hosts
 			${$.env.USER} ALL = (root) NOPASSWD: ${$.path.join(homelabHostsScript)}
 
-		`),
+		`,
   );
 
   await $`sudo chmod 0440 ${sudoersEntry}`;

@@ -22,15 +22,13 @@ if ($.env.OS === "darwin") {
 
     const fnKeyBehaviorCurrentSession = "/sys/module/hid_apple/parameters/fnmode";
     if (await $.exists(fnKeyBehaviorCurrentSession)) {
-      await $.raw`sudo tee ${fnKeyBehaviorCurrentSession}`.stdin($.strings.asBytes("0"));
+      await $.raw`sudo tee ${fnKeyBehaviorCurrentSession}`.stdinText("0");
     }
 
     const fnKeyBehaviorPersist = "/etc/modprobe.d/hid_apple.conf";
     await $.raw`sudo mkdir -p ${$.path.dirname(fnKeyBehaviorPersist)}`;
     await $.raw`sudo touch ${fnKeyBehaviorPersist}`;
-    await $.raw`sudo tee ${fnKeyBehaviorPersist}`.stdin(
-      $.strings.asBytes("options hid_apple fnmode=2"),
-    );
+    await $.raw`sudo tee ${fnKeyBehaviorPersist}`.stdinText("options hid_apple fnmode=2");
 
     await $`sudo update-initramfs -u`;
   }
