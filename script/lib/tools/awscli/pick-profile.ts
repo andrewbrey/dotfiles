@@ -1,4 +1,4 @@
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 
 const msg = console.error; // output of script is read from stdout, so do logging with `msg`
 const extractProfiles = (text: string) =>
@@ -17,8 +17,8 @@ try {
   const configPath = $.path.join(configDir, "config");
   const credsPath = $.path.join(configDir, "credentials");
 
-  invariant(await $.exists(configPath), "missing aws config file");
-  invariant(await $.exists(credsPath), "missing aws credentials");
+  await $.requireExists(configPath);
+  await $.requireExists(credsPath);
 
   const [config, creds] = await Promise.all([
     Deno.readTextFile(configPath),
@@ -26,7 +26,7 @@ try {
   ]);
 
   const configProfiles = extractProfiles(config);
-  const credsProfiles = extractProfiles(config);
+  const credsProfiles = extractProfiles(creds);
 
   const profiles = $.collections.intersect(configProfiles, credsProfiles);
   const chosenIdx = await $.maybeSelect({ message: "Choose a profile...", options: profiles });

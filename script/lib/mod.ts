@@ -183,7 +183,7 @@ async function requireExists(path: string) {
     ? path
     : basic$.path.resolve($.path.join(Deno.cwd(), path));
 
-  const message = `no such path exists at ${cliffyAnsi.colors.blue(path)}`;
+  const message = `nothing exists at ${cliffyAnsi.colors.blue(path)} but it is required`;
 
   invariant(await basic$.exists(absolutePath), message);
 

@@ -359,8 +359,8 @@ export async function createAndLinkNativefierApp(
   const iconPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
   const desktopPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
 
-  invariant(await $.exists(iconPath), "icon file missing");
-  invariant(await $.exists(desktopPath), "desktop file missing");
+  await $.requireExists(iconPath);
+  await $.requireExists(desktopPath);
 
   await $.fs.ensureDir(sourceDir);
   await $.fs.emptyDir(sourceDir);
@@ -383,7 +383,7 @@ export async function createAndLinkNativefierApp(
   );
 
   const builtAppBin = $.path.join(builtAppDir, appName);
-  invariant(await $.exists(builtAppBin), "app bin missing");
+  await $.requireExists(builtAppBin);
 
   await linkBinaryToUserPath(builtAppBin, appName);
   await linkDesktopFileForApp(appName);

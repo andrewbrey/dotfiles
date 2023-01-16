@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
+import { $ } from "../../mod.ts";
 
 // Allow passwordless edit of /etc/hosts file
 // @see https://askubuntu.com/a/895649
@@ -10,7 +10,7 @@ const sudoersDir = "/etc/sudoers.d";
 const sudoersEntry = $.path.join(sudoersDir, "hostsfile");
 
 if (await $.missing(sudoersEntry)) {
-  invariant(await $.exists(sudoersDir), `missing required directory ${sudoersDir}`);
+  await $.requireExists(sudoersDir);
 
   const homelabHostsScript = $.path.join(
     $.env.STANDARD_DIRS.DOT_DOTS_SETTINGS,
