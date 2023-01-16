@@ -29,8 +29,7 @@ export HOMEBREW_NO_ANALYTICS=1
 # js
 # =====
 {{ if .is_mac -}}
-# TODO
-export NODE_INSTALL="/opt/homebrew/opt/node@18"
+export NODE_INSTALL="/usr/local/opt/node@18"
 {{- end }}
 export SECRET_NPM_TOKEN=" " # leave as a space - only here to pacify npm/yarn/vscode which don't like undefined env vars (try use_npm)
 export NPM_PACKAGES_INSTALL={{ .standard_dirs.npm_install | quote }}
