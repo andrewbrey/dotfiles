@@ -21,6 +21,9 @@ if ($.env.OS === "darwin") {
   ) {
     await $.requireCommand("nmcli");
 
+    const ipv4DNS = $.requireEnv("SECRET_DNS_ADBLOCK_IPV4_ADDRESS");
+    const ipv6DNS = $.requireEnv("SECRET_DNS_ADBLOCK_IPV6_ADDRESS");
+
     const activeNetworks = await $`nmcli con show --active`.lines();
     const activeWifiLine = activeNetworks.find((a) => a.includes("wifi"));
 
@@ -40,23 +43,21 @@ if ($.env.OS === "darwin") {
       );
 
       const activeWifiDeviceFacts = await $`nmcli device show ${activeWifiDevice}`.lines();
-      const aciveWifiIPV4DNS = activeWifiDeviceFacts.find((f) => f.includes("IP4.DNS"))?.split(":")
+
+      const activeWifiIPV4DNS = activeWifiDeviceFacts.find((f) => f.includes("IP4.DNS"))?.split(":")
         ?.at(1)?.trim() ?? "";
+      const activeWifiIPV6DNS = activeWifiDeviceFacts.find((f) => f.includes("IP6.DNS"))?.split(":")
+        ?.slice(1)?.join(":")?.trim() ?? "";
 
-      // TODO: set to secrets values
-      // TODO: don't disable ipv6
-      const piholeLocalAddress = "192.168.0.40";
-
-      if (aciveWifiIPV4DNS !== piholeLocalAddress) {
-        await $`nmcli con mod ${activeWifiName} ipv4.dns ${piholeLocalAddress}`;
-
-        // Ensure that we only use the static pihole ipv4 address for dns resolution, and
-        // don't allow ipv6 dns lookups to take priority (subverting pihole)
-        await $`nmcli con mod ${activeWifiName} ipv6.method "disabled"`;
+      if (activeWifiIPV4DNS !== ipv4DNS || activeWifiIPV6DNS !== ipv6DNS) {
+        await $`nmcli con mod ${activeWifiName} ipv4.dns ${ipv4DNS}`;
+        await $`nmcli con mod ${activeWifiName} ipv6.dns ${ipv6DNS}`;
 
         await $`nmcli con down ${activeWifiName}`;
         await $.sleep("5s");
         await $`nmcli con up ${activeWifiName}`;
+      } else {
+        $.logStep("  ok:", "dns already correctly configured");
       }
     }
   }
