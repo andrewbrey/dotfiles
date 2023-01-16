@@ -424,11 +424,14 @@ export async function installDmg(dmgPath: string) {
 
   const mountOutput = await $`sudo hdiutil attach ${dmgPath}`.text();
   const volumeLine = await $`grep Volumes`.stdinText(mountOutput).text();
-  const volume = await $`cut -f 3`.stdinText(volumeLine).text();
-  const mountPoint = await $`cut -f 1`.stdinText(volumeLine).text();
+  const volume = (await $`cut -f 3`.stdinText(volumeLine).text() ?? "").trim();
+  const mountPoint = (await $`cut -f 1`.stdinText(volumeLine).text() ?? "").trim();
 
-  invariant(typeof volume === "string" && volume.startsWith("/Volumes"), "invalid volume");
-  invariant(typeof mountPoint === "string" && mountPoint.length > 0, "invalid mountPoint");
+  invariant(typeof volume === "string" && volume.startsWith("/Volumes/"), "invalid volume");
+  invariant(
+    typeof mountPoint === "string" && mountPoint.startsWith("/dev/disk"),
+    "invalid mountPoint",
+  );
 
   // IDEA: handle `.pkg` style installers too (per https://apple.stackexchange.com/a/311511)?
 
