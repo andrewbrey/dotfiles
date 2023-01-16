@@ -91,4 +91,3 @@
 - Improve outdate checks (all `pam` interactions?) so that one failing doesn't fail all
 - Make `init` scripts idempotent so that if needed, the `bootstrap` script can be re-run on an
   already-configured system
-- Install `xbar` for mac
