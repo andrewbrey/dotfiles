@@ -27,8 +27,12 @@ switch ($.env.OS) {
     $.logStep("installing software center updates...");
     await $`sudo softwareupdate -i -a`;
 
-    $.logStep("installing xcode...");
-    await $`xcode-select --install`;
+    // @see https://stackoverflow.com/a/15371967
+    const { code: xcodeInstalledCode } = await $`xcode-select -p`.stdout("null").noThrow();
+    if (xcodeInstalledCode !== 0) {
+      $.logStep("installing xcode-select...");
+      await $`xcode-select --install`;
+    }
 
     if (await $.commandMissing("brew")) {
       $.logWarn("warn: brew not found");

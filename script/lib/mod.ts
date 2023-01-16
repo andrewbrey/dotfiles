@@ -46,8 +46,33 @@ function asBytes(text: string) {
   return encoder.encode(text);
 }
 
+/** Convert bytes (Uint8Array) to text */
+function fromBytes(buffer: Uint8Array) {
+  const decoder = new TextDecoder();
+  return decoder.decode(buffer);
+}
+
 const basic$ = dax.build$({ requestBuilder: new dax.RequestBuilder().timeout(60_000) });
 basic$.setPrintCommand(true);
+
+/**
+ * Gets the absolute path of the directory containing the passed `import.meta.url`
+ *
+ * If `basenameOnly` is set to `true`, only returns the final segment of the path
+ */
+function $dirname(importMetaUrl: string, basenameOnly = false) {
+  const fullDir = basic$.path.dirname(basic$.path.fromFileUrl(importMetaUrl));
+
+  return basenameOnly ? basic$.path.basename(fullDir) : fullDir;
+}
+
+/** Gets the absolute path of the directory up `count` from the passed `import.meta.url` */
+function $dotdot(importMetaUrl: string, count = 1) {
+  invariant(count > 0, "dotdot count must be at least 1");
+
+  const dots = new Array(count).fill("").map((i) => "..");
+  return basic$.path.resolve($dirname(importMetaUrl), ...dots);
+}
 
 /** Collection of environment specific values detailing the context for execution */
 const env = {
@@ -77,6 +102,18 @@ const env = {
       LOCAL_BIN: basic$.path.join(env.HOME, ".local", "bin"),
       LOCAL_SHARE_APPS: basic$.path.join(env.HOME, ".local", "share", "applications"),
     };
+  },
+  get DOTS_CLONE_IS_SSH() {
+    const git = basic$.whichSync("git");
+
+    if (!git) return false;
+
+    const command = new Deno.Command(git, { args: ["remote", "get-url", "origin"] });
+    const { code, stdout } = command.outputSync();
+
+    if (code !== 0) return false;
+
+    return fromBytes(stdout).startsWith("git@");
   },
 };
 
@@ -125,25 +162,6 @@ async function getChezmoiData() {
   invariant(await basic$.exists(chezmoiYaml), "unable to read chezmoi data before it is created");
 
   return await $`chezmoi data`.printCommand(false).json() as ChezmoiData;
-}
-
-/**
- * Gets the absolute path of the directory containing the passed `import.meta.url`
- *
- * If `basenameOnly` is set to `true`, only returns the final segment of the path
- */
-function $dirname(importMetaUrl: string, basenameOnly = false) {
-  const fullDir = basic$.path.dirname(basic$.path.fromFileUrl(importMetaUrl));
-
-  return basenameOnly ? basic$.path.basename(fullDir) : fullDir;
-}
-
-/** Gets the absolute path of the directory up `count` from the passed `import.meta.url` */
-function $dotdot(importMetaUrl: string, count = 1) {
-  invariant(count > 0, "dotdot count must be at least 1");
-
-  const dots = new Array(count).fill("").map((i) => "..");
-  return basic$.path.resolve($dirname(importMetaUrl), ...dots);
 }
 
 /** Gets if the provided path does not exist asynchronously */
