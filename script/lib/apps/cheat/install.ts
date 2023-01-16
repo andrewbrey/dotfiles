@@ -28,16 +28,16 @@ if (await $.commandMissing("cheat")) {
     await $`gzip -f -d ${assetDownloadPath}`;
     await $`chmod +x ${binaryPath}`;
     await linkBinaryToUserPath(binaryPath, "cheat");
+  }
 
-    const communityCheatPath = $.path.join(
-      $.env.STANDARD_DIRS.DOT_DOTS_APPS,
-      "cheat",
-      "cheatsheets",
-      "community",
-    );
-    if (!(await $.exists(communityCheatPath))) {
-      await $`git clone https://github.com/cheat/cheatsheets.git ${communityCheatPath}`;
-    }
+  const communityCheatPath = $.path.join(
+    $.env.STANDARD_DIRS.DOT_DOTS_APPS,
+    "cheat",
+    "cheatsheets",
+    "community",
+  );
+  if (!(await $.exists(communityCheatPath))) {
+    await $`git clone https://github.com/cheat/cheatsheets.git ${communityCheatPath}`;
   }
 }
 

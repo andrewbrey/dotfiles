@@ -39,17 +39,17 @@ if (await $.commandExists("cheat")) {
     await $`chmod +x ${binaryPath}`;
     await linkBinaryToUserPath(binaryPath, "cheat");
 
-    const communityCheatPath = $.path.join(
-      $.env.STANDARD_DIRS.DOT_DOTS_APPS,
-      "cheat",
-      "cheatsheets",
-      "community",
-    );
-    if (await $.exists(communityCheatPath)) {
-      await $`git -C ${communityCheatPath} pull`;
-    }
-
     meta.lastCheck = Date.now();
+  }
+
+  const communityCheatPath = $.path.join(
+    $.env.STANDARD_DIRS.DOT_DOTS_APPS,
+    "cheat",
+    "cheatsheets",
+    "community",
+  );
+  if (await $.exists(communityCheatPath)) {
+    await $`git -C ${communityCheatPath} pull`;
   }
 }
 
