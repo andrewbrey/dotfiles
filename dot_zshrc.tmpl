@@ -39,7 +39,7 @@ unset file
 
 {{ if .is_mac -}}
 # enable homebrew shell usage
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(brew shellenv)"
 {{- end }}
 
 # use direnv for .env's if available
