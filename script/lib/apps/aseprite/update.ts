@@ -50,8 +50,7 @@ if (await $.commandExists("aseprite")) {
   }
 }
 
-// TODO: same output on mac?
-const versionOutput = await $`aseprite --version`.text(); // Aseprite 1.2.40-x64
+const versionOutput = $.env.OS === "darwin" ? "" : await $`aseprite --version`.text(); // Aseprite 1.2.40-x64
 const version = versionOutput.split(" ")?.at(1)?.split("-")?.at(0) ?? "";
 
 meta.version = version;
