@@ -24,8 +24,10 @@ switch ($.env.OS) {
 
     break;
   case "darwin":
-    $.logStep("installing software center updates...");
-    await $`sudo softwareupdate -i -a`;
+    if (await $.maybeConfirm("Run system software updates now?", { default: false })) {
+      $.logStep("installing software center updates...");
+      await $`sudo softwareupdate -i -a`;
+    }
 
     // @see https://stackoverflow.com/a/15371967
     const { code: xcodeInstalledCode } = await $`xcode-select -p`.stdout("null").noThrow();
