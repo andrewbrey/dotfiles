@@ -174,6 +174,22 @@ function missingSync(path: string) {
   return !basic$.existsSync(path);
 }
 
+/**
+ * Enforce that the specified file or path exists, returning the absolute path
+ * if it exists; relative paths are resolved against `Deno.cwd()`
+ */
+async function requireExists(path: string) {
+  const absolutePath = basic$.path.isAbsolute(path)
+    ? path
+    : basic$.path.resolve($.path.join(Deno.cwd(), path));
+
+  const message = `no such path exists at ${cliffyAnsi.colors.blue(path)}`;
+
+  invariant(await basic$.exists(absolutePath), message);
+
+  return absolutePath;
+}
+
 /** Determine if the provided command does not exist */
 async function commandMissing(commandName: string) {
   return basic$.commandExists(commandName).then((exists) => !exists);
@@ -228,7 +244,7 @@ async function ntfyAlert(alert: string, logger?: Logger) {
     const topic = requireEnv("NTFY_TOPIC");
     invariant(typeof alert === "string" && alert.length > 0, "missing required alert for ntfy");
 
-    await $.request(`https://ntfy.sh/${topic}`).method("POST")
+    await basic$.request(`https://ntfy.sh/${topic}`).method("POST")
       .header({ "Title": "dots alert" }).body(alert).timeout(2_000);
   } catch (error) {
     if (logger) {
@@ -247,7 +263,7 @@ type GHReleaseInfo = {
 
 /** Fetch the latest release information for a github repo */
 async function ghReleaseInfo(user: string, repo: string) {
-  const request = $.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
+  const request = basic$.request(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
 
   if (env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
 
@@ -259,15 +275,17 @@ async function streamDownload(url: string, dest: string) {
   const isGitHub = ["github.com", "api.github.com", "objects.githubusercontent.com"]
     .includes(new URL(url).hostname);
 
-  const request = $.request(url);
+  const request = basic$.request(url);
   if (isGitHub && env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
 
-  const toPath = $.path.isAbsolute(dest) ? dest : $.path.resolve($.path.join(Deno.cwd(), dest));
+  const toPath = basic$.path.isAbsolute(dest)
+    ? dest
+    : basic$.path.resolve($.path.join(Deno.cwd(), dest));
 
-  await $.fs.ensureDir($.path.dirname(toPath));
+  await basic$.fs.ensureDir($.path.dirname(toPath));
   await request.showProgress().pipeToPath(toPath);
 
-  $.logStep("done:", `download saved to ${toPath}`);
+  basic$.logStep("done:", `download saved to ${toPath}`);
 }
 
 type UAOpts = NonNullable<ConstructorParameters<typeof UserAgent>[0]>;
@@ -405,6 +423,7 @@ const $helpers = {
   ntfyAlert,
   requireCommand,
   requireEnv,
+  requireExists,
   runInBrowser,
   semver: stdSemver,
   streamDownload,
