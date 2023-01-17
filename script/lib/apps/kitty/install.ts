@@ -8,10 +8,14 @@ await $.requireCommand("xz", "pam install -a core-tools");
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("kitty")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("kitty")) {
     await $`brew install --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("kitty")) {
     const installScriptPath = $.path.join(dotAppPath, "kitty.sh");
     const kittyInstall = $.path.join(dotAppPath, "kitty.app");
     const kittyBin = $.path.join(kittyInstall, "bin", "kitty");
@@ -42,7 +46,7 @@ if (await $.commandMissing("kitty")) {
 			`,
     );
   }
-}
+});
 
 const versionOutput = await $`kitty --version`.text(); // kitty 0.26.5 created by Kovid Goyal
 const version = versionOutput.split(" ")?.at(1);

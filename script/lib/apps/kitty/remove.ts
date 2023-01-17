@@ -5,10 +5,14 @@ import { pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if (await $.commandExists("kitty")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppInstalled("kitty")) {
     await $`brew uninstall --cask kitty`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandExists("kitty")) {
     await pamkit.unlinkDesktopFileForApp("kitty");
     const linkPath = await pamkit.unlinkBinaryFromUserPath("kitty");
 
@@ -29,7 +33,7 @@ if (await $.commandExists("kitty")) {
 			`,
     );
   }
-}
+});
 
 if (await $.exists(dotAppPath)) {
   await Deno.remove(dotAppPath, { recursive: true });
