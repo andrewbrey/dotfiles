@@ -9,10 +9,14 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 const sourceDir = $.path.join(dotAppPath, pamkit.constants.sourceDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("godot")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("godot-mono")) {
     await $`brew install --cask godot-mono`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("godot")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "godot.zip");
 
@@ -42,7 +46,7 @@ if (await $.commandMissing("godot")) {
     await pamkit.linkBinaryToUserPath(binPath, "godot");
     await pamkit.linkDesktopFileForApp("godot");
   }
-}
+});
 
 const versionOutput = await $`godot --version`.text(); // 3.5.1.stable.mono.official.6fed1ffa3
 const version = versionOutput.split(".stable")?.at(0) ?? "";
