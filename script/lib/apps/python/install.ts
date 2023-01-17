@@ -1,9 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("python3") || await $.commandMissing("pip3")) {
@@ -16,7 +16,7 @@ if (await $.commandMissing("python3") || await $.commandMissing("pip3")) {
 
 const python = await $.which("python");
 const python3 = await $.which("python3");
-if (!python && python3) await linkBinaryToUserPath(python3, "python");
+if (!python && python3) await pamkit.linkBinaryToUserPath(python3, "python");
 
 const versionOutput = await $`python3 --version`.text(); // Python 3.10.6
 const version = versionOutput.split(" ")?.at(1) ?? "";
@@ -28,6 +28,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

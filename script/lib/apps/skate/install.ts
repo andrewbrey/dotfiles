@@ -1,13 +1,13 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import { constants, InstallerMeta, linkBinaryToUserPath } from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("skate")) {
-  const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+  const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
   const artifactPath = $.path.join(dotAppPath, "skate.tar.gz");
   const binaryPath = $.path.join(dotAppPath, "skate");
 
@@ -27,7 +27,7 @@ if (await $.commandMissing("skate")) {
 
   await $.streamDownload(targetAsset.browser_download_url, artifactPath);
   await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
-  await linkBinaryToUserPath(binaryPath, "skate");
+  await pamkit.linkBinaryToUserPath(binaryPath, "skate");
 }
 
 const versionOutput = await $`skate --version`.text(); // skate version v0.2.1 (ef9b184)
@@ -40,6 +40,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

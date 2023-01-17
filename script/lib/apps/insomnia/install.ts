@@ -1,22 +1,17 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import {
-  constants,
-  InstallerMeta,
-  linkBinaryToUserPath,
-  linkDesktopFileForApp,
-} from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
 let version = "";
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("insomnia")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask insomnia`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.htmlReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "insomnia.AppImage");
 
     await $.streamDownload("https://insomnia.rest/changelog", releaseInfoPath);
@@ -32,8 +27,8 @@ if (await $.commandMissing("insomnia")) {
       `https://github.com/Kong/insomnia/releases/download/core@${latestVersion}/Insomnia.Core-${latestVersion}.AppImage`;
 
     await $.streamDownload(targetAsset, binPath);
-    await linkBinaryToUserPath(binPath, "insomnia");
-    await linkDesktopFileForApp("insomnia");
+    await pamkit.linkBinaryToUserPath(binPath, "insomnia");
+    await pamkit.linkDesktopFileForApp("insomnia");
 
     version = latestVersion;
   }
@@ -46,6 +41,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

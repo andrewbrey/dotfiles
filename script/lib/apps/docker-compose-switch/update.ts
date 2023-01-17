@@ -1,12 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,api.github.com --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
+const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 let version = "0.0.0"; // special for compose-switch because at runtime, it's --version flag reports `docker compose` version, not the version of the compose-switch utility itself
 if (await $.commandExists("compose-switch")) {
   if ($.env.OS === "darwin") {
@@ -34,5 +34,5 @@ if (await $.commandExists("compose-switch")) {
   }
 }
 
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

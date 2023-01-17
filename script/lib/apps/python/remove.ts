@@ -1,9 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if (await $.commandExists("python3")) {
   if ($.env.OS === "darwin") {
@@ -11,7 +11,7 @@ if (await $.commandExists("python3")) {
   } else {
     await $`sudo apt purge -y python3 python3-pip`;
 
-    await unlinkBinaryFromUserPath("python");
+    await pamkit.unlinkBinaryFromUserPath("python");
   }
 }
 

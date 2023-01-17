@@ -1,5 +1,5 @@
 import { $ } from "../../../mod.ts";
-import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
+import { pamkit } from "../pamkit.ts";
 
 export const update = new $.cliffy.cmd.Command()
   .description("Update one or more available apps.")
@@ -16,7 +16,7 @@ export const update = new $.cliffy.cmd.Command()
   )
   .option("--skip-confirm", "Automatically bypass confirmation prompts.")
   .action(async ({ all, app = [], group = [], skipConfirm }, ...args) => {
-    const inScope = await calculateAppsInScope({
+    const inScope = await pamkit.calculateAppsInScope({
       all: Boolean(all),
       installed: false,
       uninstalled: false,
@@ -24,7 +24,7 @@ export const update = new $.cliffy.cmd.Command()
       groups: group,
     });
 
-    const metasForScope = await getInstallerMetas(inScope);
+    const metasForScope = await pamkit.getInstallerMetas(inScope);
     const installedManual = metasForScope.filter((m) => m.type === "installed-manual");
     const uninstalledOrManaged = metasForScope.filter((m) => m.type !== "installed-manual");
 

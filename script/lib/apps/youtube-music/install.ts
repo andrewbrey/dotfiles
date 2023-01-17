@@ -1,21 +1,15 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import {
-  constants,
-  installDmg,
-  InstallerMeta,
-  linkBinaryToUserPath,
-  linkDesktopFileForApp,
-} from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
 if (await $.commandMissing("youtube-music")) {
   if ($.env.OS === "darwin") {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const dmgPath = $.path.join(dotAppPath, "youtube-music.dmg");
 
     const releaseInfo = await $.ghReleaseInfo("th-ch", "youtube-music");
@@ -30,11 +24,11 @@ if (await $.commandMissing("youtube-music")) {
 
     await $.streamDownload(targetAsset.browser_download_url, dmgPath);
 
-    await installDmg(dmgPath);
+    await pamkit.installDmg(dmgPath);
 
     version = latestVersion;
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "youtube-music.AppImage");
 
     const releaseInfo = await $.ghReleaseInfo("th-ch", "youtube-music");
@@ -49,8 +43,8 @@ if (await $.commandMissing("youtube-music")) {
 
     await $.streamDownload(targetAsset.browser_download_url, binPath);
 
-    await linkBinaryToUserPath(binPath, "youtube-music");
-    await linkDesktopFileForApp("youtube-music");
+    await pamkit.linkBinaryToUserPath(binPath, "youtube-music");
+    await pamkit.linkDesktopFileForApp("youtube-music");
 
     version = latestVersion;
   }
@@ -63,6 +57,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

@@ -1,15 +1,15 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants, unlinkBinaryFromUserPath } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if (await $.commandExists("doggo")) {
   if ($.env.OS === "darwin") {
     await $`brew uninstall doggo`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    await unlinkBinaryFromUserPath("doggo");
+    await pamkit.unlinkBinaryFromUserPath("doggo");
   }
 }
 

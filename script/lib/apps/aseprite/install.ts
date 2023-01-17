@@ -1,15 +1,15 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import { constants, installDmg, InstallerMeta } from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
 const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("aseprite")) {
-  const releaseInfoPath = $.path.join(dotAppPath, constants.htmlReleaseInfoName);
+  const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
   let releaseInfo = "";
 
   await $.runInBrowser(async (page) => {
@@ -32,7 +32,7 @@ if (await $.commandMissing("aseprite")) {
 
     await $.streamDownload(dmgURI, dmgInstallerPath);
 
-    await installDmg(dmgInstallerPath);
+    await pamkit.installDmg(dmgInstallerPath);
   } else {
     const debInstallerPath = $.path.join(dotAppPath, "aseprite.deb");
     const debURI = releaseInfo.match(/href="(https.*Aseprite_\d+\.\d+\.\d+.*_amd64\.deb.*)"/)
@@ -56,6 +56,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

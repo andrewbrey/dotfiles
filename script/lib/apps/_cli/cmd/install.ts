@@ -1,5 +1,5 @@
 import { $ } from "../../../mod.ts";
-import { calculateAppsInScope, getInstallerMetas } from "../pamkit.ts";
+import { pamkit } from "../pamkit.ts";
 
 export const install = new $.cliffy.cmd.Command()
   .description("Install one or more available apps.")
@@ -21,7 +21,7 @@ export const install = new $.cliffy.cmd.Command()
   .action(async ({ all, app = [], group = [], skipConfirm, allowReinstall }, ...argAppNames) => {
     const apps = [...argAppNames, ...app];
 
-    const inScope = await calculateAppsInScope({
+    const inScope = await pamkit.calculateAppsInScope({
       all: Boolean(all),
       installed: false,
       uninstalled: false,
@@ -29,7 +29,7 @@ export const install = new $.cliffy.cmd.Command()
       groups: group,
     });
 
-    const metasForScope = await getInstallerMetas(inScope);
+    const metasForScope = await pamkit.getInstallerMetas(inScope);
     const installed = metasForScope.filter((m) => m.type !== "uninstalled");
     const uninstalled = metasForScope.filter((m) => m.type === "uninstalled");
 

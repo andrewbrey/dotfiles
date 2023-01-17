@@ -1,16 +1,11 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,sw.kovidgoyal.net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
-import {
-  constants,
-  InstallerMeta,
-  linkBinaryToUserPath,
-  linkDesktopFileForApp,
-} from "../_cli/pamkit.ts";
+import { $ } from "../../mod.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
 await $.requireCommand("xz", "pam install -a core-tools");
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("kitty")) {
@@ -22,11 +17,11 @@ if (await $.commandMissing("kitty")) {
     const kittyBin = $.path.join(kittyInstall, "bin", "kitty");
 
     await $.streamDownload("https://sw.kovidgoyal.net/kitty/installer.sh", installScriptPath);
-    await Deno.chmod(installScriptPath, constants.executableMask);
+    await Deno.chmod(installScriptPath, pamkit.constants.executableMask);
 
     await $`${installScriptPath} dest=${dotAppPath} launch="n"`;
-    await linkDesktopFileForApp("kitty");
-    const linkPath = await linkBinaryToUserPath(kittyBin, "kitty");
+    await pamkit.linkDesktopFileForApp("kitty");
+    const linkPath = await pamkit.linkBinaryToUserPath(kittyBin, "kitty");
 
     const xTerminalEmulator = await $.which("x-terminal-emulator");
     if (typeof xTerminalEmulator !== "undefined") {
@@ -59,6 +54,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

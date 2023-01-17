@@ -1,5 +1,5 @@
 import { $ } from "../../../mod.ts";
-import { calculateAppsInScope, getInstallerMetas, OutdatedCheck } from "../pamkit.ts";
+import { type OutdatedCheck, pamkit } from "../pamkit.ts";
 
 export const outdated = new $.cliffy.cmd.Command()
   .description("Check if one or more available apps is outdated.")
@@ -17,7 +17,7 @@ export const outdated = new $.cliffy.cmd.Command()
   .action(async ({ all, app = [], group = [] }, ...args) => {
     const defaultListAll = !app.length && !group.length;
 
-    const inScope = await calculateAppsInScope({
+    const inScope = await pamkit.calculateAppsInScope({
       all: all || defaultListAll,
       installed: false,
       uninstalled: false,
@@ -25,7 +25,7 @@ export const outdated = new $.cliffy.cmd.Command()
       groups: group,
     });
 
-    const metasForScope = await getInstallerMetas(inScope);
+    const metasForScope = await pamkit.getInstallerMetas(inScope);
     const installedManual = metasForScope.filter((m) => m.type === "installed-manual");
     const uninstalledOrManaged = metasForScope.filter((m) => m.type !== "installed-manual");
 

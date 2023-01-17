@@ -1,18 +1,13 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import {
-  constants,
-  getInstallerMetas,
-  linkBinaryToUserPath,
-  linkDesktopFileForApp,
-} from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
-const sourceDir = $.path.join(dotAppPath, constants.sourceDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
+const sourceDir = $.path.join(dotAppPath, pamkit.constants.sourceDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
+const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("godot")) {
   if ($.env.OS === "darwin") {
@@ -26,7 +21,7 @@ if (await $.commandExists("godot")) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const artifactPath = $.path.join(dotAppPath, "godot.zip");
 
     const releaseInfo = await $.ghReleaseInfo("godotengine", "godot");
@@ -52,8 +47,8 @@ if (await $.commandExists("godot")) {
     await $.fs.move(originalBinPath, movedBinPath, { overwrite: true });
     await $.fs.move(extractedPath, sourceDir, { overwrite: true });
 
-    await linkBinaryToUserPath(binPath, "godot");
-    await linkDesktopFileForApp("godot");
+    await pamkit.linkBinaryToUserPath(binPath, "godot");
+    await pamkit.linkDesktopFileForApp("godot");
 
     meta.lastCheck = Date.now();
   }
@@ -64,5 +59,5 @@ const version = versionOutput.split(".stable")?.at(0) ?? "";
 
 meta.version = version;
 
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

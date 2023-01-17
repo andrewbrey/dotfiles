@@ -13,7 +13,7 @@ export type InstallerMeta = {
   lastCheck?: number;
 };
 
-export const constants = {
+const constants = {
   appArtifactsDir: ".app",
   appResourcesDir: ".res",
   sourceDir: "source",
@@ -25,7 +25,7 @@ export const constants = {
   executableMask: 0o755,
 };
 
-export function getGroups() {
+function getGroups() {
   const groups: Map<string, Set<string>> = new Map();
 
   // NOTE: if installation order matters, make sure to list
@@ -58,7 +58,7 @@ export function getGroups() {
   return groups;
 }
 
-export async function getAppNames() {
+async function getAppNames() {
   const appsDir = $.$dotdot(import.meta.url);
   const appNames: Set<string> = new Set();
 
@@ -69,7 +69,7 @@ export async function getAppNames() {
   return appNames;
 }
 
-export async function getInstallerMetas(inScope?: Set<string>) {
+async function getInstallerMetas(inScope?: Set<string>) {
   const appsDir = $.$dotdot(import.meta.url);
   const allAppNames = await getAppNames();
   const inScopeApps = inScope
@@ -111,7 +111,7 @@ export async function getInstallerMetas(inScope?: Set<string>) {
  * perhaps by running your pam commands in stages (or using
  * app groups which can specify order)
  */
-export async function calculateAppsInScope(
+async function calculateAppsInScope(
   opts: {
     /** Include **all** known apps */
     all: boolean;
@@ -201,7 +201,7 @@ export async function calculateAppsInScope(
   return inScope;
 }
 
-export async function mostRelevantVersion(resourcesDir: string) {
+async function mostRelevantVersion(resourcesDir: string) {
   let version;
   let versionKeyUsed;
 
@@ -228,7 +228,7 @@ export async function mostRelevantVersion(resourcesDir: string) {
   return version;
 }
 
-export function isNewerVersion(latest: string = "", current: string = "") {
+function isNewerVersion(latest: string = "", current: string = "") {
   const latestSem = $.semver.valid(latest);
   const currentSem = $.semver.valid(current);
 
@@ -246,7 +246,7 @@ export type OutdatedCheck = {
   outdated?: boolean;
 };
 
-export async function wrapOutdatedCheck(
+async function wrapOutdatedCheck(
   meta: InstallerMeta,
   frequencyDays = 3,
   latestFetcher = async () => (""),
@@ -283,7 +283,7 @@ export async function wrapOutdatedCheck(
   return outdatedCheck;
 }
 
-export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
+async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: string) {
   const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
   try {
@@ -301,7 +301,7 @@ export async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryN
   return linkPath;
 }
 
-export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
+async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
   const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
   const stat = await Deno.stat(linkPath);
@@ -316,7 +316,7 @@ export async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
   return linkPath;
 }
 
-export async function linkDesktopFileForApp(app: string) {
+async function linkDesktopFileForApp(app: string) {
   const desktopFile = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
   const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
@@ -329,7 +329,7 @@ export async function linkDesktopFileForApp(app: string) {
   }
 }
 
-export async function unlinkDesktopFileForApp(app: string) {
+async function unlinkDesktopFileForApp(app: string) {
   const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_SHARE_APPS, `${app}.desktop`);
 
   if ($.env.OS === "darwin") {
@@ -340,7 +340,7 @@ export async function unlinkDesktopFileForApp(app: string) {
 }
 
 type NativefierAppArgs = { appName: string; displayName: string; website: string };
-export async function createAndLinkNativefierApp(
+async function createAndLinkNativefierApp(
   { appName, displayName, website }: NativefierAppArgs,
 ) {
   $.requireCommand("node", "pam install -a node");
@@ -389,7 +389,7 @@ export async function createAndLinkNativefierApp(
   await linkDesktopFileForApp(appName);
 }
 
-export async function unlinkNativefierApp(appName: string) {
+async function unlinkNativefierApp(appName: string) {
   const allAppNames = await getAppNames();
   invariant(allAppNames.has(appName), "unknown app name");
 
@@ -397,7 +397,7 @@ export async function unlinkNativefierApp(appName: string) {
   await unlinkBinaryFromUserPath(appName);
 }
 
-export async function flatpakAppInstalled(appName: string) {
+async function flatpakAppInstalled(appName: string) {
   const flatpakApps = await $`flatpak list --app --columns=name`.bytes();
 
   const { code } = await $.raw`grep -q "^${appName}$"`.stdin(flatpakApps).noThrow();
@@ -405,7 +405,7 @@ export async function flatpakAppInstalled(appName: string) {
   return code === 0;
 }
 
-export async function flatpakAppMissing(appName: string) {
+async function flatpakAppMissing(appName: string) {
   const installed = await flatpakAppInstalled(appName);
 
   return !installed;
@@ -416,7 +416,7 @@ export async function flatpakAppMissing(appName: string) {
  *
  * @see https://apple.stackexchange.com/a/311511
  */
-export async function installDmg(dmgPath: string) {
+async function installDmg(dmgPath: string) {
   dmgPath = await $.requireExists(dmgPath);
 
   invariant(dmgPath.endsWith(".dmg"), `bad dmg file name ${dmgPath}`);
@@ -450,14 +450,36 @@ export async function installDmg(dmgPath: string) {
   await $`sudo hdiutil detach ${mountPoint}`;
 }
 
-export async function brewAppInstalled(appName: string) {
+async function brewAppInstalled(appName: string) {
   const { code } = await $`brew list ${appName}`.noThrow().quiet("both");
 
   return code === 0;
 }
 
-export async function brewAppMissing(appName: string) {
+async function brewAppMissing(appName: string) {
   const installed = await brewAppInstalled(appName);
 
   return !installed;
 }
+
+export const pamkit = {
+  brewAppInstalled,
+  brewAppMissing,
+  calculateAppsInScope,
+  constants,
+  createAndLinkNativefierApp,
+  flatpakAppInstalled,
+  flatpakAppMissing,
+  getAppNames,
+  getGroups,
+  getInstallerMetas,
+  installDmg,
+  isNewerVersion,
+  linkBinaryToUserPath,
+  linkDesktopFileForApp,
+  mostRelevantVersion,
+  unlinkBinaryFromUserPath,
+  unlinkDesktopFileForApp,
+  unlinkNativefierApp,
+  wrapOutdatedCheck,
+} as const;

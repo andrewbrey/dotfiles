@@ -1,12 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,github.com,api.github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import { constants, getInstallerMetas, linkBinaryToUserPath } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
+const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("cheat")) {
   if ($.env.OS === "darwin") {
@@ -20,7 +20,7 @@ if (await $.commandExists("cheat")) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const assetDownloadPath = $.path.join(dotAppPath, "cheat.gz");
     const binaryPath = $.path.join(dotAppPath, "cheat");
 
@@ -37,7 +37,7 @@ if (await $.commandExists("cheat")) {
 
     await $`gzip -f -d ${assetDownloadPath}`;
     await $`chmod +x ${binaryPath}`;
-    await linkBinaryToUserPath(binaryPath, "cheat");
+    await pamkit.linkBinaryToUserPath(binaryPath, "cheat");
 
     meta.lastCheck = Date.now();
   }
@@ -57,5 +57,5 @@ const version = await $`cheat --version`.text(); // 4.4.0
 
 meta.version = version;
 
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

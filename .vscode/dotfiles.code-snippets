@@ -39,7 +39,7 @@
     "description": "scaffold mac-only brew check",
     "body": [
       "await $.onMac(async () => {",
-      "  if (await ${1|brewAppMissing,brewAppInstalled|}(\"$2\")) {",
+      "  if (await pamkit.${1|brewAppMissing,brewAppInstalled|}(\"$2\")) {",
       "    $0",
       "  }",
       "});"

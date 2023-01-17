@@ -1,12 +1,12 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-const [meta] = await getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
+const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("go")) {
   if ($.env.OS === "darwin") {
@@ -20,7 +20,7 @@ if (await $.commandExists("go")) {
       );
     });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.plainReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.plainReleaseInfoName);
     const latestVersion = await $.request("https://golang.org/VERSION?m=text").text();
 
     await Deno.writeTextFile(releaseInfoPath, latestVersion);
@@ -44,5 +44,5 @@ const version = versionOutput.split(" ")?.at(2)?.split("go")?.at(1) ?? "";
 
 meta.version = version;
 
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

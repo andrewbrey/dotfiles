@@ -1,9 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,api.github.com,github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import { constants, getInstallerMetas } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 const jetbrains = $.env.OS === "darwin" ? "font-jetbrains-mono-nerd-font" : "JetBrainsMono";
@@ -15,7 +15,7 @@ const chezmoiData = await $.getChezmoiData();
 
 const fonts = chezmoiData.is_containerized ? [droid] : [jetbrains, droid, hack, iosevka];
 
-const [meta] = await getInstallerMetas(
+const [meta] = await pamkit.getInstallerMetas(
   new Set([$.$dirname(import.meta.url, true)]),
 );
 if (meta.type === "uninstalled") {
@@ -23,7 +23,7 @@ if (meta.type === "uninstalled") {
     await $`brew tap homebrew/cask-fonts`.env({ HOMEBREW_NO_ANALYTICS: "1" });
     await $`brew install --cask ${fonts}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
 
     const releaseInfo = await $.ghReleaseInfo("ryanoasis", "nerd-fonts");
     await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
@@ -54,6 +54,6 @@ if (meta.type === "uninstalled") {
 meta.type = $.env.OS === "darwin" ? "installed-managed" : "installed-manual";
 meta.lastCheck = Date.now();
 
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

@@ -1,13 +1,13 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deb.nodesource.com,deno.land --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants, InstallerMeta, mostRelevantVersion } from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
-const dotResPath = $.path.join($.$dirname(import.meta.url), constants.appResourcesDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
+const dotResPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appResourcesDir);
 await $.fs.ensureDir(dotAppPath);
 
-const nodeVersion = await mostRelevantVersion(dotResPath);
+const nodeVersion = await pamkit.mostRelevantVersion(dotResPath);
 if (await $.commandMissing("node")) {
   if ($.env.OS === "darwin") {
     await $`brew install node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
@@ -30,6 +30,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));

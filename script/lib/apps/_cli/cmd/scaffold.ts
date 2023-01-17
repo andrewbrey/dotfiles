@@ -1,5 +1,5 @@
 import { $, invariant } from "../../../mod.ts";
-import { constants } from "../pamkit.ts";
+import { pamkit } from "../pamkit.ts";
 
 export const scaffold = new $.cliffy.cmd.Command()
   .description("Scaffold a new app from templates.")
@@ -40,7 +40,7 @@ export const scaffold = new $.cliffy.cmd.Command()
           return writtenFilePath;
         })
         .then((writtenFilePath) => {
-          Deno.chmod(writtenFilePath, constants.executableMask);
+          Deno.chmod(writtenFilePath, pamkit.constants.executableMask);
         });
     }));
 

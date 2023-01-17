@@ -1,5 +1,5 @@
 import { $ } from "../../../mod.ts";
-import { calculateAppsInScope, getGroups, getInstallerMetas } from "../pamkit.ts";
+import { pamkit } from "../pamkit.ts";
 
 export const list = new $.cliffy.cmd.Command()
   .description("List metadata about available apps.")
@@ -20,8 +20,8 @@ export const list = new $.cliffy.cmd.Command()
   .action(async ({ all, installed, uninstalled, app = [], group = [] }, ...args) => {
     const defaultListAll = !installed && !uninstalled && !app.length && !group.length;
 
-    const allMetas = await getInstallerMetas();
-    const inScope = await calculateAppsInScope({
+    const allMetas = await pamkit.getInstallerMetas();
+    const inScope = await pamkit.calculateAppsInScope({
       all: all || defaultListAll,
       installed: Boolean(installed),
       uninstalled: Boolean(uninstalled),
@@ -57,7 +57,7 @@ export const list = new $.cliffy.cmd.Command()
       $.log("");
       $.log($.colors.blue("Groups"));
 
-      for (const [name, group] of getGroups()) {
+      for (const [name, group] of pamkit.getGroups()) {
         $.log($.colors.bold(name));
         $.logLight(`  ${Array.from(group).join(", ")}`);
       }

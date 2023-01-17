@@ -1,11 +1,11 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $, invariant } from "../../mod.ts";
-import { constants } from "../_cli/pamkit.ts";
+import { $ } from "../../mod.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
 await $.requireCommand("snap", "pam install -a snapd");
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if ($.env.OS === "linux") {
   if (await $.commandExists("snapcraft")) {

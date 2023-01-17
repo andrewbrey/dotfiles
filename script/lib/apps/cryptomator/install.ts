@@ -1,21 +1,16 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import {
-  constants,
-  InstallerMeta,
-  linkBinaryToUserPath,
-  linkDesktopFileForApp,
-} from "../_cli/pamkit.ts";
+import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
-const dotAppPath = $.path.join($.$dirname(import.meta.url), constants.appArtifactsDir);
+const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("cryptomator")) {
   if ($.env.OS === "darwin") {
     await $`brew install --cask cryptomator`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
-    const releaseInfoPath = $.path.join(dotAppPath, constants.jsonReleaseInfoName);
+    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "cryptomator.AppImage");
 
     const releaseInfo = await $.ghReleaseInfo("cryptomator", "cryptomator");
@@ -30,8 +25,8 @@ if (await $.commandMissing("cryptomator")) {
 
     await $.streamDownload(targetAsset.browser_download_url, binPath);
 
-    await linkBinaryToUserPath(binPath, "cryptomator");
-    await linkDesktopFileForApp("cryptomator");
+    await pamkit.linkBinaryToUserPath(binPath, "cryptomator");
+    await pamkit.linkDesktopFileForApp("cryptomator");
   }
 }
 
@@ -45,6 +40,6 @@ const meta: InstallerMeta = {
   version,
   lastCheck: Date.now(),
 };
-const metaManifestPath = $.path.join(dotAppPath, constants.metaManifestName);
+const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
