@@ -1,11 +1,11 @@
 import { $ } from "../../../mod.ts";
-import { getSettingNames } from "../samkit.ts";
+import { samkit } from "../samkit.ts";
 
 export const apply = new $.cliffy.cmd.Command()
   .description("Apply all available settings.")
   .option("--skip-confirm", "Automatically bypass confirmation prompts.")
   .action(async ({ skipConfirm }, ...args) => {
-    const allSettings = Array.from(await getSettingNames());
+    const allSettings = Array.from(await samkit.getSettingNames());
 
     const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
     const toApplyList = lister.format(allSettings.map((name) => $.colors.blue(name)));

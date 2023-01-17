@@ -1,10 +1,10 @@
 import { $ } from "../../mod.ts";
 
-export const constants = {
+const constants = {
   settingResourcesDir: ".res",
 };
 
-export async function getSettingNames() {
+async function getSettingNames() {
   const settingsDir = $.$dotdot(import.meta.url);
   const settingNames: Set<string> = new Set();
 
@@ -14,3 +14,8 @@ export async function getSettingNames() {
 
   return settingNames;
 }
+
+export const samkit = {
+  constants,
+  getSettingNames,
+} as const;
