@@ -6,15 +6,19 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("vlc")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("vlc")) {
     await $`brew install --cask vlc`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("vlc")) {
     await $.requireCommand("snap", "pam install -a snapd");
 
     await $`sudo snap install vlc`;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),

@@ -5,15 +5,19 @@ import { pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if (await $.commandExists("vlc")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppInstalled("vlc")) {
     await $`brew uninstall --cask vlc`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandExists("vlc")) {
     await $.requireCommand("snap", "pam install -a snapd");
 
     await $`sudo snap remove vlc`;
   }
-}
+});
 
 if (await $.exists(dotAppPath)) {
   await Deno.remove(dotAppPath, { recursive: true });
