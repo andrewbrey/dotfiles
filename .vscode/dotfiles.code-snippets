@@ -15,7 +15,7 @@
     "description": "scaffold linux-only command check",
     "body": [
       "await $.onLinux(async () => {",
-      "  if (await $.${1|commandMissing,commandExists|}(\"somecli\")) {",
+      "  if (await $.${1|commandMissing,commandExists|}(\"$2\")) {",
       "    $0",
       "  }",
       "});"
@@ -27,7 +27,7 @@
     "description": "scaffold mac-only command check",
     "body": [
       "await $.onMac(async () => {",
-      "  if (await $.${1|commandMissing,commandExists|}(\"somecli\")) {",
+      "  if (await $.${1|commandMissing,commandExists|}(\"$2\")) {",
       "    $0",
       "  }",
       "});"
@@ -39,7 +39,7 @@
     "description": "scaffold mac-only brew check",
     "body": [
       "await $.onMac(async () => {",
-      "  if (await ${1|brewAppMissing,brewAppInstalled|}(\"somecli\")) {",
+      "  if (await ${1|brewAppMissing,brewAppInstalled|}(\"$2\")) {",
       "    $0",
       "  }",
       "});"
