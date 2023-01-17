@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("dropbox")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("dropbox")) {
     await $`brew install --cask dropbox`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("dropbox")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "dropbox.deb");
     let releaseInfo = "";
@@ -32,7 +36,7 @@ if (await $.commandMissing("dropbox")) {
 
     await $`sudo apt install -y ${debInstallerPath}`;
   }
-}
+});
 
 const versionOutput = await $`dropbox version`.lines(); // Dropbox daemon version: 164.3.7907\nDropbox command-line interface version: 2020.03.04
 const version = versionOutput?.at(1)?.split(" ")?.at(-1) ?? "";
