@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { calculateUpdatersInScope, getGroups, getUpdaterNames } from "./dumkit.ts";
+import { dumkit } from "./dumkit.ts";
 
 const dumoji = `${$.colors.yellow("⊂(◉‿◉)つ")}`;
 const dum = `${$.colors.yellow("Dum")}`;
@@ -26,8 +26,8 @@ await new $.cliffy.cmd.Command()
   )
   .action(async ({ list, updater = [], group = [] }, ...argUpdaterGroups) => {
     if (list) {
-      const allNames = Array.from(await getUpdaterNames());
-      const allGroups = getGroups();
+      const allNames = Array.from(await dumkit.getUpdaterNames());
+      const allGroups = dumkit.getGroups();
 
       $.log("");
       $.log($.colors.blue("Updaters"));
@@ -48,7 +48,7 @@ await new $.cliffy.cmd.Command()
     if (!groups.length && !updater.length) groups.push("default"); // default to "default" group which may not include everything
 
     const inScope = Array.from(
-      await calculateUpdatersInScope({
+      await dumkit.calculateUpdatersInScope({
         updaters: updater,
         groups,
       }),

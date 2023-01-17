@@ -1,10 +1,10 @@
 import { $ } from "../../mod.ts";
 
-export const constants = {
+const constants = {
   updaterMemoDir: ".memo",
 };
 
-export function getGroups() {
+function getGroups() {
   const groups: Map<string, Set<string>> = new Map();
 
   // NOTE: if update order matters, make sure to list
@@ -31,7 +31,7 @@ export function getGroups() {
   return groups;
 }
 
-export async function getUpdaterNames() {
+async function getUpdaterNames() {
   const updatersDir = $.$dotdot(import.meta.url);
   const updaterNames: Set<string> = new Set();
 
@@ -50,7 +50,7 @@ export async function getUpdaterNames() {
  * are in place, perhaps by running your dum commands in
  * stages (or using updater groups which can specify order)
  */
-export async function calculateUpdatersInScope(
+async function calculateUpdatersInScope(
   opts: {
     /** Included updater names */
     updaters: string[];
@@ -117,3 +117,10 @@ export async function calculateUpdatersInScope(
 
   return inScope;
 }
+
+export const dumkit = {
+  calculateUpdatersInScope,
+  constants,
+  getGroups,
+  getUpdaterNames,
+} as const;

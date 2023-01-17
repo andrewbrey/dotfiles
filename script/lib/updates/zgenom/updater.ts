@@ -1,9 +1,9 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { constants } from "../_cli/dumkit.ts";
+import { dumkit } from "../_cli/dumkit.ts";
 
-const dotMemoPath = $.path.join($.$dirname(import.meta.url), constants.updaterMemoDir);
+const dotMemoPath = $.path.join($.$dirname(import.meta.url), dumkit.constants.updaterMemoDir);
 await $.fs.ensureDir(dotMemoPath);
 
 const zgenomCheckFile = $.path.join(dotMemoPath, ".check_timestamp");
