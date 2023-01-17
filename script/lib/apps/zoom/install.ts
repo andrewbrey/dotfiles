@@ -7,10 +7,14 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-if (await $.commandMissing("zoom")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("zoom")) {
     await $`brew install --cask zoom`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("zoom")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "zoom.deb");
 
@@ -28,7 +32,7 @@ if (await $.commandMissing("zoom")) {
 
     version = latestVersion;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
