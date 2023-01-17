@@ -92,4 +92,3 @@
 - Make `init` scripts idempotent so that if needed, the `bootstrap` script can be re-run on an
   already-configured system
 - Install https://www.caffeine-app.net/ on mac
-- Do not check for command on path for brew casks when checking if installed/uninstalled
