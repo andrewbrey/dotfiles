@@ -6,15 +6,19 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("obs")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("obs")) {
     await $`brew install --cask obs`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("obs")) {
     await $`sudo add-apt-repository -y ppa:obsproject/obs-studio`;
     await $`sudo apt update`;
     await $`sudo apt install -y obs-studio`;
   }
-}
+});
 
 const versionOutput = await $`obs --version`.text(); // OBS Studio - 28.1.2 (linux)
 const version = versionOutput.split(" ")?.at(3) ?? "";
