@@ -403,7 +403,7 @@ type RunOnOSFn<T> = () => Promise<T>;
 
 /** Run a function only when on the specified operating system */
 async function onOS<T>(os: typeof env.OS, fn: RunOnOSFn<T>) {
-  if (env.OS === os) return await fn();
+  if (env.OS === os) return fn();
 }
 
 const $helpers = {

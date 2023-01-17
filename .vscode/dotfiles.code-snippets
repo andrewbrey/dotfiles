@@ -1,0 +1,36 @@
+{
+  "os specific function": {
+    "prefix": "dot:os",
+    "scope": "typescript",
+    "description": "run a function when on the specified os",
+    "body": [
+      "await $.${1|onLinux,onMac|}(async () => {",
+      "  $0",
+      "});"
+    ]
+  },
+  "linux if command": {
+    "prefix": "dot:linux:cmd",
+    "scope": "typescript",
+    "description": "scaffold linux-only command check",
+    "body": [
+      "await $.onLinux(async () => {",
+      "  if (await $.${1|commandMissing,commandExists|}(\"somecli\")) {",
+      "    $0",
+      "  }",
+      "});"
+    ]
+  },
+  "mac if command": {
+    "prefix": "dot:mac:cmd",
+    "scope": "typescript",
+    "description": "scaffold mac-only command check",
+    "body": [
+      "await $.onMac(async () => {",
+      "  if (await $.${1|commandMissing,commandExists|}(\"somecli\")) {",
+      "    $0",
+      "  }",
+      "});"
+    ]
+  }
+}
