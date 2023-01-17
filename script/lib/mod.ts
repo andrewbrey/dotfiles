@@ -399,6 +399,13 @@ async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: UAOpts }) {
   }
 }
 
+type RunOnOSFn<T> = () => Promise<T>;
+
+/** Run a function only when on the specified operating system */
+async function onOS<T>(os: typeof env.OS, fn: RunOnOSFn<T>) {
+  if (env.OS === os) return await fn();
+}
+
 const $helpers = {
   $dirname,
   $dotdot,
@@ -421,6 +428,8 @@ const $helpers = {
   nodeFS: stdNodeFS,
   noop,
   ntfyAlert,
+  onLinux: async <T>(fn: RunOnOSFn<T>) => onOS("linux", fn),
+  onMac: async <T>(fn: RunOnOSFn<T>) => onOS("darwin", fn),
   requireCommand,
   requireEnv,
   requireExists,
