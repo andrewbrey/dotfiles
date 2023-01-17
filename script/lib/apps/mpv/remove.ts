@@ -5,13 +5,17 @@ import { pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if (await $.commandExists("mpv")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppInstalled("mpv")) {
     await $`brew uninstall --cask mpv`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandExists("mpv")) {
     await $`sudo apt purge -y mpv`;
   }
-}
+});
 
 if (await $.exists(dotAppPath)) {
   await Deno.remove(dotAppPath, { recursive: true });

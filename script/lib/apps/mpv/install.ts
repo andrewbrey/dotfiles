@@ -6,13 +6,17 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("mpv")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("mpv")) {
     await $`brew install --cask mpv`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("mpv")) {
     await $`sudo apt install -y mpv`;
   }
-}
+});
 
 const versionOutput = await $`mpv --version`.text(); // mpv 0.34.1 Copyright...
 const version = versionOutput.split(" ")?.at(1) ?? "";
