@@ -1,15 +1,19 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
-import { pamkit, type InstallerMeta, type OutdatedCheck } from "../_cli/pamkit.ts";
+import { type InstallerMeta, type OutdatedCheck, pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("somecli")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("somecli")) {
     await $`brew install somecli`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("somecli")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "somecli.deb");
 
@@ -27,7 +31,7 @@ if (await $.commandMissing("somecli")) {
 
     await $`sudo apt install -y ${debInstallerPath}`;
   }
-}
+});
 
 const versionOutput = await $`somecli --version`.text(); // v0.22.1
 const version = versionOutput.split("v")?.at(1) ?? "";
