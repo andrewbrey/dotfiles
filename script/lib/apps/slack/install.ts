@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("slack")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("slack")) {
     await $`brew install --cask slack`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("slack")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "slack.deb");
 
@@ -31,7 +35,7 @@ if (await $.commandMissing("slack")) {
 
     await $`sudo apt install -y ${debInstallerPath}`;
   }
-}
+});
 
 const version = await $`slack --version`.text(); // 4.29.149
 
