@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("subl")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("sublime-text")) {
     await $`brew install --cask sublime-text`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("subl")) {
     await $.requireCommand("curl", "pam install -a core-tools");
 
     await $`sudo mkdir -p /etc/apt/trusted.gpg.d`;
@@ -24,7 +28,7 @@ if (await $.commandMissing("subl")) {
     await $`sudo apt update`;
     await $`sudo apt install -y sublime-text`;
   }
-}
+});
 
 const versionOutput = await $`subl --version`.text(); // Sublime Text Build 4143
 const build = versionOutput.split(" ")?.at(3) ?? "0";
