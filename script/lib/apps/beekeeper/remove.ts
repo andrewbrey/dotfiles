@@ -5,14 +5,18 @@ import { pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if (await $.commandExists("beekeeper-studio")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppInstalled("beekeeper-studio")) {
     await $`brew uninstall --cask beekeeper-studio`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandExists("beekeeper-studio")) {
     await pamkit.unlinkDesktopFileForApp("beekeeper-studio");
     await pamkit.unlinkBinaryFromUserPath("beekeeper-studio");
   }
-}
+});
 
 if (await $.exists(dotAppPath)) {
   await Deno.remove(dotAppPath, { recursive: true });

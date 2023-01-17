@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("beekeeper-studio")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("beekeeper-studio")) {
     await $`brew install --cask beekeeper-studio`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("beekeeper-studio")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "beekeeper-studio.AppImage");
 
@@ -28,7 +32,7 @@ if (await $.commandMissing("beekeeper-studio")) {
     await pamkit.linkBinaryToUserPath(binPath, "beekeeper-studio");
     await pamkit.linkDesktopFileForApp("beekeeper-studio");
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
