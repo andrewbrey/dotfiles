@@ -32,5 +32,17 @@
       "  }",
       "});"
     ]
+  },
+  "mac if brew": {
+    "prefix": "dot:mac:brew",
+    "scope": "typescript",
+    "description": "scaffold mac-only brew check",
+    "body": [
+      "await $.onMac(async () => {",
+      "  if (await ${1|brewAppMissing,brewAppInstalled|}(\"somecli\")) {",
+      "    $0",
+      "  }",
+      "});"
+    ]
   }
 }
