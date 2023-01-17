@@ -7,10 +7,15 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-if (await $.commandMissing("tiled")) {
-  if ($.env.OS === "darwin") {
+
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("tiled")) {
     await $`brew install --cask tiled`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("tiled")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "tiled.AppImage");
 
@@ -31,7 +36,7 @@ if (await $.commandMissing("tiled")) {
 
     version = latestVersion;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
