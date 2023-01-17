@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("cryptomator")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("cryptomator")) {
     await $`brew install --cask cryptomator`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("cryptomator")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "cryptomator.AppImage");
 
@@ -28,7 +32,7 @@ if (await $.commandMissing("cryptomator")) {
     await pamkit.linkBinaryToUserPath(binPath, "cryptomator");
     await pamkit.linkDesktopFileForApp("cryptomator");
   }
-}
+});
 
 const versionOutput = await $`cryptomator --version`.lines(); // /bin/dpkg\nCryptomator version 1.6.17 (build appimage-4104)
 const version = versionOutput?.at(1)?.split(" ")?.at(2) ?? "";
