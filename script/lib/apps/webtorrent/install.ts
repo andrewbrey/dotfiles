@@ -7,10 +7,14 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-if (await $.commandMissing("webtorrent")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("webtorrent")) {
     await $`brew install --cask webtorrent`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("webtorrent-desktop")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "webtorrent.deb");
 
@@ -30,7 +34,7 @@ if (await $.commandMissing("webtorrent")) {
 
     version = latestVersion;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
