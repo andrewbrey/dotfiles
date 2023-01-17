@@ -18,11 +18,16 @@ const fonts = chezmoiData.is_containerized ? [droid] : [jetbrains, droid, hack, 
 const [meta] = await pamkit.getInstallerMetas(
   new Set([$.$dirname(import.meta.url, true)]),
 );
-if (meta.type === "uninstalled") {
-  if ($.env.OS === "darwin") {
+
+await $.onMac(async () => {
+  if (meta.type === "uninstalled") {
     await $`brew tap homebrew/cask-fonts`.env({ HOMEBREW_NO_ANALYTICS: "1" });
     await $`brew install --cask ${fonts}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (meta.type === "uninstalled") {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
 
     const releaseInfo = await $.ghReleaseInfo("ryanoasis", "nerd-fonts");
@@ -49,7 +54,7 @@ if (meta.type === "uninstalled") {
     await $`fc-cache -vr`;
     await $`sudo fc-cache -vr`;
   }
-}
+});
 
 meta.type = $.env.OS === "darwin" ? "installed-managed" : "installed-manual";
 meta.lastCheck = Date.now();
