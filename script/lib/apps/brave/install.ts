@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("brave-browser")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("brave-browser")) {
     await $`brew install --cask brave-browser`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("brave-browser")) {
     await $.requireCommand("curl", "pam install -a core-tools");
 
     await $`sudo mkdir -p /usr/share/keyrings`;
@@ -28,7 +32,7 @@ if (await $.commandMissing("brave-browser")) {
     await $`sudo apt update`;
     await $`sudo apt install -y brave-browser`;
   }
-}
+});
 
 const versionOutput = await $`brave-browser --version`.text(); // Brave Browser 108.1.46.144
 const version = versionOutput.split(" ")?.at(2) ?? "";
