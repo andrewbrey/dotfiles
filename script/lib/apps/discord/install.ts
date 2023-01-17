@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("discord")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("discord")) {
     await $`brew install --cask discord`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("discord")) {
     const debInstallerPath = $.path.join(dotAppPath, "discord.deb");
 
     await $.streamDownload(
@@ -19,7 +23,7 @@ if (await $.commandMissing("discord")) {
 
     await $`sudo apt install -y ${debInstallerPath}`;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),

@@ -5,13 +5,17 @@ import { pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if (await $.commandExists("discord")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppInstalled("discord")) {
     await $`brew uninstall --cask discord`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandExists("discord")) {
     await $`sudo apt purge -y discord`;
   }
-}
+});
 
 if (await $.exists(dotAppPath)) {
   await Deno.remove(dotAppPath, { recursive: true });
