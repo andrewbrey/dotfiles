@@ -24,7 +24,7 @@ if (await $.commandMissing("discord")) {
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
   path: $.$dirname(import.meta.url),
-  type: "installed-managed",
+  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
   version: "",
   lastCheck: Date.now(),
 };
