@@ -7,10 +7,15 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 let version = "";
-if (await $.commandMissing("obsidian")) {
-  if ($.env.OS === "darwin") {
+
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("obsidian")) {
     await $`brew install --cask obsidian`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("obsidian")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "obsidian.AppImage");
 
@@ -31,7 +36,7 @@ if (await $.commandMissing("obsidian")) {
 
     version = latestVersion;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
