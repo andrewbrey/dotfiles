@@ -6,11 +6,11 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("kap")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("kap")) {
     await $`brew install --cask kap`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
