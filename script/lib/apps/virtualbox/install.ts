@@ -6,13 +6,17 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("virtualbox")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("virtualbox")) {
     await $`brew install --cask virtualbox`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("virtualbox")) {
     await $`sudo apt install -y virtualbox virtualbox-ext-pack`;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
