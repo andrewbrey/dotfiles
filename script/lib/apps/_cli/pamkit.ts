@@ -449,3 +449,15 @@ export async function installDmg(dmgPath: string) {
 
   await $`sudo hdiutil detach ${mountPoint}`;
 }
+
+export async function brewAppInstalled(appName: string) {
+  const { code } = await $`brew list ${appName}`.noThrow().quiet("both");
+
+  return code === 0;
+}
+
+export async function brewAppMissing(appName: string) {
+  const installed = await brewAppInstalled(appName);
+
+  return !installed;
+}
