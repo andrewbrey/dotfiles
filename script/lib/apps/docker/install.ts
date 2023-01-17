@@ -6,10 +6,14 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("docker")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("docker")) {
     await $`brew install --cask docker`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("docker")) {
     await $`sudo mkdir -p /etc/apt/keyrings`;
     await $`sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`.stdin(
       await $`curl -fsSL https://download.docker.com/linux/ubuntu/gpg`.bytes(),
@@ -41,7 +45,7 @@ if (await $.commandMissing("docker")) {
 
     $.logWarn("warn:", "you need to log out and back in to enable sudo-less docker access");
   }
-}
+});
 
 const versionOutput = await $`docker --version`.text(); // Docker version 20.10.21, build baeda1f
 const version = versionOutput.split(" ")?.at(2)?.split(",")?.at(0) ?? "";
