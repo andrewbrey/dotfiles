@@ -7,10 +7,14 @@ let version = "";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if (await $.commandMissing("insomnia")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppMissing("insomnia")) {
     await $`brew install --cask insomnia`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandMissing("insomnia")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
     const binPath = $.path.join(dotAppPath, "insomnia.AppImage");
 
@@ -32,7 +36,7 @@ if (await $.commandMissing("insomnia")) {
 
     version = latestVersion;
   }
-}
+});
 
 const meta: InstallerMeta = {
   name: $.$dirname(import.meta.url, true),
