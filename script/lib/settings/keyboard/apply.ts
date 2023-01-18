@@ -2,9 +2,7 @@
 
 import { $ } from "../../mod.ts";
 
-const chezmoiData = await $.getChezmoiData();
-
-if ($.env.OS === "darwin") {
+await $.onMac(async () => {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -14,7 +12,11 @@ if ($.env.OS === "darwin") {
 			`,
     );
   });
-} else {
+});
+
+await $.onLinux(async () => {
+  const chezmoiData = await $.getChezmoiData();
+
   if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
     // @see https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1814481
     //      https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg5952976.html
@@ -43,4 +45,4 @@ if ($.env.OS === "darwin") {
 
     await $`sudo update-initramfs -u`;
   }
-}
+});

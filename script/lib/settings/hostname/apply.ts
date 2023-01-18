@@ -2,9 +2,7 @@
 
 import { $, invariant } from "../../mod.ts";
 
-const chezmoiData = await $.getChezmoiData();
-
-if ($.env.OS === "darwin") {
+await $.onMac(async () => {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -14,7 +12,11 @@ if ($.env.OS === "darwin") {
 			`,
     );
   });
-} else {
+});
+
+await $.onLinux(async () => {
+  const chezmoiData = await $.getChezmoiData();
+
   if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
     await $.requireCommand("hostnamectl");
 
@@ -49,4 +51,4 @@ if ($.env.OS === "darwin") {
       await $.raw`sudo sed -i "s/${currentHostname}/${desiredHostname}/g" /etc/hosts`;
     }
   }
-}
+});

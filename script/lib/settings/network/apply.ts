@@ -2,9 +2,7 @@
 
 import { $, invariant } from "../../mod.ts";
 
-const chezmoiData = await $.getChezmoiData();
-
-if ($.env.OS === "darwin") {
+await $.onMac(async () => {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -14,7 +12,11 @@ if ($.env.OS === "darwin") {
 			`,
     );
   });
-} else {
+});
+
+await $.onLinux(async () => {
+  const chezmoiData = await $.getChezmoiData();
+
   if (
     !$.env.IN_CONTAINER && chezmoiData.is_personal_machine &&
     (chezmoiData.is_popos || chezmoiData.is_ubuntu)
@@ -61,4 +63,4 @@ if ($.env.OS === "darwin") {
       }
     }
   }
-}
+});

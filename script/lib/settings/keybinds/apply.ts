@@ -2,9 +2,7 @@
 
 import { $ } from "../../mod.ts";
 
-const chezmoiData = await $.getChezmoiData();
-
-if ($.env.OS === "darwin") {
+await $.onMac(async () => {
   $.logGroup(() => {
     $.logWarn(
       "warn:",
@@ -14,7 +12,11 @@ if ($.env.OS === "darwin") {
 			`,
     );
   });
-} else {
+});
+
+await $.onLinux(async () => {
+  const chezmoiData = await $.getChezmoiData();
+
   if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
     await $.requireCommand("dconf");
     await $.requireCommand("wmctrl", "pam install -a peer-tools");
@@ -24,4 +26,4 @@ if ($.env.OS === "darwin") {
 
     await $`dconf load ${loadKey}`.stdinText(await Deno.readTextFile(dconfSrc));
   }
-}
+});

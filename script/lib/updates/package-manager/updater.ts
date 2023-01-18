@@ -2,13 +2,15 @@
 
 import { $ } from "../../mod.ts";
 
-if ($.env.OS === "darwin") {
+await $.onMac(async () => {
   await $`brew update`;
   await $`brew upgrade`;
   await $`brew cleanup`;
   await $`brew autoremove`;
   await $`brew doctor`;
-} else {
+});
+
+await $.onLinux(async () => {
   await $`sudo apt update`;
   await $`sudo apt upgrade -y`;
   await $`sudo apt autoremove -y`;
@@ -20,4 +22,4 @@ if ($.env.OS === "darwin") {
   if (await $.commandExists("flatpak")) {
     await $`flatpak update -y`;
   }
-}
+});
