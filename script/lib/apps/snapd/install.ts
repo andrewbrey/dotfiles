@@ -7,7 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("snap")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`sudo apt install -y snapd`;
   }
 }

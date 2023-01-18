@@ -6,7 +6,7 @@ import { pamkit } from "../_cli/pamkit.ts";
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     return ""; // managed on darwin
   } else {
     const releaseInfo = await $.ghReleaseInfo("superfly", "flyctl");

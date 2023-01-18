@@ -8,7 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
 if (await $.commandMissing("gnome-screenshot")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`sudo apt install -y gnome-screenshot`;
 
     const versionOutput = await $`gnome-screenshot --version`.text(); // gnome-screenshot 41.0

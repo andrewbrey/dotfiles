@@ -9,7 +9,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await pamkit.flatpakAppMissing("PCSX2")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`flatpak install -y flathub net.pcsx2.PCSX2`;
   }
 }

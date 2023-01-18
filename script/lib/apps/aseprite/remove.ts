@@ -5,7 +5,7 @@ import { pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if ($.env.OS === "darwin") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
   $.logGroup(() => {
     $.logWarn(
       "warn:",

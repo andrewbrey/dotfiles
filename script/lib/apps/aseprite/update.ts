@@ -25,7 +25,7 @@ if (await $.commandExists("aseprite")) {
 
   await Deno.writeTextFile(releaseInfoPath, releaseInfo);
 
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     const dmgInstallerPath = $.path.join(dotAppPath, "aseprite.dmg");
     const dmgURI = releaseInfo.match(/href="(https.*Aseprite-v\d+\.\d+\.\d+.*-macOS\.dmg.*)"/)
       ?.at(1)?.replaceAll("&amp;", "&");

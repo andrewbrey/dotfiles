@@ -8,7 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 if (await $.commandExists("bat")) {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",

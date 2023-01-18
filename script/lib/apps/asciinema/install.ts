@@ -7,7 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("asciinema")) {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     await $`brew install asciinema`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     await $`sudo apt install -y asciinema`;

@@ -7,7 +7,7 @@ await $.requireCommand("snap", "pam install -a snapd");
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
-if ($.env.OS === "linux") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
   if (await $.commandExists("snapcraft")) {
     await $`sudo snap remove snapcraft`;
   }

@@ -8,7 +8,7 @@ await $.requireCommand("flatpak", "pam install -a flatpak");
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if (await pamkit.flatpakAppInstalled("Kooha")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`flatpak uninstall -y flathub io.github.seadve.Kooha`;
   }
 }

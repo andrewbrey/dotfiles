@@ -8,7 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
 if (await $.commandMissing("gpick")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`sudo apt install -y gpick`;
 
     const versionOutput = await $`gpick --version`.lines(); // Gpick version 0.2.6\n...

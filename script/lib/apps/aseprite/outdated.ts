@@ -17,7 +17,7 @@ const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
     releaseInfo = await page.content();
   });
 
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     const dmgURI = releaseInfo.match(/href="(https.*Aseprite-v\d+\.\d+\.\d+.*-macOS\.dmg.*)"/)
       ?.at(1)?.replaceAll("&amp;", "&") ?? "";
 

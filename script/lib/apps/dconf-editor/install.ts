@@ -8,7 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
 if (await $.commandMissing("dconf-editor")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`sudo apt install -y dconf-editor`;
 
     const versionOutput = await $`dconf-editor --version`.text(); // dconf-editor 3.38.3

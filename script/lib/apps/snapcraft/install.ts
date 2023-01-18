@@ -8,7 +8,7 @@ await $.requireCommand("snap", "pam install -a snapd");
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
-if ($.env.OS === "linux") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
   if (await $.commandMissing("snapcraft")) {
     await $`sudo snap install snapcraft --classic`;
   }

@@ -9,7 +9,7 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("flot")) {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const dmgPath = $.path.join(dotAppPath, "flot.dmg");
 

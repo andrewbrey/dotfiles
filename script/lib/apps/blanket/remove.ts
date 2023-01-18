@@ -9,7 +9,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 
 const isInstalled = await pamkit.flatpakAppInstalled("Blanket");
 if (isInstalled) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`flatpak uninstall -y flathub com.rafaelmardojai.Blanket`;
   }
 }

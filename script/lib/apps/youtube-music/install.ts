@@ -8,7 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = "";
 if (await $.commandMissing("youtube-music")) {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const dmgPath = $.path.join(dotAppPath, "youtube-music.dmg");
 

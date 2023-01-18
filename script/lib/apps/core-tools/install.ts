@@ -39,7 +39,7 @@ const list = [
   w3m,
   xz,
 ];
-if ($.env.OS === "darwin") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
   await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
   await $`sudo apt install -y ${list}`;

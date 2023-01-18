@@ -6,7 +6,7 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if (await $.commandExists("compose-switch")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     const composeSwitch = await $.which("compose-switch");
     await $`sudo rm -f ${composeSwitch}`;
   }

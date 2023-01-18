@@ -8,7 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
 if (await $.commandMissing("gnome-tweaks")) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`sudo apt install -y gnome-tweaks`;
 
     version = await $`gnome-tweaks --version`.text(); // 42.beta

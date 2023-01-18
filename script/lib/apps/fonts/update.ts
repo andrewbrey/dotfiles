@@ -17,7 +17,7 @@ const fonts = chezmoiData.is_containerized ? [droid] : [jetbrains, droid, hack, 
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 if (meta.type !== "uninstalled") {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     $.logGroup(() => {
       $.logWarn(
         "warn:",

@@ -11,7 +11,7 @@ const imagemagick = $.env.OS === "darwin" ? "imagemagick" : "imagemagick";
 
 const list = [ffmpeg, imagemagick];
 
-if ($.env.OS === "linux") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
   [
     "libnotify-bin",
     "wmctrl",
@@ -20,7 +20,7 @@ if ($.env.OS === "linux") {
   ].forEach((p) => list.push(p));
 }
 
-if ($.env.OS === "darwin") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
   await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
   await $`sudo apt install -y ${list}`;

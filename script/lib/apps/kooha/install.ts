@@ -10,7 +10,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = await pamkit.flatpakAppMissing("Kooha");
 if (notInstalled) {
-  if ($.env.OS === "linux") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
     await $`flatpak install -y flathub io.github.seadve.Kooha`;
   }
 }

@@ -7,7 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("openvpn")) {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     await $`brew install openvpn`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     await $`sudo apt install -y network-manager-openvpn-gnome`;

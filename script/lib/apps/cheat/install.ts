@@ -7,7 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("cheat")) {
-  if ($.env.OS === "darwin") {
+  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     await $`brew install cheat`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   } else {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);

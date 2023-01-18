@@ -25,7 +25,7 @@ const list = $.env.OS === "darwin" ? [] : [
   "squashfs-tools",
   "xdg-desktop-portal-gnome",
 ];
-if ($.env.OS === "darwin") {
+if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
   if (list.length) {
     await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
   }
