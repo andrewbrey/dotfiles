@@ -8,8 +8,8 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
-if (await $.commandExists("somecli")) {
-  if ($.env.OS === "darwin") {
+await $.onMac(async () => {
+  if (await pamkit.brewAppInstalled("somecli")) {
     $.logGroup(() => {
       $.logWarn(
         "warn:",
@@ -19,7 +19,11 @@ if (await $.commandExists("somecli")) {
     		`,
       );
     });
-  } else {
+  }
+});
+
+await $.onLinux(async () => {
+  if (await $.commandExists("somecli")) {
     const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
     const debInstallerPath = $.path.join(dotAppPath, "somecli.deb");
 
@@ -42,7 +46,7 @@ if (await $.commandExists("somecli")) {
     // =====
     meta.lastCheck = Date.now();
   }
-}
+});
 
 const versionOutput = await $`somecli --version`.text(); // somecli 0.22.1 (e5d9579)
 const version = versionOutput.split(" ")?.at(1) ?? "";
