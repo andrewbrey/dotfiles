@@ -6,7 +6,7 @@ export async function keyFetchRequest(logger: Logger, artifactsPath: string) {
   if (await $.exists(marker)) {
     logger.info("marker file already exists, skipping keyFetchRequest");
   } else {
-    const hosts = ["192.168.0.40", "192.168.0.56"];
+    const hosts = $.requireEnv("SECRET_BOOT_KEY_FETCH_HOSTS").split(/,\s*/);
     const port = 4057;
     for (const host of hosts) {
       try {
