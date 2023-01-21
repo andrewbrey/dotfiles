@@ -10,6 +10,8 @@ export async function keyFetchRequest(logger: Logger, artifactsPath: string) {
     const port = 4057;
     for (const host of hosts) {
       try {
+        logger.info(`trying ${host} with a keyFetch request`);
+
         await $.request(`http://${host}:${port}`).timeout(2_000);
       } catch (error) {
         logger.error(`keyFetchRequest failed for http://${host}:${port}`);
