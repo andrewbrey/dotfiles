@@ -98,3 +98,4 @@
 - Install tools for https://willbush.netlify.app/blog/fast-ocr-to-clipboard/ as well as
   https://github.com/mchehab/zbar (to allow for
   `flameshot gui --raw | zbarimg --raw - | xclip -in -selection clipboard`)
+- Install https://github.com/charmbracelet/vhs
