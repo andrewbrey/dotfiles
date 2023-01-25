@@ -50,7 +50,15 @@ export const outdated = new $.cliffy.cmd.Command()
       for (const meta of installedManual) {
         const outdatedScript = $.path.join(meta.path, "outdated.ts");
 
-        checkResults.push(await $`zsh -c ${outdatedScript}`.printCommand(false).json());
+        try {
+          checkResults.push(await $`zsh -c ${outdatedScript}`.printCommand(false).json());
+        } catch (error) {
+          checkResults.push({
+            name: meta.name,
+            current: meta.version,
+            skip: $.colors.red("outdated check failed"),
+          });
+        }
       }
 
       const t = new $.cliffy.table.Table()
