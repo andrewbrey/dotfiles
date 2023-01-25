@@ -49,6 +49,7 @@ await $.onLinux(async () => {
 
       await $.streamDownload(targetAsset.browser_download_url, archivePath);
       await $`unzip -o ${archivePath} -d ${fontsDirPath}`;
+      await $`rm -f ${archivePath}`;
     }
 
     await $`fc-cache -vr`;
