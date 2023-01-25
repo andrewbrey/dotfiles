@@ -45,6 +45,12 @@ export PYTHON_BIN_INSTALL="${HOME}/.local"
 # =====
 # go
 # =====
+{{ if .is_linux -}}
+export GO_INSTALL="/usr/local/go"
+{{- end }}
+{{ if .is_mac -}}
+export GO_INSTALL="/usr/local"
+{{- end }}
 export GO_GET_INSTALL="${HOME}/.go"
 export GOPATH="${GO_GET_INSTALL}"
 
