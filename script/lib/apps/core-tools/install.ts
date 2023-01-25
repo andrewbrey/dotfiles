@@ -17,6 +17,7 @@ const jq = $.env.OS === "darwin" ? "jq" : "jq";
 const nano = $.env.OS === "darwin" ? "nano" : "nano";
 const p7zip = $.env.OS === "darwin" ? "p7zip" : "p7zip-full";
 const sqlite = $.env.OS === "darwin" ? "sqlite" : "sqlite3";
+const tmux = $.env.OS === "darwin" ? "tmux" : "tmux";
 const tree = $.env.OS === "darwin" ? "tree" : "tree";
 const vim = $.env.OS === "darwin" ? "vim" : "vim";
 const w3m = $.env.OS === "darwin" ? "w3m" : "w3m";
@@ -34,6 +35,7 @@ const list = [
   nano,
   p7zip,
   sqlite,
+  tmux,
   tree,
   vim,
   w3m,
