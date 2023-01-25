@@ -88,7 +88,6 @@
 - Document interaction with GH Keys (`https://github.com/andrewbrey.keys`) as a public key authority
   and how they are provided to rpi's
   - In general, just need to document the "on boot" shell start background tasks
-- Improve outdate checks (all `pam` interactions?) so that one failing doesn't fail all
 - Make `init` scripts idempotent so that if needed, the `bootstrap` script can be re-run on an
   already-configured system
 - Install https://www.caffeine-app.net/ on mac
