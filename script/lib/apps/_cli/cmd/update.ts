@@ -3,6 +3,7 @@ import { pamkit } from "../pamkit.ts";
 
 export const update = new $.cliffy.cmd.Command()
   .description("Update one or more available apps.")
+  .arguments("[...app_names:string]")
   .option("--all", "Update all available apps.")
   .option(
     "-a, --app <app_name:string>",
@@ -15,12 +16,13 @@ export const update = new $.cliffy.cmd.Command()
     { collect: true },
   )
   .option("--skip-confirm", "Automatically bypass confirmation prompts.")
-  .action(async ({ all, app = [], group = [], skipConfirm }, ...args) => {
+  .action(async ({ all, app = [], group = [], skipConfirm }, ...argAppNames) => {
+    const apps = [...argAppNames, ...app];
     const inScope = await pamkit.calculateAppsInScope({
       all: Boolean(all),
       installed: false,
       uninstalled: false,
-      apps: app,
+      apps,
       groups: group,
     });
 

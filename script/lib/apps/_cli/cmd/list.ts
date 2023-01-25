@@ -4,6 +4,7 @@ import { pamkit } from "../pamkit.ts";
 export const list = new $.cliffy.cmd.Command()
   .description("List metadata about available apps.")
   .alias("ls")
+  .arguments("[...app_names:string]")
   .option("--all", "List metadata for all available apps, both installed and uninstalled.")
   .option("-i, --installed", "List metadata for installed apps.")
   .option("-u, --uninstalled", "List metadata for uninstalled apps.")
@@ -17,15 +18,16 @@ export const list = new $.cliffy.cmd.Command()
     "List metadata for one or more specific app groups (repeatable).",
     { collect: true },
   )
-  .action(async ({ all, installed, uninstalled, app = [], group = [] }, ...args) => {
-    const defaultListAll = !installed && !uninstalled && !app.length && !group.length;
+  .action(async ({ all, installed, uninstalled, app = [], group = [] }, ...argAppNames) => {
+    const apps = [...argAppNames, ...app];
+    const defaultListAll = !installed && !uninstalled && !apps.length && !group.length;
 
     const allMetas = await pamkit.getInstallerMetas();
     const inScope = await pamkit.calculateAppsInScope({
       all: all || defaultListAll,
       installed: Boolean(installed),
       uninstalled: Boolean(uninstalled),
-      apps: app,
+      apps,
       groups: group,
     });
 

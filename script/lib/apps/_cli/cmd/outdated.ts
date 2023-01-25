@@ -3,6 +3,7 @@ import { type OutdatedCheck, pamkit } from "../pamkit.ts";
 
 export const outdated = new $.cliffy.cmd.Command()
   .description("Check if one or more available apps is outdated.")
+  .arguments("[...app_names:string]")
   .option("--all", "Check if all available apps are outdated.")
   .option(
     "-a, --app <app_name:string>",
@@ -14,14 +15,15 @@ export const outdated = new $.cliffy.cmd.Command()
     "Check if one or more specific app groups contains outdated apps (repeatable).",
     { collect: true },
   )
-  .action(async ({ all, app = [], group = [] }, ...args) => {
-    const defaultListAll = !app.length && !group.length;
+  .action(async ({ all, app = [], group = [] }, ...argAppNames) => {
+    const apps = [...argAppNames, ...app];
+    const defaultListAll = !apps.length && !group.length;
 
     const inScope = await pamkit.calculateAppsInScope({
       all: all || defaultListAll,
       installed: false,
       uninstalled: false,
-      apps: app,
+      apps,
       groups: group,
     });
 
