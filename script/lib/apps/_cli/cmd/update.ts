@@ -1,5 +1,5 @@
 import { $ } from "../../../mod.ts";
-import { pamkit } from "../pamkit.ts";
+import { type InstallerMeta, pamkit } from "../pamkit.ts";
 
 export const update = new $.cliffy.cmd.Command()
   .description("Update one or more available apps.")
@@ -62,6 +62,7 @@ export const update = new $.cliffy.cmd.Command()
 
       if (!proceed) Deno.exit(1);
 
+      const failedUpdates: InstallerMeta[] = [];
       for (const [idxStr, meta] of Object.entries(installedManual)) {
         const idx = parseInt(idxStr);
         const updateScript = $.path.join(meta.path, "update.ts");
@@ -77,7 +78,11 @@ export const update = new $.cliffy.cmd.Command()
         $.log("");
 
         const startTime = Date.now();
-        await $`zsh -c ${updateScript}`.printCommand(false);
+        try {
+          await $`zsh -c ${updateScript}`.printCommand(false);
+        } catch (error) {
+          failedUpdates.push(meta);
+        }
 
         $.log("");
         $.log($.dedent`
@@ -89,6 +94,15 @@ export const update = new $.cliffy.cmd.Command()
         }
 					# ${$.colors.green("=====")}
 				`);
+      }
+
+      // =====
+      // warn about failed app updates
+      // =====
+      const failList = lister.format(failedUpdates.map((i) => $.colors.blue(i.name)));
+      if (failedUpdates.length) {
+        $.log("");
+        $.logError("error:", `app updates for ${failList} failed, see previous logs for details`);
       }
     } else {
       $.logWarn(
