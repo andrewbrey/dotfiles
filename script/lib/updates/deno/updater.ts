@@ -2,4 +2,10 @@
 
 import { $ } from "../../mod.ts";
 
-await $`deno upgrade`;
+// TODO: uncomment upgrade
+$.logWarn(
+  "WARNING!!!!",
+  "Skipping upgrade to deno because we hit this line (TBD why): https://deno.land/std@0.174.0/node/_core.ts?source#L26",
+);
+$.sleep("5s");
+// await $`deno upgrade`;
