@@ -289,20 +289,11 @@ async function streamDownload(url: string, dest: string) {
 }
 
 type UAOpts = NonNullable<ConstructorParameters<typeof UserAgent>[0]>;
-// @ts-expect-error https://github.com/lucacasonato/deno-puppeteer/issues/74
 type RunInBrowserFn = (page: puppeteer.Page, browser: puppeteer.Browser) => Promise<void>;
 
 /** Run the specified function in a real browser context */
 async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: UAOpts }) {
-  // TODO: https://github.com/lucacasonato/deno-puppeteer/issues/74
-  if (Math.random() < 2) {
-    $.logError("ERROR:", "you can't use puppeteer right now :(");
-    return;
-  }
-
-  // @ts-expect-error https://github.com/lucacasonato/deno-puppeteer/issues/74
   let browser: puppeteer.Browser | undefined;
-  // @ts-expect-error https://github.com/lucacasonato/deno-puppeteer/issues/74
   let page: puppeteer.Page | undefined;
 
   const defaultUAOpts = {
