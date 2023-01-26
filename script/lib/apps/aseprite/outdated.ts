@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $ } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { pamkit } from "../_cli/pamkit.ts";
 
 const asepriteToken = $.requireEnv("HUMBLE_ASEPRITE_TOKEN", "use_humble");
@@ -16,6 +16,8 @@ const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
     });
     releaseInfo = await page.content();
   });
+
+  invariant(releaseInfo.length > 0, "invalid release information");
 
   if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
     const dmgURI = releaseInfo.match(/href="(https.*Aseprite-v\d+\.\d+\.\d+.*-macOS\.dmg.*)"/)

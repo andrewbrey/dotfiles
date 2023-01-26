@@ -99,3 +99,5 @@
   `flameshot gui --raw | zbarimg --raw - | xclip -in -selection clipboard`)
 - Install https://github.com/charmbracelet/vhs
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
+- Address `TODO: https://github.com/lucacasonato/deno-puppeteer/issues/74` comments when issue
+  resolved
