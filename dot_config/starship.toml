@@ -85,7 +85,8 @@ disabled = true
 disabled = true
 symbol = " "
 
-# [nodejs]
+[nodejs]
+detect_extensions = []
 
 [ocaml]
 disabled = true
