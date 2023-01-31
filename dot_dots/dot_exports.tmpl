@@ -8,6 +8,8 @@
 export HISTORY_IGNORE="($(printf %s "$(cat {{ .standard_dirs.dot_dots }}/.histignore)" | tr '\n' '|'))"
 export EDITOR="${EDITOR:-/usr/bin/nano}"
 export VISUAL="${VISUAL:-/usr/bin/nano}"
+export PAGER="less -RF"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 if [ "${TERM_PROGRAM}" = "vscode" ]; then
   export EDITOR="$(which code) -w"
