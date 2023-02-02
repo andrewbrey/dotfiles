@@ -34,7 +34,7 @@ function getGroups() {
     "devcontainer",
     new Set<string>(["core-tools", "delta", "node", "npm-globals", "bat", "gh"]),
   );
-  groups.set("codespaces", new Set<string>(["core-tools", "delta", "bat"]));
+  groups.set("codespaces", new Set<string>(["core-tools", "bat"]));
   groups.set(
     "popos",
     new Set<string>([
