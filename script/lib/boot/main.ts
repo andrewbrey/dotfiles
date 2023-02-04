@@ -21,7 +21,7 @@ try {
   };
   const divider = new Array(50).fill("-").join("");
 
-  await $.fs.ensureDir(artifactsPath);
+  $.fs.ensureDirSync(artifactsPath);
 
   $.logging.setup({
     handlers: {
