@@ -10,6 +10,7 @@ if ($.env.IN_CONTAINER) Deno.exit(0);
 
 const artifactsPath = $.path.join("/", "tmp", "dotsboot");
 const singleLockPath = $.path.join(artifactsPath, ".dotsboot.lock");
+let lockOwner = false;
 
 try {
   const logfile = $.path.join(
@@ -38,6 +39,7 @@ try {
     throw new Error("could not aquire boot lock, not running boot scripts for this shell");
   } else {
     Deno.writeTextFileSync(singleLockPath, `${Date.now()}`);
+    lockOwner = true;
   }
 
   const results = await Promise.allSettled([
@@ -60,7 +62,7 @@ try {
   }
 } finally {
   try {
-    if ($.existsSync(singleLockPath)) Deno.removeSync(singleLockPath);
+    if ($.existsSync(singleLockPath) && lockOwner) Deno.removeSync(singleLockPath);
   } catch (lockRemoveErr) {
     try {
       $.logging.error(lockRemoveErr);
