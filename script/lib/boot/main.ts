@@ -8,8 +8,10 @@ import { autoTZ } from "./tz.ts";
 if ($.env.OS === "win32") Deno.exit(0);
 if ($.env.IN_CONTAINER) Deno.exit(0);
 
+const artifactsPath = $.path.join("/", "tmp", "dotsboot");
+const singleLockPath = $.path.join(artifactsPath, ".dotsboot.lock");
+
 try {
-  const artifactsPath = $.path.join("/", "tmp", "dotsboot");
   const logfile = $.path.join(
     artifactsPath,
     `dots_${$.dateFns.format(new Date(), "yyyy-MM-dd")}.log`,
@@ -32,6 +34,12 @@ try {
   const logger = $.logging.getLogger();
   logger.info(divider);
 
+  if ($.existsSync(singleLockPath)) {
+    throw new Error("could not aquire boot lock, not running boot scripts for this shell");
+  } else {
+    Deno.writeTextFileSync(singleLockPath, `${Date.now()}`);
+  }
+
   const results = await Promise.allSettled([
     autoTZ(logger, artifactsPath),
     etcHosts(logger, artifactsPath),
@@ -49,5 +57,15 @@ try {
     $.logging.error(bootErr);
   } catch (logErr) {
     console.error(bootErr);
+  }
+} finally {
+  try {
+    if ($.existsSync(singleLockPath)) Deno.removeSync(singleLockPath);
+  } catch (lockRemoveErr) {
+    try {
+      $.logging.error(lockRemoveErr);
+    } catch (logErr) {
+      console.error(lockRemoveErr);
+    }
   }
 }
