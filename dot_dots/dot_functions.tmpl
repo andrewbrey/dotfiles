@@ -347,3 +347,22 @@ function aws_wrapper() {
 		;;
 	esac
 }
+
+# make vscode translucent
+function glasscode() {
+	command -v wmctrl >/dev/null 2>&1 || {
+		echo 'wmctrl is required, install it with `pam install peer-tools`'
+		return 1
+	}
+
+	command -v xprop >/dev/null 2>&1 || {
+		echo 'xprop is required, install it with `sudo apt install x11-utils`'
+		return 1
+	}
+
+	local opacity=$((${1:-97}))
+
+	for W in $(wmctrl -l | grep "Visual Studio Code" | grep -v grep | cut -d' ' -f1); do
+		xprop -id $W -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY $(printf 0x%x $((0xffffffff * $opacity / 100)))
+	done
+}
