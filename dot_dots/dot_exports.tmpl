@@ -111,6 +111,11 @@ if [[ -d "${PWD}/node_modules/.bin" ]]; then
   export PATH="${PWD}/node_modules/.bin:${PATH}"
 fi
 #
+# auto-detect temporary binaries within the current directory when the shell session is started;
+if [[ -d "${PWD}/.deleteme/.bin" ]]; then
+  export PATH="${PWD}/.deleteme/.bin:${PATH}"
+fi
+#
 # set up TZ once each time the shell starts
 if [[ -f "/tmp/dotsboot/.auto_tz" ]]; then
   export TZ="$(cat /tmp/dotsboot/.auto_tz)"
