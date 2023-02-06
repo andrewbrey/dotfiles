@@ -6,19 +6,19 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppInstalled("spotify")) {
-    await $`brew uninstall --cask spotify`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppInstalled("spotify")) {
+		await $`brew uninstall --cask spotify`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandExists("spotify")) {
-    await $.requireCommand("snap", "pam install -a snapd");
+	if (await $.commandExists("spotify")) {
+		await $.requireCommand("snap", "pam install -a snapd");
 
-    await $`sudo snap remove spotify`;
-  }
+		await $`sudo snap remove spotify`;
+	}
 });
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

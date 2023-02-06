@@ -5,5 +5,5 @@ import { $ } from "../script/lib/mod.ts";
 await $.requireCommand("deployctl", "pam install -a deployctl");
 
 await $`deployctl deploy --project dotfiles-andrewbrey --prod serve.ts`.cwd(
-  $.$dirname(import.meta.url),
+	$.$dirname(import.meta.url),
 );

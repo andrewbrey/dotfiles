@@ -5,8 +5,8 @@ import { $ } from "../mod.ts";
 const id = `==> ${$.path.basename(import.meta.url)}`;
 
 $.logGroup($.colors.black.bgYellow(id), () => {
-  $.log("computed env:");
-  $.log($.inspect($.env));
+	$.log("computed env:");
+	$.log($.inspect($.env));
 });
 
 $.logStep("done with", id);

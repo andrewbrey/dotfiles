@@ -14,21 +14,21 @@ const nextUnix = $.dateFns.getUnixTime(next);
 let shouldNotify = true;
 
 if (!(await $.exists(zgenomCheckFile))) {
-  await Deno.writeTextFile(zgenomCheckFile, `${nextUnix}`);
+	await Deno.writeTextFile(zgenomCheckFile, `${nextUnix}`);
 } else {
-  const savedUnix = $.dateFns.fromUnixTime(Number(
-    (await Deno.readTextFile(zgenomCheckFile)).trim(),
-  ));
+	const savedUnix = $.dateFns.fromUnixTime(Number(
+		(await Deno.readTextFile(zgenomCheckFile)).trim(),
+	));
 
-  if ($.dateFns.isAfter(now, savedUnix)) {
-    await Deno.writeTextFile(zgenomCheckFile, `${nextUnix}`);
-  } else {
-    shouldNotify = false;
-  }
+	if ($.dateFns.isAfter(now, savedUnix)) {
+		await Deno.writeTextFile(zgenomCheckFile, `${nextUnix}`);
+	} else {
+		shouldNotify = false;
+	}
 }
 
 if (shouldNotify) {
-  $.log($.dedent`
+	$.log($.dedent`
 		Update ${$.colors.bold($.colors.yellow("zgenom"))} by running the following:
 
 		${$.colors.green("zgenom selfupdate && zgenom update && rm -rf ~/.zcompdump*")}

@@ -4,13 +4,13 @@ import { $ } from "../../mod.ts";
 import { pamkit } from "../_cli/pamkit.ts";
 
 $.logGroup(() => {
-  $.logWarn(
-    "warn:",
-    $.dedent`
+	$.logWarn(
+		"warn:",
+		$.dedent`
 			installation is managed; skipping manual update
 
 		`,
-  );
+	);
 });
 
 const versionOutput = await $`node --version`.text(); // v18.12.1

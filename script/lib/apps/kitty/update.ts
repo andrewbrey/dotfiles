@@ -9,26 +9,26 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("kitty")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    $.logGroup(() => {
-      $.logWarn(
-        "warn:",
-        $.dedent`
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		$.logGroup(() => {
+			$.logWarn(
+				"warn:",
+				$.dedent`
     			installation is managed; skipping manual update
 
     		`,
-      );
-    });
-  } else {
-    const installScriptPath = $.path.join(dotAppPath, "kitty.sh");
+			);
+		});
+	} else {
+		const installScriptPath = $.path.join(dotAppPath, "kitty.sh");
 
-    await $.streamDownload("https://sw.kovidgoyal.net/kitty/installer.sh", installScriptPath);
-    await Deno.chmod(installScriptPath, pamkit.constants.executableMask);
+		await $.streamDownload("https://sw.kovidgoyal.net/kitty/installer.sh", installScriptPath);
+		await Deno.chmod(installScriptPath, pamkit.constants.executableMask);
 
-    await $`${installScriptPath} dest=${dotAppPath} launch="n"`;
+		await $`${installScriptPath} dest=${dotAppPath} launch="n"`;
 
-    meta.lastCheck = Date.now();
-  }
+		meta.lastCheck = Date.now();
+	}
 }
 
 const versionOutput = await $`kitty --version`.text(); // kitty 0.26.5 created by Kovid Goyal

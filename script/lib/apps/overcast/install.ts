@@ -8,19 +8,19 @@ await $.fs.ensureDir(dotAppPath);
 
 const name = $.$dirname(import.meta.url, true);
 if (await $.commandMissing(name)) {
-  await pamkit.createAndLinkNativefierApp({
-    appName: name,
-    displayName: "Overcast",
-    website: "https://overcast.fm",
-  });
+	await pamkit.createAndLinkNativefierApp({
+		appName: name,
+		displayName: "Overcast",
+		website: "https://overcast.fm",
+	});
 }
 
 const meta: InstallerMeta = {
-  name,
-  path: $.$dirname(import.meta.url),
-  type: "installed-manual",
-  version: "0.0.0",
-  lastCheck: Date.now(),
+	name,
+	path: $.$dirname(import.meta.url),
+	type: "installed-manual",
+	version: "0.0.0",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

@@ -8,11 +8,11 @@ await $.requireCommand("flatpak", "pam install -a flatpak");
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if (await pamkit.flatpakAppInstalled("PCSX2")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $`flatpak uninstall -y flathub net.pcsx2.PCSX2`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $`flatpak uninstall -y flathub net.pcsx2.PCSX2`;
+	}
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

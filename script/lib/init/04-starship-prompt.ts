@@ -13,19 +13,19 @@ const id = `==> ${$.path.basename(import.meta.url)}`;
 $.logGroup($.colors.black.bgYellow(id));
 
 if (await $.commandMissing("starship")) {
-  $.logWarn("warn: starship not found");
+	$.logWarn("warn: starship not found");
 
-  $.logGroup();
+	$.logGroup();
 
-  $.logStep("installing starship...");
-  const installScript = await Deno.makeTempFile({ prefix: "dotfiles_starship_", suffix: ".sh" });
-  const starshipInstallSource = "https://starship.rs/install.sh";
-  await Deno.writeTextFile(installScript, await $.request(starshipInstallSource).text());
-  await Deno.chmod(installScript, 0o744);
+	$.logStep("installing starship...");
+	const installScript = await Deno.makeTempFile({ prefix: "dotfiles_starship_", suffix: ".sh" });
+	const starshipInstallSource = "https://starship.rs/install.sh";
+	await Deno.writeTextFile(installScript, await $.request(starshipInstallSource).text());
+	await Deno.chmod(installScript, 0o744);
 
-  await $`sh ${installScript} --yes`;
+	await $`sh ${installScript} --yes`;
 
-  $.logGroupEnd();
+	$.logGroupEnd();
 }
 
 $.logGroupEnd();

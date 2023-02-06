@@ -6,12 +6,12 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 $.logGroup(() => {
-  $.logWarn(
-    "warn:",
-    "fonts do not need to actually be removed, skipping uninstall.",
-  );
+	$.logWarn(
+		"warn:",
+		"fonts do not need to actually be removed, skipping uninstall.",
+	);
 });
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

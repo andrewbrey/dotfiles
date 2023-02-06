@@ -12,13 +12,13 @@ const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.ur
 
 const name = $.$dirname(import.meta.url, true);
 if (await $.commandExists(name)) {
-  await pamkit.createAndLinkNativefierApp({
-    appName: name,
-    displayName: "Bitwarden",
-    website: server,
-  });
+	await pamkit.createAndLinkNativefierApp({
+		appName: name,
+		displayName: "Bitwarden",
+		website: server,
+	});
 
-  meta.lastCheck = Date.now();
+	meta.lastCheck = Date.now();
 }
 
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);

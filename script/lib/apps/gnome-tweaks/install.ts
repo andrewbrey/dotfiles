@@ -8,19 +8,19 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
 if (await $.commandMissing("gnome-tweaks")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $`sudo apt install -y gnome-tweaks`;
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $`sudo apt install -y gnome-tweaks`;
 
-    version = await $`gnome-tweaks --version`.text(); // 42.beta
-  }
+		version = await $`gnome-tweaks --version`.text(); // 42.beta
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

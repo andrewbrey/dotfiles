@@ -7,25 +7,25 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppMissing("shotcut")) {
-    await $`brew install --cask shotcut`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppMissing("shotcut")) {
+		await $`brew install --cask shotcut`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandMissing("shotcut")) {
-    await $.requireCommand("snap", "pam install -a snapd");
+	if (await $.commandMissing("shotcut")) {
+		await $.requireCommand("snap", "pam install -a snapd");
 
-    await $`sudo snap install shotcut --classic`;
-  }
+		await $`sudo snap install shotcut --classic`;
+	}
 });
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

@@ -12,16 +12,16 @@ const pamoji = `${$.colors.yellow("且_(・-・)")}`;
 const pam = `${$.colors.yellow("Pam")}`;
 
 await new $.cliffy.cmd.Command()
-  .name("pam")
-  .version("1.0.0")
-  .description(`${pamoji} -- {(Hello, I'm ${pam}, your personal application manager)}`)
-  .action(function defaultAction() {
-    this.showHelp();
-  })
-  .command("list", list)
-  .command("install", install)
-  .command("outdated", outdated)
-  .command("update", update)
-  .command("remove", remove)
-  .command("new", scaffold)
-  .parse(Deno.args);
+	.name("pam")
+	.version("1.0.0")
+	.description(`${pamoji} -- {(Hello, I'm ${pam}, your personal application manager)}`)
+	.action(function defaultAction() {
+		this.showHelp();
+	})
+	.command("list", list)
+	.command("install", install)
+	.command("outdated", outdated)
+	.command("update", update)
+	.command("remove", remove)
+	.command("new", scaffold)
+	.parse(Deno.args);

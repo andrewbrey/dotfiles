@@ -6,17 +6,17 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppInstalled("steam")) {
-    await $`brew uninstall --cask steam`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppInstalled("steam")) {
+		await $`brew uninstall --cask steam`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandExists("steam")) {
-    await $`sudo apt purge -y steam`;
-  }
+	if (await $.commandExists("steam")) {
+		await $`sudo apt purge -y steam`;
+	}
 });
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

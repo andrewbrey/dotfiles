@@ -6,11 +6,11 @@ import { pamkit } from "../_cli/pamkit.ts";
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
-  const releaseInfo = await $.ghReleaseInfo("andrewbrey", "flot");
-  const { tag_name } = releaseInfo;
-  const latest = tag_name.split("v")?.at(1) ?? "";
+	const releaseInfo = await $.ghReleaseInfo("andrewbrey", "flot");
+	const { tag_name } = releaseInfo;
+	const latest = tag_name.split("v")?.at(1) ?? "";
 
-  return latest;
+	return latest;
 });
 
 await $`echo ${JSON.stringify(outdatedCheck)}`.printCommand(false);

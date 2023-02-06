@@ -7,19 +7,19 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 await $.onLinux(async () => {
-  if (await $.commandMissing("emote")) {
-    await $.requireCommand("snap", "pam install -a snapd");
+	if (await $.commandMissing("emote")) {
+		await $.requireCommand("snap", "pam install -a snapd");
 
-    await $`sudo snap install emote`;
-  }
+		await $`sudo snap install emote`;
+	}
 });
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

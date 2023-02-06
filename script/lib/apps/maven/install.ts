@@ -7,22 +7,22 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("mvn")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    await $`brew install maven`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
-    await $`sudo apt install -y maven`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		await $`brew install maven`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	} else {
+		await $`sudo apt install -y maven`;
+	}
 }
 
 const versionOutput = await $`mvn --version`.lines(); // Apache Maven 3.6.3\n......
 const version = $.stripAnsi(versionOutput?.at(0) ?? "").split(" ")?.at(2) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

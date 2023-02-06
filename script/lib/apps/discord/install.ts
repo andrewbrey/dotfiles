@@ -7,30 +7,30 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppMissing("discord")) {
-    await $`brew install --cask discord`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppMissing("discord")) {
+		await $`brew install --cask discord`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandMissing("discord")) {
-    const debInstallerPath = $.path.join(dotAppPath, "discord.deb");
+	if (await $.commandMissing("discord")) {
+		const debInstallerPath = $.path.join(dotAppPath, "discord.deb");
 
-    await $.streamDownload(
-      "https://discord.com/api/download?platform=linux&format=deb",
-      debInstallerPath,
-    );
+		await $.streamDownload(
+			"https://discord.com/api/download?platform=linux&format=deb",
+			debInstallerPath,
+		);
 
-    await $`sudo apt install -y ${debInstallerPath}`;
-  }
+		await $`sudo apt install -y ${debInstallerPath}`;
+	}
 });
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

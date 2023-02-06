@@ -7,9 +7,9 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 
 const name = $.$dirname(import.meta.url, true);
 if (await $.commandExists(name)) {
-  await pamkit.unlinkNativefierApp(name);
+	await pamkit.unlinkNativefierApp(name);
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

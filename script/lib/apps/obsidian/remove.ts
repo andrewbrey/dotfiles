@@ -6,18 +6,18 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppInstalled("obsidian")) {
-    await $`brew uninstall --cask obsidian`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppInstalled("obsidian")) {
+		await $`brew uninstall --cask obsidian`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandExists("obsidian")) {
-    await pamkit.unlinkDesktopFileForApp("obsidian");
-    await pamkit.unlinkBinaryFromUserPath("obsidian");
-  }
+	if (await $.commandExists("obsidian")) {
+		await pamkit.unlinkDesktopFileForApp("obsidian");
+		await pamkit.unlinkBinaryFromUserPath("obsidian");
+	}
 });
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

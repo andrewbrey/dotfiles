@@ -9,9 +9,9 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("deployctl")) {
-  await $`deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts`;
+	await $`deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts`;
 
-  meta.lastCheck = Date.now();
+	meta.lastCheck = Date.now();
 }
 
 const versionOutput = await $`deployctl --version`.text(); // deployctl 1.4.0

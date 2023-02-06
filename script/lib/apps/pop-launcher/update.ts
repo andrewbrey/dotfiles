@@ -11,13 +11,13 @@ const dirLinkInstallPath = $.path.join(installRootPath, $.env.USER);
 
 const installed = await $.exists(dirLinkInstallPath);
 if (installed) {
-  $.logGroup(() => {
-    $.logWarn(
-      "warn:",
-      $.dedent`
+	$.logGroup(() => {
+		$.logWarn(
+			"warn:",
+			$.dedent`
     			installation is managed; skipping manual update
 
     		`,
-    );
-  });
+		);
+	});
 }

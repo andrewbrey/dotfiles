@@ -7,39 +7,39 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppMissing("beekeeper-studio")) {
-    await $`brew install --cask beekeeper-studio`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppMissing("beekeeper-studio")) {
+		await $`brew install --cask beekeeper-studio`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandMissing("beekeeper-studio")) {
-    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
-    const binPath = $.path.join(dotAppPath, "beekeeper-studio.AppImage");
+	if (await $.commandMissing("beekeeper-studio")) {
+		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
+		const binPath = $.path.join(dotAppPath, "beekeeper-studio.AppImage");
 
-    const releaseInfo = await $.ghReleaseInfo("beekeeper-studio", "beekeeper-studio");
-    await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
+		const releaseInfo = await $.ghReleaseInfo("beekeeper-studio", "beekeeper-studio");
+		await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
-    const { assets, tag_name } = releaseInfo;
-    const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
-    const targetName = `Beekeeper-Studio-${latestVersion}.AppImage`;
-    const targetAsset = assets.find((a) => a.name === targetName);
+		const { assets, tag_name } = releaseInfo;
+		const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
+		const targetName = `Beekeeper-Studio-${latestVersion}.AppImage`;
+		const targetAsset = assets.find((a) => a.name === targetName);
 
-    invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
+		invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await $.streamDownload(targetAsset.browser_download_url, binPath);
+		await $.streamDownload(targetAsset.browser_download_url, binPath);
 
-    await pamkit.linkBinaryToUserPath(binPath, "beekeeper-studio");
-    await pamkit.linkDesktopFileForApp("beekeeper-studio");
-  }
+		await pamkit.linkBinaryToUserPath(binPath, "beekeeper-studio");
+		await pamkit.linkDesktopFileForApp("beekeeper-studio");
+	}
 });
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

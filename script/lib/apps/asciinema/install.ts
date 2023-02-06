@@ -7,22 +7,22 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("asciinema")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    await $`brew install asciinema`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
-    await $`sudo apt install -y asciinema`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		await $`brew install asciinema`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	} else {
+		await $`sudo apt install -y asciinema`;
+	}
 }
 
 const versionOutput = await $`bat --version`.text(); // asciinema 2.1.0
 const version = versionOutput.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

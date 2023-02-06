@@ -6,25 +6,25 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-  $.logGroup(() => {
-    $.logWarn(
-      "warn:",
-      $.dedent`
+	$.logGroup(() => {
+		$.logWarn(
+			"warn:",
+			$.dedent`
 				manual uninstallation required for apps installed with dmg;
 				start by trashing ".app" archive in /Applications but beware
 				that other files may have been placed on the system during
 				installation.
 
 			`,
-    );
-  });
+		);
+	});
 } else {
-  if (await $.commandExists("youtube-music")) {
-    await pamkit.unlinkDesktopFileForApp("youtube-music");
-    await pamkit.unlinkBinaryFromUserPath("youtube-music");
-  }
+	if (await $.commandExists("youtube-music")) {
+		await pamkit.unlinkDesktopFileForApp("youtube-music");
+		await pamkit.unlinkBinaryFromUserPath("youtube-music");
+	}
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

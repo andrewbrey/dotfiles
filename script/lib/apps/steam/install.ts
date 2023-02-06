@@ -7,23 +7,23 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppMissing("steam")) {
-    await $`brew install --cask steam`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppMissing("steam")) {
+		await $`brew install --cask steam`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandMissing("steam")) {
-    await $`sudo apt install -y steam`;
-  }
+	if (await $.commandMissing("steam")) {
+		await $`sudo apt install -y steam`;
+	}
 });
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

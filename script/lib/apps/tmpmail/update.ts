@@ -9,11 +9,11 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("tmpmail")) {
-  const sourcePath = $.path.join(dotAppPath, pamkit.constants.sourceDir);
+	const sourcePath = $.path.join(dotAppPath, pamkit.constants.sourceDir);
 
-  await $`git -C ${sourcePath} pull`;
+	await $`git -C ${sourcePath} pull`;
 
-  meta.lastCheck = Date.now();
+	meta.lastCheck = Date.now();
 }
 
 const versionOutput = await $`tmpmail --version`.text(); // 1.2.3

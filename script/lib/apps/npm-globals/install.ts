@@ -12,35 +12,35 @@ await $.fs.ensureDir(dotAppPath);
 const chezmoiData = await $.getChezmoiData();
 
 const npmGlobals = new Set([
-  "@antfu/ni",
-  "@bitwarden/cli",
-  "add-gitignore",
-  "commitizen",
-  "cz-conventional-changelog",
-  "file-path-bookmarks",
-  "http-server",
-  "np",
-  "npkill",
-  "npm-check-updates",
-  "pnpm",
-  "prettier",
-  "rimraf",
-  "yarn@1",
+	"@antfu/ni",
+	"@bitwarden/cli",
+	"add-gitignore",
+	"commitizen",
+	"cz-conventional-changelog",
+	"file-path-bookmarks",
+	"http-server",
+	"np",
+	"npkill",
+	"npm-check-updates",
+	"pnpm",
+	"prettier",
+	"rimraf",
+	"yarn@1",
 ]);
 
 if (!chezmoiData.is_personal_machine) {
-  // NOTE: Add items here for non-personal machines
-  [].forEach((n) => npmGlobals.add(n));
+	// NOTE: Add items here for non-personal machines
+	[].forEach((n) => npmGlobals.add(n));
 }
 
 await $`npm i -g ${Array.from(npmGlobals)}`;
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

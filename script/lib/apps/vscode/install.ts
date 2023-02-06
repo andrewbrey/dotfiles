@@ -7,28 +7,28 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 await $.onMac(async () => {
-  if (await pamkit.brewAppMissing("visual-studio-code")) {
-    await $`brew install --cask visual-studio-code`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  }
+	if (await pamkit.brewAppMissing("visual-studio-code")) {
+		await $`brew install --cask visual-studio-code`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	}
 });
 
 await $.onLinux(async () => {
-  if (await $.commandMissing("code")) {
-    await $.requireCommand("snap", "pam install -a snapd");
+	if (await $.commandMissing("code")) {
+		await $.requireCommand("snap", "pam install -a snapd");
 
-    await $`sudo snap install code --classic`;
-  }
+		await $`sudo snap install code --classic`;
+	}
 });
 
 const versionOutput = await $`code --version`.lines(); // 1.74.0\n.....
 const version = versionOutput?.at(0) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

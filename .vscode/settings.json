@@ -1,13 +1,13 @@
 {
-  "deno.enable": true,
-  "deno.unstable": true,
-  "deno.config": ".vscode/deno.jsonc",
-  "deno.enablePaths": [".web", "script"],
-  "[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
-  "[jsonc]": { "editor.defaultFormatter": "denoland.vscode-deno" },
-  "[javascript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
-  "[javascriptreact]": { "editor.defaultFormatter": "denoland.vscode-deno" },
-  "[markdown]": { "editor.defaultFormatter": "denoland.vscode-deno" },
-  "[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
-  "[typescriptreact]": { "editor.defaultFormatter": "denoland.vscode-deno" }
+	"deno.enable": true,
+	"deno.unstable": true,
+	"deno.config": ".vscode/deno.jsonc",
+	"deno.enablePaths": [".web", "script"],
+	"[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+	"[jsonc]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+	"[javascript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+	"[javascriptreact]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+	"[markdown]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+	"[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+	"[typescriptreact]": { "editor.defaultFormatter": "denoland.vscode-deno" }
 }

@@ -6,15 +6,15 @@ import { pamkit } from "../_cli/pamkit.ts";
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    return ""; // managed on darwin
-  } else {
-    const releaseInfo = await $.ghReleaseInfo("cryptomator", "cryptomator");
-    const { tag_name } = releaseInfo;
-    const latest = tag_name ?? "";
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		return ""; // managed on darwin
+	} else {
+		const releaseInfo = await $.ghReleaseInfo("cryptomator", "cryptomator");
+		const { tag_name } = releaseInfo;
+		const latest = tag_name ?? "";
 
-    return latest;
-  }
+		return latest;
+	}
 });
 
 await $`echo ${JSON.stringify(outdatedCheck)}`.printCommand(false);

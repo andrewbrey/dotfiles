@@ -8,9 +8,9 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 const bin = await $.which("deployctl");
 const isInstalled = typeof (bin) !== "undefined";
 if (isInstalled) {
-  await $`rm -f ${bin}`;
+	await $`rm -f ${bin}`;
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

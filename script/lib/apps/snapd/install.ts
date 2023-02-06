@@ -7,17 +7,17 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("snap")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $`sudo apt install -y snapd`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $`sudo apt install -y snapd`;
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

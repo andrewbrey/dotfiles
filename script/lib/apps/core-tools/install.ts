@@ -24,35 +24,35 @@ const w3m = $.env.OS === "darwin" ? "w3m" : "w3m";
 const xz = $.env.OS === "darwin" ? "xz" : "xz-utils";
 
 const list = [
-  ack,
-  curl,
-  direnv,
-  exiftool,
-  fzf,
-  gnupg,
-  htop,
-  jq,
-  nano,
-  p7zip,
-  sqlite,
-  tmux,
-  tree,
-  vim,
-  w3m,
-  xz,
+	ack,
+	curl,
+	direnv,
+	exiftool,
+	fzf,
+	gnupg,
+	htop,
+	jq,
+	nano,
+	p7zip,
+	sqlite,
+	tmux,
+	tree,
+	vim,
+	w3m,
+	xz,
 ];
 if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-  await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
-  await $`sudo apt install -y ${list}`;
+	await $`sudo apt install -y ${list}`;
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

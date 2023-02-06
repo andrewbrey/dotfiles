@@ -8,9 +8,9 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 const starshipBin = await $.which("starship");
 const isInstalled = typeof (starshipBin) !== "undefined";
 if (isInstalled) {
-  await $`sudo rm -f ${starshipBin}`;
+	await $`sudo rm -f ${starshipBin}`;
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

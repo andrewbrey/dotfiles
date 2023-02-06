@@ -1,4 +1,4 @@
 {
-  "url": "https://extensions.gnome.org/extension/2929/battery-time-percentage-compact/",
-  "dconf": "/org/gnome/shell/extensions/batterytimepercentagecompact/"
+	"url": "https://extensions.gnome.org/extension/2929/battery-time-percentage-compact/",
+	"dconf": "/org/gnome/shell/extensions/batterytimepercentagecompact/"
 }

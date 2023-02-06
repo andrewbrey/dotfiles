@@ -8,20 +8,20 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = ""; // not installed on mac, so default version
 if (await $.commandMissing("dconf-editor")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $`sudo apt install -y dconf-editor`;
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $`sudo apt install -y dconf-editor`;
 
-    const versionOutput = await $`dconf-editor --version`.text(); // dconf-editor 3.38.3
-    version = versionOutput.split(" ")?.at(1) ?? "";
-  }
+		const versionOutput = await $`dconf-editor --version`.text(); // dconf-editor 3.38.3
+		version = versionOutput.split(" ")?.at(1) ?? "";
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

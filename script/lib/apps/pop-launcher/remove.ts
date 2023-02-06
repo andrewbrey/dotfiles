@@ -10,13 +10,13 @@ const dirLinkInstallPath = $.path.join(installRootPath, $.env.USER);
 
 const installed = await $.exists(dirLinkInstallPath);
 if (installed) {
-  const chezmoiData = await $.getChezmoiData();
+	const chezmoiData = await $.getChezmoiData();
 
-  if (chezmoiData.is_popos) {
-    await $`sudo rm -f ${dirLinkInstallPath}`;
-  }
+	if (chezmoiData.is_popos) {
+		await $`sudo rm -f ${dirLinkInstallPath}`;
+	}
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

@@ -13,19 +13,19 @@ $.logGroup($.colors.black.bgYellow(id));
 
 const repo = "andrewbrey/dotfiles";
 const envs: Record<string, string> = {
-  IN_CONTAINER: `${$.env.IN_CONTAINER}`,
-  IN_CLOUD_IDE: `${$.env.IN_CLOUD_IDE}`,
-  GITPOD: `${$.env.GITPOD}`,
+	IN_CONTAINER: `${$.env.IN_CONTAINER}`,
+	IN_CLOUD_IDE: `${$.env.IN_CLOUD_IDE}`,
+	GITPOD: `${$.env.GITPOD}`,
 };
 
 for (const [name, path] of Object.entries($.env.STANDARD_DIRS)) {
-  envs[`SD_${name}`] = `${path}`;
+	envs[`SD_${name}`] = `${path}`;
 }
 
 if ($.env.IN_CLOUD_IDE || !$.env.DOTS_CLONE_IS_SSH) {
-  await $`chezmoi init --apply --depth 1 ${repo}`.env(envs);
+	await $`chezmoi init --apply --depth 1 ${repo}`.env(envs);
 } else {
-  await $`chezmoi init --apply --depth 1 --ssh ${repo}`.env(envs);
+	await $`chezmoi init --apply --depth 1 --ssh ${repo}`.env(envs);
 }
 
 $.logGroupEnd();

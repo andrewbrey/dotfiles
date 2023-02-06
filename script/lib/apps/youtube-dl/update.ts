@@ -9,37 +9,37 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("youtube-dl")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    $.logGroup(() => {
-      $.logWarn(
-        "warn:",
-        $.dedent`
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		$.logGroup(() => {
+			$.logWarn(
+				"warn:",
+				$.dedent`
     			installation is managed; skipping manual update
 
     		`,
-      );
-    });
-  } else {
-    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
-    const artifactPath = $.path.join(dotAppPath, "youtube-dl.tar.gz");
-    const binaryPath = $.path.join(dotAppPath, "youtube-dl", "youtube-dl");
+			);
+		});
+	} else {
+		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
+		const artifactPath = $.path.join(dotAppPath, "youtube-dl.tar.gz");
+		const binaryPath = $.path.join(dotAppPath, "youtube-dl", "youtube-dl");
 
-    const releaseInfo = await $.ghReleaseInfo("ytdl-org", "youtube-dl");
-    await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
+		const releaseInfo = await $.ghReleaseInfo("ytdl-org", "youtube-dl");
+		await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
-    const { assets, tag_name } = releaseInfo;
-    const latestVersion = tag_name ?? "0.0.0";
-    const targetName = `youtube-dl-${latestVersion}.tar.gz`;
-    const targetAsset = assets.find((a) => a.name === targetName);
+		const { assets, tag_name } = releaseInfo;
+		const latestVersion = tag_name ?? "0.0.0";
+		const targetName = `youtube-dl-${latestVersion}.tar.gz`;
+		const targetAsset = assets.find((a) => a.name === targetName);
 
-    invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
+		invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
 
-    await $.streamDownload(targetAsset.browser_download_url, artifactPath);
-    await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
-    await pamkit.linkBinaryToUserPath(binaryPath, "youtube-dl");
+		await $.streamDownload(targetAsset.browser_download_url, artifactPath);
+		await $`tar -C ${dotAppPath} -xzf ${artifactPath}`;
+		await pamkit.linkBinaryToUserPath(binaryPath, "youtube-dl");
 
-    meta.lastCheck = Date.now();
-  }
+		meta.lastCheck = Date.now();
+	}
 }
 
 const version = await $`youtube-dl --version`.text(); // 2021.12.17

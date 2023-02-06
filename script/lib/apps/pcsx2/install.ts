@@ -9,17 +9,17 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await pamkit.flatpakAppMissing("PCSX2")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $`flatpak install -y flathub net.pcsx2.PCSX2`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $`flatpak install -y flathub net.pcsx2.PCSX2`;
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

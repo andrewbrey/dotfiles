@@ -7,27 +7,27 @@ const hasNPM = await $.commandExists("npm");
 const hasNCU = await $.commandExists("ncu");
 
 if (hasNode && hasNPM && hasNCU) {
-  const ncu = await $`ncu -g`.stdout("inheritPiped").stderr("null");
-  if (ncu.stdout.includes("All global packages are up-to-date")) {
-    Deno.exit(0);
-  }
+	const ncu = await $`ncu -g`.stdout("inheritPiped").stderr("null");
+	if (ncu.stdout.includes("All global packages are up-to-date")) {
+		Deno.exit(0);
+	}
 
-  const updateLine = ncu.stdout.split("\n").find((l) => l.startsWith("npm -g"));
+	const updateLine = ncu.stdout.split("\n").find((l) => l.startsWith("npm -g"));
 
-  invariant(typeof updateLine !== "undefined", "invalid update line");
+	invariant(typeof updateLine !== "undefined", "invalid update line");
 
-  const packagesWithUpdates = updateLine.split("npm -g install ")?.at(1)?.split(" ") ?? [];
-  const packagesToIgnore: string[] = [];
+	const packagesWithUpdates = updateLine.split("npm -g install ")?.at(1)?.split(" ") ?? [];
+	const packagesToIgnore: string[] = [];
 
-  const packagesToUpdate = (
-    packagesToIgnore.length
-      ? packagesWithUpdates.filter((p) => packagesToIgnore.some((i) => !p.includes(i)))
-      : [...packagesWithUpdates]
-  ).map((p) => p.trim());
+	const packagesToUpdate = (
+		packagesToIgnore.length
+			? packagesWithUpdates.filter((p) => packagesToIgnore.some((i) => !p.includes(i)))
+			: [...packagesWithUpdates]
+	).map((p) => p.trim());
 
-  if (!packagesToUpdate.length) {
-    await $`echo skipping update of ignored packages: ${packagesToIgnore}`;
-  }
+	if (!packagesToUpdate.length) {
+		await $`echo skipping update of ignored packages: ${packagesToIgnore}`;
+	}
 
-  await $`npm i -g --ignore-engines ${packagesToUpdate}`;
+	await $`npm i -g --ignore-engines ${packagesToUpdate}`;
 }

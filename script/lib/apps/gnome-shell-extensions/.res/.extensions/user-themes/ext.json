@@ -1,4 +1,4 @@
 {
-  "url": "https://extensions.gnome.org/extension/19/user-themes/",
-  "dconf": "/org/gnome/shell/extensions/user-themes/"
+	"url": "https://extensions.gnome.org/extension/19/user-themes/",
+	"dconf": "/org/gnome/shell/extensions/user-themes/"
 }

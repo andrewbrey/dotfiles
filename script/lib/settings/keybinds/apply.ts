@@ -3,27 +3,27 @@
 import { $ } from "../../mod.ts";
 
 await $.onMac(async () => {
-  $.logGroup(() => {
-    $.logWarn(
-      "warn:",
-      $.dedent`
+	$.logGroup(() => {
+		$.logWarn(
+			"warn:",
+			$.dedent`
 				skipping media key settings for mac
 
 			`,
-    );
-  });
+		);
+	});
 });
 
 await $.onLinux(async () => {
-  const chezmoiData = await $.getChezmoiData();
+	const chezmoiData = await $.getChezmoiData();
 
-  if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
-    await $.requireCommand("dconf");
-    await $.requireCommand("wmctrl", "pam install -a peer-tools");
+	if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
+		await $.requireCommand("dconf");
+		await $.requireCommand("wmctrl", "pam install -a peer-tools");
 
-    const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
-    const dconfSrc = `${$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
+		const loadKey = "/org/gnome/settings-daemon/plugins/media-keys/";
+		const dconfSrc = `${$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS}/keybinds/.keybinds.dconf`;
 
-    await $`dconf load ${loadKey}`.stdinText(await Deno.readTextFile(dconfSrc));
-  }
+		await $`dconf load ${loadKey}`.stdinText(await Deno.readTextFile(dconfSrc));
+	}
 });

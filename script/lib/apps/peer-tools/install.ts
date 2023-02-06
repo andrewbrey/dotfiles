@@ -12,26 +12,26 @@ const imagemagick = $.env.OS === "darwin" ? "imagemagick" : "imagemagick";
 const list = [ffmpeg, imagemagick];
 
 if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-  [
-    "libnotify-bin",
-    "wmctrl",
-    "xclip",
-    "xsel",
-  ].forEach((p) => list.push(p));
+	[
+		"libnotify-bin",
+		"wmctrl",
+		"xclip",
+		"xsel",
+	].forEach((p) => list.push(p));
 }
 
 if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-  await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	await $`brew install ${list}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 } else {
-  await $`sudo apt install -y ${list}`;
+	await $`sudo apt install -y ${list}`;
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

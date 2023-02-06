@@ -7,27 +7,27 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("tmpmail")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $.requireCommand("xclip", "pam install -a peer-tools");
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $.requireCommand("xclip", "pam install -a peer-tools");
+	}
 
-  const sourcePath = $.path.join(dotAppPath, pamkit.constants.sourceDir);
-  const binPath = $.path.join(sourcePath, "tmpmail");
+	const sourcePath = $.path.join(dotAppPath, pamkit.constants.sourceDir);
+	const binPath = $.path.join(sourcePath, "tmpmail");
 
-  await $`git clone https://github.com/sdushantha/tmpmail.git ${sourcePath}`;
+	await $`git clone https://github.com/sdushantha/tmpmail.git ${sourcePath}`;
 
-  await pamkit.linkBinaryToUserPath(binPath, "tmpmail");
+	await pamkit.linkBinaryToUserPath(binPath, "tmpmail");
 }
 
 const versionOutput = await $`tmpmail --version`.text(); // 1.2.3
 const version = versionOutput ?? "";
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-manual",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-manual",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

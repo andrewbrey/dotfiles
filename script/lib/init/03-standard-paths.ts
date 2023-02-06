@@ -9,12 +9,12 @@ $.logGroup($.colors.black.bgYellow(id));
 $.logStep("step: place standard dirs");
 
 for (const [name, path] of Object.entries($.env.STANDARD_DIRS)) {
-  $.logLight(
-    `ensuring presence of ${$.colors.magenta(name.toLocaleLowerCase())} directory at ${
-      $.colors.magenta(path)
-    }`,
-  );
-  await $.fs.ensureDir(path);
+	$.logLight(
+		`ensuring presence of ${$.colors.magenta(name.toLocaleLowerCase())} directory at ${
+			$.colors.magenta(path)
+		}`,
+	);
+	await $.fs.ensureDir(path);
 }
 
 $.logStep("step: place standard files");
@@ -24,9 +24,9 @@ await $.fs.ensureDir($.env.STANDARD_DIRS.DOT_DOTS);
 
 const dotExtra = `${$.env.STANDARD_DIRS.DOT_DOTS}/.extra`;
 if (!(await $.exists(dotExtra))) {
-  await Deno.writeTextFile(
-    dotExtra,
-    `#!/usr/bin/env zsh
+	await Deno.writeTextFile(
+		dotExtra,
+		`#!/usr/bin/env zsh
 
 # =====
 # chezmoi ignored
@@ -36,7 +36,7 @@ if (!(await $.exists(dotExtra))) {
 # are ignored by dotfiles management.
 
 `,
-  );
+	);
 }
 
 $.logGroupEnd();

@@ -8,9 +8,9 @@
 export { intersect as stdIntersect } from "https://deno.land/std@0.176.0/collections/intersect.ts";
 export * as stdLog from "https://deno.land/std@0.176.0/log/mod.ts";
 export type {
-  FormatterFunction,
-  Logger,
-  LogRecord,
+	FormatterFunction,
+	Logger,
+	LogRecord,
 } from "https://deno.land/std@0.176.0/log/mod.ts";
 export * as stdNodeFS from "https://deno.land/std@0.176.0/node/fs.ts";
 export * as stdNodeOS from "https://deno.land/std@0.176.0/node/os.ts";

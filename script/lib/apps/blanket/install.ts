@@ -10,17 +10,17 @@ await $.fs.ensureDir(dotAppPath);
 
 const notInstalled = await pamkit.flatpakAppMissing("Blanket");
 if (notInstalled) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    await $`flatpak install -y flathub com.rafaelmardojai.Blanket`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		await $`flatpak install -y flathub com.rafaelmardojai.Blanket`;
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

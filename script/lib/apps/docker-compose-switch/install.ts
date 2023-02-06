@@ -8,31 +8,31 @@ await $.fs.ensureDir(dotAppPath);
 
 let version = "0.0.0"; // special for compose-switch because at runtime, it's --version flag reports `docker compose` version, not the version of the compose-switch utility itself
 if (await $.commandMissing("docker-compose")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    $.requireCommand("docker", "pam install -a docker");
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		$.requireCommand("docker", "pam install -a docker");
 
-    invariant(
-      (await $`docker compose version`.noThrow().text()).trim() !== "",
-      "docker compose plugin is required and should have been installed by docker",
-    );
+		invariant(
+			(await $`docker compose version`.noThrow().text()).trim() !== "",
+			"docker compose plugin is required and should have been installed by docker",
+		);
 
-    await $`sudo sh`.stdin(
-      await $`curl -fL https://raw.githubusercontent.com/docker/compose-switch/master/install_on_linux.sh`
-        .bytes(),
-    );
+		await $`sudo sh`.stdin(
+			await $`curl -fL https://raw.githubusercontent.com/docker/compose-switch/master/install_on_linux.sh`
+				.bytes(),
+		);
 
-    const releaseInfo = await $.ghReleaseInfo("docker", "compose-switch");
-    const { tag_name } = releaseInfo;
-    version = tag_name.split("v")?.at(1) ?? "";
-  }
+		const releaseInfo = await $.ghReleaseInfo("docker", "compose-switch");
+		const { tag_name } = releaseInfo;
+		version = tag_name.split("v")?.at(1) ?? "";
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: $.env.OS === "darwin" ? "installed-managed" : "installed-manual",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

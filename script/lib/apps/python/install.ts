@@ -7,11 +7,11 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("python3") || await $.commandMissing("pip3")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    await $`brew install python3`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-  } else {
-    await $`sudo apt install -y python3 python3-pip`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		await $`brew install python3`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+	} else {
+		await $`sudo apt install -y python3 python3-pip`;
+	}
 }
 
 const python = await $.which("python");
@@ -22,11 +22,11 @@ const versionOutput = await $`python3 --version`.text(); // Python 3.10.6
 const version = versionOutput.split(" ")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version,
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version,
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 

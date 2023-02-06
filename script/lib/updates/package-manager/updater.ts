@@ -3,23 +3,23 @@
 import { $ } from "../../mod.ts";
 
 await $.onMac(async () => {
-  await $`brew update`;
-  await $`brew upgrade`;
-  await $`brew cleanup`;
-  await $`brew autoremove`;
-  await $`brew doctor`;
+	await $`brew update`;
+	await $`brew upgrade`;
+	await $`brew cleanup`;
+	await $`brew autoremove`;
+	await $`brew doctor`;
 });
 
 await $.onLinux(async () => {
-  await $`sudo apt update`;
-  await $`sudo apt upgrade -y`;
-  await $`sudo apt autoremove -y`;
+	await $`sudo apt update`;
+	await $`sudo apt upgrade -y`;
+	await $`sudo apt autoremove -y`;
 
-  if (await $.commandExists("snap")) {
-    await $`sudo snap refresh`;
-  }
+	if (await $.commandExists("snap")) {
+		await $`sudo snap refresh`;
+	}
 
-  if (await $.commandExists("flatpak")) {
-    await $`flatpak update -y`;
-  }
+	if (await $.commandExists("flatpak")) {
+		await $`flatpak update -y`;
+	}
 });

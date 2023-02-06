@@ -6,12 +6,12 @@ import { pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 
 if (await $.commandExists("compose-switch")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
-    const composeSwitch = await $.which("compose-switch");
-    await $`sudo rm -f ${composeSwitch}`;
-  }
+	if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
+		const composeSwitch = await $.which("compose-switch");
+		await $`sudo rm -f ${composeSwitch}`;
+	}
 }
 
 if (await $.exists(dotAppPath)) {
-  await Deno.remove(dotAppPath, { recursive: true });
+	await Deno.remove(dotAppPath, { recursive: true });
 }

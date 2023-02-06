@@ -3,12 +3,12 @@
 import { $ } from "../../mod.ts";
 
 const communityCheatPath = $.path.join(
-  $.env.STANDARD_DIRS.DOT_DOTS_APPS,
-  "cheat",
-  "cheatsheets",
-  "community",
+	$.env.STANDARD_DIRS.DOT_DOTS_APPS,
+	"cheat",
+	"cheatsheets",
+	"community",
 );
 
 if (await $.exists(communityCheatPath)) {
-  await $`git -C ${communityCheatPath} pull`;
+	await $`git -C ${communityCheatPath} pull`;
 }

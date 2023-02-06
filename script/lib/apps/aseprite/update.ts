@@ -11,43 +11,43 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("aseprite")) {
-  const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
-  let releaseInfo = "";
+	const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
+	let releaseInfo = "";
 
-  await $.runInBrowser(async (page) => {
-    await page.goto(`https://www.humblebundle.com/downloads?key=${asepriteToken}`, {
-      waitUntil: "networkidle2",
-    });
-    releaseInfo = await page.content();
-  });
+	await $.runInBrowser(async (page) => {
+		await page.goto(`https://www.humblebundle.com/downloads?key=${asepriteToken}`, {
+			waitUntil: "networkidle2",
+		});
+		releaseInfo = await page.content();
+	});
 
-  invariant(releaseInfo.length > 0, "unable to fetch release information");
+	invariant(releaseInfo.length > 0, "unable to fetch release information");
 
-  await Deno.writeTextFile(releaseInfoPath, releaseInfo);
+	await Deno.writeTextFile(releaseInfoPath, releaseInfo);
 
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    const dmgInstallerPath = $.path.join(dotAppPath, "aseprite.dmg");
-    const dmgURI = releaseInfo.match(/href="(https.*Aseprite-v\d+\.\d+\.\d+.*-macOS\.dmg.*)"/)
-      ?.at(1)?.replaceAll("&amp;", "&");
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		const dmgInstallerPath = $.path.join(dotAppPath, "aseprite.dmg");
+		const dmgURI = releaseInfo.match(/href="(https.*Aseprite-v\d+\.\d+\.\d+.*-macOS\.dmg.*)"/)
+			?.at(1)?.replaceAll("&amp;", "&");
 
-    invariant(typeof dmgURI === "string" && dmgURI.length > 0, "unable to determine download");
+		invariant(typeof dmgURI === "string" && dmgURI.length > 0, "unable to determine download");
 
-    await $.streamDownload(dmgURI, dmgInstallerPath);
+		await $.streamDownload(dmgURI, dmgInstallerPath);
 
-    await pamkit.installDmg(dmgInstallerPath);
-  } else {
-    const debInstallerPath = $.path.join(dotAppPath, "aseprite.deb");
-    const debURI = releaseInfo.match(/href="(https.*Aseprite_\d+\.\d+\.\d+.*_amd64\.deb.*)"/)
-      ?.at(1)?.replaceAll("&amp;", "&");
+		await pamkit.installDmg(dmgInstallerPath);
+	} else {
+		const debInstallerPath = $.path.join(dotAppPath, "aseprite.deb");
+		const debURI = releaseInfo.match(/href="(https.*Aseprite_\d+\.\d+\.\d+.*_amd64\.deb.*)"/)
+			?.at(1)?.replaceAll("&amp;", "&");
 
-    invariant(typeof debURI === "string" && debURI.length > 0, "unable to determine download");
+		invariant(typeof debURI === "string" && debURI.length > 0, "unable to determine download");
 
-    await $.streamDownload(debURI, debInstallerPath);
+		await $.streamDownload(debURI, debInstallerPath);
 
-    await $`sudo apt install -y ${debInstallerPath}`;
+		await $`sudo apt install -y ${debInstallerPath}`;
 
-    meta.lastCheck = Date.now();
-  }
+		meta.lastCheck = Date.now();
+	}
 }
 
 const versionOutput = $.env.OS === "darwin" ? "" : await $`aseprite --version`.text(); // Aseprite 1.2.40-x64

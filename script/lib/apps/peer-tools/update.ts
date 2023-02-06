@@ -3,11 +3,11 @@
 import { $ } from "../../mod.ts";
 
 $.logGroup(() => {
-  $.logWarn(
-    "warn:",
-    $.dedent`
+	$.logWarn(
+		"warn:",
+		$.dedent`
 			installation is managed; skipping manual update
 
 		`,
-  );
+	);
 });

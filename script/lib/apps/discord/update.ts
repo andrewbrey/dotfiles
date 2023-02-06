@@ -9,28 +9,28 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("fd")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    $.logGroup(() => {
-      $.logWarn(
-        "warn:",
-        $.dedent`
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		$.logGroup(() => {
+			$.logWarn(
+				"warn:",
+				$.dedent`
     			installation is managed; skipping manual update
 
     		`,
-      );
-    });
-  } else {
-    const debInstallerPath = $.path.join(dotAppPath, "discord.deb");
+			);
+		});
+	} else {
+		const debInstallerPath = $.path.join(dotAppPath, "discord.deb");
 
-    await $.streamDownload(
-      "https://discord.com/api/download?platform=linux&format=deb",
-      debInstallerPath,
-    );
+		await $.streamDownload(
+			"https://discord.com/api/download?platform=linux&format=deb",
+			debInstallerPath,
+		);
 
-    await $`sudo apt install -y ${debInstallerPath}`;
+		await $`sudo apt install -y ${debInstallerPath}`;
 
-    meta.lastCheck = Date.now();
-  }
+		meta.lastCheck = Date.now();
+	}
 }
 
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);

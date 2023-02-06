@@ -9,34 +9,34 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("go")) {
-  if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-    $.logGroup(() => {
-      $.logWarn(
-        "warn:",
-        $.dedent`
+	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		$.logGroup(() => {
+			$.logWarn(
+				"warn:",
+				$.dedent`
     			installation is managed; skipping manual update
 
     		`,
-      );
-    });
-  } else {
-    const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.plainReleaseInfoName);
-    const latestVersion = await $.request("https://golang.org/VERSION?m=text").text();
+			);
+		});
+	} else {
+		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.plainReleaseInfoName);
+		const latestVersion = await $.request("https://golang.org/VERSION?m=text").text();
 
-    await Deno.writeTextFile(releaseInfoPath, latestVersion);
+		await Deno.writeTextFile(releaseInfoPath, latestVersion);
 
-    const artifactPath = $.path.join(dotAppPath, "golang.tar.gz");
+		const artifactPath = $.path.join(dotAppPath, "golang.tar.gz");
 
-    await $.streamDownload(
-      `https://golang.org/dl/${latestVersion}.linux-amd64.tar.gz`,
-      artifactPath,
-    );
+		await $.streamDownload(
+			`https://golang.org/dl/${latestVersion}.linux-amd64.tar.gz`,
+			artifactPath,
+		);
 
-    await $`sudo rm -rf /usr/local/go`;
-    await $`sudo tar -C /usr/local -xzf ${artifactPath}`;
+		await $`sudo rm -rf /usr/local/go`;
+		await $`sudo tar -C /usr/local -xzf ${artifactPath}`;
 
-    meta.lastCheck = Date.now();
-  }
+		meta.lastCheck = Date.now();
+	}
 }
 
 const versionOutput = await $`go version`.text(); // go version go1.16.5 linux/amd64

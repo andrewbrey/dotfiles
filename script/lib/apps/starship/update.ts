@@ -9,16 +9,16 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("starship")) {
-  // NOTE: copied from script/lib/init/02-zsh-and-zgenom.ts
+	// NOTE: copied from script/lib/init/02-zsh-and-zgenom.ts
 
-  const installScript = await Deno.makeTempFile({ prefix: "dotfiles_starship_", suffix: ".sh" });
-  const starshipInstallSource = "https://starship.rs/install.sh";
-  await Deno.writeTextFile(installScript, await $.request(starshipInstallSource).text());
-  await Deno.chmod(installScript, 0o744);
+	const installScript = await Deno.makeTempFile({ prefix: "dotfiles_starship_", suffix: ".sh" });
+	const starshipInstallSource = "https://starship.rs/install.sh";
+	await Deno.writeTextFile(installScript, await $.request(starshipInstallSource).text());
+	await Deno.chmod(installScript, 0o744);
 
-  await $`sudo sh ${installScript} --yes`;
+	await $`sudo sh ${installScript} --yes`;
 
-  meta.lastCheck = Date.now();
+	meta.lastCheck = Date.now();
 }
 
 const versionOutput = await $`starship --version`.lines(); // starship 1.11.0\n....

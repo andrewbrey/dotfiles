@@ -11,23 +11,23 @@ const dirLinkInstallPath = $.path.join(installRootPath, $.env.USER);
 
 const installed = await $.exists(dirLinkInstallPath);
 if (!installed) {
-  const chezmoiData = await $.getChezmoiData();
+	const chezmoiData = await $.getChezmoiData();
 
-  // @see https://www.arm64.ca/post/creating-launch-plugins-for-pop-os-updated/
-  if (chezmoiData.is_popos) {
-    const dirLinkSrcPath = $.path.join(chezmoiData.standard_dirs.dot_dots_apps, "pop-launcher");
+	// @see https://www.arm64.ca/post/creating-launch-plugins-for-pop-os-updated/
+	if (chezmoiData.is_popos) {
+		const dirLinkSrcPath = $.path.join(chezmoiData.standard_dirs.dot_dots_apps, "pop-launcher");
 
-    await $`sudo mkdir -p ${installRootPath}`;
-    await $`sudo ln -sf ${dirLinkSrcPath}/ ${dirLinkInstallPath}`;
-  }
+		await $`sudo mkdir -p ${installRootPath}`;
+		await $`sudo ln -sf ${dirLinkSrcPath}/ ${dirLinkInstallPath}`;
+	}
 }
 
 const meta: InstallerMeta = {
-  name: $.$dirname(import.meta.url, true),
-  path: $.$dirname(import.meta.url),
-  type: "installed-managed",
-  version: "",
-  lastCheck: Date.now(),
+	name: $.$dirname(import.meta.url, true),
+	path: $.$dirname(import.meta.url),
+	type: "installed-managed",
+	version: "",
+	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 
