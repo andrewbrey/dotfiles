@@ -1,0 +1,29 @@
+set numbercolor green
+set statuscolor green
+set titlecolor green
+set functioncolor green
+
+set tabsize 2
+
+set autoindent
+
+# perform case-sensitive searches
+set casesensitive
+
+# display cursor position in the status bar
+set constantshow
+
+# display line numbers
+set linenumbers
+
+# do not wrap text
+set nowrap
+
+# perform extended regular expression searches
+set regexp
+
+# use the following spelling checker
+set speller "hunspell"
+
+# allow nano to be suspended (ctrl+z and then "fg" from the shell to resume)
+set suspend
