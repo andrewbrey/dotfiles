@@ -100,4 +100,3 @@
 - Install https://github.com/charmbracelet/vhs
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
 - Install https://github.com/tsl0922/ttyd
-- Customize tmux and add tmux plugin manager to installation and update scripts
