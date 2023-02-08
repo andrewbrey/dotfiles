@@ -32,7 +32,7 @@ function getGroups() {
 	// prerequisites earlier in the app name array
 	groups.set(
 		"devcontainer",
-		new Set<string>(["core-tools", "delta", "node", "npm-globals", "bat", "gh"]),
+		new Set<string>(["core-tools", "tmux", "delta", "node", "npm-globals", "bat", "gh"]),
 	);
 	groups.set("codespaces", new Set<string>(["core-tools", "bat"]));
 	groups.set(
@@ -41,6 +41,7 @@ function getGroups() {
 			"core-tools",
 			"system-libs",
 			"peer-tools",
+			"tmux",
 			"delta",
 			"pop-launcher",
 			"snapd",

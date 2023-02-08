@@ -20,13 +20,17 @@ function getGroups() {
 			"deno",
 			"npm-globals",
 			"gnome-shell-extensions",
+			"tmux",
 			"cheatsheets",
 			"completions",
 			"zgenom",
 			"dotfiles",
 		]),
 	);
-	groups.set("core", new Set<string>(["package-manager", "deno", "npm-globals", "dotfiles"]));
+	groups.set(
+		"core",
+		new Set<string>(["package-manager", "deno", "npm-globals", "tmux", "dotfiles"]),
+	);
 
 	return groups;
 }
