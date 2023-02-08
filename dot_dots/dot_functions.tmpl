@@ -22,19 +22,31 @@ function pam() {
 
 # Run the sam (settings application manager) cli
 function sam() {
+	local secrets_file="${HOME}/.dots/.secrets"
+	local token=''
+	if [ -f "${secrets_file}" ]; then
+		token=$(source "${secrets_file}" && use_gh && echo "${GH_TOKEN}")
+	fi
+
 	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
-		"${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/settings/_cli/cli.ts" $@
+		GH_TOKEN="${token}" "${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/settings/_cli/cli.ts" $@
 	else
-		"$(chezmoi source-path)/script/lib/settings/_cli/cli.ts" $@
+		GH_TOKEN="${token}" "$(chezmoi source-path)/script/lib/settings/_cli/cli.ts" $@
 	fi
 }
 
 # Run the dum (daily updates manager) cli
 function dum() {
+	local secrets_file="${HOME}/.dots/.secrets"
+	local token=''
+	if [ -f "${secrets_file}" ]; then
+		token=$(source "${secrets_file}" && use_gh && echo "${GH_TOKEN}")
+	fi
+
 	if [[ -n "${DOTFILES_SRC_PATH_OVERRIDE}" ]]; then
-		"${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/updates/_cli/cli.ts" $@
+		GH_TOKEN="${token}" "${DOTFILES_SRC_PATH_OVERRIDE}/script/lib/updates/_cli/cli.ts" $@
 	else
-		"$(chezmoi source-path)/script/lib/updates/_cli/cli.ts" $@
+		GH_TOKEN="${token}" "$(chezmoi source-path)/script/lib/updates/_cli/cli.ts" $@
 	fi
 }
 
