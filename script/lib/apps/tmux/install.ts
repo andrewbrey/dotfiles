@@ -18,8 +18,9 @@ await $.onLinux(async () => {
 	}
 });
 
-const pluginManagerPath = $.path.join($.env.HOME, ".tmux");
+const pluginManagerPath = $.path.join($.env.HOME, ".tmux", "plugins", "tpm");
 if (!(await $.exists(pluginManagerPath))) {
+	await $`mkdir -p ${pluginManagerPath}`;
 	await $`git clone https://github.com/tmux-plugins/tpm.git ${pluginManagerPath}`;
 }
 

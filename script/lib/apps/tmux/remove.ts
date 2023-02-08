@@ -17,7 +17,7 @@ await $.onLinux(async () => {
 	}
 });
 
-const pluginManagerPath = $.path.join($.env.HOME, ".tmux");
+const pluginManagerPath = $.path.join($.env.HOME, ".tmux", "plugins", "tpm");
 if (await $.exists(pluginManagerPath)) {
 	await Deno.remove(pluginManagerPath, { recursive: true });
 }
