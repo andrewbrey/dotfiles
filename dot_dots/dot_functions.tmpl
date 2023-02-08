@@ -38,6 +38,13 @@ function dum() {
 	fi
 }
 
+# start a new tmux session with a name
+function tmux_new() {
+  local session_name="${1:-default}"
+
+  tmux new -s $session_name
+}
+
 function encrypt_file() {
 	if [[ -z "${1}" ]]; then
 		echo "A single file name to encrypt is required"
