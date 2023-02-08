@@ -98,5 +98,7 @@
   https://github.com/mchehab/zbar (to allow for
   `flameshot gui --raw | zbarimg --raw - | xclip -in -selection clipboard`)
 - Install https://github.com/charmbracelet/vhs
+- Install https://github.com/charmbracelet/charm
+- Install https://github.com/charmbracelet/glow
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
 - Install https://github.com/tsl0922/ttyd
