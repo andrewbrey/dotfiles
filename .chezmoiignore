@@ -12,4 +12,5 @@ README.md
 {{- end }}
 
 .dots/.extra
+.dots/apps/charm/*/kv
 .dots/apps/cheat/cheatsheets/community
