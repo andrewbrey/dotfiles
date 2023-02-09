@@ -1,7 +1,13 @@
 {
 	"name": "dotfiles",
 	"dockerFile": "Dockerfile",
-	"build": { "args": { "BUILD_PASSPHRASE": "${localEnv:DOTFILES_PASSPHRASE}" } },
+	"build": {
+		"args": {
+			"BUILD_PASSPHRASE": "${localEnv:DOTFILES_PASSPHRASE}",
+			// TODO remove when possible; @see https://github.com/devcontainers/cli/issues/398#issuecomment-1416262701
+			"BUILDKIT_INLINE_CACHE": "0"
+		}
+	},
 	"postCreateCommand": [".devcontainer/post-create.sh"],
 	"customizations": {
 		"vscode": {
