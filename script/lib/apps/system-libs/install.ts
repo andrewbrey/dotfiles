@@ -20,6 +20,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"librsvg2-dev",
 	"libssl-dev",
 	"libwebkit2gtk-4.0-dev",
+	"libwebkit2gtk-4.1-dev",
 	"lsb-release",
 	"nsis",
 	"squashfs-tools",
