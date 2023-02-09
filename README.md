@@ -97,8 +97,8 @@
 - Install tools for https://willbush.netlify.app/blog/fast-ocr-to-clipboard/ as well as
   https://github.com/mchehab/zbar (to allow for
   `flameshot gui --raw | zbarimg --raw - | xclip -in -selection clipboard`)
+- Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Install https://github.com/charmbracelet/vhs
-- Install https://github.com/charmbracelet/charm
 - Install https://github.com/charmbracelet/glow
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
 - Install https://github.com/tsl0922/ttyd
