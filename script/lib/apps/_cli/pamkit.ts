@@ -305,7 +305,7 @@ async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: st
 async function unlinkBinaryFromUserPath(linkedBinaryName: string) {
 	const linkPath = $.path.join($.env.STANDARD_DIRS.LOCAL_BIN, linkedBinaryName);
 
-	const stat = await Deno.stat(linkPath);
+	const stat = await Deno.lstat(linkPath);
 	if (stat.isSymlink) {
 		if ($.env.OS === "darwin") {
 			await $`rm -f ${linkPath}`;
