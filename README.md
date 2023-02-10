@@ -99,4 +99,3 @@
   `flameshot gui --raw | zbarimg --raw - | xclip -in -selection clipboard`)
 - Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
-- Install https://www.lunarvim.org
