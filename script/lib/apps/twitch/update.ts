@@ -14,6 +14,7 @@ if (await $.commandExists(name)) {
 		appName: name,
 		displayName: "Twitch",
 		website: "https://twitch.tv",
+		frame: false,
 	});
 
 	meta.lastCheck = Date.now();

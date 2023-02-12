@@ -12,6 +12,7 @@ if (await $.commandMissing(name)) {
 		appName: name,
 		displayName: "Twitch",
 		website: "https://twitch.tv",
+		frame: false,
 	});
 }
 

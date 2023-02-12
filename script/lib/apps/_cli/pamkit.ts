@@ -340,9 +340,9 @@ async function unlinkDesktopFileForApp(app: string) {
 	}
 }
 
-type NativefierAppArgs = { appName: string; displayName: string; website: string };
+type NativefierAppArgs = { appName: string; displayName: string; website: string; frame?: false };
 async function createAndLinkNativefierApp(
-	{ appName, displayName, website }: NativefierAppArgs,
+	{ appName, displayName, website, frame }: NativefierAppArgs,
 ) {
 	$.requireCommand("node", "pam install -a node");
 	$.requireCommand("npm", "pam install -a node");
@@ -359,6 +359,7 @@ async function createAndLinkNativefierApp(
 	const sourceDir = $.path.join(path, constants.appArtifactsDir, constants.sourceDir);
 	const iconPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".icon.png");
 	const desktopPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, appName, ".desktop");
+	const hideFrame = frame === false;
 
 	await $.requireExists(iconPath);
 	await $.requireExists(desktopPath);
@@ -366,7 +367,7 @@ async function createAndLinkNativefierApp(
 	await $.fs.ensureDir(sourceDir);
 	await $.fs.emptyDir(sourceDir);
 
-	await $`npx --yes nativefier@latest --name="${appName}" --icon="${iconPath}" --file-download-options='{"openFolderWhenDone": true}' ${website} ${sourceDir}`;
+	await $`npx --yes nativefier@latest --name="${appName}" --icon="${iconPath}" --file-download-options='{"openFolderWhenDone": true}' --hide-window-frame=${hideFrame} ${website} ${sourceDir}`;
 
 	let builtAppDir = "";
 	for await (const dir of Deno.readDir(sourceDir)) {
