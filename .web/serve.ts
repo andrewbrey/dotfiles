@@ -37,9 +37,15 @@ serve(async (req) => {
 
 				invariant(typeof ip === "string" && ip.length > 0, "missing required apex ip");
 
+				const thirtyMin = 30 * 60;
+
 				return new Response(ip, {
 					status: 200,
-					headers: { "content-type": "text/plain;charset=UTF-8" },
+					headers: {
+						"content-type": "text/plain;charset=UTF-8",
+						"cache-control":
+							`max-age=${thirtyMin}, must-revalidate, s-maxage=${thirtyMin}, proxy-revalidate`,
+					},
 				});
 			} catch (error) {
 				return new Response(error instanceof Error ? error.message : "unauthorized", {
