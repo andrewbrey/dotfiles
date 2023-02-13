@@ -1,7 +1,5 @@
 import { $, invariant, type Logger } from "../mod.ts";
 
-type CFDNSRecord = { name: string; type: string; content: string };
-
 export async function etcHosts(logger: Logger, artifactsPath: string) {
 	const marker = $.path.join(artifactsPath, ".hosts");
 
@@ -33,15 +31,11 @@ export async function etcHosts(logger: Logger, artifactsPath: string) {
 		} else {
 			logger.info("setting etcHosts for away-from-home dns");
 
-			const zoneId = $.requireEnv("SECRET_CF_BREY_FAMILY_ZONE_ID");
-			const apiToken = $.requireEnv("SECRET_CF_BREY_FAMILY_DNS_READ_TOKEN");
-
-			const { result: dnsRecords } = await $.request(
-				`https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records`,
-			).header({ "Authorization": `Bearer ${apiToken}` }).json<{ result: CFDNSRecord[] }>();
+			const password = $.requireEnv("SECRET_HOMELAB_HOSTS_API_PASSWORD");
 
 			try {
-				const ip = dnsRecords.find((r) => r.name === "brey.family" && r.type === "A")?.content;
+				const ip = await $.request("https://dotfiles.andrewbrey.com/homelab-hosts")
+					.header({ "x-homelab-hosts-api-password": password }).text();
 
 				invariant(typeof ip === "string" && ip.length > 0, "missing required apex ip");
 
