@@ -159,19 +159,36 @@ type ChezmoiData = {
 async function getChezmoiData() {
 	const chezmoiYaml = basic$.path.join(env.HOME, ".config", "chezmoi", "chezmoi.yaml");
 
-	invariant(await basic$.exists(chezmoiYaml), "unable to read chezmoi data before it is created");
+	invariant(await exists(chezmoiYaml), "unable to read chezmoi data before it is created");
 
 	return await $`chezmoi data`.printCommand(false).json() as ChezmoiData;
 }
 
+/**
+ * Gets if the provided path exists asynchronously.
+ *
+ * Although there is a potential for a race condition between the
+ * time this check is made and the time some code is used, it may
+ * not be a big deal to use this in some scenarios and simplify
+ * the code a lot.
+ */
+async function exists(path: string) {
+	return basic$.fs.exists(path);
+}
+
+/** Gets if the provided path exists synchronously. */
+function existsSync(path: string) {
+	return basic$.fs.existsSync(path);
+}
+
 /** Gets if the provided path does not exist asynchronously */
 async function missing(path: string) {
-	return basic$.exists(path).then((exists) => !exists);
+	return exists(path).then((exists) => !exists);
 }
 
 /** Gets if the provided path does not exist synchronously. */
 function missingSync(path: string) {
-	return !basic$.existsSync(path);
+	return !existsSync(path);
 }
 
 /**
@@ -185,7 +202,7 @@ async function requireExists(path: string) {
 
 	const message = `nothing exists at ${cliffyAnsi.colors.blue(path)} but it is required`;
 
-	invariant(await basic$.exists(absolutePath), message);
+	invariant(await exists(absolutePath), message);
 
 	return absolutePath;
 }
@@ -418,6 +435,8 @@ const $helpers = {
 	env,
 	envExists,
 	envMissing,
+	exists,
+	existsSync,
 	getChezmoiData,
 	ghReleaseInfo,
 	handlebars,
