@@ -173,12 +173,12 @@ async function getChezmoiData() {
  * the code a lot.
  */
 async function exists(path: string) {
-	return basic$.fs.exists(path);
+	return basic$.path(path).exists();
 }
 
 /** Gets if the provided path exists synchronously. */
 function existsSync(path: string) {
-	return basic$.fs.existsSync(path);
+	return basic$.path(path).existsSync();
 }
 
 /** Gets if the provided path does not exist asynchronously */
