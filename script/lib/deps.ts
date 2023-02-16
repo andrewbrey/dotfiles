@@ -19,7 +19,7 @@ export * as stdSemver from "https://deno.land/std@0.177.0/semver/mod.ts";
 export * as cliffyAnsi from "https://deno.land/x/cliffy@v0.25.7/ansi/mod.ts";
 export * as cliffyCmd from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.7/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.26.0/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.27.0/mod.ts";
 export * as puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@2.29.3";
