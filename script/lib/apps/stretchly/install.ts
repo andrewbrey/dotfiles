@@ -30,6 +30,12 @@ await $.onLinux(async () => {
 		await $.streamDownload(targetAsset.browser_download_url, debInstallerPath);
 
 		await $`sudo apt install -y ${debInstallerPath}`;
+
+		// setup to launch at login
+		// @see https://askubuntu.com/questions/48321/how-do-i-start-applications-automatically-on-login
+		const desktopFile = "/usr/share/applications/stretchly.desktop";
+		const autoLaunchFile = $.path.join($.env.HOME, ".config", "autostart", "stretchly.desktop");
+		await $`ln -sf ${desktopFile} ${autoLaunchFile}`;
 	}
 });
 
