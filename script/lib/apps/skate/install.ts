@@ -19,7 +19,7 @@ if (await $.commandMissing("skate")) {
 
 	const targetName = $.env.OS === "darwin"
 		? `skate_${latestVersion}_Darwin_arm64.tar.gz`
-		: `skate_${latestVersion}_linux_x86_64.tar.gz`;
+		: `skate_${latestVersion}_Linux_x86_64.tar.gz`;
 
 	const targetAsset = assets.find((a) => a.name === targetName);
 
