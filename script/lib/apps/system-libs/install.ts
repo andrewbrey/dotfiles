@@ -23,6 +23,8 @@ const list = $.env.OS === "darwin" ? [] : [
 	"libwebkit2gtk-4.1-dev",
 	"lsb-release",
 	"nsis",
+	"qemu-system",
+	"qemu-utils",
 	"squashfs-tools",
 	"xdg-desktop-portal-gnome",
 ];
