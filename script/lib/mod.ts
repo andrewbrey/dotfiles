@@ -10,7 +10,6 @@ import {
 	stdIntersect,
 	stdLog,
 	stdNodeFS,
-	stdNodeOS,
 	stdNodeUtil,
 	stdSemver,
 	strCase,
@@ -85,7 +84,7 @@ const env = {
 	get IN_CONTAINER() {
 		return env.CODESPACES || env.GITPOD || env.REMOTE_CONTAINERS;
 	},
-	OS: stdNodeOS.platform() as "darwin" | "linux" | "win32",
+	OS: Deno.build.os,
 	USER: Deno.env.get("USER") ?? "",
 	HOME: Deno.env.get("HOME") ?? "",
 	STDIN_IS_TTY: Deno.isatty(Deno.stdin.rid),
