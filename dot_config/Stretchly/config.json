@@ -7,7 +7,7 @@
 	"microbreakNotification": false,
 	"breakNotificationInterval": 30000,
 	"microbreakNotificationInterval": 10000,
-	"microbreak": true,
+	"microbreak": false,
 	"break": true,
 	"microbreakStrictMode": false,
 	"breakStrictMode": false,
