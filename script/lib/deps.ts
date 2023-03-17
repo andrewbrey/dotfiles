@@ -5,18 +5,18 @@
  *
  * deno run --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts script/lib/deps.ts .web/serve.ts
  */
-export { intersect as stdIntersect } from "https://deno.land/std@0.178.0/collections/intersect.ts";
-export * as stdLog from "https://deno.land/std@0.178.0/log/mod.ts";
+export { intersect as stdIntersect } from "https://deno.land/std@0.180.0/collections/intersect.ts";
+export * as stdLog from "https://deno.land/std@0.180.0/log/mod.ts";
 export type {
 	FormatterFunction,
 	Logger,
 	LogRecord,
-} from "https://deno.land/std@0.178.0/log/mod.ts";
-export * as stdSemver from "https://deno.land/std@0.178.0/semver/mod.ts";
+} from "https://deno.land/std@0.180.0/log/mod.ts";
+export * as stdSemver from "https://deno.land/std@0.180.0/semver/mod.ts";
 export * as cliffyAnsi from "https://deno.land/x/cliffy@v0.25.7/ansi/mod.ts";
 export * as cliffyCmd from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v0.25.7/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.28.0/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.30.1/mod.ts";
 export * as puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export * as stdNodeFS from "node:fs";
 export * as stdNodeUtil from "node:util";

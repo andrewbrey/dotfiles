@@ -5,7 +5,7 @@ import { etcHosts } from "./dns.ts";
 import { keyFetchRequest } from "./keys.ts";
 import { autoTZ } from "./tz.ts";
 
-if ($.env.OS === "win32") Deno.exit(0);
+if ($.env.OS === "windows") Deno.exit(0);
 if ($.env.IN_CONTAINER) Deno.exit(0);
 
 const artifactsPath = $.path.join("/", "tmp", "dotsboot");
