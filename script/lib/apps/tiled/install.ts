@@ -24,7 +24,7 @@ await $.onLinux(async () => {
 
 		const { assets, tag_name } = releaseInfo;
 		const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
-		const targetName = `Tiled-${latestVersion}_Linux_x86_64.AppImage`;
+		const targetName = `Tiled-${latestVersion}_Linux_Qt-6_x86_64.AppImage`;
 		const targetAsset = assets.find((a) => a.name === targetName);
 
 		invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
