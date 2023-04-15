@@ -19,7 +19,7 @@ if (await $.commandMissing("lvim")) {
 	const nvimVersion =
 		(await $`nvim --version`.lines()).at(0)?.split(" ")?.at(1)?.split("v")?.at(1) ?? "";
 
-	invariant($.semver.satisfies(nvimVersion, "0.8.x"), "now you fucked up");
+	invariant($.semver.satisfies(nvimVersion, "0.9.x"), "that nvim version doesn't work");
 
 	const installSource =
 		"https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh";
