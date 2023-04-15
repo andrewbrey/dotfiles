@@ -32,7 +32,7 @@ await $.onLinux(async () => {
 
 		const { assets, tag_name } = releaseInfo;
 		const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
-		const targetName = `gum_${latestVersion}_linux_amd64.deb`;
+		const targetName = `gum_${latestVersion}_amd64.deb`;
 		const targetAsset = assets.find((a) => a.name === targetName);
 
 		invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
