@@ -21,9 +21,11 @@
 	"breakPostponesLimit": 1,
 	"breakPostponableDurationPercent": 30,
 	"mainColor": "#633738",
+	"miniBreakColor": "#478484",
 	"transparentMode": true,
 	"opacity": 0.9,
 	"audio": "tic-toc",
+	"miniBreakAudio": "crystal-glass",
 	"volume": 1,
 	"fullscreen": true,
 	"ideas": true,
@@ -451,7 +453,7 @@
 	"currentTimeInBreaks": false,
 	"__internal__": {
 		"migrations": {
-			"version": "1.13.1"
+			"version": "1.14.0"
 		}
 	}
 }
