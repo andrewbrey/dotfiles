@@ -3,14 +3,14 @@
 import { $ } from "../../mod.ts";
 import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
+await $.requireCommand("flatpak", "pam install -a flatpak");
+
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
 await $.onLinux(async () => {
-	if (await $.commandMissing("emote")) {
-		await $.requireCommand("snap", "pam install -a snapd");
-
-		await $`sudo snap install emote`;
+	if (await pamkit.flatpakAppMissing("Emote")) {
+		await $`flatpak install -y com.tomjwatson.Emote`;
 	}
 });
 
