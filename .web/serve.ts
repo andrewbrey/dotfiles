@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.193.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
 type CFDNSRecord = { name: string; type: string; content: string };
 
