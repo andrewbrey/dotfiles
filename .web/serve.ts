@@ -1,8 +1,6 @@
-import { serve } from "https://deno.land/std@0.195.0/http/server.ts";
-
 type CFDNSRecord = { name: string; type: string; content: string };
 
-serve(async (req) => {
+Deno.serve(async (req) => {
 	const url = new URL(req.url);
 
 	switch (url.pathname) {
