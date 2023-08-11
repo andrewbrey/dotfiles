@@ -351,7 +351,7 @@ function use_aws() {
 function aws_wrapper() {
 	[ -d "~/.aws" ] && echo 'unexpected aws config directory found' && return 1
 
-	local version=2.9.12
+	local version=2.13.9
 	local configDir="{{ .standard_dirs.dot_dots_apps  }}/awscli/.aws"
 
 	case ${@:1} in
