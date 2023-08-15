@@ -13,7 +13,9 @@ await $.onMac(async () => {
 
 await $.onLinux(async () => {
 	if (await $.commandExists("slack")) {
-		await $`sudo apt purge -y slack-dekstop`;
+		await $.requireCommand("snap", "pam install -a snapd");
+
+		await $`sudo snap remove slack`;
 	}
 });
 

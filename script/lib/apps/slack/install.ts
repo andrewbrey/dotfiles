@@ -14,26 +14,9 @@ await $.onMac(async () => {
 
 await $.onLinux(async () => {
 	if (await $.commandMissing("slack")) {
-		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.htmlReleaseInfoName);
-		const debInstallerPath = $.path.join(dotAppPath, "slack.deb");
+		await $.requireCommand("snap", "pam install -a snapd");
 
-		await $.streamDownload("https://slack.com/downloads/linux", releaseInfoPath);
-		const latestReleasePageText = await Deno.readTextFile(releaseInfoPath);
-		const latestVersionLine = latestReleasePageText.match(/>Version \d+\.\d+\.\d+</); // >Version 4.29.149<
-		const latestVersion = latestVersionLine?.at(0)?.match(/Version \d+\.\d+\.\d+/i)?.at(0)
-			?.split(" ")?.at(1); // 4.29.149
-
-		invariant(
-			typeof latestVersion === "string" && latestVersion.length > 0,
-			"invalid latest version",
-		);
-
-		const targetAsset =
-			`https://downloads.slack-edge.com/releases/linux/${latestVersion}/prod/x64/slack-desktop-${latestVersion}-amd64.deb`;
-
-		await $.streamDownload(targetAsset, debInstallerPath);
-
-		await $`sudo apt install -y ${debInstallerPath}`;
+		await $`sudo snap install slack`;
 	}
 });
 
