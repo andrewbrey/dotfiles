@@ -5,7 +5,7 @@ const extractProfiles = (text: string) =>
 	Array.from(
 		new Set(
 			text.split(/\r?\n/g)
-				.filter((l) => l.match(/\[\w+\]/))
+				.filter((l) => l.match(/\[[\w-_\.]+\]/))
 				.filter((l) => !l.includes("default"))
 				.map((l) => l.replaceAll("[", "").replaceAll("]", ""))
 				.map((l) => l.trim()).filter(Boolean),
