@@ -33,6 +33,7 @@ await $.onLinux(async () => {
 
 		await pamkit.linkBinaryToUserPath(binPath, "obsidian");
 		await pamkit.linkDesktopFileForApp("obsidian");
+		await pamkit.setAppLaunchAtLogin("obsidian");
 
 		version = latestVersion;
 	}

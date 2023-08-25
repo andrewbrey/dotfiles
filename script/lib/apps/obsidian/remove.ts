@@ -15,6 +15,7 @@ await $.onLinux(async () => {
 	if (await $.commandExists("obsidian")) {
 		await pamkit.unlinkDesktopFileForApp("obsidian");
 		await pamkit.unlinkBinaryFromUserPath("obsidian");
+		await pamkit.removeAppLaunchAtLogin("obsidian");
 	}
 });
 

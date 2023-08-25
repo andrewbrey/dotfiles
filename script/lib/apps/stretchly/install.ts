@@ -31,11 +31,7 @@ await $.onLinux(async () => {
 
 		await $`sudo apt install -y ${debInstallerPath}`;
 
-		// setup to launch at login
-		// @see https://askubuntu.com/questions/48321/how-do-i-start-applications-automatically-on-login
-		const desktopFile = "/usr/share/applications/stretchly.desktop";
-		const autoLaunchFile = $.path.join($.env.HOME, ".config", "autostart", "stretchly.desktop");
-		await $`ln -sf ${desktopFile} ${autoLaunchFile}`;
+		await pamkit.setAppLaunchAtLogin("obsidian", "/usr/share/applications/stretchly.desktop");
 	}
 });
 

@@ -15,8 +15,7 @@ await $.onLinux(async () => {
 	if (await $.commandExists("stretchly")) {
 		await $`sudo apt purge -y stretchly`;
 
-		const autoLaunchFile = $.path.join($.env.HOME, ".config", "autostart", "stretchly.desktop");
-		await $`rm -f ${autoLaunchFile}`;
+		await pamkit.setAppLaunchAtLogin("stretchly");
 	}
 });
 

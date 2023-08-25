@@ -340,6 +340,31 @@ async function unlinkDesktopFileForApp(app: string) {
 	}
 }
 
+/**
+ * setup to launch app at login
+ *
+ * @see https://askubuntu.com/questions/48321/how-do-i-start-applications-automatically-on-login
+ */
+async function setAppLaunchAtLogin(app: string, desktopFileOverride?: string) {
+	if ($.env.OS === "linux") {
+		const desktopFile = desktopFileOverride ??
+			$.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
+		const autoLaunchFile = $.path.join($.env.HOME, ".config", "autostart", `${app}.desktop`);
+
+		invariant($.existsSync(desktopFile), `missing required .desktop file at ${desktopFile}`);
+
+		await $`ln -sf ${desktopFile} ${autoLaunchFile}`;
+	}
+}
+
+async function removeAppLaunchAtLogin(app: string) {
+	if ($.env.OS === "linux") {
+		const autoLaunchFile = $.path.join($.env.HOME, ".config", "autostart", `${app}.desktop`);
+
+		await $`rm -f ${autoLaunchFile}`;
+	}
+}
+
 type NativefierAppArgs = { appName: string; displayName: string; website: string; frame?: false };
 async function createAndLinkNativefierApp(
 	{ appName, displayName, website, frame }: NativefierAppArgs,
@@ -480,6 +505,8 @@ export const pamkit = {
 	linkBinaryToUserPath,
 	linkDesktopFileForApp,
 	mostRelevantVersion,
+	removeAppLaunchAtLogin,
+	setAppLaunchAtLogin,
 	unlinkBinaryFromUserPath,
 	unlinkDesktopFileForApp,
 	unlinkNativefierApp,
