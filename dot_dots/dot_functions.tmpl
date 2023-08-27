@@ -390,3 +390,20 @@ function glasscode() {
 		xprop -id $W -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY $(printf 0x%x $((0xffffffff * $opacity / 100)))
 	done
 }
+
+# "before window recording", choose a window, move it to the top left of the screen, and make it 1920x1080
+function prewinrec() {
+	command -v wmctrl >/dev/null 2>&1 || {
+		echo 'wmctrl is required, install it with `pam install peer-tools`'
+		return 1
+	}
+
+	command -v gum >/dev/null 2>&1 || {
+		echo 'gum is required, install it with `pam install gum`'
+		return 1
+	}
+
+	local target=$(wmctrl -l | gum choose | cut -d' ' -f5-)
+
+	wmctrl -r "${target}" -e 0,0,0,1920,1080
+}
