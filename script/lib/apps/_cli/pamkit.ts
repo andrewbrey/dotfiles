@@ -230,8 +230,16 @@ async function mostRelevantVersion(resourcesDir: string) {
 }
 
 function isNewerVersion(latest: string = "", current: string = "") {
-	const latestSem = $.semver.valid(latest);
-	const currentSem = $.semver.valid(current);
+	// TODO: as of this moment, the `tryParse` method is not exported on the deno std semver module,
+	// and that does basically this try-catch dance. Check back later to see if this can be replaced.
+	let latestSem = null;
+	let currentSem = null;
+	try {
+		latestSem = $.semver.parse(latest);
+		currentSem = $.semver.parse(current);
+	} catch (error) {
+		// ignored
+	}
 
 	invariant(latestSem !== null, "missing required latest version");
 	invariant(currentSem !== null, "missing required current version");
