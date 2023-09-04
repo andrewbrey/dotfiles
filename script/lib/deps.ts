@@ -5,14 +5,14 @@
  *
  * deno run --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts script/lib/deps.ts .web/serve.ts
  */
-export { intersect as stdIntersect } from "https://deno.land/std@0.200.0/collections/intersect.ts";
-export * as stdLog from "https://deno.land/std@0.200.0/log/mod.ts";
+export { intersect as stdIntersect } from "https://deno.land/std@0.201.0/collections/intersect.ts";
+export * as stdLog from "https://deno.land/std@0.201.0/log/mod.ts";
 export type {
 	FormatterFunction,
 	Logger,
 	LogRecord,
-} from "https://deno.land/std@0.200.0/log/mod.ts";
-export * as stdSemver from "https://deno.land/std@0.200.0/semver/mod.ts";
+} from "https://deno.land/std@0.201.0/log/mod.ts";
+export * as stdSemver from "https://deno.land/std@0.201.0/semver/mod.ts";
 export * as cliffyAnsi from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/mod.ts";
 export * as cliffyCmd from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v1.0.0-rc.3/table/mod.ts";
