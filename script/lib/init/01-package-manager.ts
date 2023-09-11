@@ -48,7 +48,7 @@ switch ($.env.OS) {
 			await Deno.writeTextFile(installScript, await $.request(brewInstallSource).text());
 			await Deno.chmod(installScript, 0o744);
 
-			await $`bash ${installScript}`.env({ NONINTERACTIVE: "1" });
+			await $`bash ${installScript}`.env({ NONINTERACTIVE: "0" });
 
 			$.logGroupEnd();
 		}
