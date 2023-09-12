@@ -7,10 +7,12 @@ import {
 	dax,
 	handlebars,
 	puppeteer,
+	stdFS,
 	stdIntersect,
 	stdLog,
 	stdNodeFS,
 	stdNodeUtil,
+	stdPath,
 	stdSemver,
 	strCase,
 	UserAgent,
@@ -60,9 +62,9 @@ basic$.setPrintCommand(true);
  * If `basenameOnly` is set to `true`, only returns the final segment of the path
  */
 function $dirname(importMetaUrl: string, basenameOnly = false) {
-	const fullDir = basic$.path.dirname(basic$.path.fromFileUrl(importMetaUrl));
+	const fullDir = stdPath.dirname(stdPath.fromFileUrl(importMetaUrl));
 
-	return basenameOnly ? basic$.path.basename(fullDir) : fullDir;
+	return basenameOnly ? stdPath.basename(fullDir) : fullDir;
 }
 
 /** Gets the absolute path of the directory up `count` from the passed `import.meta.url` */
@@ -70,7 +72,7 @@ function $dotdot(importMetaUrl: string, count = 1) {
 	invariant(count > 0, "dotdot count must be at least 1");
 
 	const dots = new Array(count).fill("").map((i) => "..");
-	return basic$.path.resolve($dirname(importMetaUrl), ...dots);
+	return stdPath.resolve($dirname(importMetaUrl), ...dots);
 }
 
 /** Collection of environment specific values detailing the context for execution */
@@ -92,14 +94,14 @@ const env = {
 	GH_TOKEN: Deno.env.get("GH_TOKEN") ?? Deno.env.get("GITHUB_TOKEN"),
 	get STANDARD_DIRS() {
 		return {
-			CODE: basic$.path.join(env.HOME, "code"),
-			NPM_INSTALL: basic$.path.join(env.HOME, ".npm-globals"),
-			PNPM_INSTALL: basic$.path.join(env.HOME, ".pnpm-globals"),
-			DOT_DOTS: basic$.path.join(env.HOME, ".dots"),
-			DOT_DOTS_APPS: basic$.path.join(env.HOME, ".dots", "apps"),
-			DOT_DOTS_SETTINGS: basic$.path.join(env.HOME, ".dots", "settings"),
-			LOCAL_BIN: basic$.path.join(env.HOME, ".local", "bin"),
-			LOCAL_SHARE_APPS: basic$.path.join(env.HOME, ".local", "share", "applications"),
+			CODE: stdPath.join(env.HOME, "code"),
+			NPM_INSTALL: stdPath.join(env.HOME, ".npm-globals"),
+			PNPM_INSTALL: stdPath.join(env.HOME, ".pnpm-globals"),
+			DOT_DOTS: stdPath.join(env.HOME, ".dots"),
+			DOT_DOTS_APPS: stdPath.join(env.HOME, ".dots", "apps"),
+			DOT_DOTS_SETTINGS: stdPath.join(env.HOME, ".dots", "settings"),
+			LOCAL_BIN: stdPath.join(env.HOME, ".local", "bin"),
+			LOCAL_SHARE_APPS: stdPath.join(env.HOME, ".local", "share", "applications"),
 		};
 	},
 	get DOTS_CLONE_IS_SSH() {
@@ -156,7 +158,7 @@ type ChezmoiData = {
 
 /** Returns the JSON data output from running `chezmoi data` */
 async function getChezmoiData() {
-	const chezmoiYaml = basic$.path.join(env.HOME, ".config", "chezmoi", "chezmoi.yaml");
+	const chezmoiYaml = stdPath.join(env.HOME, ".config", "chezmoi", "chezmoi.yaml");
 
 	invariant(await exists(chezmoiYaml), "unable to read chezmoi data before it is created");
 
@@ -195,9 +197,9 @@ function missingSync(path: string) {
  * if it exists; relative paths are resolved against `Deno.cwd()`
  */
 async function requireExists(path: string) {
-	const absolutePath = basic$.path.isAbsolute(path)
+	const absolutePath = stdPath.isAbsolute(path)
 		? path
-		: basic$.path.resolve($.path.join(Deno.cwd(), path));
+		: stdPath.resolve(stdPath.join(Deno.cwd(), path));
 
 	const message = `nothing exists at ${cliffyAnsi.colors.blue(path)} but it is required`;
 
@@ -294,11 +296,9 @@ async function streamDownload(url: string, dest: string) {
 	const request = basic$.request(url);
 	if (isGitHub && env.GH_TOKEN) request.header({ Authorization: `token ${env.GH_TOKEN}` });
 
-	const toPath = basic$.path.isAbsolute(dest)
-		? dest
-		: basic$.path.resolve($.path.join(Deno.cwd(), dest));
+	const toPath = stdPath.isAbsolute(dest) ? dest : stdPath.resolve(stdPath.join(Deno.cwd(), dest));
 
-	await basic$.fs.ensureDir($.path.dirname(toPath));
+	await stdFS.ensureDir(stdPath.dirname(toPath));
 	await request.showProgress().pipeToPath(toPath);
 
 	basic$.logStep("done:", `download saved to ${toPath}`);
@@ -436,6 +436,7 @@ const $helpers = {
 	envMissing,
 	exists,
 	existsSync,
+	fs: stdFS,
 	getChezmoiData,
 	ghReleaseInfo,
 	handlebars,
@@ -448,6 +449,7 @@ const $helpers = {
 	ntfyAlert,
 	onLinux: async <T>(fn: RunOnOSFn<T>) => onOS("linux", fn),
 	onMac: async <T>(fn: RunOnOSFn<T>) => onOS("darwin", fn),
+	path: stdPath,
 	requireCommand,
 	requireEnv,
 	requireExists,
