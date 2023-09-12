@@ -449,7 +449,7 @@ const $helpers = {
 	ntfyAlert,
 	onLinux: async <T>(fn: RunOnOSFn<T>) => onOS("linux", fn),
 	onMac: async <T>(fn: RunOnOSFn<T>) => onOS("darwin", fn),
-	path: stdPath,
+	path: Object.assign(basic$.path, stdPath) as typeof basic$.path & typeof stdPath,
 	requireCommand,
 	requireEnv,
 	requireExists,
