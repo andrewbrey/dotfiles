@@ -9,6 +9,7 @@ const dotResPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 const nodeVersion = await pamkit.mostRelevantVersion(dotResPath);
 if (await $.commandExists("node")) {
 	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+		await $`brew unlink node@${nodeVersion}`;
 		await $`brew uninstall node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 	} else {
 		// @see https://github.com/nodesource/distributions/blob/master/README.md#debuninstall

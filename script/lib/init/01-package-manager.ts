@@ -53,7 +53,7 @@ switch ($.env.OS) {
 			$.logGroupEnd();
 		}
 
-		await $`brew update && brew upgrade && brew cleanup`;
+		await $`/opt/homebrew/bin/brew update && /opt/homebrew/bin/brew upgrade && /opt/homebrew/bin/brew cleanup`;
 		break;
 	default:
 		Deno.exit(1);

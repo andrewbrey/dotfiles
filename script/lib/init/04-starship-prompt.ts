@@ -23,6 +23,7 @@ if (await $.commandMissing("starship")) {
 	await Deno.writeTextFile(installScript, await $.request(starshipInstallSource).text());
 	await Deno.chmod(installScript, 0o744);
 
+	await $`sudo mkdir -p /usr/local/bin`;
 	await $`sh ${installScript} --yes`;
 
 	$.logGroupEnd();

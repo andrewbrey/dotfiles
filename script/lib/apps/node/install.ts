@@ -11,6 +11,7 @@ const nodeVersion = await pamkit.mostRelevantVersion(dotResPath);
 if (await $.commandMissing("node")) {
 	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 		await $`brew install node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
+		await $`brew link node@${nodeVersion}`;
 	} else {
 		const installScriptPath = $.path.join(dotAppPath, "node.sh");
 
