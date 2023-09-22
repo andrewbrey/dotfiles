@@ -9,7 +9,8 @@ if (await $.commandExists("nvim")) {
 	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 		await $`brew uninstall neovim`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 	} else {
-		await $`sudo apt purge -y neovim`;
+		await pamkit.unlinkDesktopFileForApp("neovim");
+		await pamkit.unlinkBinaryFromUserPath("nvim");
 	}
 }
 
