@@ -101,3 +101,6 @@
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
 - Install https://flathub.org/apps/com.github.tchx84.Flatseal
+- Install `lazy*` cli tools:
+  - https://github.com/jesseduffield/lazygit
+  - https://github.com/jesseduffield/lazydocker
