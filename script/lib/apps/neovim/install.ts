@@ -25,7 +25,7 @@ if (await $.commandMissing("nvim")) {
 		await $.streamDownload(targetAsset.browser_download_url, binPath);
 
 		await pamkit.linkBinaryToUserPath(binPath, "nvim");
-		await pamkit.linkDesktopFileForApp("nvim");
+		await pamkit.linkDesktopFileForApp("neovim");
 	}
 }
 
