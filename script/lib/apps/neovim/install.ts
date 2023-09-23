@@ -6,6 +6,15 @@ import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
 await $.fs.ensureDir(dotAppPath);
 
+await $.requireCommand("python", "pam install -a python");
+await $.requireCommand("pip", "pam install -a python");
+await $.requireCommand("node", "pam install -a node");
+await $.requireCommand("npm", "pam install -a node");
+await $.requireCommand("cargo", "pam install -a rust");
+await $.requireCommand("rg", "pam install -a ripgrep");
+await $.requireCommand("fd", "pam install -a fd");
+await $.requireCommand("lazygit", "pam install -a lazygit");
+
 if (await $.commandMissing("nvim")) {
 	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 		await $`brew install neovim`.env({ HOMEBREW_NO_ANALYTICS: "1" });

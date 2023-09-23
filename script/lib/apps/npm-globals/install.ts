@@ -19,12 +19,14 @@ const npmGlobals = new Set([
 	"cz-conventional-changelog",
 	"file-path-bookmarks",
 	"http-server",
+	"neovim",
 	"np",
 	"npkill",
 	"npm-check-updates",
 	"pnpm",
 	"prettier",
 	"rimraf",
+	"tree-sitter-cli",
 	"yarn@1",
 ]);
 
