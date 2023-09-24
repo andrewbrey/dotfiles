@@ -10,7 +10,7 @@ await $.fs.ensureDir(dotAppPath);
 
 await $.onLinux(async () => {
 	if (await pamkit.flatpakAppMissing("Cozy")) {
-		await $`flatpak install -y com.github.geigi.cozy`;
+		await $`flatpak install -y --user com.github.geigi.cozy`;
 	}
 });
 
