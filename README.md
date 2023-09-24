@@ -90,7 +90,6 @@
   - In general, just need to document the "on boot" shell start background tasks
 - Make `init` scripts idempotent so that if needed, the `bootstrap` script can be re-run on an
   already-configured system
-- Install https://www.caffeine-app.net/ on mac
 - Address `TODO: refactor to os helpers` comments by using `$.onMac` and `$.onLinux` helpers
 - Convert all apps to pull `InstallerMeta` at the top of the file instead at the end
 - Refactor so install logic can be shared by update logic if they are the same process
