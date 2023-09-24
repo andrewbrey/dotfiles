@@ -93,6 +93,22 @@
 - Refactor so install logic can be shared by update logic if they are the same process
 - Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
+- Address `nodesource` install script deprecation warning:
+  ```
+  SCRIPT DEPRECATION WARNING                    
+
+  This script, located at https://deb.nodesource.com/setup_X, used to
+  install Node.js is deprecated now and will eventually be made inactive.
+
+  Please visit the NodeSource distributions Github and follow the
+  instructions to migrate your repo.
+  https://github.com/nodesource/distributions
+
+  The NodeSource Node.js Linux distributions GitHub repository contains
+  information about which versions of Node.js and which Linux distributions
+  are supported and how to install it.
+  https://github.com/nodesource/distributions
+  ```
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
   config files and secrets in one command. Might be able to just use `chezmoi purge`
   (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:

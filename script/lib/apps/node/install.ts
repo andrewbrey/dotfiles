@@ -15,6 +15,7 @@ if (await $.commandMissing("node")) {
 	} else {
 		const installScriptPath = $.path.join(dotAppPath, "node.sh");
 
+		// TODO: the nodesource install script is deprecated (see README), need a different install method
 		await $.streamDownload(`https://deb.nodesource.com/setup_${nodeVersion}.x`, installScriptPath);
 		await $`sudo bash -E ${installScriptPath}`;
 		await $`sudo apt install -y nodejs`;
