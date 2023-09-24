@@ -94,4 +94,12 @@
 - Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
-  config files and secrets in one command
+  config files and secrets in one command. Might be able to just use `chezmoi purge`
+  (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:
+  - `~/.local/share/chezmoi`
+  - `~/.config/chezmoi`
+  - `~/.dots`
+  - `~/dotfiles` (_might not be present, depending on install steps followed_)
+  - `~/.ssh` (_confirmation prompt, also notify that ssh keys should be_ _untrusted in GitHub_)
+  - `~/.zshrc`
+  - `~/.gitconfig`
