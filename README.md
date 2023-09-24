@@ -76,9 +76,7 @@
   Could do something like `decrypt in source -> pipe to tmp -> make edits -> encrypt back to source`
   but that is probably not worth it when you can just make edits in an environmtn where it's not
   ignored (i.e. not in a devcontainer)
-- Put config files in correct spots for mac as well as linux
 - Fix `yarn-error.log` caused by env vars
-- Need `chezmoi` and `deno` app management entries? What about updaters?
 - Document option to use:
   ```sh
   sh -c "$(curl -sSLf https://dotfiles.andrewbrey.com)"
