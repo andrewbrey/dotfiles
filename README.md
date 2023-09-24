@@ -93,9 +93,6 @@
 - Address `TODO: refactor to os helpers` comments by using `$.onMac` and `$.onLinux` helpers
 - Convert all apps to pull `InstallerMeta` at the top of the file instead at the end
 - Refactor so install logic can be shared by update logic if they are the same process
-- Install tools for https://willbush.netlify.app/blog/fast-ocr-to-clipboard/ as well as
-  https://github.com/mchehab/zbar (to allow for
-  `flameshot gui --raw | zbarimg --raw - | xclip -in -selection clipboard`)
 - Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Install https://flathub.org/apps/details/com.github.geigi.cozy
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
