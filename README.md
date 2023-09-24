@@ -95,7 +95,7 @@
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
 - Address `nodesource` install script deprecation warning:
   ```
-  SCRIPT DEPRECATION WARNING                    
+  SCRIPT DEPRECATION WARNING
 
   This script, located at https://deb.nodesource.com/setup_X, used to
   install Node.js is deprecated now and will eventually be made inactive.
