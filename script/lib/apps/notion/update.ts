@@ -28,7 +28,6 @@ await $.onLinux(async () => {
 			appName: "notion",
 			displayName: "Notion",
 			website: "https://notion.so",
-			frame: false,
 		});
 
 		meta.lastCheck = Date.now();

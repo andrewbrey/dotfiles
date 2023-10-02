@@ -18,7 +18,6 @@ await $.onLinux(async () => {
 			appName: "notion",
 			displayName: "Notion",
 			website: "https://notion.so",
-			frame: false,
 		});
 	}
 });
