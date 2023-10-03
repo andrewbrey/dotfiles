@@ -1,0 +1,26 @@
+#!/usr/bin/zsh
+#
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Dotfiles
+# @raycast.mode silent
+
+# Optional parameters:
+# @raycast.icon 💻️
+# @raycast.packageName ScriptCommands
+# @raycast.needsConfirmation false
+
+# Documentation:
+# @raycast.description Open dotfiles in VS Code
+# @raycast.author andrewbrey
+# @raycast.authorURL https://github.com/andrewbrey
+
+# Notes:
+# - shebang can't use /usr/bin/env, it must directly reference the shell binary
+# - file permissions mask is very particular, just copy this file to make new Raycast scripts
+# - @see https://github.com/raycast/script-commands
+if command -v direnv >/dev/null 2>&1; then
+	direnv exec {{ .chezmoi.sourceDir | quote }} code {{ .chezmoi.sourceDir | quote }} &
+else
+	code {{ .chezmoi.sourceDir | quote }} &
+fi
