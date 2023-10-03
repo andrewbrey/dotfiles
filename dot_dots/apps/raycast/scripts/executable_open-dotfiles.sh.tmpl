@@ -2,12 +2,12 @@
 #
 # Required parameters:
 # @raycast.schemaVersion 1
-# @raycast.title Dotfiles
-# @raycast.mode silent
+# @raycast.title Open Dotfiles in VS Code
+# @raycast.mode compact
 
 # Optional parameters:
 # @raycast.icon 💻️
-# @raycast.packageName Open dotfiles in VS Code
+# @raycast.packageName Custom
 # @raycast.needsConfirmation false
 
 # Documentation:
@@ -22,3 +22,6 @@ if command -v direnv >/dev/null 2>&1; then
 else
 	code {{ .chezmoi.sourceDir | quote }} &
 fi
+
+# final Raycast toast output
+echo ""
