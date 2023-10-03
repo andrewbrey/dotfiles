@@ -19,6 +19,8 @@ await $.onLinux(async () => {
 		await $`flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`;
 		await $`flatpak install flathub org.gnome.Platform//44`;
 		await $`flatpak install https://tuple.app/tuple.flatpakref`;
+		await $`flatpak permission-set flatpak updates app.tuple.app yes`;
+		await $`flatpak permission-set flatpak background app.tuple.app yes`;
 	}
 });
 
