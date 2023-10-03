@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 #
 # Required parameters:
 # @raycast.schemaVersion 1
@@ -16,8 +16,6 @@
 # @raycast.authorURL https://github.com/andrewbrey
 
 # Notes:
-# - shebang can't use /usr/bin/env, it must directly reference the shell binary
-# - file permissions mask is very particular, just copy this file to make new Raycast scripts
 # - @see https://github.com/raycast/script-commands
 if command -v direnv >/dev/null 2>&1; then
 	direnv exec {{ .chezmoi.sourceDir | quote }} code {{ .chezmoi.sourceDir | quote }} &
