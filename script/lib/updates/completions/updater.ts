@@ -3,42 +3,54 @@
 import { $ } from "../../mod.ts";
 
 if (await $.commandExists("bw")) {
+	const completions = await $`bw completion --shell zsh`.timeout("5s").text();
+
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_bw"),
-		await $`bw completion --shell zsh`.text(),
+		completions,
 	);
 }
 
 if (await $.commandExists("chezmoi")) {
+	const completions = await $`chezmoi completion zsh`.timeout("5s").text();
+
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_chezmoi"),
-		await $`chezmoi completion zsh`.text(),
+		completions,
 	);
 }
 
 if (await $.commandExists("deno")) {
+	const completions = await $`deno completions --unstable zsh`.timeout("5s").text();
+
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_deno"),
-		await $`deno completions --unstable zsh`.text(),
+		completions,
 	);
 }
 if (await $.commandExists("flyctl")) {
+	const completions = await $`flyctl completion zsh`.timeout("5s").text();
+
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_flyctl"),
-		await $`flyctl completion zsh`.text(),
+		completions,
 	);
 }
 
 if (await $.commandExists("gh")) {
+	const completions = await $`gh completion -s zsh`.timeout("5s").text();
+
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_gh"),
-		await $`gh completion -s zsh`.text(),
+		completions,
 	);
 }
 
 if (await $.commandExists("supabase")) {
+	const completions = await $`supabase completion zsh`.timeout("5s").text();
+
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_supabase"),
-		await $`supabase completion zsh`.text(),
+		completions,
 	);
 }
