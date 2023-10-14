@@ -20,6 +20,7 @@ await $.onLinux(async () => {
 	if (!$.env.IN_CONTAINER && (chezmoiData.is_popos || chezmoiData.is_ubuntu)) {
 		await $.requireCommand("hostnamectl");
 
+		// TODO: change this to a prompt with these as defaults
 		const desiredHostname = chezmoiData.is_popos
 			? "poppy"
 			: chezmoiData.is_ubuntu

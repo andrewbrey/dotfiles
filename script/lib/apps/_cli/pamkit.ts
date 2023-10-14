@@ -357,10 +357,12 @@ async function setAppLaunchAtLogin(app: string, desktopFileOverride?: string) {
 	if ($.env.OS === "linux") {
 		const desktopFile = desktopFileOverride ??
 			$.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, app, ".desktop");
-		const autoLaunchFile = $.path.join($.env.HOME, ".config", "autostart", `${app}.desktop`);
+		const autoLaunchDir = $.path.join($.env.HOME, ".config", "autostart");
+		const autoLaunchFile = $.path.join(autoLaunchDir, `${app}.desktop`);
 
 		invariant($.existsSync(desktopFile), `missing required .desktop file at ${desktopFile}`);
 
+		await $`mkdir -p ${autoLaunchDir}`;
 		await $`ln -sf ${desktopFile} ${autoLaunchFile}`;
 	}
 }
