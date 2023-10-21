@@ -13,6 +13,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"clang",
 	"file",
 	"gir1.2-gmenu-3.0",
+	"git-lfs",
 	"libayatana-appindicator3-dev",
 	"libgtk-3-dev",
 	"libgtksourceview-3.0-dev",
