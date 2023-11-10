@@ -30,3 +30,8 @@ syntax: bash
 # Change theme `kitty +kitten themes`
 #
 # https://sw.kovidgoyal.net/kitty/kittens/themes/
+
+#
+# List font names `kitty +list-fonts --psnames`
+#
+# https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.font_features
