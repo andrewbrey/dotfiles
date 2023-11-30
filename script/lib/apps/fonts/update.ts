@@ -8,13 +8,14 @@ await $.fs.ensureDir(dotAppPath);
 
 const jetbrains = $.env.OS === "darwin" ? "font-jetbrains-mono-nerd-font" : "JetBrainsMono";
 const droid = $.env.OS === "darwin" ? "font-droid-sans-mono-nerd-font" : "DroidSansMono";
-const intelone = $.env.OS === "darwin" ? "font-intel-one-mono" : "IntelOneMono";
+const intelone = $.env.OS === "darwin" ? "font-intel-one-mono-nerd-font" : "IntelOneMono";
+const monaspace = $.env.OS === "darwin" ? "font-monaspace-nerd-font" : "Monaspace";
 const _hack = $.env.OS === "darwin" ? "font-hack-nerd-font" : "Hack"; // TODO: remove? this font is a huge download
 const _iosevka = $.env.OS === "darwin" ? "font-iosevka-nerd-font" : "Iosevka"; // TODO: remove? this font is a huge download
 
 const chezmoiData = await $.getChezmoiData();
 
-const fonts = chezmoiData.is_containerized ? [droid] : [droid, jetbrains, intelone];
+const fonts = chezmoiData.is_containerized ? [droid] : [droid, jetbrains, intelone, monaspace];
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 if (meta.type !== "uninstalled") {
