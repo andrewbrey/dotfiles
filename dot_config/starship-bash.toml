@@ -16,7 +16,7 @@ disabled = true
 
 [directory]
 format = "[╭╴](bold cyan) [$path]($style) [$read_only]($read_only_style)"
-read_only = " "
+read_only = " 󰌾"
 truncate_to_repo = false
 truncation_length = 2
 truncation_symbol = ".../"
@@ -41,7 +41,7 @@ symbol = " "
 symbol = " "
 
 [package]
-symbol = " "
+symbol = " "
 
 [cmake]
 disabled = true
@@ -84,7 +84,7 @@ disabled = true
 
 [nim]
 disabled = true
-symbol = " "
+symbol = " "
 
 [nodejs]
 detect_extensions = []
@@ -147,11 +147,11 @@ symbol = " "
 
 [memory_usage]
 disabled = true
-symbol = " "
+symbol = "󰍛 "
 
 [aws]
 format = "with [$symbol AWS](bold dimmed yellow) "
-symbol = ""
+symbol = "󰸏"
 
 [gcloud]
 disabled = true
@@ -161,7 +161,7 @@ disabled = true
 
 [env_var.AWS_PROFILE]
 format = "with [$symbol AWS_PROFILE $env_value](bold dimmed yellow) "
-symbol = ""
+symbol = "󰸏"
 variable = "AWS_PROFILE"
 
 [env_var.GH_TOKEN]
@@ -201,7 +201,7 @@ variable = "SUPABASE_ACCESS_TOKEN"
 
 [env_var.ASCIINEMA_REC]
 format = "[$symbol rec](bold dimmed red) "
-symbol = "壘"
+symbol = "󰑋"
 variable = "ASCIINEMA_REC"
 
 [container]
