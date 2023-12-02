@@ -1,5 +1,5 @@
 [/]
-gap-size=15
+gap-size=10
 shortcut-align-window-to-center=['<Alt><Super>m']
 shortcut-decrease-gap-size=['<Shift><Super>underscore']
 shortcut-increase-gap-size=['<Shift><Super>plus']
