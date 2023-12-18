@@ -23,7 +23,7 @@ export * as puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export * as stdNodeFS from "node:fs";
 export * as stdNodeUtil from "node:util";
 export { default as strCase } from "npm:case@1.6.3";
-export * as dateFns from "npm:date-fns@3.0.0-rc.2";
+export * as dateFns from "npm:date-fns@3.0.0";
 export { default as handlebars } from "npm:handlebars@4.7.8";
 // @deno-types="npm:@types/user-agents@1.0.4"
-export { default as UserAgent } from "npm:user-agents@2.0.0-alpha.53";
+export { default as UserAgent } from "npm:user-agents@2.0.0-alpha.54";
