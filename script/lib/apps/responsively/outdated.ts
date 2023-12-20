@@ -9,7 +9,7 @@ const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
 	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 		return ""; // managed on darwin
 	} else {
-		const releaseInfo = await $.ghReleaseInfo("responsively-org", "responsively-app");
+		const releaseInfo = await $.ghReleaseInfo("responsively-org", "responsively-app-releases");
 		const { tag_name } = releaseInfo;
 		const latest = tag_name.split("v")?.at(1) ?? "";
 

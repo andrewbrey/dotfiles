@@ -18,7 +18,7 @@ await $.onLinux(async () => {
 		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
 		const binPath = $.path.join(dotAppPath, "responsively.AppImage");
 
-		const releaseInfo = await $.ghReleaseInfo("responsively-org", "responsively-app");
+		const releaseInfo = await $.ghReleaseInfo("responsively-org", "responsively-app-releases");
 		await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
 		const { assets, tag_name } = releaseInfo;
