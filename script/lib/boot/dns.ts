@@ -7,7 +7,7 @@ export async function etcHosts(logger: Logger, artifactsPath: string) {
 		logger.info("marker file already exists, skipping etcHosts");
 	} else {
 		const homelabIP = $.requireEnv("SECRET_HOMELAB_IPV4_ADDRESS");
-		const atHome = await $.request(`http://${homelabIP}`).timeout(1000)
+		const atHome = await $.request(`http://${homelabIP}`).timeout(3000)
 			.noThrow().fetch().then(({ status }) => status === 200).catch(() => false);
 
 		const homelabHostsScript = $.path.join(
