@@ -23,9 +23,11 @@ export CODE_DIR={{ .standard_dirs.code | quote }}
 export SCRATCH_CODE_DIR="${CODE_DIR}/scratch"
 
 # =====
-# homebrew
+# telemetry
 # =====
 export HOMEBREW_NO_ANALYTICS=1
+export ASTRO_TELEMETRY_DISABLED=1
+export VERCEL_CLI_COLLECT_METRICS='0'
 
 # =====
 # js
@@ -85,11 +87,6 @@ export NI_CONFIG_FILE="{{ .standard_dirs.dot_dots  }}/.nirc"
 # direnv
 # =====
 export DIRENV_LOG_FORMAT=''
-
-# =====
-# vercel
-# =====
-export VERCEL_CLI_COLLECT_METRICS='0'
 
 # =====
 # batcat
