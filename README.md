@@ -93,6 +93,9 @@
 - Refactor so install logic can be shared by update logic if they are the same process
 - Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
+- Add [amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704?mt=12) MacOS app to
+  replace `keepingyouawake` since it is able to prevent system sleep on mac better while still
+  allowing screen to sleep
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
