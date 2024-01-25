@@ -96,6 +96,7 @@
 - Add [amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704?mt=12) MacOS app to
   replace `keepingyouawake` since it is able to prevent system sleep on mac better while still
   allowing screen to sleep
+- Add [oatmeal](https://github.com/dustinblackman/oatmeal) llm terminal client
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
