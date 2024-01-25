@@ -99,6 +99,11 @@ export BAT_CONFIG_PATH="{{ .standard_dirs.dot_dots_apps  }}/batcat/bat.conf"
 export CHARM_DATA_DIR="{{ .standard_dirs.dot_dots_apps  }}/charm/"
 
 # =====
+# oatmeal
+# =====
+export OATMEAL_CONFIG_FILE="{{ .standard_dirs.dot_dots_apps  }}/oatmeal/config.toml"
+
+# =====
 # path
 # =====
 export PATH="${DENO_INSTALL}/bin:${NODE_INSTALL}/bin:${GO_INSTALL}/bin:${GO_GET_INSTALL}/bin:${RUSTUP_HOME}/bin:${CARGO_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${NPM_PACKAGES_INSTALL}/bin:${PNPM_HOME}:${PYTHON_BIN_INSTALL}/bin:${PATH}"
