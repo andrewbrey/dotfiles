@@ -89,7 +89,7 @@ const env = {
 	OS: Deno.build.os,
 	USER: Deno.env.get("USER") ?? "",
 	HOME: Deno.env.get("HOME") ?? "",
-	STDIN_IS_TTY: Deno.isatty(Deno.stdin.rid),
+	STDIN_IS_TTY: Deno.stdin.isTerminal(),
 	ALLOW_COLOR: !Deno.noColor,
 	GH_TOKEN: Deno.env.get("GH_TOKEN") ?? Deno.env.get("GITHUB_TOKEN"),
 	get STANDARD_DIRS() {
