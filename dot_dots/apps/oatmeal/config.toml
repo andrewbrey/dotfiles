@@ -27,4 +27,4 @@ ollama-url = "http://192.168.0.62:11434"
 theme = "base16-github"
 
 # Your user name displayed in all chat bubbles.
-username = "andrew"
+username = "me"
