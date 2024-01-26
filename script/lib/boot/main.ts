@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-sys --unstable -A
+#!/usr/bin/env -S deno run --allow-sys -A
 
 import { $, type FormatterFunction } from "../mod.ts";
 import { etcHosts } from "./dns.ts";

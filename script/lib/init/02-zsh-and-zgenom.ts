@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-run --allow-write
+#!/usr/bin/env -S deno run --allow-sys --allow-env --allow-net=deno.land --allow-read --allow-run --allow-write
 
 import { $ } from "../mod.ts";
 

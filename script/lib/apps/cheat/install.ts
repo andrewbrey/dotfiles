@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land,github.com,api.github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
+#!/usr/bin/env -S deno run --allow-sys --allow-env --allow-net=deno.land,github.com,api.github.com,objects.githubusercontent.com --allow-read --allow-write --allow-run
 
 import { $, invariant } from "../../mod.ts";
 import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";

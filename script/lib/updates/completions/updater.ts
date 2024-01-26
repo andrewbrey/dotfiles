@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-sys --unstable --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
+#!/usr/bin/env -S deno run --allow-sys --allow-env --allow-net=deno.land --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
 
@@ -21,7 +21,7 @@ if (await $.commandExists("chezmoi")) {
 }
 
 if (await $.commandExists("deno")) {
-	const completions = await $`deno completions --unstable zsh`.timeout("5s").text();
+	const completions = await $`deno completions zsh`.timeout("5s").text();
 
 	await Deno.writeTextFile(
 		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_deno"),

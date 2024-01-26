@@ -393,7 +393,7 @@ async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: UAOpts }) {
 				await $`sudo apt install -y --no-install-recommends ${systemDeps}`;
 			}
 
-			await $`deno run -A --unstable https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
+			await $`deno run -A https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
 				.env({ PUPPETEER_PRODUCT: "chrome" });
 
 			try {

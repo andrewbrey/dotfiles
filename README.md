@@ -53,7 +53,7 @@
 `init/` scripts should be executable and have a shebang similar to:
 
 ```sh
-#!/usr/bin/env -S deno run --allow-sys --unstable --allow-read --allow-net --allow-env --allow-run
+#!/usr/bin/env -S deno run --allow-sys --allow-read --allow-net --allow-env --allow-run
 ```
 
 ## Assumptions
