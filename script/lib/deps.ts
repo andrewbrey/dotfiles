@@ -18,7 +18,7 @@ export * as stdSemver from "https://deno.land/std@0.213.0/semver/mod.ts";
 export * as cliffyAnsi from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/mod.ts";
 export * as cliffyCmd from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
 export * as cliffyTable from "https://deno.land/x/cliffy@v1.0.0-rc.3/table/mod.ts";
-export * as dax from "https://deno.land/x/dax@0.37.0/mod.ts";
+export * as dax from "https://deno.land/x/dax@0.37.1/mod.ts";
 export * as puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 export * as stdNodeFS from "node:fs";
 export * as stdNodeUtil from "node:util";
