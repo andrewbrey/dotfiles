@@ -19,6 +19,7 @@ function getGroups() {
 			"package-manager",
 			"deno",
 			"npm-globals",
+			"code-extensions",
 			"gnome-shell-extensions",
 			"cheatsheets",
 			"completions",

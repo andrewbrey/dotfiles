@@ -26,8 +26,8 @@ try {
 
 	$.logging.setup({
 		handlers: {
-			console: new $.logging.handlers.ConsoleHandler("NOTSET", { formatter }),
-			file: new $.logging.handlers.FileHandler("NOTSET", { filename: logfile, formatter }),
+			console: new $.logging.ConsoleHandler("NOTSET", { formatter }),
+			file: new $.logging.FileHandler("NOTSET", { filename: logfile, formatter }),
 		},
 		loggers: { default: { level: "NOTSET", handlers: ["console", "file"] } },
 	});
