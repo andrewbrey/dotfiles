@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
 					{ headers: { "Authorization": `Bearer ${apiToken}` } },
 				).then((r) => r.json() as unknown as { result: CFDNSRecord[] });
 
-				const ip = dnsRecords.find((r) => r.name === "brey.family" && r.type === "A")?.content;
+				const ip = dnsRecords?.find((r) => r.name === "brey.family" && r.type === "A")?.content;
 
 				invariant(typeof ip === "string" && ip.length > 0, "missing required apex ip");
 
