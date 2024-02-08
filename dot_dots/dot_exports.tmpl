@@ -104,6 +104,12 @@ export CHARM_DATA_DIR="{{ .standard_dirs.dot_dots_apps  }}/charm/"
 export OATMEAL_CONFIG_FILE="{{ .standard_dirs.dot_dots_apps  }}/oatmeal/config.toml"
 
 # =====
+# ollama
+# =====
+export OLLAMA_HOST="0.0.0.0"
+export OLLAMA_ORIGINS="*.andrewbrey.com"
+
+# =====
 # path
 # =====
 export PATH="${DENO_INSTALL}/bin:${NODE_INSTALL}/bin:${GO_INSTALL}/bin:${GO_GET_INSTALL}/bin:${RUSTUP_HOME}/bin:${CARGO_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${NPM_PACKAGES_INSTALL}/bin:${PNPM_HOME}:${PYTHON_BIN_INSTALL}/bin:${PATH}"
