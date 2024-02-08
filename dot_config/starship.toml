@@ -203,6 +203,11 @@ format = "[$symbol rec](bold dimmed red) "
 symbol = "󰑋"
 variable = "ASCIINEMA_REC"
 
+[env_var.FRP_TOKEN]
+format = "[$symbol FRP_TOKEN](bold dimmed yellow) "
+symbol = "󱠾"
+variable = "FRP_TOKEN"
+
 [container]
 disabled = true
 
