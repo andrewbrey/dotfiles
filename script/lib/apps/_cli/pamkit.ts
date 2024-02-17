@@ -244,7 +244,7 @@ function isNewerVersion(latest: string = "", current: string = "") {
 	invariant(latestSem !== null, "missing required latest version");
 	invariant(currentSem !== null, "missing required current version");
 
-	return $.semver.gt(latestSem, currentSem) as boolean;
+	return $.semver.greaterThan(latestSem, currentSem) as boolean;
 }
 
 export type OutdatedCheck = {
