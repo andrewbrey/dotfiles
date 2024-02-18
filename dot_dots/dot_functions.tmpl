@@ -407,3 +407,15 @@ function prewinrec() {
 
 	wmctrl -r "${target}" -e 0,0,0,1920,1080
 }
+
+# create a temporary "clean slate" vscode workspace
+function tempcode() {
+	dir="$(mktemp -d)"
+	usr="${dir}/user"
+	ext="${dir}/extensions"
+	wrk="${dir}/tmp-workspace"
+	mkdir "${usr}"
+	mkdir "${ext}"
+	mkdir "${wrk}"
+	code --user-data-dir "${usr}" --extensions-dir "${ext}" "${wrk}"
+}
