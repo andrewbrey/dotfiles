@@ -8,6 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 if (await $.commandExists("mold")) {
+	await $.requireCommand("clang", "pam install -a system-libs");
 	await $.requireCommand("eget", "pam install -a eget");
 
 	const binaryPath = $.path.join(dotAppPath, "mold");
