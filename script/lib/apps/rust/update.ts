@@ -9,6 +9,8 @@ await $.fs.ensureDir(dotAppPath);
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 
 if (await $.commandExists("rustc")) {
+	await $.requireCommand("mold", "pam install -a mold");
+
 	const installScriptPath = $.path.join(dotAppPath, "rust-install.sh");
 
 	await $.streamDownload("https://sh.rustup.rs", installScriptPath);
