@@ -1,3 +1,6 @@
+##
+# see https://www.nano-editor.org/dist/v2.9/nanorc.5.html
+##
 set numbercolor green
 set statuscolor green
 set titlecolor green
@@ -27,3 +30,6 @@ set speller "hunspell"
 
 # allow nano to be suspended (ctrl+z and then "fg" from the shell to resume)
 set suspend
+
+# allow the mouse to place the cursor
+set mouse
