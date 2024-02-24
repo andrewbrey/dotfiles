@@ -38,7 +38,8 @@ require("lazy").setup({
         -- "netrwPlugin",
         "tarPlugin",
         "tohtml",
-        "tutor",
+				-- TODO: re-disable tutor some day :)
+        -- "tutor",
         "zipPlugin",
       },
     },
