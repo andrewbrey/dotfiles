@@ -17,6 +17,7 @@ if (await $.commandMissing("wezterm")) {
 	});
 
 	await pamkit.linkBinaryToUserPath(binaryPath, "wezterm");
+	await pamkit.linkDesktopFileForApp("wezterm");
 }
 
 const meta: InstallerMeta = {
