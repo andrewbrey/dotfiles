@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-sys --allow-env --allow-net --allow-read --allow-write --allow-run
 
-import { $ } from "../../mod.ts";
+import { $, invariant } from "../../mod.ts";
 import { type InstallerMeta, pamkit } from "../_cli/pamkit.ts";
 
 const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.appArtifactsDir);
@@ -11,8 +11,14 @@ if (await $.commandMissing("go")) {
 		await $`brew install go`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 	} else {
 		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.plainReleaseInfoName);
-		const latestVersion = await $.request("https://golang.org/VERSION?m=text")
+		const latestVersionText = await $.request("https://golang.org/VERSION?m=text")
 			.text();
+		const latestVersion = latestVersionText.split("\n").at(0);
+
+		invariant(
+			typeof latestVersion !== "undefined",
+			`unable to parse latest version from response: ${latestVersionText}`,
+		);
 
 		await Deno.writeTextFile(releaseInfoPath, latestVersion);
 
