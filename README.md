@@ -93,6 +93,9 @@
 - Refactor so install logic can be shared by update logic if they are the same process
 - Update "single file binary" installers (skate, bat, etc) to use `eget` (as in `charm` installer)
 - Fix whatever causes `tar` to exit with a code of 2 when extracting (e.g. `pam install flyctl`)
+  - Spent time reproducing the error using `golang` installer, and confirmed the issue has to do
+    with my code, not `tar`, not `dax`, not `gz`, not the archive from `golang` download
+    site...weird, but I guess...good?
 - Add [amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704?mt=12) MacOS app to
   replace `keepingyouawake` since it is able to prevent system sleep on mac better while still
   allowing screen to sleep
