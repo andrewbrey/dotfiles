@@ -1,0 +1,19 @@
+#!/usr/bin/zsh
+#
+# name: Work
+# icon: applications-engineering
+# description: Open work entrypoint in VS Code
+# keywords: job
+
+# Notes:
+# - shebang can't use /usr/bin/env, it must directly reference the shell binary
+# - file permissions mask is very particular, just copy this file to make new launcher scripts
+# - @see https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
+# - @see https://www.arm64.ca/post/creating-launch-plugins-for-pop-os-updated/
+
+# exact location to open will depend on current job (etc) so just grab this from ignored .extra file
+source {{ .standard_dirs.dot_dots | quote }}/.extra
+
+if [ ! -z "${WORK_ENTRYPOINT}" ]; then
+	code "${WORK_ENTRYPOINT}" &
+fi
