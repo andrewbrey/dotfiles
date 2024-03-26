@@ -26,4 +26,4 @@ export { default as strCase } from "npm:case@1.6.3";
 export * as dateFns from "npm:date-fns@3.6.0";
 export { default as handlebars } from "npm:handlebars@4.7.8";
 // @deno-types="npm:@types/user-agents@1.0.4"
-export { default as UserAgent } from "npm:user-agents@2.0.0-alpha.145";
+export { default as UserAgent } from "npm:user-agents@2.0.0-alpha.152";
