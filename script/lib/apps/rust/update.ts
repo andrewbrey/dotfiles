@@ -10,6 +10,7 @@ const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.ur
 
 if (await $.commandExists("rustc")) {
 	await $.requireCommand("mold", "pam install -a mold");
+	await $.requireCommand("lld", "pam install -a system-libs");
 
 	const installScriptPath = $.path.join(dotAppPath, "rust-install.sh");
 

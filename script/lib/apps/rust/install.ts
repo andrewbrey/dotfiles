@@ -8,6 +8,7 @@ await $.fs.ensureDir(dotAppPath);
 
 if (await $.commandMissing("rustc")) {
 	await $.requireCommand("mold", "pam install -a mold");
+	await $.requireCommand("lld", "pam install -a system-libs");
 
 	const installScriptPath = $.path.join(dotAppPath, "rust-install.sh");
 
