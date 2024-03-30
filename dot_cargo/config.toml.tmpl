@@ -1,3 +1,4 @@
+{{ if .is_personal_machine -}}
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"
 #
@@ -6,3 +7,13 @@ linker = "clang"
 #
 # use `lld` linker
 rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+{{- else -}}
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+#
+# use `mold` linker
+rustflags = ["-C", "link-arg=-fuse-ld={{ .standard_dirs.local_bin }}/mold"]
+#
+# use `lld` linker
+# rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+{{ end }}
