@@ -100,6 +100,7 @@
   replace `keepingyouawake` since it is able to prevent system sleep on mac better while still
   allowing screen to sleep
 - Add [oatmeal](https://github.com/dustinblackman/oatmeal) llm terminal client
+- Add [freeze](https://github.com/charmbracelet/freeze) code screenshot tool
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
