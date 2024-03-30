@@ -1,3 +1,8 @@
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"
-rustflags = ["-C", "link-arg=-fuse-ld={{ .standard_dirs.local_bin }}/mold"]
+#
+# use `mold` linker
+# rustflags = ["-C", "link-arg=-fuse-ld={{ .standard_dirs.local_bin }}/mold"]
+#
+# use `lld` linker
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
