@@ -26,7 +26,7 @@ await $.onLinux(async () => {
 		await $`sudo tee /etc/apt/sources.list.d/brave-browser-release.list`.stdin(
 			await $
 				.raw`echo "deb [signed-by=${braveGPGKeyringPath} arch=${arch}] ${braveGPGKeyringURL} stable main"`
-				.bytes(),
+				.bytes("stdout"),
 		);
 
 		await $`sudo apt update`;

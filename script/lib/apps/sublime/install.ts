@@ -18,11 +18,11 @@ await $.onLinux(async () => {
 
 		await $`sudo mkdir -p /etc/apt/trusted.gpg.d`;
 		await $`sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sublimehq-archive.gpg`.stdin(
-			await $`curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg`.bytes(),
+			await $`curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg`.bytes("stdout"),
 		);
 
 		await $`sudo tee /etc/apt/sources.list.d/sublime-text.list`.stdin(
-			await $.raw`echo "deb https://download.sublimetext.com/ apt/stable/"`.bytes(),
+			await $.raw`echo "deb https://download.sublimetext.com/ apt/stable/"`.bytes("stdout"),
 		);
 
 		await $`sudo apt update`;

@@ -16,7 +16,7 @@ await $.onLinux(async () => {
 	if (await $.commandMissing("docker")) {
 		await $`sudo mkdir -p /etc/apt/keyrings`;
 		await $`sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`.stdin(
-			await $`curl -fsSL https://download.docker.com/linux/ubuntu/gpg`.bytes(),
+			await $`curl -fsSL https://download.docker.com/linux/ubuntu/gpg`.bytes("stdout"),
 		);
 
 		const arch = await $`dpkg --print-architecture`.text();
@@ -25,7 +25,7 @@ await $.onLinux(async () => {
 		await $`sudo tee /etc/apt/sources.list.d/docker.list`.stdin(
 			await $
 				.raw`echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu ${codename} stable"`
-				.bytes(),
+				.bytes("stdout"),
 		);
 
 		await $`sudo apt update`;
@@ -36,8 +36,8 @@ await $.onLinux(async () => {
 			await $`sudo groupadd docker`;
 		}
 
-		const usersGroupsRaw = await $`id -nGz $USER`.bytes();
-		const usersGroups = await $`tr '\\0' '\\n'`.stdin(usersGroupsRaw).bytes();
+		const usersGroupsRaw = await $`id -nGz $USER`.bytes("stdout");
+		const usersGroups = await $`tr '\\0' '\\n'`.stdin(usersGroupsRaw).bytes("stdout");
 		const userInGroup = (await $`grep -q '^docker$'`.stdin(usersGroups).noThrow()).code === 0;
 		if (!userInGroup) {
 			await $`sudo usermod -aG docker $USER`;

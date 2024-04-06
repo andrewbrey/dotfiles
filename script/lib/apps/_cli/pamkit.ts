@@ -237,7 +237,7 @@ function isNewerVersion(latest: string = "", current: string = "") {
 	try {
 		latestSem = $.semver.parse(latest);
 		currentSem = $.semver.parse(current);
-	} catch (error) {
+	} catch (_error) {
 		// ignored
 	}
 
@@ -258,6 +258,7 @@ export type OutdatedCheck = {
 async function wrapOutdatedCheck(
 	meta: InstallerMeta,
 	frequencyDays = 3,
+	// deno-lint-ignore require-await
 	latestFetcher = async () => (""),
 	isNewer = isNewerVersion,
 ) {
@@ -297,7 +298,7 @@ async function linkBinaryToUserPath(realBinaryPath: string, linkedBinaryName: st
 
 	try {
 		$.nodeFS.accessSync(realBinaryPath, $.nodeFS.constants.X_OK);
-	} catch (error) {
+	} catch (_error) {
 		await $`chmod +x ${realBinaryPath}`;
 	}
 
@@ -435,7 +436,7 @@ async function unlinkNativefierApp(appName: string) {
 }
 
 async function flatpakAppInstalled(appName: string) {
-	const flatpakApps = await $`flatpak list --app --columns=name`.bytes();
+	const flatpakApps = await $`flatpak list --app --columns=name`.bytes("stdout");
 
 	const { code } = await $.raw`grep -q "^${appName}$"`.stdin(flatpakApps).noThrow();
 
@@ -472,7 +473,7 @@ async function installDmg(dmgPath: string) {
 
 	// IDEA: handle `.pkg` style installers too (per https://apple.stackexchange.com/a/311511)?
 
-	let dotAppPaths: string[] = [];
+	const dotAppPaths: string[] = [];
 	for await (const file of $.fs.expandGlob($.path.join(volume, "*.app"))) {
 		dotAppPaths.push(file.path);
 	}
