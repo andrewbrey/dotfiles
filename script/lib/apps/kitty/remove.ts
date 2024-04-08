@@ -18,7 +18,7 @@ await $.onLinux(async () => {
 
 		const xTerminalEmulator = await $.which("x-terminal-emulator");
 		if (typeof xTerminalEmulator !== "undefined") {
-			await $`sudo update-alternatives --remove ${xTerminalEmulator} x-terminal-emulator ${linkPath}`;
+			await $`sudo update-alternatives --remove x-terminal-emulator ${linkPath}`;
 		}
 
 		await $`sudo rm -f /root/.terminfo/x/xterm-kitty`;
