@@ -6,7 +6,7 @@ function focus_x_terminal_emulator() {
 	if [ "${process_pid}" != '' ]; then
 		local kitty_class='kitty.kitty'
 		local wezterm_class='org.wezfurlong.wezterm'
-		local window_id=$(wmctrl -lp | grep -E "${process_pid}|${kitty_class}|${wezterm_class}" | awk '{print $1}')
+		local window_id=$(wmctrl -lpx | grep -E "${process_pid}|${kitty_class}|${wezterm_class}" | awk '{print $1}')
 
 		wmctrl -via $window_id
 	else
