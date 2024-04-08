@@ -16,8 +16,23 @@ if (await $.commandMissing("wezterm")) {
 		EGET_GITHUB_TOKEN: $.env.GH_TOKEN,
 	});
 
-	await pamkit.linkBinaryToUserPath(binaryPath, "wezterm");
+	const linkPath = await pamkit.linkBinaryToUserPath(binaryPath, "wezterm");
 	await pamkit.linkDesktopFileForApp("wezterm");
+
+	const xTerminalEmulator = await $.which("x-terminal-emulator");
+	if (typeof xTerminalEmulator !== "undefined") {
+		await $`sudo update-alternatives --install ${xTerminalEmulator} x-terminal-emulator ${linkPath} 50`;
+	}
+
+	$.logWarn(
+		"warn:",
+		$.dedent`
+			you can set the default terminal to wezterm with:
+
+			${$.colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
+
+		`,
+	);
 }
 
 const meta: InstallerMeta = {

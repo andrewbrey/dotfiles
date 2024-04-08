@@ -7,7 +7,22 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 
 if (await $.commandExists("wezterm")) {
 	await pamkit.unlinkDesktopFileForApp("wezterm");
-	await pamkit.unlinkBinaryFromUserPath("wezterm");
+	const linkPath = await pamkit.unlinkBinaryFromUserPath("wezterm");
+
+	const xTerminalEmulator = await $.which("x-terminal-emulator");
+	if (typeof xTerminalEmulator !== "undefined") {
+		await $`sudo update-alternatives --remove ${xTerminalEmulator} x-terminal-emulator ${linkPath}`;
+	}
+
+	$.logWarn(
+		"warn:",
+		$.dedent`
+			you can set the default terminal to something other than wezterm with:
+
+			${$.colors.magenta("sudo update-alternatives --config x-terminal-emulator")}
+
+		`,
+	);
 }
 
 if (await $.exists(dotAppPath)) {
