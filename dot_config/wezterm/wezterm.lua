@@ -1,6 +1,11 @@
 local wezterm = require("wezterm")
 local config = {}
 
+wezterm.on('gui-startup', function(cmd)
+  local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
+
 config.color_scheme = "Arthur"
 config.default_cursor_style = 'SteadyBar'
 config.window_background_image = wezterm.config_dir .. "/assets/waves.gif"
