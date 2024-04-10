@@ -14,3 +14,4 @@ README.md
 .dots/.extra
 .dots/apps/charm/*/kv
 .dots/apps/cheat/cheatsheets/community
+.config/nvim/lazy-lock.json
