@@ -6,6 +6,9 @@ wezterm.on('gui-startup', function(cmd)
   window:gui_window():maximize()
 end)
 
+config.font = wezterm.font_with_fallback {
+  'CaskaydiaMono NF',
+}
 config.color_scheme = "Arthur"
 config.default_cursor_style = 'SteadyBar'
 config.window_background_image = wezterm.config_dir .. "/assets/waves.gif"
