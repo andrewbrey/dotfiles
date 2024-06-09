@@ -101,6 +101,7 @@
   allowing screen to sleep
 - Add [oatmeal](https://github.com/dustinblackman/oatmeal) llm terminal client
 - Add [freeze](https://github.com/charmbracelet/freeze) code screenshot tool
+- Add [flameshot](https://flameshot.org/) regular screenshot tool
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
@@ -128,3 +129,6 @@
   - `~/.ssh` (_confirmation prompt, also notify that ssh keys should be untrusted in GitHub_)
   - `~/.zshrc`
   - `~/.gitconfig`
+- Remove (and probably replace) deprecated `neofetch` application
+- In `fonts` no longer need to tap the `homebrew/cask-fonts` cask (and doing so causes brew process
+  to exit non-zero)
