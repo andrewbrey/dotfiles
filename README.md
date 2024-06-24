@@ -102,6 +102,7 @@
 - Add [oatmeal](https://github.com/dustinblackman/oatmeal) llm terminal client
 - Add [freeze](https://github.com/charmbracelet/freeze) code screenshot tool
 - Add [flameshot](https://flameshot.org/) regular screenshot tool
+- Add [Nu shell](https://www.nushell.sh/) for structured shell
 - Add [PDF Arranger](https://flathub.org/apps/com.github.jeromerobert.pdfarranger) pdf tool
 - Address `nodesource` install script deprecation warning:
   ```
