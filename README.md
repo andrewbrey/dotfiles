@@ -6,7 +6,8 @@
   ssh-keygen -t ed25519 -C "34140052+andrewbrey@users.noreply.github.com"
   ```
 
-- Add the `ssh` key to `GitHub`: https://github.com/settings/keys
+- Add the `ssh` key to `GitHub`: https://github.com/settings/keys (Add it twice, once as an
+  "Authentication key" and once as a "Signing key")
 
 - Clone dotfiles to local
 
