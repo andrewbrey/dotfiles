@@ -105,6 +105,8 @@
 - Add [flameshot](https://flameshot.org/) regular screenshot tool
 - Add [Nu shell](https://www.nushell.sh/) for structured shell
 - Add [PDF Arranger](https://flathub.org/apps/com.github.jeromerobert.pdfarranger) pdf tool
+- Add [Yazi File Manager](https://github.com/sxyazi/yazi)
+- Add [Cargo Binstall](https://crates.io/crates/cargo-binstall/) for faster cargo bin installs
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
