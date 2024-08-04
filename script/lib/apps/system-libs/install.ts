@@ -21,6 +21,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"libgtksourceview-3.0-dev",
 	"libheif1:amd64",
 	"libnss3-tools",
+	"librust-alsa-sys-dev",
 	"librsvg2-dev",
 	"libssl-dev",
 	"libwebkit2gtk-4.0-dev",
