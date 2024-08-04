@@ -10,6 +10,11 @@ if (await $.commandMissing("rustyvibes")) {
 	await $.requireCommand("cargo", "pam install -a rust");
 
 	await $`cargo install rustyvibes`;
+
+	const appDataPath = $.path.join($.env.STANDARD_DIRS.DOT_DOTS_APPS, "rustyvibes");
+	const archivePath = $.path.join(appDataPath, "packs.zip");
+
+	await $`unzip -o ${archivePath} -d ${appDataPath}`;
 }
 
 const versionOutput = await $`rustyvibes --version`.lines(); // <ASCII ART>\nrustyvibes 1.0.9
