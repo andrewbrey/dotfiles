@@ -1,4 +1,4 @@
 [/]
 enable-active-window=false
-enable-intellihide=false
+enable-intellihide=true
 mouse-sensitive=true
