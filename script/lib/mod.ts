@@ -15,8 +15,8 @@ import {
 	stdPath,
 	stdSemver,
 	strCase,
-	UserAgent,
 } from "./deps.ts";
+import { type UAOpts } from "./user-agents.d.ts";
 
 export type { FormatterFunction, Logger, LogRecord } from "./deps.ts";
 
@@ -304,11 +304,12 @@ async function streamDownload(url: string, dest: string) {
 	basic$.logStep("done:", `download saved to ${toPath}`);
 }
 
-type UAOpts = NonNullable<ConstructorParameters<typeof UserAgent>[0]>;
 type RunInBrowserFn = (page: puppeteer.Page, browser: puppeteer.Browser) => Promise<void>;
 
 /** Run the specified function in a real browser context */
-async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: UAOpts }) {
+async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: unknown }) {
+	const { default: UserAgent } = await import("user-agents");
+
 	let browser: puppeteer.Browser | undefined;
 	let page: puppeteer.Page | undefined;
 

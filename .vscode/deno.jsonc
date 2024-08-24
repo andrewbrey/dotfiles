@@ -1,5 +1,9 @@
 {
 	"fmt": {
 		"options": { "lineWidth": 100, "useTabs": true }
+	},
+	// TODO: use import map for all deps and remove `deps.ts`
+	"imports": {
+		"user-agents": "npm:user-agents@2.0.0-alpha.302"
 	}
 }
