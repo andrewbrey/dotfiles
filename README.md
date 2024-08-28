@@ -109,8 +109,6 @@
 - Add [Cargo Binstall](https://crates.io/crates/cargo-binstall/) for faster cargo bin installs
 - Add [IconLibrary](https://flathub.org/apps/org.gnome.design.IconLibrary) for an icon viewer of
   system icons
-- Add [Zen Browser](https://github.com/zen-browser/desktop) and consider switching to it from
-  Firefox
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
