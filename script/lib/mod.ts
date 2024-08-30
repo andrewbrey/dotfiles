@@ -14,7 +14,7 @@ import {
 	stdNodeUtil,
 	stdPath,
 	stdSemver,
-	strCase,
+	stdText,
 } from "./deps.ts";
 import { type UAOpts } from "./user-agents.d.ts";
 
@@ -457,7 +457,16 @@ const $helpers = {
 	runInBrowser,
 	semver: stdSemver,
 	streamDownload,
-	strings: { case: strCase, asBytes },
+	strings: {
+		case: {
+			camel: stdText.toCamelCase,
+			constant: stdText.toConstantCase,
+			kebab: stdText.toKebabCase,
+			pascal: stdText.toPascalCase,
+			snake: stdText.toSnakeCase,
+		},
+		asBytes,
+	},
 } as const;
 
 // TODO: for now, manually extend $Type with custom helpers using Object.assign
