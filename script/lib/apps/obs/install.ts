@@ -13,10 +13,10 @@ await $.onMac(async () => {
 });
 
 await $.onLinux(async () => {
+	await $.requireCommand("flatpak", "pam install -a flatpak");
+
 	if (await $.commandMissing("obs")) {
-		await $`sudo add-apt-repository -y ppa:obsproject/obs-studio`;
-		await $`sudo apt update`;
-		await $`sudo apt install -y obs-studio`;
+		await $`flatpak install -y flathub flathub com.obsproject.Studio`;
 	}
 });
 

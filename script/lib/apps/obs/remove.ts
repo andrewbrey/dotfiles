@@ -13,9 +13,7 @@ await $.onMac(async () => {
 
 await $.onLinux(async () => {
 	if (await $.commandExists("obs")) {
-		await $`sudo apt purge -y obs-studio`;
-		await $.sleep("5s"); // give apt time to release lock
-		await $`sudo add-apt-repository -y --remove ppa:obsproject/obs-studio`;
+		await $`flatpak uninstall -y flathub com.obsproject.Studio`;
 	}
 });
 
