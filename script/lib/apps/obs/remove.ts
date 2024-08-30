@@ -12,7 +12,7 @@ await $.onMac(async () => {
 });
 
 await $.onLinux(async () => {
-	if (await $.commandExists("obs")) {
+	if (await pamkit.flatpakAppInstalled("OBS Studio")) {
 		await $`flatpak uninstall -y flathub com.obsproject.Studio`;
 	}
 });

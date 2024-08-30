@@ -15,19 +15,16 @@ await $.onMac(async () => {
 await $.onLinux(async () => {
 	await $.requireCommand("flatpak", "pam install -a flatpak");
 
-	if (await $.commandMissing("obs")) {
+	if (await pamkit.flatpakAppMissing("OBS Studio")) {
 		await $`flatpak install -y flathub flathub com.obsproject.Studio`;
 	}
 });
-
-const versionOutput = await $`obs --version`.text(); // OBS Studio - 28.1.2 (linux)
-const version = versionOutput.split(" ")?.at(3) ?? "";
 
 const meta: InstallerMeta = {
 	name: $.$dirname(import.meta.url, true),
 	path: $.$dirname(import.meta.url),
 	type: "installed-managed",
-	version,
+	version: "0.0.0",
 	lastCheck: Date.now(),
 };
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
