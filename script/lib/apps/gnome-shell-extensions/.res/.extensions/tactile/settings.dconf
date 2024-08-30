@@ -1,10 +1,11 @@
 [/]
-col-0=5
-col-1=9
-col-2=0
-col-3=0
+col-0=4
+col-1=4
+col-2=6
+col-3=2
 monitor-0-layout=1
 row-0=1
-row-1=0
+row-1=1
+row-2=1
 tile-0-0=['g']
 tile-1-0=['h']
