@@ -107,7 +107,6 @@
 - Add [PDF Arranger](https://flathub.org/apps/com.github.jeromerobert.pdfarranger) pdf tool
 - Add [Yazi File Manager](https://github.com/sxyazi/yazi)
 - Add [Cargo Binstall](https://crates.io/crates/cargo-binstall/) for faster cargo bin installs
-- Add [Ferdium](https://ferdium.org/) to replace several nativefier applications
 - Add [IconLibrary](https://flathub.org/apps/org.gnome.design.IconLibrary) for an icon viewer of
   system icons
 - Address `nodesource` install script deprecation warning:
