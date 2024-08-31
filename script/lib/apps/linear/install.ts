@@ -12,7 +12,6 @@ if (await $.commandMissing(name)) {
 		appName: name,
 		displayName: "Linear",
 		website: "https://linear.app",
-		frame: false,
 		internalUrlRegex: ".*?\.rippling\.*?",
 	});
 }

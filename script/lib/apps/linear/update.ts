@@ -14,7 +14,6 @@ if (await $.commandExists(name)) {
 		appName: name,
 		displayName: "Bitwarden",
 		website: "https://linear.app",
-		frame: false,
 		internalUrlRegex: ".*?\.rippling\.*?",
 	});
 
