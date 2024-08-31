@@ -15,6 +15,7 @@ if (await $.commandExists(name)) {
 		displayName: "Bitwarden",
 		website: "https://linear.app",
 		frame: false,
+		internalUrlRegex: ".*?\.rippling\.*?",
 	});
 
 	meta.lastCheck = Date.now();
