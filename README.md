@@ -107,6 +107,9 @@
 - Add [PDF Arranger](https://flathub.org/apps/com.github.jeromerobert.pdfarranger) pdf tool
 - Add [Yazi File Manager](https://github.com/sxyazi/yazi)
 - Add [Cargo Binstall](https://crates.io/crates/cargo-binstall/) for faster cargo bin installs
+- Add [Numbat](https://github.com/sharkdp/numbat) tool for computation with awareness of physical
+  dimensions
+- Add [Pastel](https://github.com/sharkdp/pastel) tool for manipulating color in the terminal
 - Add [IconLibrary](https://flathub.org/apps/org.gnome.design.IconLibrary) for an icon viewer of
   system icons
 - Address `nodesource` install script deprecation warning:
