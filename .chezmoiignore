@@ -5,6 +5,8 @@ script/
 .envrc
 .gitignore
 README.md
+deno.jsonc
+deno.lock
 *deleteme*
 
 {{- if .is_containerized }}

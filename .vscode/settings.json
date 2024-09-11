@@ -1,7 +1,6 @@
 {
 	"deno.enable": true,
-	"deno.unstable": true,
-	"deno.config": ".vscode/deno.jsonc",
+	"deno.config": "deno.jsonc",
 	"deno.enablePaths": [".web", "script"],
 	"deno.cacheOnSave": true,
 	"[json]": { "editor.defaultFormatter": "denoland.vscode-deno" },

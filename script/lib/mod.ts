@@ -1,24 +1,22 @@
-import type { Logger } from "./deps.ts";
-import {
-	cliffyCmd,
-	cliffyColors,
-	cliffyTable,
-	dateFns,
-	dax,
-	handlebars,
-	puppeteer,
-	stdFS,
-	stdIntersect,
-	stdLog,
-	stdNodeFS,
-	stdNodeUtil,
-	stdPath,
-	stdSemver,
-	stdText,
-} from "./deps.ts";
+import * as cliffyColors from "@cliffy/ansi/colors";
+import * as cliffyCmd from "@cliffy/command";
+import * as cliffyTable from "@cliffy/table";
+import * as dax from "@david/dax";
+import * as puppeteer from "@denoland/puppeteer";
+import * as dateFns from "@npm/date-fns";
+import { default as handlebars } from "@npm/handlebars";
+import { intersect as stdIntersect } from "@std/collections/intersect";
+import * as stdFS from "@std/fs";
+import type { FormatterFunction, Logger, LogRecord } from "@std/log";
+import * as stdLog from "@std/log";
+import * as stdNodeFS from "@std/node-fs";
+import * as stdNodeUtil from "@std/node-util";
+import * as stdPath from "@std/path";
+import * as stdSemver from "@std/semver";
+import * as stdText from "@std/text";
 import { type UAOpts } from "./user-agents.d.ts";
 
-export type { FormatterFunction, Logger, LogRecord } from "./deps.ts";
+export type { FormatterFunction, Logger, LogRecord };
 
 /** Does nothing */
 function noop() {}
@@ -308,7 +306,7 @@ type RunInBrowserFn = (page: puppeteer.Page, browser: puppeteer.Browser) => Prom
 
 /** Run the specified function in a real browser context */
 async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: unknown }) {
-	const { default: UserAgent } = await import("user-agents");
+	const { default: UserAgent } = await import("@npm/user-agents");
 
 	let browser: puppeteer.Browser | undefined;
 	let page: puppeteer.Page | undefined;

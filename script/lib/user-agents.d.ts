@@ -1,1 +1,3 @@
-export type UAOpts = NonNullable<ConstructorParameters<typeof import("user-agents").default>[0]>;
+export type UAOpts = NonNullable<
+	ConstructorParameters<typeof import("@npm/user-agents").default>[0]
+>;
