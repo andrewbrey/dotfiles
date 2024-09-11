@@ -103,7 +103,9 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
 
 					const latestExtension = await page.evaluate((selector) => {
 						// @ts-expect-error function runs in the context of the browser
+						// deno-lint-ignore no-explicit-any
 						const latestOption: any = Array.from(document.querySelectorAll(selector))
+							// deno-lint-ignore no-explicit-any
 							.filter((n: any) => !n.value.includes("Extension version"))
 							.at(-1);
 

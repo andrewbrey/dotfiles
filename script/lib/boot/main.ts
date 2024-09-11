@@ -57,7 +57,7 @@ try {
 } catch (bootErr) {
 	try {
 		$.logging.error(bootErr);
-	} catch (logErr) {
+	} catch (_logErr) {
 		console.error(bootErr);
 	}
 } finally {
@@ -66,7 +66,7 @@ try {
 	} catch (lockRemoveErr) {
 		try {
 			$.logging.error(lockRemoveErr);
-		} catch (logErr) {
+		} catch (_logErr) {
 			console.error(lockRemoveErr);
 		}
 	}

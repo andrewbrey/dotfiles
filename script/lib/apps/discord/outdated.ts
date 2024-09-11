@@ -7,9 +7,9 @@ const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.ur
 
 const outdatedCheck = await pamkit.wrapOutdatedCheck(meta, 3, async () => {
 	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
-		return ""; // managed on darwin
+		return await Promise.resolve(""); // managed on darwin
 	} else {
-		return "99.99.99"; // always report a newer version :shrug:
+		return await Promise.resolve("99.99.99"); // always report a newer version :shrug:
 	}
 });
 

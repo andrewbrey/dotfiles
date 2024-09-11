@@ -13,9 +13,7 @@ const id = `==> ${$.path.basename(import.meta.url)}`;
 $.logGroup($.colors.black.bgYellow(id));
 
 switch ($.env.OS) {
-	case "linux":
-		// IDEA: handle other package managers if needed; pretty happy with debain derived variants and `apt` for now ¯\_(ツ)_/¯
-
+	case "linux": { // IDEA: handle other package managers if needed; pretty happy with debain derived variants and `apt` for now ¯\_(ツ)_/¯
 		if ($.env.IN_CLOUD_IDE) {
 			await $`sudo apt update`;
 		} else {
@@ -23,7 +21,8 @@ switch ($.env.OS) {
 		}
 
 		break;
-	case "darwin":
+	}
+	case "darwin": {
 		if (await $.maybeConfirm("Run system software updates now?", { default: false })) {
 			$.logStep("installing software center updates...");
 			await $`sudo softwareupdate -i -a`;
@@ -55,6 +54,7 @@ switch ($.env.OS) {
 
 		await $`/opt/homebrew/bin/brew update && /opt/homebrew/bin/brew upgrade && /opt/homebrew/bin/brew cleanup`;
 		break;
+	}
 	default:
 		Deno.exit(1);
 }

@@ -52,7 +52,7 @@ export const outdated = new $.cliffy.cmd.Command()
 
 				try {
 					checkResults.push(await $`zsh -c ${outdatedScript}`.printCommand(false).json());
-				} catch (error) {
+				} catch (_error) {
 					checkResults.push({
 						name: meta.name,
 						current: meta.version,

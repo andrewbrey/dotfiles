@@ -80,7 +80,7 @@ export const update = new $.cliffy.cmd.Command()
 				const startTime = Date.now();
 				try {
 					await $`zsh -c ${updateScript}`.printCommand(false);
-				} catch (error) {
+				} catch (_error) {
 					failedUpdates.push(meta);
 				}
 

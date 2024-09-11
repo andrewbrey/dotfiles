@@ -26,6 +26,7 @@ if (!chezmoiData.is_containerized && (chezmoiData.is_popos || chezmoiData.is_ubu
 
 		const { dconf } = JSON.parse(
 			await Deno.readTextFile($.path.join(extDir, "ext.json")),
+			// deno-lint-ignore no-explicit-any
 		) as any;
 		const dumpResult = await $`dconf dump ${dconf}`.noThrow().stdout("piped");
 

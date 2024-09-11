@@ -2,7 +2,8 @@
 	"fmt": { "options": { "lineWidth": 100, "useTabs": true } },
 	"tasks": {
 		// Bump dependencies using @molt/cli (https://jsr.io/@molt/cli) - may prompt for read perms on ~/.local/share/deno-wasmbuild
-		"deps:bump": "deno run -E=XDG_DATA_HOME,HOME -R='./' -W=deno.jsonc -N=jsr.io,deno.land,registry.npmjs.org jsr:@molt/cli --write deno.jsonc"
+		"deps:bump": "deno run -E=XDG_DATA_HOME,HOME -R='./' -W=deno.jsonc -N=jsr.io,deno.land,registry.npmjs.org jsr:@molt/cli --write deno.jsonc",
+		"check": "deno check **/*.ts && deno lint **/*.ts"
 	},
 	"imports": {
 		"@cliffy/ansi": "jsr:@cliffy/ansi@1.0.0-rc.5",

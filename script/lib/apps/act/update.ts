@@ -28,7 +28,7 @@ if (await $.commandExists("act")) {
 		await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
 		const { assets, tag_name } = releaseInfo;
-		const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
+		const _latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
 		const targetName = `act_Linux_x86_64.tar.gz`;
 		const targetAsset = assets.find((a) => a.name === targetName);
 

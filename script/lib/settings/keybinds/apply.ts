@@ -12,6 +12,8 @@ await $.onMac(async () => {
 			`,
 		);
 	});
+
+	return await Promise.resolve();
 });
 
 await $.onLinux(async () => {

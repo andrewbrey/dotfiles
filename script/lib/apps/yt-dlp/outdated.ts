@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-sys --allow-env --allow-net --allow-read --allow-write --allow-run
 
 import { $ } from "../../mod.ts";
-import { type InstallerMeta, type OutdatedCheck, pamkit } from "../_cli/pamkit.ts";
+import { pamkit } from "../_cli/pamkit.ts";
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 

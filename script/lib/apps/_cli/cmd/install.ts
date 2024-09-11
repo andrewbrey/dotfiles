@@ -33,7 +33,7 @@ export const install = new $.cliffy.cmd.Command()
 		const installed = metasForScope.filter((m) => m.type !== "uninstalled");
 		const uninstalled = metasForScope.filter((m) => m.type === "uninstalled");
 
-		const toInstall = Boolean(allowReinstall) ? [...metasForScope] : [...uninstalled];
+		const toInstall = allowReinstall ? [...metasForScope] : [...uninstalled];
 
 		const lister = new Intl.ListFormat(undefined, { type: "conjunction", style: "short" });
 		const toInstallList = lister.format(toInstall.map((i) => $.colors.blue(i.name)));
