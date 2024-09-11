@@ -1,15 +1,8 @@
-/**
- * You can use https://deno.land/x/udd to bump deps
- *
- * e.g.
- *
- * deno run --allow-read=. --allow-write=. --allow-net https://deno.land/x/udd/main.ts script/lib/deps.ts .web/serve.ts
- */
-export * as cliffyAnsi from "https://deno.land/x/cliffy@v1.0.0-rc.4/ansi/mod.ts";
-export * as cliffyCmd from "https://deno.land/x/cliffy@v1.0.0-rc.4/command/mod.ts";
-export * as cliffyTable from "https://deno.land/x/cliffy@v1.0.0-rc.4/table/mod.ts";
 export * as puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
-export * as dax from "jsr:@david/dax@0.40.0";
+export * as cliffyColors from "jsr:@cliffy/ansi@1.0.0-rc.5/colors";
+export * as cliffyCmd from "jsr:@cliffy/command@1.0.0-rc.5";
+export * as cliffyTable from "jsr:@cliffy/table@1.0.0-rc.5";
+export * as dax from "jsr:@david/dax@0.42.0";
 export { intersect as stdIntersect } from "jsr:@std/collections@1.0.5/intersect";
 export * as stdFS from "jsr:@std/fs@1.0.2";
 export * as stdLog from "jsr:@std/log@0.224.6";

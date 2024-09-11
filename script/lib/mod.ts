@@ -1,7 +1,7 @@
 import type { Logger } from "./deps.ts";
 import {
-	cliffyAnsi,
 	cliffyCmd,
+	cliffyColors,
 	cliffyTable,
 	dateFns,
 	dax,
@@ -28,16 +28,16 @@ function noop() {}
  *
  * NOTE: not part of `$` because of https://github.com/microsoft/TypeScript/issues/36931
  */
-export function invariant(condition: any, message?: string): asserts condition {
+export function invariant(condition: unknown, message?: string): asserts condition {
 	if (condition) return;
 
-	const prefix = cliffyAnsi.colors.red("Invariant failed");
+	const prefix = cliffyColors.colors.red("Invariant failed");
 	const value: string = message ? `${prefix}: ${message}` : prefix;
 	throw new Error(value);
 }
 
 /** Simplified re-export of the stdlib node inspect function */
-function inspect(what: any, depth: number = Infinity) {
+function inspect(what: unknown, depth: number = Infinity) {
 	return stdNodeUtil.inspect(what, { colors: env.ALLOW_COLOR, depth, getters: true });
 }
 
@@ -71,7 +71,7 @@ function $dirname(importMetaUrl: string, basenameOnly = false) {
 function $dotdot(importMetaUrl: string, count = 1) {
 	invariant(count > 0, "dotdot count must be at least 1");
 
-	const dots = new Array(count).fill("").map((i) => "..");
+	const dots = new Array(count).fill("").map((_i) => "..");
 	return stdPath.resolve($dirname(importMetaUrl), ...dots);
 }
 
@@ -173,7 +173,7 @@ async function getChezmoiData() {
  * not be a big deal to use this in some scenarios and simplify
  * the code a lot.
  */
-async function exists(path: string) {
+function exists(path: string) {
 	return basic$.path(path).exists();
 }
 
@@ -183,7 +183,7 @@ function existsSync(path: string) {
 }
 
 /** Gets if the provided path does not exist asynchronously */
-async function missing(path: string) {
+function missing(path: string) {
 	return exists(path).then((exists) => !exists);
 }
 
@@ -201,7 +201,7 @@ async function requireExists(path: string) {
 		? path
 		: stdPath.resolve(stdPath.join(Deno.cwd(), path));
 
-	const message = `nothing exists at ${cliffyAnsi.colors.blue(path)} but it is required`;
+	const message = `nothing exists at ${cliffyColors.colors.blue(path)} but it is required`;
 
 	invariant(await exists(absolutePath), message);
 
@@ -209,7 +209,7 @@ async function requireExists(path: string) {
 }
 
 /** Determine if the provided command does not exist */
-async function commandMissing(commandName: string) {
+function commandMissing(commandName: string) {
 	return basic$.commandExists(commandName).then((exists) => !exists);
 }
 
@@ -220,10 +220,10 @@ function commandMissingSync(commandName: string) {
 
 /** Enforce that the specified command is available, returning value of `which cmd` if the `cmd` is available */
 async function requireCommand(commandName: string, installCommand?: string) {
-	let message = `${cliffyAnsi.colors.blue(commandName)} is required`;
+	let message = `${cliffyColors.colors.blue(commandName)} is required`;
 
 	if (installCommand) {
-		message = `${message}, install it with ${cliffyAnsi.colors.magenta(installCommand)}`;
+		message = `${message}, install it with ${cliffyColors.colors.magenta(installCommand)}`;
 	}
 
 	invariant(await basic$.commandExists(commandName), message);
@@ -245,10 +245,10 @@ function envMissing(envName: string) {
 
 /** Enforce that the specified environment variable is defined, returning the env value if defined */
 function requireEnv(envName: string, setCommand?: string) {
-	let message = `missing required env ${cliffyAnsi.colors.blue(envName)}`;
+	let message = `missing required env ${cliffyColors.colors.blue(envName)}`;
 
 	if (setCommand) {
-		message = `${message} (try ${cliffyAnsi.colors.magenta(setCommand)})`;
+		message = `${message} (try ${cliffyColors.colors.magenta(setCommand)})`;
 	}
 
 	invariant(envExists(envName), message);
@@ -419,7 +419,7 @@ async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: unknown }) {
 type RunOnOSFn<T> = () => Promise<T>;
 
 /** Run a function only when on the specified operating system */
-async function onOS<T>(os: typeof env.OS, fn: RunOnOSFn<T>) {
+function onOS<T>(os: typeof env.OS, fn: RunOnOSFn<T>) {
 	if (env.OS === os) return fn();
 }
 
@@ -428,7 +428,7 @@ const $helpers = {
 	$dotdot,
 	cliffy: { cmd: cliffyCmd, table: cliffyTable },
 	collections: { intersect: stdIntersect },
-	colors: cliffyAnsi.colors,
+	colors: cliffyColors.colors,
 	commandMissing,
 	commandMissingSync,
 	dateFns,
@@ -448,8 +448,8 @@ const $helpers = {
 	nodeFS: stdNodeFS,
 	noop,
 	ntfyAlert,
-	onLinux: async <T>(fn: RunOnOSFn<T>) => onOS("linux", fn),
-	onMac: async <T>(fn: RunOnOSFn<T>) => onOS("darwin", fn),
+	onLinux: <T>(fn: RunOnOSFn<T>) => onOS("linux", fn),
+	onMac: <T>(fn: RunOnOSFn<T>) => onOS("darwin", fn),
 	path: Object.assign(basic$.path, stdPath) as typeof basic$.path & typeof stdPath,
 	requireCommand,
 	requireEnv,

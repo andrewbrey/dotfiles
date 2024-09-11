@@ -17,7 +17,7 @@ if (await $.commandMissing("rustyvibes")) {
 	await $`unzip -o ${archivePath} -d ${appDataPath}`;
 
 	const packsDir = $.path(appDataPath).join("packs");
-	const packEntries = Array.from(packsDir.walkSync({ maxDepth: 1 }));
+	const packEntries = Array.from($.fs.walkSync(packsDir.toFileUrl(), { maxDepth: 1 }));
 
 	let current: (typeof packEntries)[number] | undefined;
 	for (const entry of packEntries) {
@@ -33,7 +33,7 @@ if (await $.commandMissing("rustyvibes")) {
 
 	invariant(!!current, "did not find a new current pack");
 
-	await $`ln -s ${current.path} ${current.path.withBasename("current")}`;
+	await $`ln -s ${current.path} ${$.path(current.path).withBasename("current")}`;
 }
 
 const versionOutput = await $`rustyvibes --version`.lines(); // <ASCII ART>\nrustyvibes 1.0.9

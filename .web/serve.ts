@@ -73,7 +73,7 @@ function requireEnv(envName: string) {
 	return value;
 }
 
-function invariant(condition: any, message: string): asserts condition {
+function invariant(condition: unknown, message: string): asserts condition {
 	if (condition) return;
 
 	throw new Error(message);
