@@ -11,16 +11,16 @@
 		"@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.5",
 		"@david/dax": "jsr:@david/dax@0.42.0",
 		"@denoland/puppeteer": "https://deno.land/x/puppeteer@16.2.0/mod.ts",
-		"@npm/date-fns": "npm:date-fns@3.6.0",
+		"@npm/date-fns": "npm:date-fns@4.1.0",
 		"@npm/handlebars": "npm:handlebars@4.7.8",
-		"@npm/user-agents": "npm:user-agents@1.1.322",
-		"@std/collections": "jsr:@std/collections@1.0.5",
+		"@npm/user-agents": "npm:user-agents@1.1.325",
+		"@std/collections": "jsr:@std/collections@1.0.6",
 		"@std/fs": "jsr:@std/fs@1.0.3",
 		"@std/log": "jsr:@std/log@0.224.7",
 		"@std/node-fs": "node:fs",
 		"@std/node-util": "node:util",
-		"@std/path": "jsr:@std/path@1.0.4",
+		"@std/path": "jsr:@std/path@1.0.6",
 		"@std/semver": "jsr:@std/semver@1.0.3",
-		"@std/text": "jsr:@std/text@1.0.5"
+		"@std/text": "jsr:@std/text@1.0.6"
 	}
 }

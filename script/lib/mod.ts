@@ -458,7 +458,6 @@ const $helpers = {
 	strings: {
 		case: {
 			camel: stdText.toCamelCase,
-			constant: stdText.toConstantCase,
 			kebab: stdText.toKebabCase,
 			pascal: stdText.toPascalCase,
 			snake: stdText.toSnakeCase,
