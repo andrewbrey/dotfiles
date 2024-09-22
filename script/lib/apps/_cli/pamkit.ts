@@ -411,7 +411,7 @@ async function createAndLinkNativefierApp(
 	await $.fs.ensureDir(sourceDir);
 	await $.fs.emptyDir(sourceDir);
 
-	await $`npx --yes nativefier@latest --name="${appName}" --icon="${iconPath}" --file-download-options='{"openFolderWhenDone": true}' --hide-window-frame=${hideFrame} --internal-urls=${internalUrls} ${website} ${sourceDir}`;
+	await $`npx --yes nativefier@latest --name="${appName}" --icon="${iconPath}" --file-download-options='{"openFolderWhenDone": true}' --hide-window-frame=${hideFrame} --internal-urls=${internalUrls} --disable-old-build-warning-yesiknowitisinsecure="true" ${website} ${sourceDir}`;
 
 	let builtAppDir = "";
 	for await (const dir of Deno.readDir(sourceDir)) {
