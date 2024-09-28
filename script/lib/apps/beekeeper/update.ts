@@ -23,12 +23,12 @@ if (await $.commandExists("beekeeper-studio")) {
 		const releaseInfoPath = $.path.join(dotAppPath, pamkit.constants.jsonReleaseInfoName);
 		const binPath = $.path.join(dotAppPath, "beekeeper-studio.AppImage");
 
-		const releaseInfo = await $.ghReleaseInfo("beekeeper-studio", "beekeeper-studio");
+		const releaseInfo = await $.ghReleaseInfo("beekeeper-studio", "ultimate-releases");
 		await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
 		const { assets, tag_name } = releaseInfo;
 		const latestVersion = tag_name.split("v")?.at(1) ?? "0.0.0";
-		const targetName = `beekeeper-Studio-${latestVersion}.AppImage`;
+		const targetName = `Beekeeper-Studio-Ultimate-${latestVersion}.AppImage`;
 		const targetAsset = assets.find((a) => a.name === targetName);
 
 		invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
