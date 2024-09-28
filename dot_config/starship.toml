@@ -198,6 +198,11 @@ format = "with [$symbol SUPABASE_ACCESS_TOKEN](bold dimmed yellow) "
 symbol = ""
 variable = "SUPABASE_ACCESS_TOKEN"
 
+[env_var.TURSO_API_TOKEN]
+format = "with [$symbol TURSO_API_TOKEN](bold dimmed yellow) "
+symbol = ""
+variable = "TURSO_API_TOKEN"
+
 [env_var.ASCIINEMA_REC]
 format = "[$symbol rec](bold dimmed red) "
 symbol = "󰑋"
