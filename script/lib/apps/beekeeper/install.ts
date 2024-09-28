@@ -34,6 +34,13 @@ await $.onLinux(async () => {
 	}
 });
 
+const chezmoiData = await $.getChezmoiData();
+$.log(
+	$.path(chezmoiData.standard_dirs.dot_dots_apps).join("beekeeper-studio").join(
+		"post-install.md",
+	).readTextSync(),
+);
+
 const meta: InstallerMeta = {
 	name: $.$dirname(import.meta.url, true),
 	path: $.$dirname(import.meta.url),

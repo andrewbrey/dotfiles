@@ -43,5 +43,12 @@ if (await $.commandExists("beekeeper-studio")) {
 	}
 }
 
+const chezmoiData = await $.getChezmoiData();
+$.log(
+	$.path(chezmoiData.standard_dirs.dot_dots_apps).join("beekeeper-studio").join(
+		"post-install.md",
+	).readTextSync(),
+);
+
 const metaManifestPath = $.path.join(dotAppPath, pamkit.constants.metaManifestName);
 await Deno.writeTextFile(metaManifestPath, JSON.stringify(meta, null, 2));
