@@ -2,7 +2,7 @@
 	"fmt": { "options": { "lineWidth": 100, "useTabs": true } },
 	"tasks": {
 		// Bump dependencies using @molt/cli (https://jsr.io/@molt/cli) - may prompt for read perms on ~/.local/share/deno-wasmbuild
-		"deps:bump": "deno run -E=XDG_DATA_HOME,HOME,GITHUB_TOKEN -R='./' -W=deno.jsonc -N=jsr.io,deno.land,registry.npmjs.org,esm.sh jsr:@molt/cli --write deno.jsonc",
+		"deps:bump": "deno run -E=XDG_DATA_HOME,HOME,GITHUB_TOKEN -R='./' -W=deno.jsonc -N=api.jsr.io,jsr.io,deno.land,registry.npmjs.org,esm.sh jsr:@molt/cli --write deno.jsonc",
 		"check": "deno check **/*.ts && deno lint **/*.ts && deno fmt **/*.ts"
 	},
 	"imports": {
@@ -13,10 +13,10 @@
 		"@denoland/puppeteer": "https://deno.land/x/puppeteer@16.2.0/mod.ts",
 		"@npm/date-fns": "npm:date-fns@4.1.0",
 		"@npm/handlebars": "npm:handlebars@4.7.8",
-		"@npm/user-agents": "npm:user-agents@1.1.325",
-		"@std/collections": "jsr:@std/collections@1.0.7",
+		"@npm/user-agents": "npm:user-agents@1.1.327",
+		"@std/collections": "jsr:@std/collections@1.0.8",
 		"@std/fs": "jsr:@std/fs@1.0.4",
-		"@std/log": "jsr:@std/log@0.224.8",
+		"@std/log": "jsr:@std/log@0.224.9",
 		"@std/node-fs": "node:fs",
 		"@std/node-util": "node:util",
 		"@std/path": "jsr:@std/path@1.0.6",
