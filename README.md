@@ -112,6 +112,7 @@
 - Add [Pastel](https://github.com/sharkdp/pastel) tool for manipulating color in the terminal
 - Add [IconLibrary](https://flathub.org/apps/org.gnome.design.IconLibrary) for an icon viewer of
   system icons
+- Add [Ulauncher](https://ulauncher.io/) to have an extensible launcher
 - Address `nodesource` install script deprecation warning:
   ```
   SCRIPT DEPRECATION WARNING
