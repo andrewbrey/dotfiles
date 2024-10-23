@@ -32,7 +32,7 @@ config.mouse_bindings = {
 }
 
 config.font = wezterm.font_with_fallback {'CaskaydiaMono NF'}
-config.color_scheme = "Arthur"
+config.color_scheme = "Tokyo Night"
 config.default_cursor_style = 'SteadyBar'
 config.window_background_image = wezterm.config_dir .. "/assets/waves.gif"
 config.window_background_opacity = 1.0
