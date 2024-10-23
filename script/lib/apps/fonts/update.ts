@@ -10,7 +10,6 @@ const cascadia = $.env.OS === "darwin" ? "font-caskaydia-mono-nerd-font" : "Casc
 const droid = $.env.OS === "darwin" ? "font-droid-sans-mono-nerd-font" : "DroidSansMono";
 const intelone = $.env.OS === "darwin" ? "font-intone-mono-nerd-font" : "IntelOneMono";
 const jetbrains = $.env.OS === "darwin" ? "font-jetbrains-mono-nerd-font" : "JetBrainsMono";
-const martian = $.env.OS === "darwin" ? "font-martian-mono-nerd-font" : "MartianMono";
 const monaspace = $.env.OS === "darwin" ? "font-monaspace-nerd-font" : "Monaspace";
 const recursive = $.env.OS === "darwin" ? "font-recursive-mono-nerd-font" : "Recursive";
 const _hack = $.env.OS === "darwin" ? "font-hack-nerd-font" : "Hack"; // TODO: remove? this font is a huge download
@@ -20,7 +19,7 @@ const chezmoiData = await $.getChezmoiData();
 
 const fonts = chezmoiData.is_containerized
 	? [droid]
-	: [cascadia, droid, jetbrains, intelone, martian, monaspace, recursive];
+	: [cascadia, droid, jetbrains, intelone, monaspace, recursive];
 
 const [meta] = await pamkit.getInstallerMetas(new Set([$.$dirname(import.meta.url, true)]));
 if (meta.type !== "uninstalled") {
