@@ -8,14 +8,15 @@ const dotResPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 
 const nodeVersion = await pamkit.mostRelevantVersion(dotResPath);
 if (await $.commandExists("node")) {
-	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+	$.onMac(async () => {
 		await $`brew unlink node@${nodeVersion}`;
 		await $`brew uninstall node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
-	} else {
-		// @see https://github.com/nodesource/distributions/blob/master/README.md#debuninstall
+	});
+	$.onLinux(async () => {
+		// @see https://github.com/nodesource/distributions?tab=readme-ov-file#uninstall-nsolid-or-nodejs-ubuntu--debian-packages
 		await $`sudo apt purge -y nodejs`;
-		await $`sudo rm -rf /etc/apt/sources.list.d/nodesource.list`;
-	}
+		await $`sudo rm -r /etc/apt/sources.list.d/nodesource.list`;
+	});
 }
 
 if (await $.exists(dotAppPath)) {

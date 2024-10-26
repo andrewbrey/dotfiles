@@ -9,20 +9,20 @@ await $.fs.ensureDir(dotAppPath);
 
 const nodeVersion = await pamkit.mostRelevantVersion(dotResPath);
 if (await $.commandMissing("node")) {
-	if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
+	await $.onMac(async () => {
 		await $`brew install node@${nodeVersion}`.env({ HOMEBREW_NO_ANALYTICS: "1" });
 		await $`brew link node@${nodeVersion}`;
-	} else {
-		const installScriptPath = $.path.join(dotAppPath, "node.sh");
+	});
 
-		// TODO: the nodesource install script is deprecated (see README), need a different install method
+	await $.onLinux(async () => {
+		const installScriptPath = $.path.join(dotAppPath, "node.sh");
 		await $.streamDownload(`https://deb.nodesource.com/setup_${nodeVersion}.x`, installScriptPath);
 		await $`sudo bash -E ${installScriptPath}`;
 		await $`sudo apt install -y nodejs`;
-	}
+	});
 }
 
-const versionOutput = await $`node --version`.text(); // v18.12.1
+const versionOutput = await $`node --version`.text(); // v22.10.0
 const version = versionOutput.split("v")?.at(1) ?? "";
 
 const meta: InstallerMeta = {
