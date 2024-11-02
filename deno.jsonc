@@ -13,13 +13,13 @@
 		"@denoland/puppeteer": "https://deno.land/x/puppeteer@16.2.0/mod.ts",
 		"@npm/date-fns": "npm:date-fns@4.1.0",
 		"@npm/handlebars": "npm:handlebars@4.7.8",
-		"@npm/user-agents": "npm:user-agents@1.1.338",
+		"@npm/user-agents": "npm:user-agents@1.1.346",
 		"@std/collections": "jsr:@std/collections@1.0.9",
 		"@std/fs": "jsr:@std/fs@1.0.5",
 		"@std/log": "jsr:@std/log@0.224.9",
 		"@std/node-fs": "node:fs",
 		"@std/node-util": "node:util",
-		"@std/path": "jsr:@std/path@1.0.7",
+		"@std/path": "jsr:@std/path@1.0.8",
 		"@std/semver": "jsr:@std/semver@1.0.3",
 		"@std/text": "jsr:@std/text@1.0.8"
 	}
