@@ -15,7 +15,7 @@
 
 if [ "$(pidof kanata)" != "" ]; then
   killall kanata
-  rm -rf /tmp/kanata.log
+  rm -rf /tmp/kanata-toggle.log
 else
-  pkexec nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/kanata -c {{ .standard_dirs.dot_dots_apps | quote }}/kanata/kanata.kbd 1>/tmp/kanata.log 2>&1 &
+  pkexec nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/kanata -c {{ .standard_dirs.dot_dots_apps | quote }}/kanata/kanata.kbd 1>/tmp/kanata-toggle.log 2>&1 &
 fi
