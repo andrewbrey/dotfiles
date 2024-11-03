@@ -23,8 +23,9 @@
   k (tap-hold $tap-time $hold-time k rctl)
   l (tap-hold $tap-time $hold-time l ralt)
   ; (tap-hold $tap-time $hold-time ; rmet)
+  reload (tap-hold $tap-time $hold-time rctl lrld)
 )
 
 (deflayer base
-  @escctrl  @a  @s  @d  @f  @j  @k  @l  @;  lrld
+  @escctrl  @a  @s  @d  @f  @j  @k  @l  @;  @reload
 )
