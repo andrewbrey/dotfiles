@@ -7,6 +7,7 @@ hot-sensors=['_memory_usage_']
 position-in-panel=2
 show-battery=false
 show-fan=false
+show-memory=true
 show-network=false
 show-processor=true
 show-storage=false
