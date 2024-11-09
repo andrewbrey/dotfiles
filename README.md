@@ -113,6 +113,9 @@
 - Add [IconLibrary](https://flathub.org/apps/org.gnome.design.IconLibrary) for an icon viewer of
   system icons
 - Add [Ulauncher](https://ulauncher.io/) to have an extensible launcher
+- Add [glow](https://github.com/charmbracelet/glow) to have a terminal markdown renderer
+- Add [html-to-markdown](https://github.com/JohannesKaufmann/html-to-markdown) to have an html to
+  markdown converter
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
   config files and secrets in one command. Might be able to just use `chezmoi purge`
   (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:
