@@ -1,5 +1,17 @@
 [/]
+active-screen-edges=false
+enable-snap-assist=false
+inner-gaps=uint32 8
 last-version-name-installed='15.0'
-layouts-json='[{"id":"Layout 1","tiles":[{"x":0,"y":0,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0,"y":0.5,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[2,3]},{"x":0.78,"y":0,"width":0.22,"height":0.5,"groups":[3,4]},{"x":0.78,"y":0.5,"width":0.22,"height":0.5,"groups":[3,4]}]},{"id":"Layout 2","tiles":[{"x":0,"y":0,"width":0.22,"height":1,"groups":[1]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[1,2]},{"x":0.78,"y":0,"width":0.22,"height":1,"groups":[2]}]},{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33,"height":1,"groups":[1]},{"x":0.33,"y":0,"width":0.67,"height":1,"groups":[1]}]},{"id":"Layout 4","tiles":[{"x":0,"y":0,"width":0.67,"height":1,"groups":[1]},{"x":0.67,"y":0,"width":0.33,"height":1,"groups":[1]}]}]'
-overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Primary><Super>Right', '<Primary><Super>KP_Right', '<Primary><Super>l']\",\"toggle-tiled-left\":\"['<Primary><Super>Left', '<Primary><Super>KP_Left', '<Primary><Super>h']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"@as []\",\"unmaximize\":\"@as []\"},\"org.gnome.mutter\":{\"edge-tiling\":\"true\"}}"
-selected-layouts=[['Layout 1'], ['Layout 1']]
+layouts-json='[{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33958333333333335,"height":1,"groups":[1]},{"x":0.33958333333333335,"y":0,"width":0.16041666666666665,"height":1,"groups":[2,1]},{"x":0.5,"y":0,"width":0.5000000000000007,"height":1,"groups":[2]}]},{"id":"1502542","tiles":[{"x":0,"y":0,"width":1,"height":1,"groups":[]}]},{"id":"1533848","tiles":[{"x":0,"y":0,"width":0.2875,"height":1,"groups":[1]},{"x":0.2875,"y":0,"width":0.7124999999999992,"height":1,"groups":[1]}]}]'
+move-window-center=['<Alt><Super>m']
+move-window-down=['<Alt><Super>Down']
+move-window-left=['<Alt><Super>Left']
+move-window-right=['<Alt><Super>Right']
+move-window-up=['<Alt><Super>Up']
+overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Primary><Super>Right', '<Primary><Super>KP_Right', '<Primary><Super>l']\",\"toggle-tiled-left\":\"['<Primary><Super>Left', '<Primary><Super>KP_Left', '<Primary><Super>h']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"@as []\",\"unmaximize\":\"@as []\"}}"
+override-window-menu=false
+restore-window-original-size=false
+selected-layouts=[['Layout 3'], ['1502542']]
+span-window-left=['<Control><Alt><Super>Left']
+span-window-right=['<Control><Alt><Super>Right']
