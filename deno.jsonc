@@ -3,7 +3,10 @@
 	"tasks": {
 		// Bump dependencies using @molt/cli (https://jsr.io/@molt/cli) - may prompt for read perms on ~/.local/share/deno-wasmbuild
 		"deps:bump": "deno run -E=XDG_DATA_HOME,HOME,GITHUB_TOKEN -R='./' -W=deno.jsonc -N=api.jsr.io,jsr.io,deno.land,registry.npmjs.org,esm.sh jsr:@molt/cli --write deno.jsonc",
-		"check": "deno check **/*.ts && deno lint **/*.ts && deno fmt **/*.ts"
+		// Typecheck, lint, and format all typescript files
+		"check": "deno check **/*.ts && deno lint **/*.ts && deno fmt **/*.ts",
+		// Execute the (git-ignored) tinker script
+		"tinker": "deno run -A script/lib/tinker.ts"
 	},
 	"imports": {
 		"@cliffy/ansi": "jsr:@cliffy/ansi@1.0.0-rc.7",

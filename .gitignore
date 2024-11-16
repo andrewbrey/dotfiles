@@ -5,6 +5,7 @@ deno.lock
 
 script/lib/apps/**/.app/
 script/lib/updates/**/.memo/
+script/lib/tinker.ts
 
 ### Dropbox ###
 # Dropbox settings and caches
