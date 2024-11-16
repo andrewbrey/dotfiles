@@ -2,11 +2,12 @@ import * as cliffyColors from "@cliffy/ansi/colors";
 import * as cliffyCmd from "@cliffy/command";
 import * as cliffyTable from "@cliffy/table";
 import * as dax from "@david/dax";
-import * as puppeteer from "@denoland/puppeteer";
 import * as dateFns from "@npm/date-fns";
 import { default as handlebars } from "@npm/handlebars";
+import { Browser, BrowserContext, chromium, Page } from "@npm/playwright";
 import { intersect as stdIntersect } from "@std/collections/intersect";
 import * as stdFS from "@std/fs";
+import { parse as jsoncParse } from "@std/jsonc";
 import type { FormatterFunction, Logger, LogRecord } from "@std/log";
 import * as stdLog from "@std/log";
 import * as stdNodeFS from "@std/node-fs";
@@ -100,6 +101,7 @@ const env = {
 			DOT_DOTS_SETTINGS: stdPath.join(env.HOME, ".dots", "settings"),
 			LOCAL_BIN: stdPath.join(env.HOME, ".local", "bin"),
 			LOCAL_SHARE_APPS: stdPath.join(env.HOME, ".local", "share", "applications"),
+			DOTFILES: stdPath.join(env.HOME, ".local", "share", "chezmoi"),
 		};
 	},
 	get DOTS_CLONE_IS_SSH() {
@@ -161,6 +163,25 @@ async function getChezmoiData() {
 	invariant(await exists(chezmoiYaml), "unable to read chezmoi data before it is created");
 
 	return await $`chezmoi data`.printCommand(false).json() as ChezmoiData;
+}
+
+/** Returns the entry for the specified dependency in the `deno.jsonc` import map, if present */
+export function importMapDepVersion(depName: string): string | undefined {
+	const denoJsonPath = stdPath.join(env.STANDARD_DIRS.DOTFILES, "deno.jsonc");
+
+	invariant(existsSync(denoJsonPath), "unable to read deno configuration file");
+
+	// deno-lint-ignore no-explicit-any
+	const denoJson = jsoncParse(Deno.readTextFileSync(denoJsonPath)) as any;
+	const dep = denoJson?.imports?.[depName];
+
+	if (typeof dep === "undefined") return undefined;
+
+	invariant(typeof dep === "string", `dependency ${depName} had unexpected format`);
+
+	if (dep.startsWith("node:")) return undefined;
+
+	return dep.split("@")?.at(-1);
 }
 
 /**
@@ -302,14 +323,15 @@ async function streamDownload(url: string, dest: string) {
 	basic$.logStep("done:", `download saved to ${toPath}`);
 }
 
-type RunInBrowserFn = (page: puppeteer.Page, browser: puppeteer.Browser) => Promise<void>;
+type RunInBrowserFn = (page: Page, browser: Browser) => Promise<void>;
 
 /** Run the specified function in a real browser context */
 async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: unknown }) {
 	const { default: UserAgent } = await import("@npm/user-agents");
 
-	let browser: puppeteer.Browser | undefined;
-	let page: puppeteer.Page | undefined;
+	let browser: Browser | undefined;
+	let context: BrowserContext | undefined;
+	let page: Page | undefined;
 
 	const defaultUAOpts = {
 		platform: env.OS === "darwin" ? "MacIntel" : "Linux x86_64",
@@ -322,94 +344,56 @@ async function runInBrowser(fn: RunInBrowserFn, opts?: { ua: unknown }) {
 		Array.isArray(opts?.ua) ? opts?.ua.at(0) : opts?.ua,
 	);
 	const ua = new UserAgent(uaOpts);
-	const launchArgs: Parameters<typeof puppeteer.default.launch>[0] = {
+	const launchArgs: Parameters<typeof chromium.launch>[0] = {
 		headless: true,
-		defaultViewport: { width: 1920, height: 1080 },
 		args: ["--no-sandbox", "--disable-dev-shm-usage"],
 	};
 
 	try {
-		browser = await puppeteer.default.launch(launchArgs);
+		browser = await chromium.launch(launchArgs);
+		context = await browser.newContext({
+			viewport: { width: 1920, height: 1080 },
+			userAgent: ua.toString(),
+		});
 		page = await browser.newPage();
-		await page.setUserAgent(ua.toString());
 
 		await fn(page, browser);
 	} catch (error) {
-		if (error instanceof Error && error.message.includes("Could not find browser revision")) {
-			const puppeteerVersion = error.message.match(/Run "[^@]+@([^/]+)[^"]+" to download/i)?.at(1);
+		if (error instanceof Error && error.message.includes("Executable doesn't exist at")) {
+			const version = $.importMapDepVersion("@npm/playwright");
 
-			invariant(
-				typeof puppeteerVersion === "string" && puppeteerVersion.length > 0,
-				"no browser download instructions provided",
-			);
+			invariant(typeof version === "string" && version.length > 0, "unknown playwright version");
 
-			if (env.OS === "linux") {
-				// @see https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix
-				const systemDeps = [
-					"ca-certificates",
-					"curl",
-					"fonts-liberation",
-					"libappindicator3-1",
-					"libasound2",
-					"libatk-bridge2.0-0",
-					"libatk1.0-0",
-					"libc6",
-					"libcairo2",
-					"libcups2",
-					"libdbus-1-3",
-					"libdrm2",
-					"libexpat1",
-					"libfontconfig1",
-					"libgbm1",
-					"libgcc1",
-					"libglib2.0-0",
-					"libgtk-3-0",
-					"libnspr4",
-					"libnss3",
-					"libpango-1.0-0",
-					"libpangocairo-1.0-0",
-					"libstdc++6",
-					"libx11-6",
-					"libx11-xcb1",
-					"libxcb1",
-					"libxcomposite1",
-					"libxcursor1",
-					"libxdamage1",
-					"libxext6",
-					"libxfixes3",
-					"libxi6",
-					"libxkbcommon0",
-					"libxrandr2",
-					"libxrender1",
-					"libxshmfence1",
-					"libxss1",
-					"libxtst6",
-					"lsb-release",
-					"unzip",
-					"wget",
-					"xdg-utils",
-				];
-				await $`sudo apt install -y --no-install-recommends ${systemDeps}`;
-			}
+			$.onLinux(async () => {
+				await $`npx playwright@${version} install --with-deps`;
+			});
 
-			await $`deno run -A https://deno.land/x/puppeteer@${puppeteerVersion}/install.ts`
-				.env({ PUPPETEER_PRODUCT: "chrome" });
+			$.onMac(async () => {
+				await $`npx playwright@${version} install`;
+			});
 
 			try {
-				browser ??= await puppeteer.default.launch(launchArgs);
-				page ??= await browser.newPage();
-				await page.setUserAgent(ua.toString());
+				browser = await chromium.launch(launchArgs);
+				context = await browser.newContext({
+					viewport: { width: 1920, height: 1080 },
+					userAgent: ua.toString(),
+				});
+				page = await browser.newPage();
 
 				await fn(page, browser);
 			} catch (retryError) {
 				throw retryError;
 			} finally {
+				await page?.close();
+				await context?.close();
 				await browser?.close();
 			}
 		} else {
 			throw error;
 		}
 	} finally {
+		await page?.close();
+		await context?.close();
 		await browser?.close();
 	}
 }
@@ -439,6 +423,7 @@ const $helpers = {
 	getChezmoiData,
 	ghReleaseInfo,
 	handlebars,
+	importMapDepVersion,
 	inspect,
 	logging: stdLog,
 	missing,
