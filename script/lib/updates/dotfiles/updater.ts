@@ -7,7 +7,7 @@ const gitRoot = await $`git rev-parse --show-toplevel`.cwd(
 ).text();
 const dotfileRepoStatus = (await $`git -C ${gitRoot} status --porcelain`.lines()).filter(Boolean);
 
-const OK_TO_BE_DIRTY: string[] = [];
+const OK_TO_BE_DIRTY: string[] = ["tiling-shell/settings.dconf"];
 const worthWarningAbout = dotfileRepoStatus.filter((stl) =>
 	!OK_TO_BE_DIRTY.some((ok) => stl.includes(ok))
 );
