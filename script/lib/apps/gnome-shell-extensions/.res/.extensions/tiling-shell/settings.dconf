@@ -12,6 +12,6 @@ move-window-up=['<Alt><Super>Up']
 overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Primary><Super>Right', '<Primary><Super>KP_Right', '<Primary><Super>l']\",\"toggle-tiled-left\":\"['<Primary><Super>Left', '<Primary><Super>KP_Left', '<Primary><Super>h']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"@as []\",\"unmaximize\":\"@as []\"}}"
 override-window-menu=false
 restore-window-original-size=false
-selected-layouts=[['Layout 3'], ['1502542']]
+selected-layouts=[['1533848'], ['1502542']]
 span-window-left=['<Control><Alt><Super>Left']
 span-window-right=['<Control><Alt><Super>Right']
