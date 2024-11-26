@@ -29,5 +29,8 @@ if (hasNode && hasNPM && hasNCU) {
 		await $`echo skipping update of ignored packages: ${packagesToIgnore}`;
 	}
 
-	await $`npm i -g --ignore-engines ${packagesToUpdate}`;
+	// TODO: remove when this is no longer needed (when npm is fixed)
+	const bugWorkaround = "--libc=glibc";
+
+	await $`npm i -g ${bugWorkaround} --ignore-engines ${packagesToUpdate}`;
 }
