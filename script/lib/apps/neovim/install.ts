@@ -26,7 +26,7 @@ if (await $.commandMissing("nvim")) {
 		await Deno.writeTextFile(releaseInfoPath, JSON.stringify(releaseInfo, null, 2));
 
 		const { assets } = releaseInfo;
-		const targetName = `nvim.appimage`;
+		const targetName = `nvim-linux-x86_64.appimage`;
 		const targetAsset = assets.find((a) => a.name === targetName);
 
 		invariant(typeof targetAsset !== "undefined", "no suitable installation target found");
