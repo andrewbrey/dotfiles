@@ -31,7 +31,8 @@ config.mouse_bindings = {
     }
 }
 
-config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
+-- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
+config.font = wezterm.font_with_fallback {'VictorMono NFM'}
 config.color_scheme = "Tokyo Night"
 config.default_cursor_style = 'SteadyBar'
 config.window_background_opacity = 0.95
