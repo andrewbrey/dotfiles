@@ -2,7 +2,7 @@
 	"fmt": { "options": { "lineWidth": 100, "useTabs": true } },
 	"tasks": {
 		"deps:bump": {
-			"command": "deno outdated --update --latest",
+			"command": "deno outdated --update",
 			"description": "bump all dependencies to their latest releases"
 		},
 		"check": {
@@ -21,12 +21,12 @@
 		"@david/dax": "jsr:@david/dax@0.42.0",
 		"@npm/date-fns": "npm:date-fns@4.1.0",
 		"@npm/handlebars": "npm:handlebars@4.7.8",
-		"@npm/playwright": "npm:playwright@^1.51.0-alpha-2025-01-30",
-		"@npm/user-agents": "npm:user-agents@^2.0.0-alpha.445",
+		"@npm/playwright": "npm:playwright@^1.50.1",
+		"@npm/user-agents": "npm:user-agents@^1.1.439",
 		"@std/collections": "jsr:@std/collections@1.0.10",
-		"@std/fs": "jsr:@std/fs@^1.0.10",
+		"@std/fs": "jsr:@std/fs@^1.0.11",
 		"@std/jsonc": "jsr:@std/jsonc@1.0.1",
-		"@std/log": "jsr:@std/log@^0.224.13",
+		"@std/log": "jsr:@std/log@^0.224.14",
 		"@std/node-fs": "node:fs",
 		"@std/node-util": "node:util",
 		"@std/path": "jsr:@std/path@1.0.8",
