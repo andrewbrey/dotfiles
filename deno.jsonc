@@ -22,7 +22,7 @@
 		"@npm/date-fns": "npm:date-fns@4.1.0",
 		"@npm/handlebars": "npm:handlebars@4.7.8",
 		"@npm/playwright": "npm:playwright@^1.50.1",
-		"@npm/user-agents": "npm:user-agents@^1.1.450",
+		"@npm/user-agents": "npm:user-agents@^1.1.455",
 		"@std/collections": "jsr:@std/collections@1.0.10",
 		"@std/fs": "jsr:@std/fs@^1.0.13",
 		"@std/jsonc": "jsr:@std/jsonc@1.0.1",
