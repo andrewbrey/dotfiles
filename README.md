@@ -114,6 +114,7 @@
   system icons
 - Add [Ulauncher](https://ulauncher.io/) to have an extensible launcher
 - Add [glow](https://github.com/charmbracelet/glow) to have a terminal markdown renderer
+- Add [lazysql](https://github.com/jorgerojas26/lazysql) to have a terminal sqlite admin application
 - Add [html-to-markdown](https://github.com/JohannesKaufmann/html-to-markdown) to have an html to
   markdown converter
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
