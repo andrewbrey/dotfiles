@@ -7,6 +7,7 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 const ack = $.env.OS === "darwin" ? "ack" : "ack";
+const cmatrix = $.env.OS === "darwin" ? "cmatrix" : "cmatrix";
 const curl = $.env.OS === "darwin" ? "curl" : "curl";
 const direnv = $.env.OS === "darwin" ? "direnv" : "direnv";
 const exiftool = $.env.OS === "darwin" ? "exiftool" : "libimage-exiftool-perl";
@@ -24,6 +25,7 @@ const xz = $.env.OS === "darwin" ? "xz" : "xz-utils";
 
 const list = [
 	ack,
+	cmatrix,
 	curl,
 	direnv,
 	exiftool,
