@@ -119,6 +119,7 @@
 - Add [html-to-markdown](https://github.com/JohannesKaufmann/html-to-markdown) to have an html to
   markdown converter
 - Add [sniffnet](https://sniffnet.net/) to have a network traffic monitor written with iced
+- Add [Recorder](https://record.addy.ie/) as an installed webapp for simple screen recording
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
   config files and secrets in one command. Might be able to just use `chezmoi purge`
   (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:
