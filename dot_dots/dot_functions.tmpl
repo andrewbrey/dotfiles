@@ -419,3 +419,22 @@ function tempcode() {
 	mkdir "${wrk}"
 	code --user-data-dir "${usr}" --extensions-dir "${ext}" "${wrk}"
 }
+
+# create a wip commit and push to the origin all in one (inline gwip && ggpush)
+function wippush() {
+  git add -A
+  git rm $(git ls-files --deleted) 2>/dev/null
+  git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"
+
+  local ref
+  ref=$(GIT_OPTIONAL_LOCKS=0 git symbolic-ref --quiet HEAD 2>/dev/null)
+  local ret=$?
+  if [[ $ret != 0 ]]; then
+    [[ $ret == 128 ]] && return
+    ref=$(GIT_OPTIONAL_LOCKS=0 git rev-parse --short HEAD 2>/dev/null) || return
+  fi
+  local curr_branch
+  curr_branch=$(echo ${ref#refs/heads/})
+
+  git push origin "${curr_branch}"
+}
