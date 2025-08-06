@@ -33,7 +33,8 @@ config.mouse_bindings = {
 
 -- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
 config.font = wezterm.font_with_fallback {'VictorMono NFM'}
-config.color_scheme = "Tokyo Night"
+-- config.color_scheme = "Tokyo Night"
+config.color_scheme = "GruvboxDarkHard"
 config.default_cursor_style = 'SteadyBar'
 config.window_background_opacity = 0.95
 -- config.window_background_image = wezterm.config_dir .. "/assets/waves.gif"
