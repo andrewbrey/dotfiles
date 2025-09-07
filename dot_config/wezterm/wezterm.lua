@@ -31,6 +31,34 @@ config.mouse_bindings = {
     }
 }
 
+ config.keys = {
+  -- Clears only the scrollback and leaves the viewport intact.
+  -- You won't see a difference in what is on screen, you just won't
+  -- be able to scroll back until you've output more stuff on screen.
+  -- This is the default behavior.
+  -- {
+  --   key = 'K',
+  --   mods = 'CTRL|SHIFT',
+  --   action = act.ClearScrollback 'ScrollbackOnly',
+  -- },
+  -- Clears the scrollback and viewport leaving the prompt line the new first line.
+  -- {
+  --   key = 'K',
+  --   mods = 'CTRL|SHIFT',
+  --   action = act.ClearScrollback 'ScrollbackAndViewport',
+  -- },
+  -- Clears the scrollback and viewport, and then sends CTRL-L to ask the
+  -- shell to redraw its prompt
+  {
+    key = 'K',
+    mods = 'CTRL|SHIFT',
+    action = act.Multiple {
+      act.ClearScrollback 'ScrollbackAndViewport',
+      act.SendKey { key = 'L', mods = 'CTRL' },
+    },
+  },
+}
+
 -- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
 config.font = wezterm.font_with_fallback {'VictorMono NFM'}
 -- config.color_scheme = "Tokyo Night"
