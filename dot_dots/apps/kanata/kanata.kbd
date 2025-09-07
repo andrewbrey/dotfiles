@@ -5,12 +5,14 @@
 )
 
 (defsrc
+  esc
   caps   a   s   d   f   j   k   l   ;  rctl
+  lsft
 )
 
 (defvar
-  tap-time 100
-  hold-time 250
+  tap-time 200
+  hold-time 200
 )
 
 (defalias
@@ -24,8 +26,12 @@
   l (tap-hold $tap-time $hold-time l ralt)
   ; (tap-hold $tap-time $hold-time ; rmet)
   reload (tap-hold $tap-time 1500 rctl lrld)
+  noop XX
 )
 
+;; home row mods + ignore left shift and escape key (noop) to unlearn them
 (deflayer base
+  @noop
   @escctrl  @a  @s  @d  @f  @j  @k  @l  @;  @reload
+  @noop
 )
