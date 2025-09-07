@@ -32,7 +32,7 @@
 
 ;; home row mods + ignore left shift and escape key (noop) to unlearn them
 (deflayer base
-  @nope
+  @noop
   @escctrl  @a  @s  @d  @f  @j  @k  @l  @;  @reload
-  @nope
+  @noop
 )
