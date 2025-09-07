@@ -6,7 +6,7 @@
 
 (defsrc
   esc
-  caps   a   s   d   f   j   k   l   ;  rctl
+  caps   a   s   d   f   j   k   l   ;  ralt
   lsft
 )
 
@@ -16,6 +16,7 @@
 )
 
 (defalias
+  noop XX
   escctrl (tap-hold $tap-time $hold-time esc lctl)
   a (tap-hold $tap-time $hold-time a lmet)
   s (tap-hold $tap-time $hold-time s lalt)
@@ -25,8 +26,7 @@
   k (tap-hold $tap-time $hold-time k rctl)
   l (tap-hold $tap-time $hold-time l ralt)
   ; (tap-hold $tap-time $hold-time ; rmet)
-  reload (tap-hold $tap-time 1500 rctl lrld)
-  noop XX
+  reload (tap-hold $tap-time 1500 @noop lrld)
   nope (unicode 🔴)
 )
 
