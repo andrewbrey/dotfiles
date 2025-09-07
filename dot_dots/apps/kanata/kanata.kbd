@@ -27,11 +27,12 @@
   ; (tap-hold $tap-time $hold-time ; rmet)
   reload (tap-hold $tap-time 1500 rctl lrld)
   noop XX
+  nope (unicode 🔴)
 )
 
 ;; home row mods + ignore left shift and escape key (noop) to unlearn them
 (deflayer base
-  @noop
+  @nope
   @escctrl  @a  @s  @d  @f  @j  @k  @l  @;  @reload
-  @noop
+  @nope
 )
