@@ -12,8 +12,8 @@ const name = $.$dirname(import.meta.url, true);
 if (await $.commandExists(name)) {
 	await pamkit.createAndLinkNativefierApp({
 		appName: name,
-		displayName: "Linear",
-		website: "https://linear.app",
+		displayName: "ChatGPT",
+		website: "https://chatgpt.com",
 		internalUrlRegex: ".*?\.rippling\.*?",
 	});
 
