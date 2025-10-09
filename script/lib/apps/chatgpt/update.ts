@@ -15,6 +15,7 @@ if (await $.commandExists(name)) {
 		displayName: "ChatGPT",
 		website: "https://chatgpt.com",
 		internalUrlRegex: ".*?\.rippling\.*?",
+		frame: false,
 	});
 
 	meta.lastCheck = Date.now();

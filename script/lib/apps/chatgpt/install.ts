@@ -13,6 +13,7 @@ if (await $.commandMissing(name)) {
 		displayName: "ChatGPT",
 		website: "https://chatgpt.com",
 		internalUrlRegex: ".*?\.rippling\.*?",
+		frame: false,
 	});
 }
 
