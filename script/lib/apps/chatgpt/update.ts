@@ -14,7 +14,7 @@ if (await $.commandExists(name)) {
 		appName: name,
 		displayName: "ChatGPT",
 		website: "https://chatgpt.com",
-		internalUrlRegex: ".*?\.rippling\.*?",
+		internalUrlRegex: ".*?\.rippling\.*?|.*?\.auth\.openai\.com\.*?",
 		frame: false,
 	});
 
