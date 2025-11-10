@@ -123,6 +123,7 @@
 - Add [Soar](https://github.com/pkgforge/soar) as a more capable replacement for `eget`
 - Add [Speech Note](https://github.com/mkiol/dsnote) for voice transcription
 - Add [Zellij](https://github.com/zellij-org/zellij) for a nicer terminal multiplexer
+- Add [Carapace](https://carapace-sh.github.io/carapace-bin/carapace-bin.html) for more shell completions
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
   config files and secrets in one command. Might be able to just use `chezmoi purge`
   (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:
