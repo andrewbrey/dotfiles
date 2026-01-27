@@ -28,6 +28,7 @@ await $.onLinux(async () => {
 			appName: "notion",
 			displayName: "Notion",
 			website: "https://notion.so",
+			internalUrlRegex: ".*?\.notion\.*?",
 		});
 
 		meta.lastCheck = Date.now();
