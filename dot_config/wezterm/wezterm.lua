@@ -2,10 +2,10 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local config = {}
 
-wezterm.on('gui-startup', function(cmd)
-    local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
-    window:gui_window():maximize()
-end)
+-- wezterm.on('gui-startup', function(cmd)
+--     local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+--     window:gui_window():maximize()
+-- end)
 
 config.mouse_bindings = {
     -- Change the default click behavior so that it only selects text and does
