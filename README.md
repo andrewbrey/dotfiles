@@ -127,6 +127,7 @@
 - Add [Whispering](https://github.com/EpicenterHQ/epicenter/tree/main/apps/whispering) for local stt
 - Add [Handy](https://github.com/cjpais/Handy) for local stt (perhaps better than Whispering?)
 - Add [Splash](https://github.com/joshi4/splash) for colorization of plaintext logs
+- Add [cos-cli](https://github.com/estin/cos-cli) for `wmctrl` replacement on cosmic
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
   config files and secrets in one command. Might be able to just use `chezmoi purge`
   (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:
