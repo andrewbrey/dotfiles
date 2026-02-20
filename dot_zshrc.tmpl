@@ -41,8 +41,10 @@ unset file
 eval "$(brew shellenv)"
 {{- end }}
 
-# use direnv for .env's if available
-if type direnv &>/dev/null; then
+# use mise or direnv for dev env management if available
+if type mise &>/dev/null; then
+	eval "$(mise activate zsh)"
+elif type direnv &>/dev/null; then
 	eval "$(direnv hook zsh)"
 fi
 
