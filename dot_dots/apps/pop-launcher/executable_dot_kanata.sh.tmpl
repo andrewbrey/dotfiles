@@ -13,9 +13,11 @@
 
 # exact location to open will depend on current job (etc) so just grab this from ignored .extra file
 
-if [ "$(pidof kanata)" != "" ]; then
-  pkexec killall kanata
-  rm -rf /tmp/kanata-toggle.log
-else
-  pkexec nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/kanata -c {{ .standard_dirs.dot_dots_apps | quote }}/kanata/kanata.kbd 1>/tmp/kanata-toggle.log 2>&1 &
-fi
+echo 'ignore kanata toggle for now...'
+
+# if [ "$(pidof kanata)" != "" ]; then
+#   pkexec killall kanata
+#   rm -rf /tmp/kanata-toggle.log
+# else
+#   pkexec nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/kanata -c {{ .standard_dirs.dot_dots_apps | quote }}/kanata/kanata.kbd 1>/tmp/kanata-toggle.log 2>&1 &
+# fi
