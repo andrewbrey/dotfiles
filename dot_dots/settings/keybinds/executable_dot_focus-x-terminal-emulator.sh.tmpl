@@ -27,4 +27,24 @@ function focus_x_terminal_emulator() {
 	fi
 }
 
+# if timeout 0.1 wezterm cli list &>/dev/null; then
+#   wezterm cli spawn "$@"
+# else
+#   wezterm start "$@"
+# fi
+
+# APP_ID="org.wezfurlong.wezterm"
+# LAUNCH_CMD="wezterm"
+# cli="/home/andrew/.cargo/bin/cos-cli"
+#
+# index=$($cli info --json | jq -r --arg id "$APP_ID" '.apps[] | select(.app_id == $id) | .index' | head -1)
+#
+# if [ -n "$index" ]; then
+#     $cli activate -i "$index"
+# else
+#     # $LAUNCH_CMD &
+#     # $cli info --json 2>&1 | systemd-cat
+#     wezterm start --cwd "$HOME"
+# fi
+
 focus_x_terminal_emulator
