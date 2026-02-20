@@ -121,8 +121,10 @@ fi
 eval "$(brew shellenv)"
 {{- end }}
 
-# use direnv for .env's if available
-if type direnv &>/dev/null; then
+# use mise or direnv for dev env management if available
+if type mise &>/dev/null; then
+	eval "$(mise activate bash)"
+elif type direnv &>/dev/null; then
 	eval "$(direnv hook bash)"
 fi
 
