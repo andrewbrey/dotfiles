@@ -3,7 +3,7 @@
 # name: Rustyvibes Toggle
 # icon: input-keyboard-symbolic
 # description: Toggle making mechanical keyboard sounds
-# keywords: rusty mechanical keyboard toggle
+# keywords: rusty mechanical keyboard toggle wavy vibes
 
 # Notes:
 # - shebang can't use /usr/bin/env, it must directly reference the shell binary
@@ -13,9 +13,17 @@
 
 # exact location to open will depend on current job (etc) so just grab this from ignored .extra file
 
-if [ "$(pidof rustyvibes)" != "" ]; then
-  killall rustyvibes
-  rm -rf /tmp/rustyvibes.log
+# if [ "$(pidof rustyvibes)" != "" ]; then
+#   killall rustyvibes
+#   rm -rf /tmp/rustyvibes.log
+# else
+#   nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/rustyvibes {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/rustyvibes.log 2>&1 &
+# fi
+
+# Hard code "wavyvibes" replacement for now
+if [ "$(pidof wayvibes)" != "" ]; then
+  killall wayvibes
+  rm -rf /tmp/wayvibes.log
 else
-  nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/rustyvibes {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/rustyvibes.log 2>&1 &
+  nohup wayvibes --background {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/wayvibes.log 2>&1 &
 fi
