@@ -2,6 +2,12 @@
 
 import { $ } from "../../mod.ts";
 
+// NOTE: early exit for now and don't do anything - no longer using gnome, so extensions no longer needed...
+if (Deno) {
+	$.log("skipping dconf settings dump...");
+	Deno.exit(0);
+}
+
 const chezmoiData = await $.getChezmoiData();
 const hasDconf = await $.commandExists("dconf");
 
