@@ -1,16 +1,29 @@
 #!/usr/bin/env zsh
 
+# function focus_x_terminal_emulator() {
+# 	local process_pid=$(ps -eo pid,comm | grep -v grep | grep x-terminal-emul | head -n 1 | awk '{print $1}')
+#
+# 	if [ "${process_pid}" != '' ]; then
+# 		local kitty_class='kitty.kitty'
+# 		local wezterm_class='org.wezfurlong.wezterm'
+# 		local window_id=$(wmctrl -lpx | grep -E "${process_pid}|${kitty_class}|${wezterm_class}" | awk '{print $1}')
+#
+# 		wmctrl -via $window_id
+# 	else
+# 		x-terminal-emulator
+# 	fi
+# }
+
+# Hard code usage of cos-cli for now
 function focus_x_terminal_emulator() {
-	local process_pid=$(ps -eo pid,comm | grep -v grep | grep x-terminal-emul | head -n 1 | awk '{print $1}')
+	APP_ID="org.wezfurlong.wezterm"
+	LAUNCH_CMD="wezterm"
 
-	if [ "${process_pid}" != '' ]; then
-		local kitty_class='kitty.kitty'
-		local wezterm_class='org.wezfurlong.wezterm'
-		local window_id=$(wmctrl -lpx | grep -E "${process_pid}|${kitty_class}|${wezterm_class}" | awk '{print $1}')
-
-		wmctrl -via $window_id
+	index=$(cos-cli info --json | jq -r --arg id "$APP_ID" '.apps[] | select(.app_id == $id) | .index' | head -1)
+	if [ -n "$index" ]; then
+			cos-cli activate -i "$index"
 	else
-		x-terminal-emulator
+			$LAUNCH_CMD &
 	fi
 }
 
