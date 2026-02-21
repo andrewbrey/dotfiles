@@ -54,3 +54,25 @@ if (await $.commandExists("supabase")) {
 		completions,
 	);
 }
+
+if (await $.commandExists("mise")) {
+	if (await $.commandExists("usage")) {
+		const completions = await $`mise completion zsh`.timeout("5s").text();
+
+		await Deno.writeTextFile(
+			$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_mise"),
+			completions,
+		);
+	} else {
+		$.logError("issue:", "mise installed but missing `usage` completions dependency");
+	}
+}
+
+if (await $.commandExists("stovectl")) {
+	const completions = await $`stovectl completions zsh`.timeout("5s").text();
+
+	await Deno.writeTextFile(
+		$.path.join($.env.STANDARD_DIRS.DOT_DOTS, "completions", "_stovectl"),
+		completions,
+	);
+}
