@@ -1,4 +1,5 @@
 "$schema" = 'https://starship.rs/config-schema.json'
+palette = "gruvbox_dark"
 
 format = "$all"
 right_format = """$time"""
@@ -16,6 +17,7 @@ disabled = true
 
 [directory]
 read_only = " 󰌾"
+style = "bold bright-cyan"
 truncate_to_repo = false
 truncation_length = 2
 truncation_symbol = ".../"
@@ -24,6 +26,7 @@ truncation_symbol = ".../"
 disabled = true
 
 [git_branch]
+style = "bold bright-purple"
 symbol = " "
 
 # [git_commit]
@@ -49,7 +52,8 @@ disabled = true
 disabled = true
 symbol = " "
 
-# [deno]
+[deno]
+symbol = " "
 
 [dotnet]
 disabled = true
@@ -149,7 +153,7 @@ disabled = true
 symbol = "󰍛 "
 
 [aws]
-format = "with [$symbol AWS](bold dimmed yellow) "
+format = "with [$symbol AWS](bold yellow) "
 symbol = "󰸏"
 
 [gcloud]
@@ -159,57 +163,57 @@ disabled = true
 disabled = true
 
 [env_var.AWS_PROFILE]
-format = "with [$symbol AWS_PROFILE $env_value](bold dimmed yellow) "
+format = "with [$symbol AWS_PROFILE $env_value](bold yellow) "
 symbol = "󰸏"
 variable = "AWS_PROFILE"
 
 [env_var.GH_TOKEN]
-format = "with [$symbol GH_TOKEN](bold dimmed yellow) "
+format = "with [$symbol GH_TOKEN](bold yellow) "
 symbol = ""
 variable = "GH_TOKEN"
 
 [env_var.GITHUB_TOKEN]
-format = "with [$symbol GITHUB_TOKEN](bold dimmed yellow) "
+format = "with [$symbol GITHUB_TOKEN](bold yellow) "
 symbol = ""
 variable = "GITHUB_TOKEN"
 
 [env_var.DENO_DEPLOY_TOKEN]
-format = "with [$symbol DENO_DEPLOY_TOKEN](bold dimmed yellow) "
-symbol = "🦕"
+format = "with [$symbol DENO_DEPLOY_TOKEN](bold yellow) "
+symbol = ""
 variable = "DENO_DEPLOY_TOKEN"
 
 [env_var.NPM_TOKEN]
-format = "with [$symbol NPM_TOKEN](bold dimmed yellow) "
+format = "with [$symbol NPM_TOKEN](bold yellow) "
 symbol = ""
 variable = "NPM_TOKEN"
 
 [env_var.VERCEL_TOKEN]
-format = "with [$symbol VERCEL_TOKEN](bold dimmed yellow) "
+format = "with [$symbol VERCEL_TOKEN](bold yellow) "
 symbol = "▲"
 variable = "VERCEL_TOKEN"
 
 [env_var.FLY_ACCESS_TOKEN]
-format = "with [$symbol FLY_ACCESS_TOKEN](bold dimmed yellow) "
+format = "with [$symbol FLY_ACCESS_TOKEN](bold yellow) "
 symbol = ""
 variable = "FLY_ACCESS_TOKEN"
 
 [env_var.SUPABASE_ACCESS_TOKEN]
-format = "with [$symbol SUPABASE_ACCESS_TOKEN](bold dimmed yellow) "
+format = "with [$symbol SUPABASE_ACCESS_TOKEN](bold yellow) "
 symbol = ""
 variable = "SUPABASE_ACCESS_TOKEN"
 
 [env_var.TURSO_API_TOKEN]
-format = "with [$symbol TURSO_API_TOKEN](bold dimmed yellow) "
+format = "with [$symbol TURSO_API_TOKEN](bold yellow) "
 symbol = ""
 variable = "TURSO_API_TOKEN"
 
 [env_var.ASCIINEMA_REC]
-format = "[$symbol rec](bold dimmed red) "
+format = "[$symbol rec](bold bright-red) "
 symbol = "󰑋"
 variable = "ASCIINEMA_REC"
 
 [env_var.FRP_TOKEN]
-format = "[$symbol FRP_TOKEN](bold dimmed yellow) "
+format = "[$symbol FRP_TOKEN](bold yellow) "
 symbol = "󱠾"
 variable = "FRP_TOKEN"
 
@@ -221,6 +225,7 @@ disabled = true
 
 [cmd_duration]
 min_time = 5_000
+style = "bold bright-yellow"
 
 # [line_break]
 
@@ -236,7 +241,7 @@ disabled = true
 [time]
 disabled = false
 format = '[$time]($style)'
-style = 'dimmed cyan'
+style = 'bright-blue'
 time_format = "%r"
 
 # [status]
@@ -244,5 +249,24 @@ time_format = "%r"
 # [shell]
 
 [character]
-error_symbol = "[✗](bold red) "
-success_symbol = "[➜](bold green) "
+error_symbol = "[✗](bold bright-red) "
+success_symbol = "[➜](bold bright-green) "
+
+[palettes.gruvbox_dark]
+black = "#282828"
+red = "#cc241d"
+green = "#98971a"
+yellow = "#d79921"
+blue = "#458588"
+purple = "#b16286"
+cyan = "#689d6a"
+white = "#ebdbb2"
+bright-black = "#928374"
+bright-red = "#fb4934"
+bright-green = "#b8bb26"
+bright-yellow = "#fabd2f"
+bright-blue = "#83a598"
+bright-purple = "#d3869b"
+bright-cyan = "#8ec07c"
+bright-white = "#fbf1c7"
+orange = "#d65d0e"
