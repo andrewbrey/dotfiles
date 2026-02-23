@@ -13,8 +13,6 @@ deno.lock
 .gitconfig # when on a containerized environment, the gitconfig likely adjusted by the host
 {{- end }}
 
-fix-cosmic-perms.sh
-
 .dots/.extra
 .dots/apps/charm/*/kv
 .dots/apps/cheat/cheatsheets/community
