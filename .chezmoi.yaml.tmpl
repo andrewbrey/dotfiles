@@ -27,6 +27,9 @@ gpg:
     - --quiet
 git:
   autoCommit: true
+diff:
+  exclude:
+    - scripts
 data:
   is_personal_machine: {{ $personalMachine }}
   is_linux: {{ eq .chezmoi.os "linux" }}
