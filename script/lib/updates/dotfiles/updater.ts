@@ -17,6 +17,10 @@ invariant(
 	"dotfiles repo has changes that need to be committed",
 );
 
+$.log("running cosmic fixup script before chezmoi verification");
+const fixupScript = $.path(gitRoot).join(".chezmoiscripts/run_before_fix-cosmic-perms.sh");
+await $`${fixupScript}`;
+
 const { code: chezmoiStatus } = await $`chezmoi verify`.noThrow();
 
 invariant(chezmoiStatus === 0, "chezmoi target state is out of sync");
