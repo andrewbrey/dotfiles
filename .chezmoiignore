@@ -18,3 +18,6 @@ deno.lock
 .dots/apps/cheat/cheatsheets/community
 .dots/apps/rustyvibes/packs
 .config/nvim/lazy-lock.json
+
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/last_updated
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/default_tab
