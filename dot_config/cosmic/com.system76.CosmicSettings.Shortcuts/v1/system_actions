@@ -1,0 +1,3 @@
+{
+    Terminal: "wezterm-reuse-or-spawn --cwd .",
+}

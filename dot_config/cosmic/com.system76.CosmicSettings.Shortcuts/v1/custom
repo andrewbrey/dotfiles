@@ -1,0 +1,62 @@
+{
+    (
+        modifiers: [
+            Ctrl,
+            Alt,
+            Shift,
+        ],
+        key: "Right",
+    ): System(PlayNext),
+    (
+        modifiers: [
+            Ctrl,
+            Alt,
+            Shift,
+        ],
+        key: "Left",
+    ): System(PlayPrev),
+    (
+        modifiers: [
+            Ctrl,
+        ],
+        key: "F1",
+        description: Some("Toggle Obsidian"),
+    ): Spawn("obsidian-toggle"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "backslash",
+    ): System(Terminal),
+    (
+        modifiers: [
+            Ctrl,
+            Alt,
+        ],
+        key: "space",
+        description: Some("Toggle Handy"),
+    ): Spawn("pkill -USR2 -n handy"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "Print",
+        description: Some("Flameshot Copy and Save"),
+    ): Spawn("flameshot-copy-and-save"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "F11",
+    ): Spawn("flameshot-copy-and-save"),
+    (
+        modifiers: [
+            Alt,
+        ],
+        key: "F11",
+    ): Fullscreen,
+    (
+        modifiers: [],
+        key: "Print",
+    ): Spawn("flameshot-copy-and-save"),
+}

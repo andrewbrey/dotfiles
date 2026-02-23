@@ -1,0 +1,160 @@
+(
+    chart_visible: false,
+    label_visible: false,
+    chart: Line,
+    colors: (
+        ring: (
+            background: (
+                red: 43,
+                green: 43,
+                blue: 43,
+                alpha: 255,
+            ),
+            frame: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            text: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            graph1: (
+                red: 255,
+                green: 102,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph2: (
+                red: 255,
+                green: 255,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph3: (
+                red: 255,
+                green: 165,
+                blue: 0,
+                alpha: 255,
+            ),
+        ),
+        line: (
+            background: (
+                red: 43,
+                green: 43,
+                blue: 43,
+                alpha: 255,
+            ),
+            frame: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            text: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            graph1: (
+                red: 255,
+                green: 102,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph2: (
+                red: 255,
+                green: 255,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph3: (
+                red: 255,
+                green: 165,
+                blue: 0,
+                alpha: 255,
+            ),
+        ),
+        heat: (
+            background: (
+                red: 43,
+                green: 43,
+                blue: 43,
+                alpha: 255,
+            ),
+            frame: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            text: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            graph1: (
+                red: 255,
+                green: 102,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph2: (
+                red: 255,
+                green: 255,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph3: (
+                red: 255,
+                green: 165,
+                blue: 0,
+                alpha: 255,
+            ),
+        ),
+        stackedbars: (
+            background: (
+                red: 43,
+                green: 43,
+                blue: 43,
+                alpha: 255,
+            ),
+            frame: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            text: (
+                red: 255,
+                green: 255,
+                blue: 255,
+                alpha: 255,
+            ),
+            graph1: (
+                red: 255,
+                green: 102,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph2: (
+                red: 255,
+                green: 255,
+                blue: 0,
+                alpha: 85,
+            ),
+            graph3: (
+                red: 255,
+                green: 165,
+                blue: 0,
+                alpha: 255,
+            ),
+        ),
+    ),
+    variant: Read,
+)

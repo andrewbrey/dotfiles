@@ -1,0 +1,10 @@
+(
+    order: [
+        CpuUsage,
+        CpuTemp,
+        MemoryUsage,
+        NetworkUsage,
+        DiskUsage,
+        GpuInfo,
+    ],
+)

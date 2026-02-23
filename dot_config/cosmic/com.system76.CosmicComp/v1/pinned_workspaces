@@ -1,0 +1,32 @@
+[
+    (
+        output: (
+            name: "DP-3",
+            edid: Some((
+                manufacturer: ('A', 'U', 'S'),
+                product: 12967,
+                serial: Some(1),
+                manufacture_week: 24,
+                manufacture_year: 2021,
+                model_year: None,
+            )),
+        ),
+        tiling_enabled: true,
+        id: Some("27bd72"),
+    ),
+    (
+        output: (
+            name: "DP-3",
+            edid: Some((
+                manufacturer: ('A', 'U', 'S'),
+                product: 12967,
+                serial: Some(1),
+                manufacture_week: 24,
+                manufacture_year: 2021,
+                model_year: None,
+            )),
+        ),
+        tiling_enabled: true,
+        id: Some("1bf1dd4"),
+    ),
+]
