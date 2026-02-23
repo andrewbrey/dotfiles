@@ -33,6 +33,9 @@ status:
 diff:
   exclude:
     - scripts
+verify:
+  exclude:
+    - scripts
 data:
   is_personal_machine: {{ $personalMachine }}
   is_linux: {{ eq .chezmoi.os "linux" }}
