@@ -21,3 +21,9 @@ deno.lock
 
 .config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/last_updated
 .config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/default_tab
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/latitude
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/longitude
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/location_name
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/manual_latitude
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/manual_longitude
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/manual_location_name
