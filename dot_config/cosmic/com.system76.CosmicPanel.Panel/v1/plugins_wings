@@ -5,6 +5,7 @@ Some(([
     "com.system76.CosmicAppletAudio",
     "com.vintagetechie.CosmicExtAppletTempest",
     "io.github.cosmic_utils.minimon-applet",
+    "com.github.andrewbrey.Pomo",
 ], [
     "com.system76.CosmicAppletStatusArea",
     "com.system76.CosmicAppletTiling",
