@@ -25,5 +25,5 @@ if [ "$(pidof wayvibes)" != "" ]; then
   killall wayvibes
   rm -rf /tmp/wayvibes.log
 else
-  nohup wayvibes -v 10.0 --background {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/wayvibes.log 2>&1 &
+  nohup wayvibes -v 5.0 --background {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/wayvibes.log 2>&1 &
 fi
