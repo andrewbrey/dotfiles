@@ -2,6 +2,12 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local config = {}
 
+-- dim inactive panes and splits
+config.inactive_pane_hsb = {
+  saturation = 0.3,
+  brightness = 0.5,
+}
+
 -- wezterm.on('gui-startup', function(cmd)
 --     local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
 --     window:gui_window():maximize()
