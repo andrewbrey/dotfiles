@@ -28,3 +28,4 @@ deno.lock
 .config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/manual_longitude
 .config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/manual_location_name
 .config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/pressure_unit
+.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/saved_locations
