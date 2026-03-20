@@ -105,7 +105,7 @@ history_filter = [
 	"^alias ",
 	"^(b |bi |ba ?$|bl|br$)",
 	"^bw( |$)",
-	"^(c|clear|cl3ear|claer|clar|clare|cle4ar|clea3r|clea5r|CLEAR|clear5|cledar|clera|qclear|claqr)$",
+	"^(c|clear|cl3ear|claer|clar|clare|cle4ar|clea3r|clea5r|CLEAR|clear5|cledar|clera|qclear|claqr|cear)$",
 	"^appchk",
 	"^cargo (lint|lint_fix|build|check|clean|clippy|fmt|new|run|test)$",
 	"^ccla?$",
