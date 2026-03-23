@@ -80,12 +80,12 @@ config.window_background_opacity = 0.95
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 
--- dynamically switch color scheme when a docker process is in the foreground
+-- dynamically switch color scheme when stovectl sandbox is active
 wezterm.on('update-status', function(window, pane)
-  local process = pane:get_foreground_process_name() or ""
+  local sandbox = pane:get_user_vars().stovectl_sandbox or ""
   local overrides = window:get_config_overrides() or {}
 
-  if process:find("docker") then
+  if sandbox == "active" then
     overrides.color_scheme = "Aci (Gogh)"
   else
     overrides.color_scheme = config.color_scheme
