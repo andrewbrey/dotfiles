@@ -86,7 +86,7 @@ wezterm.on('update-status', function(window, pane)
   local overrides = window:get_config_overrides() or {}
 
   if sandbox == "active" then
-    overrides.color_scheme = "Aci (Gogh)"
+    overrides.color_scheme = "Ubuntu"
   else
     overrides.color_scheme = config.color_scheme
   end
