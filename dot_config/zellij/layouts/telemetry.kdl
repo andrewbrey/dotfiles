@@ -1,0 +1,16 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="tab-bar"
+    }
+    pane split_direction="vertical" {
+        pane split_direction="horizontal" {
+            pane cwd="${WORK_REPO}" {}
+            pane cwd="${WORK_REPO}/app/rust" {}
+            pane cwd="${WORK_REPO}/app/rust" {}
+            pane cwd="${WORK_REPO}/aws_iot/fleet-monitor" {}
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="status-bar"
+    }
+}
