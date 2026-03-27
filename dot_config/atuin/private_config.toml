@@ -100,6 +100,7 @@ style = "auto"
 ## https://docs.rs/regex/latest/regex/#syntax
 history_filter = [
 	"^ +.*",
+	"^_+.*",
 	"^\\.\\.",
 	"^[123456789]$",
 	"^alias ",
