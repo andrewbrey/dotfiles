@@ -63,7 +63,7 @@ esc = ["collapse_selection", "keep_primary_selection"]
 C-j = "scroll_down"
 C-k = "scroll_up"
 A-i = ":toggle lsp.display-inlay-hints"
-"S-f" = [":format"]
+# "S-f" = [":format"]
 # override default delete and change to not yank 
 A-d = "delete_selection"
 d = "delete_selection_noyank"
