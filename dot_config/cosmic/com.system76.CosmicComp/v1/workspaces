@@ -2,4 +2,5 @@
     workspace_mode: OutputBound,
     workspace_layout: Vertical,
     action_on_typing: r#None,
+    workspace_wraparound: false,
 )
