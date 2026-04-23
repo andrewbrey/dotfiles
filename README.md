@@ -77,7 +77,6 @@
   Could do something like `decrypt in source -> pipe to tmp -> make edits -> encrypt back to source`
   but that is probably not worth it when you can just make edits in an environmtn where it's not
   ignored (i.e. not in a devcontainer)
-- Fix `yarn-error.log` caused by env vars
 - Document option to use:
   ```sh
   sh -c "$(curl -sSLf https://dotfiles.andrewbrey.com)"
@@ -123,7 +122,8 @@
 - Add [Soar](https://github.com/pkgforge/soar) as a more capable replacement for `eget`
 - Add [Speech Note](https://github.com/mkiol/dsnote) for voice transcription
 - Add [Zellij](https://github.com/zellij-org/zellij) for a nicer terminal multiplexer
-- Add [Carapace](https://carapace-sh.github.io/carapace-bin/carapace-bin.html) for more shell completions
+- Add [Carapace](https://carapace-sh.github.io/carapace-bin/carapace-bin.html) for more shell
+  completions
 - Add [Whispering](https://github.com/EpicenterHQ/epicenter/tree/main/apps/whispering) for local stt
 - Add [Handy](https://github.com/cjpais/Handy) for local stt (perhaps better than Whispering?)
 - Add [Splash](https://github.com/joshi4/splash) for colorization of plaintext logs

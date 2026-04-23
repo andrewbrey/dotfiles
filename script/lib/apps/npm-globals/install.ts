@@ -13,11 +13,9 @@ const chezmoiData = await $.getChezmoiData();
 
 const npmGlobals = new Set([
 	"@antfu/ni",
-	"@bitwarden/cli",
 	"add-gitignore",
 	"commitizen",
 	"cz-conventional-changelog",
-	"file-path-bookmarks",
 	"http-server",
 	"neovim",
 	"np",
@@ -27,7 +25,6 @@ const npmGlobals = new Set([
 	"prettier",
 	"rimraf",
 	"tree-sitter-cli",
-	"yarn@1",
 ]);
 
 if (!chezmoiData.is_personal_machine) {

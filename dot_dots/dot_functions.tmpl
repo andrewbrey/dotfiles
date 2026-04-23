@@ -254,21 +254,6 @@ function ytmp3() {
 	youtube-dl --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '~/Downloads/%(title)s.%(ext)s' "$1"
 }
 
-# # Fuzzy match bookmarks and change to them
-function b() {
-	local destination=$(file-path-bookmarks find "$1")
-
-	if [ "${destination}" != '' ]; then
-		if [ "$2" != '' ]; then
-			cd "${destination}/$2"
-		else
-			cd "${destination}"
-		fi
-	else
-		false
-	fi
-}
-
 # Extract an archive
 function extract() {
 	local n=$1
