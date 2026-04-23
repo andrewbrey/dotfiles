@@ -29,5 +29,5 @@ if (hasNode && hasNPM && hasNCU) {
 		await $`echo skipping update of ignored packages: ${packagesToIgnore}`;
 	}
 
-	await $`npm i -g --ignore-engines ${packagesToUpdate}`;
+	await $`npm i -g ${packagesToUpdate}`;
 }
