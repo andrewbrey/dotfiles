@@ -4,11 +4,30 @@ layout {
     }
     pane split_direction="vertical" {
         pane split_direction="horizontal" {
-            pane name="Infra" cwd="${WORK_REPO}" {}
-            pane name="Server" cwd="${WORK_REPO}/app/rust" {}
-            pane name="MQTT" cwd="${WORK_REPO}/app/rust" {}
-            pane name="Sims" cwd="${WORK_REPO}/app/rust" {}
-            pane name="App" cwd="${WORK_REPO}/aws_iot/fleet-monitor" {}
+            pane name="Infra" cwd="${WORK_REPO}" {
+                command "~/code/sw/app/rust/aws-iot-server/scripts/start-local-hybrid.sh"
+                start_suspended true
+            }
+            pane name="Server" cwd="${WORK_REPO}/app/rust" {
+                command "cargo"
+                args "run" "--bin" "aws-iot-server"
+                start_suspended true
+            }
+            pane name="MQTT" cwd="${WORK_REPO}/app/rust" {
+                command "cargo"
+                args "run" "--bin" "local-mqtt-broker"
+                start_suspended true
+            }
+            pane name="Sims" cwd="${WORK_REPO}/app/rust" {
+                command "cargo"
+                args "run" "--bin" "local-simulator"
+                start_suspended true
+            }
+            pane name="App" cwd="${WORK_REPO}/aws_iot/fleet-monitor" {
+                command "nr"
+                args "dev"
+                start_suspended true
+            }
         }
     }
     pane size=1 borderless=true {
