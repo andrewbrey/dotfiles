@@ -25,7 +25,7 @@ layout {
             }
             pane name="App" cwd="${WORK_REPO}/aws_iot/fleet-monitor" {
                 command "nr"
-                args "dev"
+                args "dev" "--host"
                 start_suspended true
             }
         }
