@@ -7,7 +7,6 @@ const dotAppPath = $.path.join($.$dirname(import.meta.url), pamkit.constants.app
 await $.fs.ensureDir(dotAppPath);
 
 const cascadia = $.env.OS === "darwin" ? "font-caskaydia-mono-nerd-font" : "CascadiaMono";
-const commit = $.env.OS === "darwin" ? "font-commit-mono-nerd-font" : "CommitMono";
 const droid = $.env.OS === "darwin" ? "font-droid-sans-mono-nerd-font" : "DroidSansMono";
 const intelone = $.env.OS === "darwin" ? "font-intone-mono-nerd-font" : "IntelOneMono";
 const jetbrains = $.env.OS === "darwin" ? "font-jetbrains-mono-nerd-font" : "JetBrainsMono";
@@ -26,7 +25,7 @@ const chezmoiData = await $.getChezmoiData();
 
 const fonts = chezmoiData.is_containerized
 	? [droid]
-	: [cascadia, commit, droid, jetbrains, intelone, meslo, monaspace, recursive, victor];
+	: [cascadia, droid, jetbrains, intelone, meslo, monaspace, recursive, victor];
 
 const [meta] = await pamkit.getInstallerMetas(
 	new Set([$.$dirname(import.meta.url, true)]),
