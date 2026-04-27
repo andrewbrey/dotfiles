@@ -17,30 +17,30 @@ config.inactive_pane_hsb = {
 -- end)
 
 config.mouse_bindings = {
-    -- Change the default click behavior so that it only selects text and does
-    -- not open hyperlinks --------------------------------------------------
-    {
-        event = {Up = {streak = 1, button = 'Left'}},
-        mods = 'NONE',
-        action = act.CompleteSelection 'ClipboardAndPrimarySelection'
-    },
+  -- Change the default click behavior so that it only selects text and does
+  -- not open hyperlinks --------------------------------------------------
+  {
+    event = { Up = { streak = 1, button = 'Left' } },
+    mods = 'NONE',
+    action = act.CompleteSelection 'ClipboardAndPrimarySelection'
+  },
 
-    -- Bind 'Up' event of CTRL-Click to open hyperlinks ---------------------
-    {
-        event = {Up = {streak = 1, button = 'Left'}},
-        mods = 'CTRL',
-        action = act.OpenLinkAtMouseCursor
-    },
+  -- Bind 'Up' event of CTRL-Click to open hyperlinks ---------------------
+  {
+    event = { Up = { streak = 1, button = 'Left' } },
+    mods = 'CTRL',
+    action = act.OpenLinkAtMouseCursor
+  },
 
-    -- Disable the 'Down' event of CTRL-Click to avoid weird program behaviors
-    {
-        event = {Down = {streak = 1, button = 'Left'}},
-        mods = 'CTRL',
-        action = act.Nop
-    }
+  -- Disable the 'Down' event of CTRL-Click to avoid weird program behaviors
+  {
+    event = { Down = { streak = 1, button = 'Left' } },
+    mods = 'CTRL',
+    action = act.Nop
+  }
 }
 
- config.keys = {
+config.keys = {
   -- Clears only the scrollback and leaves the viewport intact.
   -- You won't see a difference in what is on screen, you just won't
   -- be able to scroll back until you've output more stuff on screen.
@@ -69,7 +69,8 @@ config.mouse_bindings = {
 }
 
 -- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
-config.font = wezterm.font_with_fallback {'VictorMono NFM'}
+-- config.font = wezterm.font_with_fallback {'VictorMono NFM'}
+config.font = wezterm.font_with_fallback { 'Maple Mono NF' }
 -- config.color_scheme = "Tokyo Night"
 config.color_scheme = "GruvboxDarkHard"
 config.default_cursor_style = 'SteadyBar'
