@@ -20,10 +20,85 @@
 #   nohup {{ .chezmoi.homeDir | quote }}/.cargo/bin/rustyvibes {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/rustyvibes.log 2>&1 &
 # fi
 
-# Hard code "wavyvibes" replacement for now
+LOG=/tmp/wayvibes.log
+
 if [ "$(pidof wayvibes)" != "" ]; then
-  killall wayvibes
-  rm -rf /tmp/wayvibes.log
+	killall wayvibes
+	rm -rf "$LOG"
 else
-  nohup wayvibes -v 2.0 --background {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>/tmp/wayvibes.log 2>&1 &
+	# Collect names of keyboards wayvibes would find: devices whose KEY bitmask
+	# has bit 30 (KEY_A) set. Mirrors wayvibes' libevdev filter in device.cpp.
+	keyboards=()
+	name=
+	key=
+
+	flush() {
+		[ -n "$name" ] || return 0
+		[ -n "$key" ] || return 0
+		last_word=${key##* }
+		if [ $((0x$last_word & 0x40000000)) -ne 0 ]; then
+			keyboards+=("$name")
+		fi
+	}
+
+	while IFS= read -r line; do
+		case $line in
+		'')
+			flush
+			name=
+			key=
+			;;
+		'N: Name='*)
+			name=${line#N: Name=\"}
+			name=${name%\"}
+			;;
+		'B: KEY='*)
+			key=${line#B: KEY=}
+			;;
+		esac
+	done </proc/bus/input/devices
+	flush
+
+	# Prefer kanata's virtual device, then Logitech Wireless, then built-in AT.
+	device=
+	for kb in "${keyboards[@]}"; do
+		case $kb in *[Kk]anata*)
+			device=$kb
+			break
+			;;
+		esac
+	done
+
+	if [ -z "$device" ]; then
+		for kb in "${keyboards[@]}"; do
+			case $kb in *"Logitech Wireless Keyboard"*)
+				device=$kb
+				break
+				;;
+			esac
+		done
+	fi
+
+	if [ -z "$device" ]; then
+		for kb in "${keyboards[@]}"; do
+			case $kb in *"AT Translated"*)
+				device=$kb
+				break
+				;;
+			esac
+		done
+	fi
+
+	if [ -z "$device" ]; then
+		{
+			echo "No preferred keyboard found. Available keyboards:"
+			for kb in "${keyboards[@]}"; do
+				echo "  - $kb"
+			done
+		} >"$LOG"
+		exit 1
+	fi
+
+	echo "Using device: $device" >"$LOG"
+	nohup wayvibes -v 2.0 --device-name "$device" --background {{ .standard_dirs.dot_dots_apps | quote }}/rustyvibes/packs/current 1>>"$LOG" 2>&1 &
 fi
