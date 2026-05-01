@@ -36,18 +36,20 @@ else
 		[ -n "$name" ] || return 0
 		[ -n "$key" ] || return 0
 		last_word=${key##* }
+		# Only need bit 30; trim to low 32 bits to avoid zsh's 15-digit arithmetic cap.
+		last_word=${last_word: -8}
 		if [ $((0x$last_word & 0x40000000)) -ne 0 ]; then
 			keyboards+=("$name")
 		fi
 	}
 
 	has_external_display() {
-		for status in /sys/class/drm/card*-*/status; do
-			[ -r "$status" ] || continue
-			connector=${status%/status}
+		for status_file in /sys/class/drm/card*-*/status; do
+			[ -r "$status_file" ] || continue
+			connector=${status_file%/status}
 			connector=${connector##*/card*-}
 			case $connector in eDP* | LVDS*) continue ;; esac
-			[ "$(cat "$status")" = connected ] && return 0
+			[ "$(cat "$status_file")" = connected ] && return 0
 		done
 		return 1
 	}
