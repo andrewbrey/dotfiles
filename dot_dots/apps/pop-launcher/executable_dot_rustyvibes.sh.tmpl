@@ -41,6 +41,17 @@ else
 		fi
 	}
 
+	has_external_display() {
+		for status in /sys/class/drm/card*-*/status; do
+			[ -r "$status" ] || continue
+			connector=${status%/status}
+			connector=${connector##*/card*-}
+			case $connector in eDP* | LVDS*) continue ;; esac
+			[ "$(cat "$status")" = connected ] && return 0
+		done
+		return 1
+	}
+
 	while IFS= read -r line; do
 		case $line in
 		'')
@@ -69,7 +80,7 @@ else
 		esac
 	done
 
-	if [ -z "$device" ]; then
+	if [ -z "$device" ] && has_external_display; then
 		for kb in "${keyboards[@]}"; do
 			case $kb in *"Logitech Wireless Keyboard"*)
 				device=$kb
