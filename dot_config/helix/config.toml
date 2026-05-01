@@ -69,6 +69,7 @@ A-d = "delete_selection"
 d = "delete_selection_noyank"
 A-c = "change_selection"
 c = "change_selection_noyank"
+"C-A-z" = ":reset-diff-change"
 
 [keys.insert]
 "C-space" = "completion"
