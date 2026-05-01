@@ -47,7 +47,8 @@ else
 		for status_file in /sys/class/drm/card*-*/status; do
 			[ -r "$status_file" ] || continue
 			connector=${status_file%/status}
-			connector=${connector##*/card*-}
+			connector=${connector##*/}
+			connector=${connector#card*-}
 			case $connector in eDP* | LVDS*) continue ;; esac
 			[ "$(cat "$status_file")" = connected ] && return 0
 		done
