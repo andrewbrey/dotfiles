@@ -3,7 +3,7 @@ theme = "gruvbox_dark_hard.custom"
 
 [editor]
 line-number = "relative"
-mouse = false
+mouse = true
 scrolloff = 20
 shell = ["zsh", "-c"]
 bufferline = "always"
