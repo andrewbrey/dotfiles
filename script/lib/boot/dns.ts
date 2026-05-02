@@ -1,4 +1,4 @@
-import { $, invariant, type Logger } from "../mod.ts";
+import { $, type Logger } from "../mod.ts";
 
 export async function etcHosts(logger: Logger, artifactsPath: string) {
 	const marker = $.path.join(artifactsPath, ".hosts");
@@ -6,48 +6,50 @@ export async function etcHosts(logger: Logger, artifactsPath: string) {
 	if (await $.exists(marker)) {
 		logger.info("marker file already exists, skipping etcHosts");
 	} else {
-		const homelabIP = $.requireEnv("SECRET_HOMELAB_IPV4_ADDRESS");
-		const atHome = await $.request(`http://${homelabIP}`).timeout(3000)
-			.noThrow().fetch().then(({ status }) => status === 200).catch(() => false);
+		// [TODO]: decide if I want to keep this concept around now that I don't homelab
 
-		const homelabHostsScript = $.path.join(
-			$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS,
-			"hostsfile",
-			".homelab-hosts.sh",
-		);
+		// const homelabIP = $.requireEnv("SECRET_HOMELAB_IPV4_ADDRESS");
+		// const atHome = await $.request(`http://${homelabIP}`).timeout(3000)
+		// 	.noThrow().fetch().then(({ status }) => status === 200).catch(() => false);
 
-		if (atHome) {
-			logger.info("setting etcHosts for at-home dns");
+		// const homelabHostsScript = $.path.join(
+		// 	$.env.STANDARD_DIRS.DOT_DOTS_SETTINGS,
+		// 	"hostsfile",
+		// 	".homelab-hosts.sh",
+		// );
 
-			try {
-				await $`sudo ${homelabHostsScript} ${homelabIP}`;
-			} catch (error) {
-				const message = "etcHosts failed, check dotsboot log for details";
+		// if (atHome) {
+		// 	logger.info("setting etcHosts for at-home dns");
 
-				$.ntfyAlert(message, logger);
-				logger.error(message);
-				logger.error(error);
-			}
-		} else {
-			logger.info("setting etcHosts for away-from-home dns");
+		// 	try {
+		// 		await $`sudo ${homelabHostsScript} ${homelabIP}`;
+		// 	} catch (error) {
+		// 		const message = "etcHosts failed, check dotsboot log for details";
 
-			const password = $.requireEnv("SECRET_HOMELAB_HOSTS_API_PASSWORD");
+		// 		$.ntfyAlert(message, logger);
+		// 		logger.error(message);
+		// 		logger.error(error);
+		// 	}
+		// } else {
+		// 	logger.info("setting etcHosts for away-from-home dns");
 
-			try {
-				const ip = await $.request("https://dotfiles.andrewbrey.com/homelab-hosts")
-					.header({ "x-homelab-hosts-api-password": password }).text();
+		// 	const password = $.requireEnv("SECRET_HOMELAB_HOSTS_API_PASSWORD");
 
-				invariant(typeof ip === "string" && ip.length > 0, "missing required apex ip");
+		// 	try {
+		// 		const ip = await $.request("https://dotfiles.andrewbrey.com/homelab-hosts")
+		// 			.header({ "x-homelab-hosts-api-password": password }).text();
 
-				await $`sudo ${homelabHostsScript} ${ip}`;
-			} catch (error) {
-				const message = "etcHosts failed, check dotsboot log for details";
+		// 		invariant(typeof ip === "string" && ip.length > 0, "missing required apex ip");
 
-				$.ntfyAlert(message, logger);
-				logger.error(message);
-				logger.error(error);
-			}
-		}
+		// 		await $`sudo ${homelabHostsScript} ${ip}`;
+		// 	} catch (error) {
+		// 		const message = "etcHosts failed, check dotsboot log for details";
+
+		// 		$.ntfyAlert(message, logger);
+		// 		logger.error(message);
+		// 		logger.error(error);
+		// 	}
+		// }
 
 		await Deno.writeTextFile(marker, "ok");
 		logger.info(`marker set for etcHosts`);
