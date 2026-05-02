@@ -70,6 +70,7 @@ d = "delete_selection_noyank"
 A-c = "change_selection"
 c = "change_selection_noyank"
 "C-A-z" = ":reset-diff-change"
+A-z = ":toggle soft-wrap.enable"
 
 [keys.insert]
 "C-space" = "completion"
