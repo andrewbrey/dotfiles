@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local config = {}
 
-config.initial_cols = 115
+config.initial_cols = 112
 config.initial_rows = 120
 
 -- dim inactive panes and splits
