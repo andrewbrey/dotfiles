@@ -176,6 +176,7 @@ keybinds clear-defaults=true {
         bind "Alt p" { TogglePaneInGroup; }
         bind "Alt Shift p" { ToggleGroupMarking; }
         bind "Alt Shift t" { NewTab { layout "telemetry"; name "telemetry"; }; }
+        bind "Ctrl k" { Clear; Write 12; }
     }
     shared_except "locked" "renametab" "renamepane" {
         bind "Ctrl g" { SwitchToMode "locked"; }
