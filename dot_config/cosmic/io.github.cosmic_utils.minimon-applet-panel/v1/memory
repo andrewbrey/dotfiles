@@ -1,6 +1,8 @@
 (
     chart_visible: false,
-    label_visible: true,
+    value_visible: true,
+    label_visible: false,
+    icon_visible: false,
     chart: Line,
     colors: (
         ring: (
@@ -158,5 +160,5 @@
     ),
     percentage: false,
     show_allocated: false,
-    stack_labels: false,
+    stack_values: false,
 )
