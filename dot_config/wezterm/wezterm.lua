@@ -66,6 +66,10 @@ config.keys = {
       act.SendKey { key = 'L', mods = 'CTRL' },
     },
   },
+  -- Unbind Search (CMD+F)
+  { key = 'f', mods = 'CMD',        action = wezterm.action.DisableDefaultAssignment },
+  -- Unbind Search (CTRL+SHIFT+F)
+  { key = 'f', mods = 'CTRL|SHIFT', action = wezterm.action.DisableDefaultAssignment },
 }
 
 -- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
