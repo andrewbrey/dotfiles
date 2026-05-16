@@ -13,7 +13,9 @@ const chezmoiData = await $.getChezmoiData();
 
 const npmGlobals = new Set([
 	"@antfu/ni",
+	"@microsoft/compose-language-service",
 	"add-gitignore",
+	"bash-language-server",
 	"commitizen",
 	"cz-conventional-changelog",
 	"http-server",
@@ -25,6 +27,10 @@ const npmGlobals = new Set([
 	"prettier",
 	"rimraf",
 	"tree-sitter-cli",
+	"typescript",
+	"typescript-language-server",
+	"vscode-langservers-extracted",
+	"yaml-language-server",
 ]);
 
 if (!chezmoiData.is_personal_machine) {
