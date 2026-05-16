@@ -14,6 +14,7 @@
 			"description": "execute the (git-ignored) tinker script"
 		}
 	},
+	"minimumDependencyAge": "P3D",
 	"imports": {
 		"@cliffy/ansi": "jsr:@cliffy/ansi@1.0.0",
 		"@cliffy/command": "jsr:@cliffy/command@1.0.0",
