@@ -26,3 +26,25 @@ auto-format = true
 command = "deno"
 args = ["lsp"]
 config.deno.enable = true
+
+[language-server.jsonls]
+command = "vscode-json-language-server"
+args = ["--stdio"]
+
+[language-server.jsonls.config]
+provideFormatter = true
+
+[language-server.jsonls.config.json]
+validate = { enable = true }
+
+[[language-server.jsonls.config.json.schemas]]
+fileMatch = ["deno.json", "deno.jsonc"]
+url = "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json"
+
+[[language]]
+name = "json"
+language-servers = ["jsonls"]
+
+[[language]]
+name = "jsonc"
+language-servers = ["jsonls"]
