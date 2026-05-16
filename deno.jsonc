@@ -16,15 +16,15 @@
 	},
 	"minimumDependencyAge": "P3D",
 	"imports": {
-		"@cliffy/ansi": "jsr:@cliffy/ansi@1.0.0",
-		"@cliffy/command": "jsr:@cliffy/command@1.0.0",
-		"@cliffy/table": "jsr:@cliffy/table@1.0.0",
-		"@david/dax": "jsr:@david/dax@0.45.0",
+		"@cliffy/ansi": "jsr:@cliffy/ansi@1.1.0",
+		"@cliffy/command": "jsr:@cliffy/command@1.1.0",
+		"@cliffy/table": "jsr:@cliffy/table@1.1.0",
+		"@david/dax": "jsr:@david/dax@0.46.1",
 		"@npm/date-fns": "npm:date-fns@4.1.0",
 		"@npm/handlebars": "npm:handlebars@4.7.9",
-		"@npm/playwright": "npm:playwright@1.58.2",
+		"@npm/playwright": "npm:playwright@1.60.0",
 		"@npm/user-agents": "npm:user-agents@2.1.11",
-		"@std/collections": "jsr:@std/collections@1.1.6",
+		"@std/collections": "jsr:@std/collections@1.1.7",
 		"@std/fs": "jsr:@std/fs@1.0.23",
 		"@std/jsonc": "jsr:@std/jsonc@1.0.2",
 		"@std/log": "jsr:@std/log@0.224.14",
@@ -32,6 +32,6 @@
 		"@std/node-util": "node:util",
 		"@std/path": "jsr:@std/path@1.1.4",
 		"@std/semver": "jsr:@std/semver@1.0.8",
-		"@std/text": "jsr:@std/text@1.0.17"
+		"@std/text": "jsr:@std/text@1.0.18"
 	}
 }
