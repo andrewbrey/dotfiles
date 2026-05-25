@@ -12,7 +12,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"ca-certificates",
 	"clang",
 	"file",
-	"gir1.2-gmenu-3.0",
+	// "gir1.2-gmenu-3.0",
 	"git-lfs",
 	"heif-gdk-pixbuf",
 	"heif-thumbnailer",
@@ -33,7 +33,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"qemu",
 	"qemu-utils",
 	"squashfs-tools",
-	"xdg-desktop-portal-gnome",
+	// "xdg-desktop-portal-gnome",
 ];
 if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 	if (list.length) {

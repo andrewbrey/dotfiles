@@ -14,10 +14,11 @@ const list = [ffmpeg, imagemagick];
 if ($.env.OS /* TODO: refactor to os helpers */ === "linux") {
 	[
 		"libnotify-bin",
-		"wmctrl",
-		"xclip",
-		"xdotool",
-		"xsel",
+		// [TODO] @andrewbrey: swap for wayland tools
+		// "wmctrl",
+		// "xclip",
+		// "xdotool",
+		// "xsel",
 	].forEach((p) => list.push(p));
 }
 
