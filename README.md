@@ -34,7 +34,7 @@
 - Use the `pam` cli to install applications, e.g. a few apps at once
 
   ```sh
-  pam install -a core-tools -a kitty -a fonts
+  pam install -a core-tools -a wezterm -a fonts
   ```
 
   or a whole named group at once
