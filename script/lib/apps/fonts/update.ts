@@ -19,6 +19,8 @@ const _hurmit = $.env.OS === "darwin" ? "font-hurmit-nerd-font" : "Hermit";
 const _hack = $.env.OS === "darwin" ? "font-hack-nerd-font" : "Hack"; // TODO: remove? this font is a huge download
 const _iosevka = $.env.OS === "darwin" ? "font-iosevka-nerd-font" : "Iosevka"; // TODO: remove? this font is a huge download
 
+// TODO: Add Maple Mono font https://font.subf.dev/en/ (Maple Mono, NF, Unhinted, e.g. https://github.com/subframe7536/maple-font/releases/download/v7.9/MapleMono-NF-unhinted.zip)
+
 const chezmoiData = await $.getChezmoiData();
 
 const fonts = chezmoiData.is_containerized
