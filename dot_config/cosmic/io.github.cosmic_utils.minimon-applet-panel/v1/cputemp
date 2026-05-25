@@ -2,7 +2,7 @@
     chart_visible: false,
     value_visible: true,
     label_visible: false,
-    icon_visible: false,
+    icon_visible: true,
     chart: Heat,
     colors: (
         ring: (
