@@ -79,6 +79,10 @@ A-w = ["move_next_word_end", "move_char_right"]
 
 [keys.normal.space]
 o = "file_picker_in_current_buffer_directory"
+# Go to current function name
+x = "@<C-s>maf<A-;>t<space>t(be"
+# Go to current function references
+X = "@<C-s>maf<A-;>t<space>t(begr"
 
 # Config Mode
 [keys.normal."backspace"]
