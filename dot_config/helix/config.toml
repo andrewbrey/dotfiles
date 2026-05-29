@@ -87,6 +87,7 @@ X = "@<C-s>maf<A-;>t<space>t(begr"
 # Config Mode
 [keys.normal."backspace"]
 s = [":write"]
+S = [":write --no-format"]
 r = [":w", ":config-reload", ":reload-all"]
 o = ":config-open"
 g = [":new", ":insert-output lazygit", ":buffer-close", ":redraw", ":reload"]
