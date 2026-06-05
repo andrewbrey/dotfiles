@@ -217,10 +217,10 @@ format = "[$symbol FRP_TOKEN](bold yellow) "
 symbol = "󱠾"
 variable = "FRP_TOKEN"
 
-[env_var.MEMFAULT_API_TOKEN]
-format = "[$symbol MEMFAULT_API_TOKEN](bold yellow) "
+[env_var.MEMFAULT_API_KEY]
+format = "[$symbol MEMFAULT_API_KEY](bold yellow) "
 symbol = "󱠾"
-variable = "MEMFAULT_API_TOKEN"
+variable = "MEMFAULT_API_KEY"
 
 [container]
 disabled = true
