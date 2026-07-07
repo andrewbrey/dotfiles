@@ -13,6 +13,11 @@ layout {
                 args "run" "--bin" "aws-iot-server"
                 start_suspended true
             }
+            pane name="Log Relay" cwd="${WORK_REPO}/app/rust" {
+                command "cargo"
+                args "run" "--bin" "impulse-log-relay" "--" "-w" "${WORK_REPO}/app/rust/.ignored/sim-app-persistence" "--egress-url" "http://localhost:8080/ingest/logs" "--dev-auth"
+                start_suspended true
+            }
             pane name="MQTT" cwd="${WORK_REPO}/app/rust" {
                 command "cargo"
                 args "run" "--bin" "local-mqtt-broker"
