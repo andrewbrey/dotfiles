@@ -14,8 +14,8 @@ layout {
                 start_suspended true
             }
             pane name="Log Relay" cwd="${WORK_REPO}/app/rust" {
-                command "cargo"
-                args "run" "--bin" "impulse-log-relay" "--" "-w" "${WORK_REPO}/app/rust/.ignored/sim-app-persistence" "--egress-url" "http://localhost:8080/ingest/logs" "--dev-auth"
+                command "zsh"
+                args "-c" "export RUST_LOG=info; cargo run --bin impulse-log-relay -- -w \"${WORK_REPO}\"/app/rust/.ignored/sim-app-persistence --egress-url='http://localhost:8080/ingest/logs' --dev-auth"
                 start_suspended true
             }
             pane name="MQTT" cwd="${WORK_REPO}/app/rust" {
