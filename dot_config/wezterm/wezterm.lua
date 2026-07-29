@@ -70,7 +70,11 @@ config.keys = {
   { key = 'f', mods = 'CMD',        action = wezterm.action.DisableDefaultAssignment },
   -- Unbind Search (CTRL+SHIFT+F)
   { key = 'f', mods = 'CTRL|SHIFT', action = wezterm.action.DisableDefaultAssignment },
-}
+  -- Debug overlay on CTRL+SHIFT+I (default CTRL+SHIFT+L is reused for pane nav)
+  { key = 'i', mods = 'CTRL|SHIFT', action = act.ShowDebugOverlay },
+  -- Navigate splits left/right
+  { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Left' },
+  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Right' },}
 
 -- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
 -- config.font = wezterm.font_with_fallback {'VictorMono NFM'}
