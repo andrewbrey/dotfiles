@@ -66,7 +66,15 @@ config.keys = {
       act.SendKey { key = 'L', mods = 'CTRL' },
     },
   },
-  -- Unbind Search (CMD+F)
+  -- presized primary/secondary multitask split
+  {
+    key = '$',
+    mods = 'CTRL|SHIFT|ALT',
+    action = act.SplitPane {
+      direction = 'Left',
+      size = { Percent = 35 },
+    },
+  }, -- Unbind Search (CMD+F)
   { key = 'f', mods = 'CMD',        action = wezterm.action.DisableDefaultAssignment },
   -- Unbind Search (CTRL+SHIFT+F)
   { key = 'f', mods = 'CTRL|SHIFT', action = wezterm.action.DisableDefaultAssignment },
@@ -74,7 +82,7 @@ config.keys = {
   { key = 'i', mods = 'CTRL|SHIFT', action = act.ShowDebugOverlay },
   -- Navigate splits left/right
   { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Left' },
-  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Right' },}
+  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Right' }, }
 
 -- config.font = wezterm.font_with_fallback {'MesloLGLDZ Nerd Font Mono'}
 -- config.font = wezterm.font_with_fallback {'VictorMono NFM'}
