@@ -16,7 +16,7 @@ layout {
                 }
                 pane name="Log Relay Logs" cwd="${WORK_REPO}/app/rust" {
                     command "zsh"
-                    args "-c" "tail -f \"/tmp/impulse-log-relay/impulse-log-relay.$(date +%F).log\""
+                    args "-c" "tail -F \"/tmp/impulse-log-relay/impulse-log-relay.$(date -u +%F).log\""
                     start_suspended true
                 }
             }
