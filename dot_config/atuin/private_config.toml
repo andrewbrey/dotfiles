@@ -160,6 +160,7 @@ history_filter = [
   "^type ",
   "^where ",
   "^which ",
+  "^music$",
   "^work$",
   "^youtube-dl ",
   "^yt-dlp ",
