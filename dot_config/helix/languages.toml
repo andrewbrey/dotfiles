@@ -1,3 +1,22 @@
+[language-server.rust-analyzer.config.references]
+excludeImports = true
+
+[language-server.rust-analyzer.config.inlayHints]
+renderColons = false
+
+[language-server.rust-analyzer.config.assist]
+preferSelf = true
+
+[language-server.rust-analyzer.config.workspace.symbol.search]
+excludeImports = true
+
+[language-server.rust-analyzer.config.imports.granularity]
+enforce = true
+group = "Item"
+
+[language-server.rust-analyzer.config.imports.group]
+enable = true
+
 [[language]]
 name = "typescript"
 roots = ["deno.json", "deno.jsonc", "package.json"]
