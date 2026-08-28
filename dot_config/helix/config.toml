@@ -79,7 +79,7 @@ A-b = ["move_prev_word_start", "collapse_selection"]
 A-w = ["move_next_word_end", "move_char_right"]
 
 [keys.normal.space]
-f = "file_picker_in_current_buffer_directory"
+o = "file_picker_in_current_buffer_directory"
 # swap e and E from default keymap
 e = "file_explorer_in_current_buffer_directory"
 E = "file_explorer"
@@ -92,7 +92,8 @@ X = "@<C-s>maf<A-;>t<space>t(begr"
 [keys.normal."backspace"]
 s = [":write"]
 S = [":write --no-format"]
-r = [":w", ":config-reload", ":reload-all"]
+r = ":reload-all"
+R = [":w", ":config-reload", ":reload-all"]
 o = ":config-open"
 g = [":new", ":insert-output lazygit", ":buffer-close", ":redraw", ":reload"]
 t = [":sh wezterm cli spawn --cwd=%sh{pwd}  2>&1 >/dev/null"]
