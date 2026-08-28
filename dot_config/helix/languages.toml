@@ -12,7 +12,7 @@ excludeImports = true
 
 [language-server.rust-analyzer.config.imports.granularity]
 enforce = true
-group = "Item"
+group = "item"
 
 [language-server.rust-analyzer.config.imports.group]
 enable = true
