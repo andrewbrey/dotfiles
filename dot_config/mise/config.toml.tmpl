@@ -8,14 +8,8 @@ trusted_config_paths = [{{ .standard_dirs.code | quote  }}, {{ .chezmoi.sourceDi
 [tools]
 "aqua:LuaLS/lua-language-server" = "latest"
 gh = "latest"
-mr-boxington = "latest"
 process-compose = "latest"
 ruff = "latest"
 tokei = "latest"
 ty = "latest"
 uv = "latest"
-
-[wrappers.cargo]
-command = "mbx"
-env = { MBX_CARGO_SHIM_MODE = "1" }
-
