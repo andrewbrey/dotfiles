@@ -100,6 +100,7 @@
 - Add [Nu shell](https://www.nushell.sh/) for structured shell
 - Add [PDF Arranger](https://flathub.org/apps/com.github.jeromerobert.pdfarranger) pdf tool
 - Add [Yazi File Manager](https://github.com/sxyazi/yazi)
+- Add [resvg](https://crates.io/crates/resvg) for command line svg rendering in Yazi
 - Add [Cargo Binstall](https://crates.io/crates/cargo-binstall/) for faster cargo bin installs
 - Add [Numbat](https://github.com/sharkdp/numbat) tool for computation with awareness of physical
   dimensions
