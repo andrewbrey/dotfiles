@@ -138,3 +138,5 @@
 - Remove (and probably replace) deprecated `neofetch` application
 - In `fonts` no longer need to tap the `homebrew/cask-fonts` cask (and doing so causes brew process
   to exit non-zero)
+- Document usage of `scr` (https://github.com/andrewbrey/screensaver) and installation including the
+  required systemd service to protect OLED displays
