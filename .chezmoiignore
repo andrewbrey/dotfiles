@@ -19,6 +19,8 @@ deno.lock
 .dots/apps/rustyvibes/packs
 .config/nvim/lazy-lock.json
 
+.config/zellij/plugins/**/target
+
 .config/cosmic/com.system76.CosmicFiles/**/favorites
 
 .config/cosmic/com.vintagetechie.CosmicExtAppletTempest/**/aqicn_token
