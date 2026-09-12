@@ -1,0 +1,15 @@
+[package]
+name = "zellij-passthrough"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+zellij-tile = "=0.45.1"
+
+[profile.release]
+codegen-units = 1
+lto = "fat"
+opt-level = "z"
+panic = "abort"
+strip = true
