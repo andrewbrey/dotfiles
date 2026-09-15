@@ -34,6 +34,7 @@
             Ctrl,
         ],
         key: "space",
+        description: Some("Toggle Handy"),
     ): Spawn("pkill -USR2 -n handy"),
     (
         modifiers: [
@@ -55,6 +56,7 @@
             Super,
         ],
         key: "F11",
+        description: Some("Flameshot Copy and Save"),
     ): Spawn("flameshot-copy-and-save"),
     (
         modifiers: [
@@ -65,5 +67,6 @@
     (
         modifiers: [],
         key: "Print",
+        description: Some("Flameshot Copy and Save"),
     ): Spawn("flameshot-copy-and-save"),
 }
