@@ -30,6 +30,13 @@
     ): System(Terminal),
     (
         modifiers: [
+            Super,
+            Ctrl,
+        ],
+        key: "space",
+    ): Spawn("pkill -USR2 -n handy"),
+    (
+        modifiers: [
             Ctrl,
             Alt,
         ],
