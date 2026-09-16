@@ -50,6 +50,8 @@ keybind = ctrl+shift+alt+'=new_split:down
 # home row split navigation
 keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+j=goto_split:down
 
 # split resize
 keybind = ctrl+shift+alt+minus=resize_split:left,500
