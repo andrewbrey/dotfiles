@@ -57,12 +57,12 @@ keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+alt+minus=resize_split:left,500
 keybind = ctrl+shift+alt+equal=resize_split:right,50
 
-background-opacity = 0.97
+background-opacity = 0.95
 cursor-style = bar
 cursor-style-blink = false
 theme = Gruvbox Dark Hard
-unfocused-split-fill = #000000
-unfocused-split-opacity = 0.7
+unfocused-split-fill = #444444
+unfocused-split-opacity = 0.75
 window-decoration = none
 window-padding-balance = true
 window-padding-x = 6
