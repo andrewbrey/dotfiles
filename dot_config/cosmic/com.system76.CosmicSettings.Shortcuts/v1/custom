@@ -38,14 +38,6 @@
     ): Spawn("pkill -USR2 -n handy"),
     (
         modifiers: [
-            Ctrl,
-            Alt,
-        ],
-        key: "space",
-        description: Some("Toggle Handy"),
-    ): Spawn("pkill -USR2 -n handy"),
-    (
-        modifiers: [
             Super,
         ],
         key: "Print",
