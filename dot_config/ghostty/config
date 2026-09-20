@@ -43,6 +43,8 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
+gtk-single-instance = true
+
 # replicate wezterm split keybinds
 keybind = ctrl+shift+alt+5=new_split:left
 keybind = ctrl+shift+alt+'=new_split:down
