@@ -297,9 +297,9 @@ function extract() {
 #
 # me_ntfy "some message body, can be multiline" "some optional message title, can't be multiline"
 function me_ntfy() {
-	[ -z $NTFY_TOPIC ] && echo 'missing required env $NTFY_TOPIC' && return 1
+	[ -z $ME_NTFY_TOPIC ] && echo 'missing required env $ME_NTFY_TOPIC' && return 1
 
-	local topic="https://ntfy.sh/${NTFY_TOPIC}"
+	local topic="https://ntfy.sh/${ME_NTFY_TOPIC}"
 
 	curl \
 		-H "Title: ${2:-Yo!}" \

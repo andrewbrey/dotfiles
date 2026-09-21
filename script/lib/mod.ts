@@ -275,10 +275,10 @@ function requireEnv(envName: string, setCommand?: string) {
 	return Deno.env.get(envName)?.trim() as string; // we know it exists, coerce type
 }
 
-/** Attempt to alert via ntfy, but don't fail if not possible. */
-async function ntfyAlert(alert: string, logger?: Logger) {
+/** Attempt to alert me via ntfy, but don't fail if not possible. */
+async function meNtfyAlert(alert: string, logger?: Logger) {
 	try {
-		const topic = requireEnv("NTFY_TOPIC");
+		const topic = requireEnv("ME_NTFY_TOPIC");
 		invariant(typeof alert === "string" && alert.length > 0, "missing required alert for ntfy");
 
 		await basic$.request(`https://ntfy.sh/${topic}`).method("POST")
@@ -430,7 +430,7 @@ const $helpers = {
 	missingSync,
 	nodeFS: stdNodeFS,
 	noop,
-	ntfyAlert,
+	meNtfyAlert,
 	onLinux: <T>(fn: RunOnOSFn<T>) => onOS("linux", fn),
 	onMac: <T>(fn: RunOnOSFn<T>) => onOS("darwin", fn),
 	path: Object.assign(basic$.path, stdPath) as typeof basic$.path & typeof stdPath,
