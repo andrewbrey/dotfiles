@@ -63,6 +63,7 @@ background-opacity = 0.95
 bell-features = no-system, no-audio, no-attention, title, no-border
 cursor-style = bar
 cursor-style-blink = false
+font-family = "Maple Mono NF"
 theme = Gruvbox Dark Hard
 unfocused-split-fill = #444444
 unfocused-split-opacity = 0.75
