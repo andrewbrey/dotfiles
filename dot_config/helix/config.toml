@@ -98,4 +98,5 @@ o = ":config-open"
 g = [":new", ":insert-output lazygit", ":buffer-close", ":redraw", ":reload"]
 t = [":sh wezterm cli spawn --cwd=%sh{pwd}  2>&1 >/dev/null"]
 w = ":buffer-close"
+W = ":buffer-close-others"
 # l = ":o ~/.config/helix/languages.toml"
