@@ -5,6 +5,11 @@ trusted_config_paths = [{{ .standard_dirs.code | quote  }}, {{ .chezmoi.sourceDi
 trusted_config_paths = [{{ .standard_dirs.code | quote  }}, {{ .chezmoi.sourceDir | quote }}, {{(env "DOTFILES_SRC_PATH_OVERRIDE" | trim | quote)}}]
 {{ end }}
 
+[settings.skills]
+auto_sync = false
+fetch = false
+prune = false
+
 [tools]
 "aqua:LuaLS/lua-language-server" = "latest"
 fzf = "latest"
@@ -16,8 +21,3 @@ tokei = "latest"
 ty = "latest"
 usage = "latest"
 uv = "latest"
-
-[skills]
-auto_sync = false
-fetch = false
-prune = false
