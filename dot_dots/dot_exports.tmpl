@@ -9,7 +9,13 @@ export HISTORY_IGNORE="($(printf %s "$(cat {{ .standard_dirs.dot_dots }}/.histig
 export EDITOR="${EDITOR:-/usr/bin/nano}"
 export VISUAL="${VISUAL:-/usr/bin/nano}"
 export PAGER="less -RF"
-export MANPAGER="bat -l man -p"
+
+if command -v bat &>/dev/null; then
+  # export MANPAGER="bat -l man -p"
+  # https://github.com/sharkdp/bat/issues/3724#issuecomment-4651184236
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export MANROFFOPT="-c"
+fi
 
 if [ "${TERM_PROGRAM}" = "vscode" ]; then
   export EDITOR="$(which code) -w"
