@@ -17,6 +17,10 @@ group = "item"
 [language-server.rust-analyzer.config.imports.group]
 enable = true
 
+# work around taplo bug for "document has been excluded"
+[language-server.taplo]
+config = {}
+
 [[language]]
 name = "typescript"
 roots = ["deno.json", "deno.jsonc", "package.json"]
