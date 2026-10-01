@@ -1,2 +1,5 @@
 [preview]
 syntax_highlighting_theme = 'gruvbox-dark-hard'
+
+[search]
+disable_prepopulated_fields = false
