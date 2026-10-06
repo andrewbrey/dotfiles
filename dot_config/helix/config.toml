@@ -76,8 +76,12 @@ A-z = ":toggle soft-wrap.enable"
   ":sh zellij run --floating --name 'Search and Replace' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- scooter --hidden --fixed-strings --files-to-exclude 'embedded/**/*' >/dev/null",
   ":redraw",
 ]
+# [TODO] mcat doesn't page if the content fits on one terminal screen, so
+#        small files exit immediately... tried `sh -c 'mcat <file> && sleep infinity'`
+#        but that sucked. To be figured out maybe, but no preview on short files
+#        for now i guess :shrug:
 "C-A-m" = [
-  ":sh zellij run --floating --name '%{buffer_name} Preview' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- sh -c 'mcat %{buffer_name} && sleep infinity' >/dev/null",
+  ":sh zellij run --floating --name '%{buffer_name} Preview' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- mcat %{buffer_name} >/dev/null",
   ":redraw",
 ]
 
