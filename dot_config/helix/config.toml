@@ -76,6 +76,10 @@ A-z = ":toggle soft-wrap.enable"
   ":sh zellij run --floating --name 'Search and Replace' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- scooter --hidden --fixed-strings --files-to-exclude 'embedded/**/*' >/dev/null",
   ":redraw",
 ]
+"C-A-m" = [
+  ":sh zellij run --floating --name 'mcat' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- mcat %{buffer_name} >/dev/null",
+  ":redraw",
+]
 
 [keys.insert]
 "C-space" = "completion"
