@@ -77,7 +77,7 @@ A-z = ":toggle soft-wrap.enable"
   ":redraw",
 ]
 "C-A-m" = [
-  ":sh zellij run --floating --name 'mcat' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- mcat %{buffer_name} >/dev/null",
+  ":sh zellij run --floating --name '%{buffer_name} Preview' --x 10%% --y 10%% --width 80%% --height 80%% --close-on-exit -- sh -c 'mcat %{buffer_name} && sleep infinity' >/dev/null",
   ":redraw",
 ]
 
