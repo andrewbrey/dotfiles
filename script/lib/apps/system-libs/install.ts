@@ -23,6 +23,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"libnss3-tools",
 	"librust-alsa-sys-dev",
 	"librsvg2-dev",
+	"libsecret-tools",
 	"libssl-dev",
 	// "libwebkit2gtk-4.0-dev",
 	"libwebkit2gtk-4.1-dev",
