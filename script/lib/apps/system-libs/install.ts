@@ -35,6 +35,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	// "qemu-utils",
 	"squashfs-tools",
 	// "xdg-desktop-portal-gnome",
+	"waypipe",
 ];
 if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 	if (list.length) {
