@@ -345,6 +345,17 @@ default_mode "locked"
 //
 // pane_frames false
 
+// The style of the pane frames when pane_frames is enabled.
+//
+// Options:
+//
+//     "titles" (default) - a single title line above each pane
+//     "full" - a full border around each pane (the pre-0.45.0 look)
+//     "none" - no frames at all (identical to pane_frames false)
+//
+// Setting pane_frames false forces the style to none regardless of this option.
+pane_frame_style "full"
+
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
 // or should each user have their own cursor (false)
