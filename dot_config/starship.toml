@@ -222,6 +222,11 @@ format = "[$symbol MEMFAULT_API_KEY](bold yellow) "
 symbol = "󱠾"
 variable = "MEMFAULT_API_KEY"
 
+[env_var.FDS_WS]
+variable = "FDS_WS"
+symbol = "󰇂"
+format = "[$symbol $env_value](italic green)"
+
 [container]
 disabled = true
 
