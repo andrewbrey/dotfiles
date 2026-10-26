@@ -214,6 +214,16 @@ format = "[$symbol FRP_TOKEN](bold dimmed yellow) "
 symbol = "󱠾"
 variable = "FRP_TOKEN"
 
+[env_var.MEMFAULT_API_KEY]
+format = "[$symbol MEMFAULT_API_KEY](bold yellow) "
+symbol = "󱠾"
+variable = "MEMFAULT_API_KEY"
+
+[env_var.FDS_WS]
+variable = "FDS_WS"
+symbol = "󰇂"
+format = "[$symbol $env_value](italic green)"
+
 [container]
 disabled = true
 
