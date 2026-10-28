@@ -18,7 +18,7 @@ const npmGlobals = new Set([
 	"bash-language-server",
 	"commitizen",
 	"cz-conventional-changelog",
-	"http-server",
+	"serve",
 	"neovim",
 	"np",
 	"npkill",
