@@ -1,6 +1,6 @@
 {
-	"personal-linux": "24",
-	"personal-darwin": "24",
-	"work-linux": "24",
-	"work-darwin": "24"
+	"personal-linux": "lts",
+	"personal-darwin": "lts",
+	"work-linux": "lts",
+	"work-darwin": "lts"
 }
