@@ -122,6 +122,7 @@
   completions
 - Add [Whispering](https://github.com/EpicenterHQ/epicenter/tree/main/apps/whispering) for local stt
 - Add [Handy](https://github.com/cjpais/Handy) for local stt (perhaps better than Whispering?)
+- Add [hex](https://anoma.ly/hex/) for local sst (perhaps better than Handy?)
 - Add [Splash](https://github.com/joshi4/splash) for colorization of plaintext logs
 - Add [cos-cli](https://github.com/estin/cos-cli) for `wmctrl` replacement on cosmic
 - Add [ouch](https://github.com/ouch-org/ouch) for better (de)compression utility
