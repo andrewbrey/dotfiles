@@ -6,7 +6,8 @@ line-number = "relative"
 mouse = false
 scrolloff = 20
 shell = ["zsh", "-c"]
-bufferline = "always"
+# used with stock helix, but removed for fork compat
+# bufferline = "always"
 color-modes = true
 completion-replace = true
 cursorline = true
