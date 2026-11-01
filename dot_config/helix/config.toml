@@ -107,3 +107,26 @@ o = ":config-open"
 g = [":new", ":insert-output lazygit", ":buffer-close", ":redraw", ":reload"]
 w = ":buffer-close"
 W = ":buffer-close-others"
+
+#######
+# FORK
+#######
+[editor.explorer]
+width = 35
+
+[editor.cmdline]
+style = "popup"
+show-icons = false
+
+[editor.bufferline]
+render-mode = "always"
+separator = "||"
+
+[editor.notifications]
+position = "bottom-right"
+default-timeout = 2000
+
+[editor.auto-reload]
+focus-gained = true
+periodic.enable = true
+periodic.interval = 5000
