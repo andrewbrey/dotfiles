@@ -1,0 +1,49 @@
+theme = "gruvbox-dark"
+
+[ui]
+sidebar_width = 30
+right_sidebar_width = 32
+chat_width = 46
+show_left_sidebar = true
+show_right_sidebar = true
+show_chat = false
+show_ribbon = true
+show_hints = true
+show_hidden = false
+line_numbers = true
+reading_mode = true
+sort_order = "modified"
+keyboard = "auto"
+
+[editor]
+tab_width = 4
+expand_tabs = true
+wrap = true
+vim = false
+auto_save = true
+new_note_folder = ""
+daily_folder = "Daily"
+daily_format = "%Y-%m-%d"
+
+[graph]
+show_unresolved = true
+show_tags = false
+show_attachments = false
+show_orphans = true
+show_labels = true
+local_depth = 1
+
+[images]
+enabled = true
+max_height_percent = 66
+protocol = "auto"
+
+[agent]
+provider = "anthropic"
+model = ""
+max_tokens = 16000
+effort = "high"
+show_reasoning = true
+allow_writes = true
+include_active_note = true
+max_tool_rounds = 12
