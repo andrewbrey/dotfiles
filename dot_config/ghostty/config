@@ -44,6 +44,7 @@
 # resize-overlay-duration = 4s 200ms
 
 gtk-single-instance = true
+shell-integration = none
 
 # replicate wezterm split keybinds
 keybind = ctrl+shift+alt+5=new_split:left
