@@ -13,6 +13,10 @@
 COSMIC_DIRS=(
 	"$HOME/.config/cosmic/com.vintagetechie.CosmicExtAppletTempest/v1"
 	"$HOME/.config/cosmic/com.system76.CosmicTheme.Dark.Builder/v2"
+	"$HOME/.config/cosmic/com.system76.CosmicThemeBundle.custom-dark.Builder/v1"
+	"$HOME/.config/cosmic/com.system76.CosmicThemeBundle.custom-dark.Theme/v1"
+	"$HOME/.config/cosmic/com.system76.CosmicThemeBundle.custom-light.Builder/v1"
+	"$HOME/.config/cosmic/com.system76.CosmicThemeBundle.custom-light.Theme/v1"
 )
 
 for dir in "${COSMIC_DIRS[@]}"; do
