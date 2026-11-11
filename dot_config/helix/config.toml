@@ -125,6 +125,7 @@ separator = "||"
 [editor.notifications]
 position = "bottom-right"
 default-timeout = 2000
+max-history = 2
 
 [editor.auto-reload]
 focus-gained = true
