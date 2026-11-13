@@ -94,7 +94,6 @@
 - Add [amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704?mt=12) MacOS app to
   replace `keepingyouawake` since it is able to prevent system sleep on mac better while still
   allowing screen to sleep
-- Add [oatmeal](https://github.com/dustinblackman/oatmeal) llm terminal client
 - Add [freeze](https://github.com/charmbracelet/freeze) code screenshot tool
 - Add [flameshot](https://flameshot.org/) regular screenshot tool
 - Add [Nu shell](https://www.nushell.sh/) for structured shell
@@ -120,8 +119,6 @@
 - Add [Zellij](https://github.com/zellij-org/zellij) for a nicer terminal multiplexer
 - Add [Carapace](https://carapace-sh.github.io/carapace-bin/carapace-bin.html) for more shell
   completions
-- Add [Whispering](https://github.com/EpicenterHQ/epicenter/tree/main/apps/whispering) for local stt
-- Add [Handy](https://github.com/cjpais/Handy) for local stt (perhaps better than Whispering?)
 - Add [Splash](https://github.com/joshi4/splash) for colorization of plaintext logs
 - Add [cos-cli](https://github.com/estin/cos-cli) for `wmctrl` replacement on cosmic
 - Add [ouch](https://github.com/ouch-org/ouch) for better (de)compression utility
