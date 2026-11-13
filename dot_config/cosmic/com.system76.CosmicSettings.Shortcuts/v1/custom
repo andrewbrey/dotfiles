@@ -2,6 +2,13 @@
     (
         modifiers: [
             Ctrl,
+        ],
+        key: "F1",
+        description: Some("Toggle Obsidian"),
+    ): Spawn("obsidian-toggle"),
+    (
+        modifiers: [
+            Ctrl,
             Alt,
             Shift,
         ],
@@ -9,33 +16,10 @@
     ): System(PlayNext),
     (
         modifiers: [
-            Ctrl,
-            Alt,
-            Shift,
-        ],
-        key: "Left",
-    ): System(PlayPrev),
-    (
-        modifiers: [
-            Ctrl,
-        ],
-        key: "F1",
-        description: Some("Toggle Obsidian"),
-    ): Spawn("obsidian-toggle"),
-    (
-        modifiers: [
             Super,
         ],
         key: "backslash",
     ): System(Terminal),
-    (
-        modifiers: [
-            Super,
-            Ctrl,
-        ],
-        key: "space",
-        description: Some("Toggle Handy"),
-    ): Spawn("pkill -USR2 -n handy"),
     (
         modifiers: [
             Super,
@@ -50,6 +34,11 @@
         key: "F11",
         description: Some("Flameshot Copy and Save"),
     ): Spawn("flameshot-copy-and-save"),
+    (
+        modifiers: [],
+        key: "Menu",
+        description: Some("Toggle Hex Dictation"),
+    ): Spawn("$(~/.cargo/bin/mise which hex) dictation toggle"),
     (
         modifiers: [
             Alt,
@@ -61,4 +50,12 @@
         key: "Print",
         description: Some("Flameshot Copy and Save"),
     ): Spawn("flameshot-copy-and-save"),
+    (
+        modifiers: [
+            Ctrl,
+            Alt,
+            Shift,
+        ],
+        key: "Left",
+    ): System(PlayPrev),
 }
