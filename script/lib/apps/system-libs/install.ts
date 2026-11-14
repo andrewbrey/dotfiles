@@ -37,6 +37,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	// "xdg-desktop-portal-gnome",
 	"waypipe",
 	"wl-clipboard",
+	"wtype",
 ];
 if ($.env.OS /* TODO: refactor to os helpers */ === "darwin") {
 	if (list.length) {
