@@ -1,6 +1,6 @@
 (
     output: "eDP-1",
-    source: Path("/home/andrew/Pictures/wallpapers/solar-system.jpg"),
+    source: Path("/home/andrew/Pictures/wallpapers/solar-system-minimal.jpeg"),
     filter_by_theme: false,
     rotation_frequency: 300,
     transition_duration: 500,
