@@ -125,6 +125,7 @@
 - Add [emeraldian](https://github.com/iamrohithrnair/emeraldian) for terminal obsidian experience
 - Add [obs-hotkey](https://github.com/DraconDev/obs-wayland-hotkey) for wayland compatible obs
   hotkey support
+- Add [helium browser](https://helium.computer/) for a de-googled chromium browser
 - Add a `script/teardown` script next to `script/bootstrap` which can be used to remove sensitive
   config files and secrets in one command. Might be able to just use `chezmoi purge`
   (https://www.chezmoi.io/user-guide/advanced/migrate-away-from-chezmoi/). Should remove at least:
