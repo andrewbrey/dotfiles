@@ -126,5 +126,6 @@ alias awswhoami="aws_wrapper sts get-caller-identity"
 # =====
 {{ if .is_linux -}}
 alias open="xdg-open"
-alias pbcopy="sed -z '$ s/\n$//' | xsel --clipboard --input"
+alias pbcopy="wl-copy -n"
+alias pbpaste="wl-paste -n"
 {{- end }}
