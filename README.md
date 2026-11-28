@@ -119,7 +119,6 @@
 - Add [Carapace](https://carapace-sh.github.io/carapace-bin/carapace-bin.html) for more shell
   completions
 - Add [Splash](https://github.com/joshi4/splash) for colorization of plaintext logs
-- Add [cos-cli](https://github.com/estin/cos-cli) for `wmctrl` replacement on cosmic
 - Add [ouch](https://github.com/ouch-org/ouch) for better (de)compression utility
 - Add [emeraldian](https://github.com/iamrohithrnair/emeraldian) for terminal obsidian experience
 - Add [obs-hotkey](https://github.com/DraconDev/obs-wayland-hotkey) for wayland compatible obs
