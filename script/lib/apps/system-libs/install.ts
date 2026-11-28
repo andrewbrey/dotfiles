@@ -11,6 +11,7 @@ const list = $.env.OS === "darwin" ? [] : [
 	"build-essential",
 	"ca-certificates",
 	"clang",
+	"cmake",
 	"file",
 	// "gir1.2-gmenu-3.0",
 	"git-lfs",
