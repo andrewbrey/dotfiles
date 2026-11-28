@@ -6,5 +6,6 @@
         NetworkUsage,
         DiskUsage,
         GpuInfo,
+        SystemLoad,
     ],
 )

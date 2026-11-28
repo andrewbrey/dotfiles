@@ -1,11 +1,12 @@
 {
-    "394d324c5350494c19e9dcc503458e4ab957aa4029f8574f6309f9a0656a6e95": (
+    "05d5a5a724660acda05b8e974b4978d4c4071c92d6dcd72d6c914f78a87cf35e": (
         usage: (
             chart_visible: false,
-            value_visible: false,
+            value_visible: true,
             label_visible: false,
             icon_visible: true,
-            chart: Line,
+            chart: Ring,
+            use_graph_colors: false,
             colors: (
                 ring: (
                     background: (
@@ -165,8 +166,9 @@
             chart_visible: false,
             value_visible: true,
             label_visible: false,
-            icon_visible: true,
-            chart: Line,
+            icon_visible: false,
+            chart: Ring,
+            use_graph_colors: false,
             colors: (
                 ring: (
                     background: (
@@ -326,8 +328,9 @@
             chart_visible: false,
             value_visible: true,
             label_visible: false,
-            icon_visible: true,
-            chart: Heat,
+            icon_visible: false,
+            chart: Ring,
+            use_graph_colors: false,
             colors: (
                 ring: (
                     background: (

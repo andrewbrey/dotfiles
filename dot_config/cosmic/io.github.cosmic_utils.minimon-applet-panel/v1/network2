@@ -4,6 +4,7 @@
     label_visible: false,
     icon_visible: true,
     chart: Line,
+    use_graph_colors: false,
     colors: (
         ring: (
             background: (
@@ -163,4 +164,5 @@
     unit: Some(0),
     variant: Upload,
     show_bytes: false,
+    interfaces: None,
 )
